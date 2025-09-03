@@ -51,7 +51,7 @@ export function AllPrimitivesShowcase() {
 
             <div>
                 <h3>UiPlaygroundSurface</h3>
-                <UiPlaygroundSurface width={400} height={200}>
+                <UiPlaygroundSurface width={360} height={640}>
                     <div className={styles.playgroundContent}>
                         Interactive Playground
                     </div>

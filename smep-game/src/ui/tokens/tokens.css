@@ -1,0 +1,34 @@
+:root {
+    /* Colors */
+    --color-yolk: #F8E71C;
+    --color-ulatraviolet: #4C00FF;
+    --color-white: #FFFFFF;
+    --color-light-gray: #C0C0C0;
+    --color-gray: #666666;
+    --color-dark-gray: #232323;
+    --color-black: #000000;
+
+    /* Fonts */
+    --font-title: "'Roundabout-Regular', Urbanist, sans-serif";
+    --font-body: "'Roundabout-Regular', Sulphur Point, sans-serif";
+    --font-digit: "'4pixel', monospace";
+    --font-code: "'Courier New', monospace";
+
+    /* Sizes */
+    --size-dot-1: 1px;
+    --size-circle-4: 4px;
+    --size-circle-6: 6px;
+    --size-circle-61: 61px;
+    --size-mini-card: 31px;
+    --size-mini-paginator: 4px;
+    --size-mini-paginator-gap: 16px;
+    --size-big-paginator-w: 4px;
+    --size-big-paginator-h: 17px;
+    --size-big-paginator-gap: 6px;
+    --size-mid-card-w: 83px;
+    --size-mid-card-h: 109px;
+    --size-tab-w: 109px;
+    --size-tab-h: 23px;
+    --size-blur-playground: 16px;
+    --size-stroke: 1px;
+}

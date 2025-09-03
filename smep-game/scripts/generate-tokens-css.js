@@ -1,21 +1,13 @@
-const fs = require('fs');
-const path = require('path');
-const { CSS_VARS } = require('../src/ui/tokens/tokens');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const tokensCssPath = path.resolve(__dirname, '../src/ui/tokens/tokens.css');
 
-let cssContent = ':root {
-';
-
-for (const key in CSS_VARS) {
-  if (Object.hasOwnProperty.call(CSS_VARS, key)) {
-    const value = CSS_VARS[key];
-    cssContent += `    ${key}: ${value};
-`;
-  }
-}
-
-cssContent += '}\n';
+let cssContent = '/* Test content */\n:root { --test-var: 1px; }\n';
 
 fs.writeFileSync(tokensCssPath, cssContent);
 

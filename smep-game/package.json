@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "generate-tokens": "node ./scripts/generate-tokens-css.js"
+    "generate-tokens": "cd smep-game && ts-node ./scripts/generate-tokens-css.js"
   },
   "dependencies": {
     "i18next": "^25.4.2",
