@@ -1,0 +1,11 @@
+.card {
+    cursor: pointer;
+}
+
+.card_default {
+    cursor: default;
+}
+
+.text {
+    user-select: none;
+}
