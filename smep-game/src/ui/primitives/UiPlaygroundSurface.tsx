@@ -1,0 +1,97 @@
+import React from 'react';
+import { TOKENS } from '../tokens/tokens';
+
+interface UiPlaygroundSurfaceProps {
+    width: number;
+    height: number;
+    children?: React.ReactNode;
+    onMouseMove?: (event: React.MouseEvent) => void;
+    onMouseDown?: (event: React.MouseEvent) => void;
+    onMouseUp?: (event: React.MouseEvent) => void;
+}
+
+export function UiPlaygroundSurface({
+    width,
+    height,
+    children,
+    onMouseMove,
+    onMouseDown,
+    onMouseUp
+}: UiPlaygroundSurfaceProps) {
+    const c = TOKENS.colors;
+    const s = TOKENS.sizes;
+
+    // Calculate playground circle (centered)
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const radius = Math.min(width, height) / 2 - 20; // 20px margin
+
+    return (
+        <div
+            style={{
+                position: 'relative',
+                width,
+                height,
+                background: `radial-gradient(circle at top left, ${c.DARK_GRAY} 0%, ${c.BLACK} 100%)`,
+                overflow: 'hidden',
+            }}
+            onMouseMove={onMouseMove}
+            onMouseDown={onMouseDown}
+            onMouseUp={onMouseUp}
+        >
+            {/* Playground circle */}
+            <svg
+                width={width}
+                height={height}
+                style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    zIndex: 1,
+                }}
+            >
+                {/* Background circle */}
+                <circle
+                    cx={centerX}
+                    cy={centerY}
+                    r={radius}
+                    fill={c.BLACK}
+                    stroke={c.WHITE}
+                    strokeWidth={s.STROKE}
+                />
+
+                {/* Bottom blur effect */}
+                <defs>
+                    <filter id="blur">
+                        <feGaussianBlur stdDeviation={s.BLUR_PLAYGROUND} />
+                    </filter>
+                </defs>
+
+                {/* Bottom half blur */}
+                <circle
+                    cx={centerX}
+                    cy={centerY + radius / 2}
+                    r={radius / 2}
+                    fill={c.WHITE}
+                    opacity={0.1}
+                    filter="url(#blur)"
+                />
+            </svg>
+
+            {/* Content overlay */}
+            <div
+                style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width,
+                    height,
+                    zIndex: 2,
+                    pointerEvents: 'none',
+                }}
+            >
+                {children}
+            </div>
+        </div>
+    );
+} 
