@@ -1,11 +1,31 @@
-import type { Preview } from '@storybook/react-vite'
+import type { Preview } from '@storybook/react-vite';
+import '../src/index.css';
+import { create } from '@storybook/theming';
+import { TOKENS } from '../src/ui/tokens/tokens';
+
+const darkTheme = create({
+  base: 'dark',
+  appBg: TOKENS.colors.black,
+  appContentBg: TOKENS.colors.black,
+  barBg: TOKENS.colors.black,
+});
 
 const preview: Preview = {
   parameters: {
+    docs: {
+      theme: darkTheme,
+    },
+    backgrounds: {
+      default: 'dark',
+      values: [
+        { name: 'dark', value: TOKENS.colors.black },
+        { name: 'light', value: TOKENS.colors.white },
+      ],
+    },
     controls: {
       matchers: {
-       color: /(background|color)$/i,
-       date: /Date$/i,
+        color: /(background|color)$/i,
+        date: /Date$/i,
       },
     },
 

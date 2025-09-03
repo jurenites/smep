@@ -1,3 +1,5 @@
+import { TOKENS } from '../ui/tokens/tokens';
+
 // Placeholder GPU renderer for future WebGPU integration
 // This will be replaced with actual WebGPU/WebGL2 implementation
 
@@ -31,7 +33,7 @@ export class PlaceholderRenderer implements GPURenderer {
 
         // Render particles as simple circles
         particles.forEach(particle => {
-            this.ctx!.fillStyle = '#FFFFFF';
+            this.ctx!.fillStyle = TOKENS.colors.white;
             this.ctx!.beginPath();
             this.ctx!.arc(particle.position.x, particle.position.y, 3, 0, 2 * Math.PI);
             this.ctx!.fill();

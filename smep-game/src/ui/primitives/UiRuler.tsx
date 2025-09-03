@@ -1,5 +1,6 @@
 import React from 'react';
 import { TOKENS } from '../tokens/tokens';
+import styles from './UiRuler.module.css';
 
 interface UiRulerProps {
     scale: number;
@@ -16,6 +17,7 @@ export function UiRuler({
 }: UiRulerProps) {
     const s = TOKENS.sizes;
     const c = TOKENS.colors;
+    const fs = TOKENS.fontSizes;
 
     // Calculate ruler measurements based on scale
     const getScaleText = (scale: number) => {
@@ -43,7 +45,7 @@ export function UiRuler({
                 y1={position === 'top' ? rulerThickness - 1 : 0}
                 x2={position === 'left' ? rulerThickness - 1 : rulerLength}
                 y2={position === 'top' ? rulerThickness - 1 : 0}
-                stroke={c.WHITE}
+                stroke={c.white}
                 strokeWidth={s.STROKE}
             />
 
@@ -51,10 +53,10 @@ export function UiRuler({
             <text
                 x={position === 'left' ? rulerThickness - 5 : 5}
                 y={position === 'top' ? rulerThickness - 5 : 15}
-                fill={c.WHITE}
-                fontSize="10"
+                fill={c.white}
+                fontSize={fs.small}
                 fontFamily={TOKENS.fonts.DIGIT}
-                style={{ userSelect: 'none' }}
+                className={styles.text}
             >
                 {getScaleText(scale)}x
             </text>
@@ -72,11 +74,11 @@ export function UiRuler({
                         y1={tickY}
                         x2={tickX}
                         y2={position === 'top' ? tickLength : tickLength}
-                        stroke={c.WHITE}
+                        stroke={c.white}
                         strokeWidth={s.STROKE}
                     />
                 );
             })}
         </svg>
     );
-} 
+}

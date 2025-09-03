@@ -24,7 +24,7 @@ export function UiPlaygroundSurface({
     // Calculate playground circle (centered)
     const centerX = width / 2;
     const centerY = height / 2;
-    const radius = Math.min(width, height) / 2 - 20; // 20px margin
+    const radius = Math.min(width, height) / 2 - s.HUD_PADDING; // 20px margin
 
     return (
         <div
@@ -32,7 +32,7 @@ export function UiPlaygroundSurface({
                 position: 'relative',
                 width,
                 height,
-                background: `radial-gradient(circle at top left, ${c.DARK_GRAY} 0%, ${c.BLACK} 100%)`,
+                background: `radial-gradient(circle at top left, ${c.darkgray} 0%, ${c.black} 100%)`,
                 overflow: 'hidden',
             }}
             onMouseMove={onMouseMove}
@@ -55,8 +55,8 @@ export function UiPlaygroundSurface({
                     cx={centerX}
                     cy={centerY}
                     r={radius}
-                    fill={c.BLACK}
-                    stroke={c.WHITE}
+                    fill={c.black}
+                    stroke={c.white}
                     strokeWidth={s.STROKE}
                 />
 
@@ -72,7 +72,7 @@ export function UiPlaygroundSurface({
                     cx={centerX}
                     cy={centerY + radius / 2}
                     r={radius / 2}
-                    fill={c.WHITE}
+                    fill={c.white}
                     opacity={0.1}
                     filter="url(#blur)"
                 />

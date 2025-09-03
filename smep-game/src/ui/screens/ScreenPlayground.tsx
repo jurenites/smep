@@ -4,7 +4,6 @@ import { UiCardSmall } from '../primitives/UiCardSmall';
 import { UiPaginationMini } from '../primitives/UiPaginationMini';
 import { UiRuler } from '../primitives/UiRuler';
 import { useGameStore } from '../../lib/game-state';
-import { TOKENS } from '../tokens/tokens';
 import { ParticleType } from '../../lib/types';
 
 export function ScreenPlayground() {
@@ -88,15 +87,10 @@ export function ScreenPlayground() {
         { symbol: 'π', type: ParticleType.MESON },
     ];
 
+
+
     return (
-        <div style={{
-            width: '100vw',
-            height: '100vh',
-            background: TOKENS.colors.BLACK,
-            fontFamily: TOKENS.fonts.BODY,
-            color: TOKENS.colors.WHITE,
-            overflow: 'hidden',
-        }}>
+        <div className="screen-playground">
             {/* Main Playground */}
             <UiPlaygroundSurface
                 width={dimensions.width}
@@ -107,59 +101,26 @@ export function ScreenPlayground() {
                 {particles.map((particle) => (
                     <div
                         key={particle.id}
+                        className="particle"
                         style={{
-                            position: 'absolute',
                             left: particle.position.x - 3,
                             top: particle.position.y - 3,
-                            width: 6,
-                            height: 6,
-                            borderRadius: '50%',
-                            background: `radial-gradient(circle, ${TOKENS.colors.WHITE} 0%, ${TOKENS.colors.LIGHT_GRAY} 100%)`,
-                            border: `1px solid ${TOKENS.colors.WHITE}`,
-                            pointerEvents: 'none',
                         }}
                     />
                 ))}
             </UiPlaygroundSurface>
 
             {/* HUD Overlay */}
-            <div style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                pointerEvents: 'none',
-                zIndex: 10,
-            }}>
+            <div className="hud-overlay">
                 {/* Top HUD */}
-                <div style={{
-                    position: 'absolute',
-                    top: 20,
-                    left: 20,
-                    right: 20,
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    pointerEvents: 'auto',
-                }}>
+                <div className="hud-top">
                     {/* Wallet */}
-                    <div style={{
-                        background: TOKENS.colors.DARK_GRAY,
-                        padding: '8px 16px',
-                        border: `1px solid ${TOKENS.colors.WHITE}`,
-                        fontFamily: TOKENS.fonts.DIGIT,
-                        fontSize: '14px',
-                    }}>
+                    <div className="wallet-display">
                         {formatEnergy(wallet.currencyEv)}
                     </div>
 
                     {/* Inventory */}
-                    <div style={{
-                        display: 'flex',
-                        gap: '8px',
-                        pointerEvents: 'auto',
-                    }}>
+                    <div className="inventory">
                         {sampleParticles.slice(0, 6).map((particle, index) => (
                             <UiCardSmall
                                 key={index}
@@ -172,16 +133,7 @@ export function ScreenPlayground() {
                 </div>
 
                 {/* Bottom HUD */}
-                <div style={{
-                    position: 'absolute',
-                    bottom: 20,
-                    left: 20,
-                    right: 20,
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    pointerEvents: 'auto',
-                }}>
+                <div className="hud-bottom">
                     {/* Ruler */}
                     <UiRuler
                         scale={playground.scale}
@@ -198,14 +150,7 @@ export function ScreenPlayground() {
                     />
 
                     {/* Level indicator */}
-                    <div style={{
-                        background: TOKENS.colors.DARK_GRAY,
-                        padding: '8px 16px',
-                        border: `1px solid ${TOKENS.colors.WHITE}`,
-                        fontFamily: TOKENS.fonts.BODY,
-                        fontSize: '12px',
-                        textTransform: 'capitalize',
-                    }}>
+                    <div className="level-indicator">
                         {playground.level}
                     </div>
                 </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { TOKENS } from '../tokens/tokens';
-import { PaginationState } from '../../lib/types';
 
 interface UiPaginationMiniProps {
     count: number;

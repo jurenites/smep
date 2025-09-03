@@ -11,7 +11,7 @@ Layering Model
 	2.	Rendering Primitives (SVG / Canvas)
 
 	•	Pure presentational components (no business logic).
-	•	Examples: UiCardSmall, UiPaginationMini, UiRuler, UiPlaygroundSurface.
+	•	Examples: UICardSmall, UIPaginationMini, UIRuler, UIPlaygroundSurface.
 	•	Receive props; render vector shapes; never mutate global state.
 
 	3.	Orchestration Layer (React 19)
@@ -20,17 +20,17 @@ Layering Model
 	•	Coordinates props → primitives; does not push 60fps state churn.
 	•	Uses React Transitions for smooth screen swaps; keeps Simulation Layer hot in memory.
 
-	4.	Utility / Back-office UI (shadcn/ui)
+	4.	Utility / Back-office UI (shadcn/UI)
 
 	•	Debug HUD, dev toggles, forms, modals, settings, auth, toasts.
 	•	Never used for in-game HUD or performance-critical overlays.
 
-  Library Requirements
+  Library ReqUIrements
 	•	React 19 (app shell, transitions, routing)
 	•	Vite + TypeScript
 	•	WebGPU/WebGL2 kernels (engine package)
-	•	Storybook (required for all UI primitives)
-	•	shadcn/ui + Tailwind (optinal, for debugging, and dev tools/settings ONLY)
+	•	Storybook (reqUIred for all UI primitives)
+	•	shadcn/UI + Tailwind (optinal, for debugging, and dev tools/settings ONLY)
 	•	i18next (i18n)
 	•	Zustand (app/UI state), minimal, no 60fps stores (optinal not sure, low poriority)
 	•	Sentry (errors), Cloudflare Pages (hosting) (optinal not sure, low poriority)
@@ -45,29 +45,29 @@ File Structure (excerpt)
     kernels.glsl
     bufferPool.ts
   renderer.ts
-/ui
+/UI
   /primitives         <-- SVG/Canvas only
-    UiCardSmall.tsx
-    UiPaginationMini.tsx
-    UiRuler.tsx
-    UiPlaygroundSurface.tsx
+    UICardSmall.tsx
+    UIPaginationMini.tsx
+    UIRuler.tsx
+    UIPlaygroundSurface.tsx
   /screens            <-- React screens
     ScreenPlayground.tsx
     ScreenTableCards.tsx
     ScreenListCards.tsx
     ScreenCardBigDetail.tsx
-  /debug              <-- shadcn/ui lives here
+  /debug              <-- shadcn/UI lives here
     DebugHud.tsx
   /tokens             <-- design tokens (colors/fonts/sizes)
     tokens.ts
 /storybook
-  UiCardSmall.stories.tsx
-  UiPaginationMini.stories.tsx
-  UiRuler.stories.
+  UICardSmall.stories.tsx
+  UIPaginationMini.stories.tsx
+  UIRuler.stories.
 ```
 
 ```ts  
-// /ui/tokens/tokens.ts
+// /UI/tokens/tokens.ts
 export const TOKENS = {
   colors: {
     PRIMARY: "#F8E71C",
@@ -105,7 +105,7 @@ export const TOKENS = {
 } as const;
 ```
 
-Storybook Requirements
+Storybook ReqUIrements
 	•	All primitives must have stories (default, loading, edge cases, dark bg).
 	•	Stories render without the GPU canvas; use mock props.
 	•	Provide a11y and play tests for interaction states (hover/focus/pressed).
@@ -113,21 +113,21 @@ Storybook Requirements
 
 Example story:  
 ```tsx
-  // /storybook/UiCardSmall.stories.tsx
-import { UiCardSmall } from "../ui/primitives/UiCardSmall";
-import { TOKENS } from "../ui/tokens/tokens";
+  // /storybook/UICardSmall.stories.tsx
+import { UICardSmall } from "../UI/primitives/UICardSmall";
+import { TOKENS } from "../UI/tokens/tokens";
 
-export default { title: "Primitives/UiCardSmall", component: UiCardSmall };
+export default { title: "Primitives/UICardSmall", component: UICardSmall };
 
 export const Default = () => (
   <div style={{ background: TOKENS.colors.BLACK, padding: 20 }}>
-    <UiCardSmall symbol="e⁻" />
+    <UICardSmall symbol="e⁻" />
   </div>
 );
 
 export const Loading = () => (
   <div style={{ background: TOKENS.colors.BLACK, padding: 20 }}>
-    <UiCardSmall isLoading />
+    <UICardSmall isLoading />
   </div>
 );
 ```
@@ -135,7 +135,7 @@ export const Loading = () => (
 Example: SVG Primitive vs shadcn Debug Panel
 ```tsx
 // SVG Primitive (HUD-safe)
-export function UiPaginationMini({
+export function UIPaginationMini({
   count,
   activeIndex,
 }: { count: number; activeIndex: number }) {
@@ -162,8 +162,8 @@ export function UiPaginationMini({
 
 
 ```tsx
-// Debug HUD (shadcn/ui; non-HUD)
-import { Button, Slider, Switch } from "@/components/ui"; // shadcn
+// Debug HUD (shadcn/UI; non-HUD)
+import { Button, Slider, Switch } from "@/components/UI"; // shadcn
 export function DebugHud() {
   return (
     <div className="fixed top-2 right-2 w-[320px] space-y-3 p-3 bg-neutral-900/90">
@@ -196,7 +196,7 @@ function ScreenPlayground() {
   return (
     <>
       <canvas ref={canvasRef} />
-      <UiPaginationMini count={8} activeIndex={2} />
+      <UIPaginationMini count={8} activeIndex={2} />
       {/* HUD primitives overlayed here */}
     </>
   );
@@ -212,9 +212,9 @@ Third-Party Generative Art Mode
 
 
 Acceptance Checklist (PRs)
-	•	Uses tokens from /ui/tokens/tokens.ts
+	•	Uses tokens from /UI/tokens/tokens.ts
 	•	Adds/updates Storybook stories
-	•	No shadcn/ui in HUD primitives
+	•	No shadcn/UI in HUD primitives
 	•	No 60fps React state updates (frame loop stays in engine)
 	•	Screen transitions use React 19 transitions
 	•	Fallback confirmed (WebGL2 path compiles if WebGPU absent)
@@ -356,7 +356,7 @@ If you want CSS variables automatically:
         "primary": { "type": "color", "value": "{global.colors.base.primary}" },
         "secondary": { "type": "color", "value": "{global.colors.base.secondary}" }
       },
-      "ui": {
+      "UI": {
         "stroke": { "type": "color", "value": "{global.colors.base.white}" },
         "disabled": { "type": "color", "value": "{global.colors.base.darkGray}" },
         "active": { "type": "color", "value": "{global.colors.base.white}" },
@@ -441,5 +441,5 @@ If you want CSS variables automatically:
 }
 ```
 ``` bash
-npx style-dictionary build
+npx style-dictionary bUIld
 ```

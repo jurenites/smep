@@ -1,5 +1,6 @@
 import React from 'react';
 import { TOKENS } from '../tokens/tokens';
+import styles from './UiCardSmall.module.css';
 
 interface UiCardSmallProps {
     symbol: string;
@@ -16,6 +17,7 @@ export function UiCardSmall({
 }: UiCardSmallProps) {
     const s = TOKENS.sizes;
     const c = TOKENS.colors;
+    const fs = TOKENS.fontSizes;
 
     if (isLoading) {
         return (
@@ -23,13 +25,13 @@ export function UiCardSmall({
                 width={s.MINI_CARD}
                 height={s.MINI_CARD}
                 onClick={onClick}
-                style={{ cursor: onClick ? 'pointer' : 'default' }}
+                className={onClick ? styles.card : styles.card_default}
             >
                 <rect
                     width={s.MINI_CARD}
                     height={s.MINI_CARD}
-                    fill={c.DARK_GRAY}
-                    stroke={c.WHITE}
+                    fill={c.darkgray}
+                    stroke={c.white}
                     strokeWidth={s.STROKE}
                 />
             </svg>
@@ -41,26 +43,26 @@ export function UiCardSmall({
             width={s.MINI_CARD}
             height={s.MINI_CARD}
             onClick={onClick}
-            style={{ cursor: onClick ? 'pointer' : 'default' }}
+            className={onClick ? styles.card : styles.card_default}
         >
             <rect
                 width={s.MINI_CARD}
                 height={s.MINI_CARD}
-                fill={c.BLACK}
-                stroke={isSelected ? c.PRIMARY : c.WHITE}
+                fill={c.black}
+                stroke={isSelected ? c.yolk : c.white}
                 strokeWidth={s.STROKE}
             />
             <text
                 x={s.MINI_CARD / 2}
                 y={s.MINI_CARD / 2 + 4}
                 textAnchor="middle"
-                fill={c.WHITE}
-                fontSize="12"
+                fill={c.white}
+                fontSize={fs.medium}
                 fontFamily={TOKENS.fonts.BODY}
-                style={{ userSelect: 'none' }}
+                className={styles.text}
             >
                 {symbol}
             </text>
         </svg>
     );
-} 
+}
