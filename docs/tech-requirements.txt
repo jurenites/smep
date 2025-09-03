@@ -1,0 +1,73 @@
+The short answer (recommended stack)
+	•	Runtime (browser-first): TypeScript + WebGPU for the particle/CA simulation, with an automatic WebGL2 fallback.
+	•	Rendering/Engine: “Custom lightweight engine” (no heavy framework). Use:
+	•	WebGPU (WGSL) compute + instanced draws for particles.
+	•	Ping-pong textures in WebGL2 as a fallback (GPGPU in fragment shaders).
+	•	UI layer: React 19 (for screens/flows) + SVG/Canvas for vector UI and HUD. Drive transitions using React 19 transitions.
+	•	State & ECS: Zustand for app/game UI state. bitecs (or a tiny bespoke ECS) for gameplay entities if you want strict ECS.
+	•	Build tooling: Vite + TS, monorepo via Turborepo only if you split packages.
+	•	Packaging:
+	•	Mobile: Capacitor wrapping your web app (minimal native, App/Play-Store ready).
+	•	Desktop (optional): Tauri if you want a tiny desktop binary.
+	•	Persistence: IndexedDB for saves; optional cloud sync via Supabase (auth + Postgres) later.
+	•	Internationalization: i18next (two languages out of the box).
+	•	Audio: WebAudio API via Tone.js for note-level music and SFX.
+	•	Docs + glossary: Docusaurus repo; glossary in YAML/MDX—single source of truth for terms/entities.
+	•	Hosting/CDN: Cloudflare Pages (static) + Cloudflare Workers if you later need server bits (leaderboards, AB tests).
+
+
+1) “Millions of particles” on older phones and PCs
+	•	WebGPU path: Compute shaders (WGSL) let you update positions/velocities/CA rules entirely on GPU, then render via instancing—this is the only way to sustainably hit 1–5M+ particles with headroom for effects and post.
+	•	Fallback for compatibility: Where WebGPU isn’t available (older iPhones, older Chrome/Android), WebGL2 ping-pong (GPGPU via fragment shaders) still handles 500k–1M with careful tuning. Gate particle counts by device capability.
+
+2) Vector-first visuals + motion design
+	•	All HUD/GUI/diagrams are SVG for crisp scaling; Canvas only when dynamic drawing density is high.
+	•	Particle sprites/fields use SDFs (signed distance fields) in shaders for “vector-like” sharpness without raster art.
+	•	React 19 transitions coordinate scene/UI switches smoothly without fighting the render loop.
+
+3) *.io accessibility + multi-platform later
+	•	Ship web first (no installs, low friction).
+	•	Wrap the exact same build with Capacitor for stores. You can progressively enhance on mobile (reduced effects on older devices).
+	•	If you ever want native GPU compute, you can port the WGSL kernels to Metal/Vulkan/DirectX via the same algorithmic structure
+
+
+Project architecture (recommended)
+
+Packages
+	•	engine/ WebGPU + WebGL2 renderer, shaders, CA kernels, particle systems
+	•	ui/ React 19 screens, routing, i18n, SVG components
+	•	game/ rules, progression, idle loops, save system
+	•	assets/ GLSL/WGSL, icon SVGs, audio seeds
+	•	docs/ Docusaurus (glossary, design, tech notes)
+
+Key technical choices
+	•	ECS or data-oriented core: keep “particle sim” strictly GPU; CPU entities for meta-game (resources, upgrades).
+	•	Determinism: For idle math, keep CPU-side tick deterministic (BigInt/decimal where needed), separate from visual sim.
+	•	Save/Load: periodic snapshots to IndexedDB; expose export/import JSON; future cloud sync via Supabase.
+	•	Feature scaling: device tier detection (WebGPU? maxTextureSize? uniform/SSBO limits?) → scale particle count and effects.
+
+⸻
+
+From GIF/moodboard to code
+	•	Build a small pipeline: drop a GIF → script extracts key frames → you manually label timing & transforms → generate a shader study (GLSL/WGSL) that reproduces the look.
+	•	Keep each study isolated in engine/studies/ with: source reference, parameters, and a “recreation notes” md file.
+	•	Promote a “study” into production by extracting only the reusable kernels/materials (no duplication).
+
+⸻
+
+i18n, audio, and content
+	•	i18n: i18next with language packs in /ui/i18n/xx.json. Keep copy minimal; drive most progress/feedback via visuals.
+	•	Audio: Tone.js and a tiny param map from sim events → notes/intervals. Gate CPU usage on mobile; prewarm audio context on first user gesture.
+
+⸻
+
+Performance guardrails
+	•	Always do simulation on GPU. CPU only orchestrates.
+	•	Batch UI updates to animation frames; avoid layout thrash.
+	•	Prefer SSBOs (storage buffers) with WebGPU; in WebGL2 use RGBA float textures as buffers.
+	•	Use instanced rendering; zero per-instance JS calls.
+	•	Device tiers: e.g.,
+	•	Tier 3 (desktop/WebGPU): 2–5M particles + post
+	•	Tier 2 (newer mobile/WebGPU): 1–2M
+	•	Tier 1 (WebGL2 fallback): 300k–800k
+	•	Add frame budget governor: dynamically reduce spawn/effects to keep 60 fps (or 30 on weak devices).
