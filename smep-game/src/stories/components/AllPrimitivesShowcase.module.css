@@ -10,6 +10,7 @@
 
 .showcaseHeading {
     margin: 0 0 calc(var(--size-mini-paginator-gap) / 2) 0;
+    font-family: var(--font-body);
 }
 
 .cardContainer {

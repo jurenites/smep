@@ -44,6 +44,15 @@ export const TOKENS = {
         STROKE: 1,
         HUD_PADDING: 20, // New token
     },
+    zIndexes: {
+        hud: 10,
+    },
+    gameConstants: {
+        energyGenerationRate: 0.1,
+        particleRadius: 3,
+        quantaUnit: 1.602176634e-19,
+        playgroundDebugArtMode: false,
+    },
 } as const;
 
 // CSS Variables for global use
@@ -67,4 +76,21 @@ export const CSS_VARS = {
     '--font-weight-regular': TOKENS.fontWeights.regular,
     '--font-weight-bold': TOKENS.fontWeights.bold,
     '--size-hud-padding': `${TOKENS.sizes.HUD_PADDING}px`,
-} as const; 
+    '--z-index-hud': TOKENS.zIndexes.hud,
+    '--size-dot-1': `${TOKENS.sizes.DOT_1}px`,
+    '--size-circle-4': `${TOKENS.sizes.CIRCLE_4}px`,
+    '--size-circle-6': `${TOKENS.sizes.CIRCLE_6}px`,
+    '--size-circle-61': `${TOKENS.sizes.CIRCLE_61}px`,
+    '--size-mini-card': `${TOKENS.sizes.MINI_CARD}px`,
+    '--size-mini-paginator': `${TOKENS.sizes.MINI_PAGINATOR}px`,
+    '--size-mini-paginator-gap': `${TOKENS.sizes.BIG_PAGINATOR_GAP}px`,
+    '--size-big-paginator-w': `${TOKENS.sizes.BIG_PAGINATOR_W}px`,
+    '--size-big-paginator-h': `${TOKENS.sizes.BIG_PAGINATOR_H}px`,
+    '--size-big-paginator-gap': `${TOKENS.sizes.BIG_PAGINATOR_GAP}px`,
+    '--size-mid-card-w': `${TOKENS.sizes.MID_CARD_W}px`,
+    '--size-mid-card-h': `${TOKENS.sizes.MID_CARD_H}px`,
+    '--size-tab-w': `${TOKENS.sizes.TAB_W}px`,
+    '--size-tab-h': `${TOKENS.sizes.TAB_H}px`,
+    '--size-blur-playground': `${TOKENS.sizes.BLUR_PLAYGROUND}px`,
+    '--size-stroke': `${TOKENS.sizes.STROKE}px`,
+} as const;

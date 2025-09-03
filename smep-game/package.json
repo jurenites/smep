@@ -9,8 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "generate-tokens": "cd smep-game && ts-node ./scripts/generate-tokens-css.js"
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "i18next": "^25.4.2",

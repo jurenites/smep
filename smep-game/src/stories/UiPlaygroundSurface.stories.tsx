@@ -38,8 +38,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
     args: {
-        width: 400,
-        height: 300,
+        width: 360,
+        height: 640,
     },
 };
 

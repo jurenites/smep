@@ -143,7 +143,3 @@ export interface UIParticle {
     isSelected?: boolean;
     isLoading?: boolean;
 }
-
-// Constants
-export const QUANTA_UNIT = 1.602176634e-19; // electron volt in joules
-export const PLAYGROUND_DEBUG_ART_MODE = false; 

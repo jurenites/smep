@@ -31,7 +31,7 @@ export function UiCardSmall({
                     width={s.MINI_CARD}
                     height={s.MINI_CARD}
                     fill={c.darkgray}
-                    stroke={c.white}
+                    //stroke={c.white}
                     strokeWidth={s.STROKE}
                 />
             </svg>

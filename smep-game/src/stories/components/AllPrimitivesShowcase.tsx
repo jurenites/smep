@@ -33,7 +33,7 @@ export function AllPrimitivesShowcase() {
                     <div className={styles.rulerInnerContainer}>
                         <UiRuler scale={1} width={s.MINI_PAGINATOR_GAP} height={100} position="left" />
                         <div className={styles.rulerContentBox}>
-                            Content
+
                         </div>
                         <UiRuler scale={1} width={s.MINI_PAGINATOR_GAP} height={100} position="right" />
                     </div>
@@ -53,7 +53,7 @@ export function AllPrimitivesShowcase() {
                 <h3>UiPlaygroundSurface</h3>
                 <UiPlaygroundSurface width={360} height={640}>
                     <div className={styles.playgroundContent}>
-                        Interactive Playground
+
                     </div>
                 </UiPlaygroundSurface>
             </div>
