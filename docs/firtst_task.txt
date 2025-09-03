@@ -1,0 +1,445 @@
+
+Architecture & UI Libraries v0.1
+
+Layering Model
+	1.	Simulation Layer (GPU)
+
+	•	WebGPU (WGSL) primary; WebGL2 fallback (fragment GPGPU).
+	•	Owns particle state buffers, CA kernels, instanced draws.
+	•	Runs on a fixed render loop (requestAnimationFrame), not React state.
+
+	2.	Rendering Primitives (SVG / Canvas)
+
+	•	Pure presentational components (no business logic).
+	•	Examples: UiCardSmall, UiPaginationMini, UiRuler, UiPlaygroundSurface.
+	•	Receive props; render vector shapes; never mutate global state.
+
+	3.	Orchestration Layer (React 19)
+
+	•	Screens, routing, transitions, i18n, device tiering, save/load.
+	•	Coordinates props → primitives; does not push 60fps state churn.
+	•	Uses React Transitions for smooth screen swaps; keeps Simulation Layer hot in memory.
+
+	4.	Utility / Back-office UI (shadcn/ui)
+
+	•	Debug HUD, dev toggles, forms, modals, settings, auth, toasts.
+	•	Never used for in-game HUD or performance-critical overlays.
+
+  Library Requirements
+	•	React 19 (app shell, transitions, routing)
+	•	Vite + TypeScript
+	•	WebGPU/WebGL2 kernels (engine package)
+	•	Storybook (required for all UI primitives)
+	•	shadcn/ui + Tailwind (optinal, for debugging, and dev tools/settings ONLY)
+	•	i18next (i18n)
+	•	Zustand (app/UI state), minimal, no 60fps stores (optinal not sure, low poriority)
+	•	Sentry (errors), Cloudflare Pages (hosting) (optinal not sure, low poriority)
+
+Task_#1 
+
+File Structure (excerpt)
+```
+/engine
+  /gpu
+    kernels.wgsl
+    kernels.glsl
+    bufferPool.ts
+  renderer.ts
+/ui
+  /primitives         <-- SVG/Canvas only
+    UiCardSmall.tsx
+    UiPaginationMini.tsx
+    UiRuler.tsx
+    UiPlaygroundSurface.tsx
+  /screens            <-- React screens
+    ScreenPlayground.tsx
+    ScreenTableCards.tsx
+    ScreenListCards.tsx
+    ScreenCardBigDetail.tsx
+  /debug              <-- shadcn/ui lives here
+    DebugHud.tsx
+  /tokens             <-- design tokens (colors/fonts/sizes)
+    tokens.ts
+/storybook
+  UiCardSmall.stories.tsx
+  UiPaginationMini.stories.tsx
+  UiRuler.stories.
+```
+
+```ts  
+// /ui/tokens/tokens.ts
+export const TOKENS = {
+  colors: {
+    PRIMARY: "#F8E71C",
+    SECONDARY: "#4C00FF",
+    WHITE: "#FFFFFF",
+    LIGHT_GRAY: "#C0C0C0",
+    GRAY: "#666666",
+    DARK_GRAY: "#232323",
+    BLACK: "#000000",
+  },
+  fonts: {
+    TITLE: "Urbanist, sans-serif",
+    BODY: "Sulphur Point, sans-serif",
+    DIGIT: "PixelMono, monospace", // custom TTF
+    CODE: "'Courier New', monospace",
+  },
+  sizes: {
+    DOT_1: 1,
+    CIRCLE_4: 4,
+    CIRCLE_6: 6,
+    CIRCLE_61: 61,
+    MINI_CARD: 31,
+    MINI_PAGINATOR: 4,
+    MINI_PAGINATOR_GAP: 16,
+    BIG_PAGINATOR_W: 4,
+    BIG_PAGINATOR_H: 17,
+    BIG_PAGINATOR_GAP: 6,
+    MID_CARD_W: 83,
+    MID_CARD_H: 109,
+    TAB_W: 109,
+    TAB_H: 23,
+    BLUR_PLAYGROUND: 16,
+    STROKE: 1,
+  },
+} as const;
+```
+
+Storybook Requirements
+	•	All primitives must have stories (default, loading, edge cases, dark bg).
+	•	Stories render without the GPU canvas; use mock props.
+	•	Provide a11y and play tests for interaction states (hover/focus/pressed).
+	•	Use tokens only; no hardcoded values.
+
+Example story:  
+```tsx
+  // /storybook/UiCardSmall.stories.tsx
+import { UiCardSmall } from "../ui/primitives/UiCardSmall";
+import { TOKENS } from "../ui/tokens/tokens";
+
+export default { title: "Primitives/UiCardSmall", component: UiCardSmall };
+
+export const Default = () => (
+  <div style={{ background: TOKENS.colors.BLACK, padding: 20 }}>
+    <UiCardSmall symbol="e⁻" />
+  </div>
+);
+
+export const Loading = () => (
+  <div style={{ background: TOKENS.colors.BLACK, padding: 20 }}>
+    <UiCardSmall isLoading />
+  </div>
+);
+```
+
+Example: SVG Primitive vs shadcn Debug Panel
+```tsx
+// SVG Primitive (HUD-safe)
+export function UiPaginationMini({
+  count,
+  activeIndex,
+}: { count: number; activeIndex: number }) {
+  const s = TOKENS.sizes;
+  const c = TOKENS.colors;
+  const items = Array.from({ length: count });
+  return (
+    <svg width={count * (s.MINI_PAGINATOR + s.MINI_PAGINATOR_GAP)}
+         height={s.MINI_PAGINATOR}>
+      {items.map((_, i) => (
+        <rect
+          key={i}
+          x={i * (s.MINI_PAGINATOR + s.MINI_PAGINATOR_GAP)}
+          y={0}
+          width={s.MINI_PAGINATOR}
+          height={s.MINI_PAGINATOR}
+          fill={i === activeIndex ? c.WHITE : c.DARK_GRAY}
+        />
+      ))}
+    </svg>
+  );
+}
+```
+
+
+```tsx
+// Debug HUD (shadcn/ui; non-HUD)
+import { Button, Slider, Switch } from "@/components/ui"; // shadcn
+export function DebugHud() {
+  return (
+    <div className="fixed top-2 right-2 w-[320px] space-y-3 p-3 bg-neutral-900/90">
+      <div className="text-white font-mono text-sm">Debug HUD</div>
+      <Switch /> <span className="text-gray-300 text-xs">Art Overlay</span>
+      <Slider defaultValue={[50]} />
+      <Button variant="outline">Reload Kernels</Button>
+    </div>
+  );
+}
+```
+
+Integration: React 19 + GPU Loop
+	•	React mounts ScreenPlayground which:
+	•	Creates the GPU canvas via a ref.
+	•	Hands buffer ids/handles down to primitives via props (no per-frame React state).
+	•	GPU loop updates/renders every frame independently.
+	•	React triggers occasional prop updates (selected particle, palette, counts).
+
+```tsx
+function ScreenPlayground() {
+
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const gpu = initRenderer(canvasRef.current!); // sets up WebGPU/WebGL2
+    return () => gpu.dispose();
+  }, []);
+
+  return (
+    <>
+      <canvas ref={canvasRef} />
+      <UiPaginationMini count={8} activeIndex={2} />
+      {/* HUD primitives overlayed here */}
+    </>
+  );
+}
+```
+
+Third-Party Generative Art Mode
+	•	Run experiments (Three.js / Processing / shader toys) behind HUD.
+	•	Toggle flag: PLAYGROUND_DEBUG_ART_MODE.
+	•	Strict rule: no writes to simulation buffers; read-only visuals only.
+
+⸻
+
+
+Acceptance Checklist (PRs)
+	•	Uses tokens from /ui/tokens/tokens.ts
+	•	Adds/updates Storybook stories
+	•	No shadcn/ui in HUD primitives
+	•	No 60fps React state updates (frame loop stays in engine)
+	•	Screen transitions use React 19 transitions
+	•	Fallback confirmed (WebGL2 path compiles if WebGPU absent)
+
+
+Using the same tokens in code
+
+If you want CSS variables automatically:
+	•	Add Style Dictionary to your repo and a minimal config like:
+
+``` JSON
+  {
+  "$schema": "https://design-tokens.org/schema.json",
+  "global": {
+    "colors": {
+      "base": {
+        "primary": { "type": "color", "value": "#F8E71C" },
+        "secondary": { "type": "color", "value": "#4C00FF" },
+        "white": { "type": "color", "value": "#FFFFFF" },
+        "lightGray": { "type": "color", "value": "#C0C0C0" },
+        "gray": { "type": "color", "value": "#666666" },
+        "darkGray": { "type": "color", "value": "#232323" },
+        "black": { "type": "color", "value": "#000000" }
+      }
+    },
+    "fonts": {
+      "title": { "type": "fontFamily", "value": "Urbanist, sans-serif" },
+      "body": { "type": "fontFamily", "value": "Sulphur Point, sans-serif" },
+      "digit": { "type": "fontFamily", "value": "PixelMono, monospace" },
+      "code": { "type": "fontFamily", "value": "'Courier New', monospace" }
+    },
+    "fontSizes": {
+      "title": { "type": "fontSize", "value": "24px" },
+      "body": { "type": "fontSize", "value": "16px" },
+      "code": { "type": "fontSize", "value": "16px" },
+      "digit": { "type": "fontSize", "value": "4px" }
+    },
+    "fontWeights": {
+      "regular": { "type": "fontWeight", "value": "400" },
+      "bold": { "type": "fontWeight", "value": "700" }
+    },
+    "lineHeights": {
+      "tight": { "type": "lineHeight", "value": "1.1" },
+      "normal": { "type": "lineHeight", "value": "1.4" }
+    },
+    "borders": {
+      "stroke1": { "type": "border", "value": { "color": "{global.colors.base.white}", "width": "1px", "style": "solid" } }
+    },
+    "radii": {
+      "none": { "type": "borderRadius", "value": "0px" }
+    },
+    "effects": {
+      "playgroundHaloBottom": {
+        "type": "shadow",
+        "value": {
+          "color": "rgba(255,255,255,0.6)",
+          "type": "dropShadow",
+          "x": "0px",
+          "y": "8px",
+          "blur": "16px",
+          "spread": "0px"
+        }
+      },
+      "bigCardParticleShadow": {
+        "type": "shadow",
+        "value": {
+          "color": "rgba(0,0,0,0.45)",
+          "type": "dropShadow",
+          "x": "0px",
+          "y": "6px",
+          "blur": "12px",
+          "spread": "0px"
+        }
+      }
+    },
+    "gradients": {
+      "backgroundRadial": {
+        "type": "gradient",
+        "value": {
+          "gradientType": "radial",
+          "stops": [
+            { "position": 0, "color": "{global.colors.base.darkGray}" },
+            { "position": 1, "color": "{global.colors.base.black}" }
+          ],
+          "rotation": 0
+        }
+      },
+      "particleSphereSmall": {
+        "type": "gradient",
+        "value": {
+          "gradientType": "radial",
+          "stops": [
+            { "position": 0, "color": "rgba(255,255,255,0.9)" },
+            { "position": 1, "color": "rgba(255,255,255,0.0)" }
+          ],
+          "rotation": 0
+        }
+      }
+    },
+    "zIndex": {
+      "background": { "type": "number", "value": 0 },
+      "playground": { "type": "number", "value": 10 },
+      "hud": { "type": "number", "value": 100 },
+      "debugHud": { "type": "number", "value": 1000 }
+    },
+    "sizes": {
+      "stroke": { "type": "dimension", "value": "1px" },
+      "dot1": { "type": "dimension", "value": "1px" },
+      "circle4": { "type": "dimension", "value": "4px" },
+      "circle6": { "type": "dimension", "value": "6px" },
+      "circle61": { "type": "dimension", "value": "61px" },
+      "miniCard": { "type": "dimension", "value": "31px" },
+      "miniPaginator": { "type": "dimension", "value": "4px" },
+      "miniPaginatorGap": { "type": "dimension", "value": "16px" },
+      "bigPaginatorWidth": { "type": "dimension", "value": "4px" },
+      "bigPaginatorHeight": { "type": "dimension", "value": "17px" },
+      "bigPaginatorGap": { "type": "dimension", "value": "6px" },
+      "midCardWidth": { "type": "dimension", "value": "83px" },
+      "midCardHeight": { "type": "dimension", "value": "109px" },
+      "tabWidth": { "type": "dimension", "value": "109px" },
+      "tabHeight": { "type": "dimension", "value": "23px" },
+      "playgroundBlur": { "type": "dimension", "value": "16px" }
+    }
+  },
+  "semantic": {
+    "color": {
+      "bg": {
+        "app": { "type": "color", "value": "{global.colors.base.black}" },
+        "playground": { "type": "color", "value": "{global.colors.base.black}" },
+        "surface": { "type": "color", "value": "{global.colors.base.darkGray}" },
+        "skeleton": { "type": "color", "value": "{global.colors.base.darkGray}" }
+      },
+      "text": {
+        "primary": { "type": "color", "value": "{global.colors.base.white}" },
+        "muted": { "type": "color", "value": "{global.colors.base.gray}" },
+        "link": { "type": "color", "value": "{global.colors.base.secondary}" }
+      },
+      "accent": {
+        "primary": { "type": "color", "value": "{global.colors.base.primary}" },
+        "secondary": { "type": "color", "value": "{global.colors.base.secondary}" }
+      },
+      "ui": {
+        "stroke": { "type": "color", "value": "{global.colors.base.white}" },
+        "disabled": { "type": "color", "value": "{global.colors.base.darkGray}" },
+        "active": { "type": "color", "value": "{global.colors.base.white}" },
+        "inactive": { "type": "color", "value": "{global.colors.base.darkGray}" },
+        "error": { "type": "color", "value": "#FF3B30" }
+      }
+    },
+    "typography": {
+      "title": {
+        "family": { "type": "fontFamily", "value": "{global.fonts.title}" },
+        "size": { "type": "fontSize", "value": "{global.fontSizes.title}" },
+        "weight": { "type": "fontWeight", "value": "{global.fontWeights.regular}" },
+        "lineHeight": { "type": "lineHeight", "value": "{global.lineHeights.tight}" }
+      },
+      "body": {
+        "family": { "type": "fontFamily", "value": "{global.fonts.body}" },
+        "size": { "type": "fontSize", "value": "{global.fontSizes.body}" },
+        "weight": { "type": "fontWeight", "value": "{global.fontWeights.regular}" },
+        "lineHeight": { "type": "lineHeight", "value": "{global.lineHeights.normal}" }
+      },
+      "code": {
+        "family": { "type": "fontFamily", "value": "{global.fonts.code}" },
+        "size": { "type": "fontSize", "value": "{global.fontSizes.code}" },
+        "weight": { "type": "fontWeight", "value": "{global.fontWeights.bold}" },
+        "lineHeight": { "type": "lineHeight", "value": "{global.lineHeights.normal}" }
+      },
+      "digit": {
+        "family": { "type": "fontFamily", "value": "{global.fonts.digit}" },
+        "size": { "type": "fontSize", "value": "{global.fontSizes.digit}" },
+        "weight": { "type": "fontWeight", "value": "{global.fontWeights.regular}" },
+        "lineHeight": { "type": "lineHeight", "value": "1" }
+      }
+    }
+  },
+  "component": {
+    "playground": {
+      "gradient": { "type": "gradient", "value": "{global.gradients.backgroundRadial}" },
+      "haloBottom": { "type": "shadow", "value": "{global.effects.playgroundHaloBottom}" }
+    },
+    "particle": {
+      "sphereGradientSmall": { "type": "gradient", "value": "{global.gradients.particleSphereSmall}" },
+      "shadowInBigCard": { "type": "shadow", "value": "{global.effects.bigCardParticleShadow}" }
+    },
+    "card": {
+      "mini": {
+        "width": { "type": "dimension", "value": "{global.sizes.miniCard}" },
+        "height": { "type": "dimension", "value": "{global.sizes.miniCard}" },
+        "radius": { "type": "borderRadius", "value": "{global.radii.none}" },
+        "stroke": { "type": "border", "value": "{global.borders.stroke1}" },
+        "bg": { "type": "color", "value": "{semantic.color.bg.surface}" }
+      },
+      "mid": {
+        "width": { "type": "dimension", "value": "{global.sizes.midCardWidth}" },
+        "height": { "type": "dimension", "value": "{global.sizes.midCardHeight}" },
+        "stroke": { "type": "border", "value": "{global.borders.stroke1}" },
+        "bg": { "type": "color", "value": "{semantic.color.bg.surface}" }
+      },
+      "big": {
+        "stroke": { "type": "border", "value": "{global.borders.stroke1}" },
+        "bg": { "type": "color", "value": "{semantic.color.bg.surface}" }
+      }
+    },
+    "paginator": {
+      "mini": {
+        "dotSize": { "type": "dimension", "value": "{global.sizes.miniPaginator}" },
+        "gap": { "type": "dimension", "value": "{global.sizes.miniPaginatorGap}" }
+      },
+      "big": {
+        "width": { "type": "dimension", "value": "{global.sizes.bigPaginatorWidth}" },
+        "height": { "type": "dimension", "value": "{global.sizes.bigPaginatorHeight}" },
+        "gap": { "type": "dimension", "value": "{global.sizes.bigPaginatorGap}" }
+      }
+    },
+    "tab": {
+      "width": { "type": "dimension", "value": "{global.sizes.tabWidth}" },
+      "height": { "type": "dimension", "value": "{global.sizes.tabHeight}" }
+    },
+    "skeleton": {
+      "bg": { "type": "color", "value": "{semantic.color.bg.skeleton}" }
+    }
+  }
+}
+```
+``` bash
+npx style-dictionary build
+```

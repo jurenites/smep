@@ -29,21 +29,6 @@ Two or more atoms bonded through covalent or ionic bonds, involving electrons fr
 
 ---
 
-## Core Gameplay Terms
-
----
-
-### Level (Уровень)
-The zoom scale of the visible universe, ranging from microscopic to macroscopic.
-
-### Epoch (Эпоха)
-Represents time or a stage in the game’s progression.
-
-### Singularity (Сингулярность)
-An imaginary point with no size from which the universe originated.
-
----
-
 ## Particles & Groups
 
 ### Particle (Частица)
@@ -92,10 +77,21 @@ Represents the four fundamental interactions:
 
 ---
 
-
-
+## Core Gameplay Terms
 
 ---
+
+### Level (Уровень)
+The zoom scale of the visible universe, ranging from microscopic to macroscopic.
+
+### Epoch (Эпоха)
+Represents time or a stage in the game’s progression.
+
+### Singularity (Сингулярность)
+An imaginary point with no size from which the universe originated.
+
+---
+
 ## GUI elements Terms
 
 ### Playground (Игровая зона)
