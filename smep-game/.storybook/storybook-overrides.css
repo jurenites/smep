@@ -1,0 +1,64 @@
+/* Storybook-specific CSS overrides */
+
+/* Allow scrolling in Storybook iframes */
+html,
+body {
+    overflow: auto !important;
+    height: auto !important;
+}
+
+/* Ensure the root element doesn't restrict height */
+#root {
+    height: auto !important;
+    min-height: 100vh;
+}
+
+/* Allow scrolling in showcase components */
+.showcaseContainer {
+    overflow: auto !important;
+    height: auto !important;
+    min-height: 100vh;
+}
+
+/* Ensure story content can scroll */
+.sb-show-main {
+    overflow: auto !important;
+}
+
+/* Override any other overflow hidden rules that might interfere */
+.screen-playground {
+    overflow: auto !important;
+    height: auto !important;
+    min-height: 100vh;
+}
+
+.app-root {
+    overflow: auto !important;
+    height: auto !important;
+    min-height: 100vh;
+}
+
+/* Specific override for AllPrimitivesShowcase */
+[data-testid="storybook-panel-root"] {
+    overflow: auto !important;
+}
+
+/* Ensure iframe content can scroll */
+iframe[id*="storybook-preview"] {
+    overflow: auto !important;
+}
+
+/* Override any Storybook-specific height restrictions */
+.sb-main-padded {
+    height: auto !important;
+    min-height: 100vh;
+    overflow: auto !important;
+}
+
+/* Specific class for scrollable storybook components */
+.storybook-scrollable {
+    overflow: auto !important;
+    height: auto !important;
+    min-height: 100vh;
+    max-height: none !important;
+}

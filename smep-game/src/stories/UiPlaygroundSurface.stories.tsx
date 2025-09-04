@@ -1,10 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { UiPlaygroundSurface } from '../ui/primitives/UiPlaygroundSurface';
-import styles from './UiPlaygroundSurface.stories.module.css';
+import { UIPlaygroundSurface } from '../ui/primitives/UIPlaygroundSurface';
 
-const meta: Meta<typeof UiPlaygroundSurface> = {
-    title: 'UI Primitives/UiPlaygroundSurface',
-    component: UiPlaygroundSurface,
+const meta: Meta<typeof UIPlaygroundSurface> = {
+    title: 'UI Primitives/UIPlaygroundSurface',
+    component: UIPlaygroundSurface,
     parameters: {
         layout: 'centered',
     },
@@ -41,32 +40,4 @@ export const Default: Story = {
         width: 360,
         height: 640,
     },
-};
-
-export const Large: Story = {
-    args: {
-        width: 600,
-        height: 400,
-    },
-};
-
-export const Small: Story = {
-    args: {
-        width: 200,
-        height: 150,
-    },
-};
-
-export const WithContent: Story = {
-    args: {
-        width: 400,
-        height: 300,
-    },
-    render: (args) => (
-        <UiPlaygroundSurface {...args}>
-            <div className={styles.content}>
-                Interactive Content
-            </div>
-        </UiPlaygroundSurface>
-    ),
 };

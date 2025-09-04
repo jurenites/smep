@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { UiCardSmall } from '../ui/primitives/UiCardSmall';
-import { MultipleCardsTemplate } from './components/MultipleCardsTemplate';
+import { UICardSmall } from '../ui/primitives/UICardSmall';
+import { UICardState } from '../lib/types';
 
-const meta: Meta<typeof UiCardSmall> = {
-    title: 'UI Primitives/UiCardSmall',
-    component: UiCardSmall,
+const meta: Meta<typeof UICardSmall> = {
+    title: 'UI Primitives/UICardSmall',
+    component: UICardSmall,
     parameters: {
         layout: 'centered',
     },
@@ -14,13 +14,10 @@ const meta: Meta<typeof UiCardSmall> = {
             control: 'text',
             description: 'The symbol to display on the card',
         },
-        isLoading: {
-            control: 'boolean',
-            description: 'Whether the card is in loading state',
-        },
-        isSelected: {
-            control: 'boolean',
-            description: 'Whether the card is selected',
+        state: {
+            control: 'select',
+            options: Object.values(UICardState),
+            description: 'State of the card',
         },
         onClick: {
             action: 'clicked',
@@ -35,30 +32,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
     args: {
         symbol: 'A',
-    },
-};
-
-export const Selected: Story = {
-    args: {
-        symbol: 'B',
-        isSelected: true,
-    },
-};
-
-export const Loading: Story = {
-    args: {
-        symbol: 'C',
-        isLoading: true,
-    },
-};
-
-export const Interactive: Story = {
-    args: {
-        symbol: 'D',
         onClick: () => console.log('Card clicked!'),
     },
-};
-
-export const MultipleCards: Story = {
-    render: () => <MultipleCardsTemplate />,
 }; 

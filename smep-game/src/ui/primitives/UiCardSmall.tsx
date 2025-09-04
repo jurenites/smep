@@ -1,29 +1,29 @@
 import React from 'react';
 import { TOKENS } from '../tokens/tokens';
-import styles from './UiCardSmall.module.css';
+import { UICardState } from '../../lib/types';
+import styles from './UICardSmall.module.css';
 
-interface UiCardSmallProps {
+interface UICardSmallProps {
     symbol: string;
-    isLoading?: boolean;
-    isSelected?: boolean;
+    state?: UICardState;
     onClick?: () => void;
 }
 
-export function UiCardSmall({
+export function UICardSmall({
     symbol,
-    isLoading = false,
-    isSelected = false,
+    state = UICardState.NORMAL,
     onClick
-}: UiCardSmallProps) {
+}: UICardSmallProps) {
     const s = TOKENS.sizes;
     const c = TOKENS.colors;
-    const fs = TOKENS.fontSizes;
 
-    if (isLoading) {
+    if (state === UICardState.LOADING) {
         return (
             <svg
                 width={s.MINI_CARD}
                 height={s.MINI_CARD}
+                viewBox={`0 0 ${s.MINI_CARD} ${s.MINI_CARD}`}
+                preserveAspectRatio="xMidYMid meet"
                 onClick={onClick}
                 className={onClick ? styles.card : styles.card_default}
             >
@@ -31,7 +31,6 @@ export function UiCardSmall({
                     width={s.MINI_CARD}
                     height={s.MINI_CARD}
                     fill={c.darkgray}
-                    //stroke={c.white}
                     strokeWidth={s.STROKE}
                 />
             </svg>
@@ -42,6 +41,8 @@ export function UiCardSmall({
         <svg
             width={s.MINI_CARD}
             height={s.MINI_CARD}
+            viewBox={`0 0 ${s.MINI_CARD} ${s.MINI_CARD}`}
+            preserveAspectRatio="xMidYMid meet"
             onClick={onClick}
             className={onClick ? styles.card : styles.card_default}
         >
@@ -49,7 +50,7 @@ export function UiCardSmall({
                 width={s.MINI_CARD}
                 height={s.MINI_CARD}
                 fill={c.black}
-                stroke={isSelected ? c.yolk : c.white}
+                stroke={state === UICardState.SELECTED ? c.yolk : c.white}
                 strokeWidth={s.STROKE}
             />
             <text
@@ -57,8 +58,8 @@ export function UiCardSmall({
                 y={s.MINI_CARD / 2 + 4}
                 textAnchor="middle"
                 fill={c.white}
-                fontSize={fs.medium}
-                fontFamily={TOKENS.fonts.BODY}
+                fontSize={TOKENS.typography.body.fontSize}
+                fontFamily={TOKENS.typography.body.fontFamily}
                 className={styles.text}
             >
                 {symbol}

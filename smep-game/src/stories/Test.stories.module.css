@@ -1,6 +1,0 @@
-.container {
-    padding: var(--size-hud-padding);
-    background-color: var(--color-black);
-    color: var(--color-white);
-    font-family: var(--font-code);
-}

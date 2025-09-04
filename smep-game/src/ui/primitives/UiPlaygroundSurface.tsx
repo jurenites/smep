@@ -1,7 +1,7 @@
 import React from 'react';
 import { TOKENS } from '../tokens/tokens';
 
-interface UiPlaygroundSurfaceProps {
+interface UIPlaygroundSurfaceProps {
     width: number;
     height: number;
     children?: React.ReactNode;
@@ -10,14 +10,14 @@ interface UiPlaygroundSurfaceProps {
     onMouseUp?: (event: React.MouseEvent) => void;
 }
 
-export function UiPlaygroundSurface({
+export function UIPlaygroundSurface({
     width,
     height,
     children,
     onMouseMove,
     onMouseDown,
     onMouseUp
-}: UiPlaygroundSurfaceProps) {
+}: UIPlaygroundSurfaceProps) {
     const c = TOKENS.colors;
     const s = TOKENS.sizes;
 
@@ -43,6 +43,8 @@ export function UiPlaygroundSurface({
             <svg
                 width={width}
                 height={height}
+                viewBox={`0 0 ${width} ${height}`}
+                preserveAspectRatio="xMidYMid meet"
                 style={{
                     position: 'absolute',
                     top: 0,

@@ -1,4 +1,0 @@
-.container {
-  display: flex;
-  gap: calc(var(--size-mini-paginator-gap) / 2);
-}

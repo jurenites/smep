@@ -126,7 +126,7 @@ enum ButtonState {
 ### Cards 
 | Term | Code Identifier | Notes |
 |------|-----------------|-------|
-| Small Card | UICardSmall | Minimal particle representation (symbol only) |
+| Small Card | UICardSmall | Minimal particle representation (symbol only), supports state enum |
 | Mid Card | UICardMid | Particle details: name, symbol, eV, charge, mass |
 | Big Card | UICardBig | Full-screen particle detail view |
 
@@ -135,7 +135,11 @@ enum ButtonState {
 |------|-----------------|-------|
 | Tab | UITab | Active/Inactive/Disabled/Blank |
 | Big Pagination | UIPaginationBig | 4px rectangles, bottom-center |
-| Mini Paginator | UIPaginationMini | 4px squares, horizontal only |
+| Mini Paginator | UIPaginationMini | 4px squares, horizontal only, supports state and clickable properties, activeIndex optional (defaults to 1) |
+| Pagination Dot | UIPaginationDot | Individual 4x4 pagination square component |
+| Pagination Container | UIPaginationContainer | Higher-level component with event system integration |
+| Pagination Service | paginationService | Centralized pagination state and event management |
+| Pagination Hook | usePagination | React hook for easy pagination integration |
 | Slider Paginator | UISliderPaginator | Hybrid: Small Card as active, Mini Paginator as rest |
 
 ```ts
@@ -144,7 +148,72 @@ enum PaginationState {
   INACTIVE,
   DISABLED,
   ERROR,
+  UNAVAILABLE, // Pages that are not yet available
+  LOCKED,      // Pages that are locked/restricted
 }
+
+enum UICardState {
+  NORMAL,    // Default state
+  LOADING,   // Loading/skeleton state
+  SELECTED,  // Selected/highlighted state
+}
+```
+
+### Pagination System Architecture
+
+The pagination system provides a higher-level abstraction for managing page navigation with event-driven architecture:
+
+#### Components
+- **UIPaginationContainer**: High-level component that integrates with the pagination service
+- **UIPaginationMini**: Low-level UI component for rendering pagination dots
+- **UIPaginationDot**: Individual pagination square component
+
+#### Services & Hooks
+- **paginationService**: Centralized service managing pagination contexts and events
+- **usePagination**: React hook for easy integration with pagination functionality
+
+#### Event System
+- **PAGE_CHANGED**: Fired when user navigates to a different page
+- **PAGE_LOADED**: Fired when a page content is loaded
+- **PAGINATION_READY**: Fired when pagination system is initialized
+
+#### State System
+- **ACTIVE**: Page is available and clickable
+- **INACTIVE**: Page is available but not currently selected
+- **DISABLED**: Page is temporarily disabled
+- **ERROR**: Page is in error state
+- **UNAVAILABLE**: Page is not yet available (locked by progression)
+- **LOCKED**: Page is locked/restricted (requires unlock condition)
+
+#### Usage Example
+```tsx
+// Using the container component
+<UIPaginationContainer
+    contextId="my-pagination"
+    pages={[
+        { id: 'page-1', title: 'Quantum', state: PaginationState.ACTIVE },
+        { id: 'page-2', title: 'Nuclear', state: PaginationState.ACTIVE },
+        { id: 'page-3', title: 'Atomic', state: PaginationState.UNAVAILABLE },
+    ]}
+    onPageChange={(pageIndex, event) => {
+        console.log('Page changed to:', pageIndex);
+        // Handle page change logic
+    }}
+/>
+
+// Using the hook
+const {
+    currentPageIndex,
+    changePage,
+    goToNextPage,
+    goToPreviousPage
+} = usePagination({
+    contextId: 'my-pagination',
+    pages: [...],
+    onPageChange: (pageIndex, event) => {
+        // Handle page change
+    }
+});
 ```
 
 ### Tables
@@ -199,6 +268,7 @@ All UI elements must adhere to these rules unless explicitly overridden.
 ## Code Constants (TS/JS)
 
 ```ts
+// Colors
 export const COLOR_PRIMARY = "#F8E71C"; // #yolk
 export const COLOR_SECONDARY = "#4C00FF"; // #ultraviolet
 export const COLOR_WHITE = "#FFFFFF"; // #white
@@ -207,10 +277,30 @@ export const COLOR_GRAY = "#666666"; // #gray
 export const COLOR_DARK_GRAY = "#232323"; // #darkgray
 export const COLOR_BLACK = "#000000"; // #black
 
-export const FONT_TITLE = "Urbanist, sans-serif";
-export const FONT_BODY = "Roundabout-Regular, Sulphur Point, sans-serif"; // custom TTF https://www.dropbox.com/scl/fi/grhm72jqfa7osv20rxgij/Roundabout-Regular.ttf?rlkey=88bt7wklvhwqxiofjaolf9orv&dl=0
-export const FONT_DIGIT = "4pixel, monospace"; // custom TTF https://www.dropbox.com/scl/fi/pb6mk4gkehf2svayhdmnt/4pixel.ttf?rlkey=grhyi2hmknacs61yr3pccksk2&dl=0
-export const FONT_CODE = "'Courier New', monospace";
+// Typography
+export const TYPOGRAPHY = {
+    title: {
+        fontFamily: "Roundabout-Regular, Urbanist, sans-serif",
+        fontSize: 16,
+    },
+    body: {
+        fontFamily: "Roundabout-Regular, Sulphur Point, sans-serif",
+        fontSize: 16,
+    },
+    digitBig: {
+        fontFamily: "4pixel, monospace",
+        fontSize: 10,
+    },
+    digitSmall: {
+        fontFamily: "4pixel, monospace",
+        fontSize: 5,
+    },
+    code: {
+        fontFamily: "'Courier New', monospace",
+        fontSize: 12,
+    },
+};
+
 
 ```
 
@@ -218,13 +308,23 @@ export const FONT_CODE = "'Courier New', monospace";
 
 ## Typography
 
-| Element | Font | Size | Weight | Notes |
-|---------|------|------|--------|-------|
-| Title `<h1>` | Roundabout-Regular | 16px | Regular | Section headers |
-| Body `<p>, <a>` | Roundabout-Regular | 16px | Regular | Main text |
-| Numeric `<p>, <a>` | Roundabout-Regular | 16px | Regular | Main text |
-| Digits (numeric values) | 4pixel | 4px | Regular | Smallest legible pixel font (custom .ttf provided) |
-| Code/Debug | Courier New | 16px | Bold | Debug HUD, console output |
+### Typography
+
+| Token | Font Stack | Size | Usage |
+|-------|------------|------|-------|
+| `typography.title` | `Roundabout-Regular, Urbanist, sans-serif` | 16px | Titles, headers, and prominent text elements |
+| `typography.body` | `Roundabout-Regular, Sulphur Point, sans-serif` | 16px | Body text, general content, and UI elements |
+| `typography.digitBig` | `4pixel, monospace` | 10px | Large numeric values and measurements |
+| `typography.digitSmall` | `4pixel, monospace` | 5px | Small numeric values, pixel-perfect text |
+| `typography.code` | `'Courier New', monospace` | 12px | Code, debug information, and technical content |
+
+### Usage Guidelines
+
+- **Titles & Headers**: Use `typography.title` for section headers and prominent text
+- **Body Text**: Use `typography.body` for general content
+- **Numeric Values**: Use `typography.digitSmall` for small values or `typography.digitBig` for larger values
+- **Code & Debug**: Use `typography.code` for technical content
+- **Consistency**: Always use the predefined tokens rather than hardcoded values
 
 ---
 
@@ -243,6 +343,39 @@ export const FONT_CODE = "'Courier New', monospace";
 - **Tab** → `109px x 23px` outlined rectangle  
 
 Note the elements size sued as a prime numbers withg golden urle aspect ratio to eachother, nd other reasons maybe.
+
+---
+
+## SVG Guidelines
+
+### ViewBox Requirements
+
+All SVG elements **must** include a `viewBox` attribute to maintain proper aspect ratios and prevent distortion during screen recording or display scaling:
+
+```tsx
+<svg
+    width={width}
+    height={height}
+    viewBox={`0 0 ${width} ${height}`}
+    preserveAspectRatio="xMidYMid meet"
+>
+    {/* SVG content */}
+</svg>
+```
+
+### Implementation Rules
+
+- **Always include `viewBox`**: Every SVG element must have a `viewBox` attribute matching its width and height
+- **Use `preserveAspectRatio="xMidYMid meet"`**: This ensures the SVG scales proportionally and centers content
+- **Maintain pixel-perfect rendering**: Critical for 4px squares and other small elements
+- **Prevent distortion**: Essential for screen recording and high-DPI displays
+
+### Affected Components
+
+- `UIPaginationMini` - 4px squares must maintain perfect 1:1 aspect ratio
+- `UIRuler` - Measurement lines and tick marks
+- `UICardSmall` - Card outlines and text positioning
+- `UIPlaygroundSurface` - Background circles and blur effects
 
 ---
 

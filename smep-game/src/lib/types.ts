@@ -35,10 +35,51 @@ export enum ButtonState {
 }
 
 export enum PaginationState {
-    ACTIVE = 'active',
+    ACTIVE = 'active', // Curreltly active page.
     INACTIVE = 'inactive',
-    DISABLED = 'disabled',
-    ERROR = 'error',
+    DISABLED = 'disabled', // can't switch to that page
+    ERROR = 'error', // error loading for the page
+    UNAVAILABLE = 'unavailable', // New state for unavailable pages
+    LOCKED = 'locked', // New state for locked pages
+}
+
+export enum UICardState {
+    NORMAL = 'normal',
+    LOADING = 'loading',
+    SELECTED = 'selected',
+}
+
+// Pagination System Types
+export interface PaginationPage {
+    id: string;
+    index: number; // 1-based index
+    title: string;
+    state: PaginationState; // Replace isAvailable with state
+    isActive: boolean;
+}
+
+export interface PaginationContext {
+    id: string;
+    pages: PaginationPage[];
+    currentPageIndex: number; // 1-based index
+    totalPages: number;
+    state: PaginationState;
+}
+
+// Pagination Events
+export interface PaginationEvent {
+    type: 'PAGE_CHANGED' | 'PAGE_LOADED' | 'PAGINATION_READY';
+    contextId: string;
+    pageIndex: number; // 1-based index
+    timestamp: number;
+    metadata?: Record<string, any>;
+}
+
+// Pagination Listener Interface
+export interface PaginationListener {
+    onPageChange: (event: PaginationEvent) => void;
+    onPageLoad?: (event: PaginationEvent) => void;
+    onPaginationReady?: (event: PaginationEvent) => void;
 }
 
 // Core Entities

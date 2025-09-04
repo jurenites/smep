@@ -1,23 +1,20 @@
 import React from 'react';
 import { TOKENS } from '../tokens/tokens';
-import styles from './UiRuler.module.css';
+import styles from './UIRuler.module.css';
 
-interface UiRulerProps {
+interface UIRulerProps {
     scale: number;
     width: number;
-    height: number;
-    position?: 'top' | 'bottom' | 'left' | 'right';
+    position?: 'top' | 'bottom';
 }
 
-export function UiRuler({
+export function UIRuler({
     scale,
     width,
-    height,
     position = 'bottom'
-}: UiRulerProps) {
+}: UIRulerProps) {
     const s = TOKENS.sizes;
     const c = TOKENS.colors;
-    const fs = TOKENS.fontSizes;
 
     // Calculate ruler measurements based on scale
     const getScaleText = (scale: number) => {
@@ -31,19 +28,21 @@ export function UiRuler({
         return `${(scale * 1e12).toFixed(1)}p`;
     };
 
-    const rulerLength = position === 'top' || position === 'bottom' ? width : height;
+    const rulerLength = width;
     const rulerThickness = 20;
 
     return (
         <svg
-            width={position === 'top' || position === 'bottom' ? width : rulerThickness}
-            height={position === 'top' || position === 'bottom' ? rulerThickness : height}
+            width={width}
+            height={rulerThickness}
+            viewBox={`0 0 ${width} ${rulerThickness}`}
+            preserveAspectRatio="xMidYMid meet"
         >
             {/* Ruler line */}
             <line
-                x1={position === 'left' ? rulerThickness - 1 : 0}
+                x1={0}
                 y1={position === 'top' ? rulerThickness - 1 : 0}
-                x2={position === 'left' ? rulerThickness - 1 : rulerLength}
+                x2={rulerLength}
                 y2={position === 'top' ? rulerThickness - 1 : 0}
                 stroke={c.white}
                 strokeWidth={s.STROKE}
@@ -51,11 +50,11 @@ export function UiRuler({
 
             {/* Scale text */}
             <text
-                x={position === 'left' ? rulerThickness - 5 : 5}
+                x={5}
                 y={position === 'top' ? rulerThickness - 5 : 15}
                 fill={c.white}
-                fontSize={fs.small}
-                fontFamily={TOKENS.fonts.DIGIT}
+                fontSize={TOKENS.typography.digitSmall.fontSize}
+                fontFamily={TOKENS.typography.digitSmall.fontFamily}
                 className={styles.text}
             >
                 {getScaleText(scale)}x
@@ -63,7 +62,7 @@ export function UiRuler({
 
             {/* Tick marks */}
             {Array.from({ length: 5 }).map((_, i) => {
-                const tickX = position === 'left' ? rulerThickness - 1 : (rulerLength / 4) * i;
+                const tickX = (rulerLength / 4) * i;
                 const tickY = position === 'top' ? rulerThickness - 1 : 0;
                 const tickLength = i === 0 || i === 4 ? 8 : 4;
 

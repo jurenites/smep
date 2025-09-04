@@ -1,10 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { UiPlaygroundSurface } from '../primitives/UiPlaygroundSurface';
-import { UiCardSmall } from '../primitives/UiCardSmall';
-import { UiPaginationMini } from '../primitives/UiPaginationMini';
-import { UiRuler } from '../primitives/UiRuler';
+import { UIPlaygroundSurface } from '../primitives/UIPlaygroundSurface';
+import { UICardSmall } from '../primitives/UICardSmall';
+import { UIPaginationMini } from '../primitives/UIPaginationMini';
+import { UIRuler } from '../primitives/UIRuler';
 import { useGameStore } from '../../lib/game-state';
-import { ParticleType } from '../../lib/types';
+import { ParticleType, UICardState } from '../../lib/types';
 
 export function ScreenPlayground() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -92,7 +92,7 @@ export function ScreenPlayground() {
     return (
         <div className="screen-playground">
             {/* Main Playground */}
-            <UiPlaygroundSurface
+            <UIPlaygroundSurface
                 width={dimensions.width}
                 height={dimensions.height}
                 onMouseDown={handlePlaygroundClick}
@@ -108,7 +108,7 @@ export function ScreenPlayground() {
                         }}
                     />
                 ))}
-            </UiPlaygroundSurface>
+            </UIPlaygroundSurface>
 
             {/* HUD Overlay */}
             <div className="hud-overlay">
@@ -122,10 +122,10 @@ export function ScreenPlayground() {
                     {/* Inventory */}
                     <div className="inventory">
                         {sampleParticles.slice(0, 6).map((particle, index) => (
-                            <UiCardSmall
+                            <UICardSmall
                                 key={index}
                                 symbol={particle.symbol}
-                                isSelected={index === currentPage}
+                                state={index === currentPage ? UICardState.SELECTED : UICardState.NORMAL}
                                 onClick={() => setCurrentPage(index)}
                             />
                         ))}
@@ -135,18 +135,17 @@ export function ScreenPlayground() {
                 {/* Bottom HUD */}
                 <div className="hud-bottom">
                     {/* Ruler */}
-                    <UiRuler
+                    <UIRuler
                         scale={playground.scale}
                         width={200}
-                        height={20}
                         position="bottom"
                     />
 
                     {/* Pagination */}
-                    <UiPaginationMini
+                    <UIPaginationMini
                         count={sampleParticles.length}
-                        activeIndex={currentPage}
-                        onPageChange={setCurrentPage}
+                        activeIndex={currentPage + 1}
+                        onPageChange={(pageNumber) => setCurrentPage(pageNumber - 1)}
                     />
 
                     {/* Level indicator */}

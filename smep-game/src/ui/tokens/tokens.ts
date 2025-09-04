@@ -8,22 +8,27 @@ export const TOKENS = {
         darkgray: "#232323",
         black: "#000000",
     },
-    fonts: {
-        TITLE: "Roundabout-Regular, Urbanist, sans-serif",
-        BODY: "Roundabout-Regular, Sulphur Point, sans-serif",
-        DIGIT: "4pixel, monospace",
-        CODE: "'Courier New', monospace",
-    },
-    fontSizes: {
-        small: 5, // for 4Pixel font the size is 5, yeah i know its funny.
-        medium: 10, // double 4Pixel size
-        large: 16, // Roudnabout size for Capital letters, to bein 1 to 1 ratio on a screen, the lowercase letter is a 8px size.
-        mediumLarge: 14, // New token
-    },
-    fontWeights: {
-        light: 300,
-        regular: 400,
-        bold: 700,
+    typography: {
+        title: {
+            fontFamily: "Roundabout-Regular, Urbanist, sans-serif",
+            fontSize: 16,
+        },
+        body: {
+            fontFamily: "Roundabout-Regular, Sulphur Point, sans-serif",
+            fontSize: 16,
+        },
+        digitBig: {
+            fontFamily: "4pixel, monospace",
+            fontSize: 10,
+        },
+        digitSmall: {
+            fontFamily: "4pixel, monospace",
+            fontSize: 5,
+        },
+        code: {
+            fontFamily: "'Courier New', monospace",
+            fontSize: 12,
+        },
     },
     sizes: {
         DOT_1: 1, // 1px
@@ -64,17 +69,19 @@ export const CSS_VARS = {
     '--color-gray': TOKENS.colors.gray,
     '--color-dark-gray': TOKENS.colors.darkgray,
     '--color-black': TOKENS.colors.black,
-    '--font-title': TOKENS.fonts.TITLE,
-    '--font-body': TOKENS.fonts.BODY,
-    '--font-digit': TOKENS.fonts.DIGIT,
-    '--font-code': TOKENS.fonts.CODE,
-    '--font-size-small': `${TOKENS.fontSizes.small}px`,
-    '--font-size-medium': `${TOKENS.fontSizes.medium}px`,
-    '--font-size-large': `${TOKENS.fontSizes.large}px`,
-    '--font-size-medium-large': `${TOKENS.fontSizes.mediumLarge}px`,
-    '--font-weight-light': TOKENS.fontWeights.light,
-    '--font-weight-regular': TOKENS.fontWeights.regular,
-    '--font-weight-bold': TOKENS.fontWeights.bold,
+
+    '--font-title': TOKENS.typography.title.fontFamily,
+    '--font-title-size': `${TOKENS.typography.title.fontSize}px`,
+    '--font-body': TOKENS.typography.body.fontFamily,
+    '--font-body-size': `${TOKENS.typography.body.fontSize}px`,
+    '--font-digit-big': TOKENS.typography.digitBig.fontFamily,
+    '--font-digit-big-size': `${TOKENS.typography.digitBig.fontSize}px`,
+    '--font-digit-small': TOKENS.typography.digitSmall.fontFamily,
+    '--font-digit-small-size': `${TOKENS.typography.digitSmall.fontSize}px`,
+    '--font-digit-size': `${TOKENS.typography.digitBig.fontSize}px`,
+    '--font-code': TOKENS.typography.code.fontFamily,
+    '--font-code-size': `${TOKENS.typography.code.fontSize}px`,
+
     '--size-hud-padding': `${TOKENS.sizes.HUD_PADDING}px`,
     '--z-index-hud': TOKENS.zIndexes.hud,
     '--size-dot-1': `${TOKENS.sizes.DOT_1}px`,

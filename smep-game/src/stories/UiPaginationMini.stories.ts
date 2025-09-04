@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { UiPaginationMini } from '../ui/primitives/UiPaginationMini';
+import { UIPaginationMini } from '../ui/primitives/UIPaginationMini';
+import { PaginationState } from '../lib/types';
 
-const meta: Meta<typeof UiPaginationMini> = {
-    title: 'UI Primitives/UiPaginationMini',
-    component: UiPaginationMini,
+const meta: Meta<typeof UIPaginationMini> = {
+    title: 'UI Primitives/UIPaginationMini',
+    component: UIPaginationMini,
     parameters: {
         layout: 'centered',
     },
@@ -14,12 +15,17 @@ const meta: Meta<typeof UiPaginationMini> = {
             description: 'Number of pagination dots',
         },
         activeIndex: {
-            control: { type: 'number', min: 0, max: 9 },
-            description: 'Currently active page index',
+            control: { type: 'number', min: 1, max: 10 },
+            description: 'Currently active page number (1-based)',
+        },
+        state: {
+            control: 'select',
+            options: Object.values(PaginationState),
+            description: 'State of the pagination component',
         },
         onPageChange: {
             action: 'pageChanged',
-            description: 'Callback when page is changed',
+            description: 'Callback when page is changed (returns 1-based page number)',
         },
     },
 };
@@ -27,45 +33,9 @@ const meta: Meta<typeof UiPaginationMini> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-    args: {
-        count: 5,
-        activeIndex: 0,
-    },
-};
-
-export const ActiveMiddle: Story = {
-    args: {
-        count: 5,
-        activeIndex: 2,
-    },
-};
-
-export const ActiveLast: Story = {
-    args: {
-        count: 5,
-        activeIndex: 4,
-    },
-};
-
-export const ManyPages: Story = {
-    args: {
-        count: 8,
-        activeIndex: 3,
-    },
-};
-
-export const SinglePage: Story = {
-    args: {
-        count: 1,
-        activeIndex: 0,
-    },
-};
-
 export const Interactive: Story = {
     args: {
         count: 5,
-        activeIndex: 0,
-        onPageChange: (index: number) => console.log(`Page changed to: ${index}`),
+        activeIndex: 1,
     },
 }; 
