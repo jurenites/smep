@@ -1,0 +1,163 @@
+/* Rectangle Mid Container - Optimized for MINI_CARD size (31x31px) */
+.container {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+    vertical-align: top;
+    background-color: transparent;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+/* Rectangle styles for different states */
+.container rect {
+    fill: var(--color-gray);
+    stroke: var(--color-gray);
+    stroke-width: 1;
+    transition: fill 0.2s ease, stroke 0.2s ease, transform 0.1s ease;
+}
+
+/* Active state */
+.rectangleActive rect {
+    fill: var(--color-white);
+    stroke: var(--color-white);
+}
+
+/* Inactive state */
+.rectangleInactive rect {
+    fill: var(--color-gray);
+    stroke: var(--color-gray);
+}
+
+/* Disabled state */
+.rectangleDisabled rect {
+    fill: var(--color-dark-gray);
+    stroke: var(--color-dark-gray);
+}
+
+/* Hover effects for interactive states */
+.rectangleActive:hover {
+    background-color: var(--color-dark-gray);
+    transform: translateY(-1px);
+}
+
+.rectangleInactive:hover {
+    background-color: var(--color-dark-gray);
+    transform: translateY(-1px);
+}
+
+.rectangleActive:hover rect {
+    fill: var(--color-light-gray);
+    stroke: var(--color-light-gray);
+}
+
+.rectangleInactive:hover rect {
+    fill: var(--color-white);
+    stroke: var(--color-white);
+}
+
+/* Focus states for accessibility */
+.rectangleActive:focus-visible {
+    outline: var(--size-stroke) solid var(--color-yolk);
+    outline-offset: 2px;
+}
+
+.rectangleInactive:focus-visible {
+    outline: var(--size-stroke) solid var(--color-yolk);
+    outline-offset: 2px;
+}
+
+/* Content container for children - optimized for small size */
+.contentContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-white);
+    font-family: var(--font-body);
+    font-size: var(--font-size-small);
+    text-align: center;
+    overflow: hidden;
+    word-wrap: break-word;
+    /* Optimize for small content */
+    line-height: 100%;
+    padding: 1px;
+}
+
+/* Disabled state - no hover effects */
+.rectangleDisabled:hover {
+    background-color: transparent;
+    transform: none;
+}
+
+.rectangleDisabled:hover rect {
+    fill: var(--color-dark-gray);
+    stroke: var(--color-dark-gray);
+}
+
+/* Animation for state changes - subtle for small component */
+.rectangleActive,
+.rectangleInactive {
+    animation: rectanglePulse 0.2s ease-out;
+}
+
+@keyframes rectanglePulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.01);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .container rect {
+        stroke-width: 2;
+    }
+
+    .rectangleActive rect {
+        stroke: var(--color-black);
+    }
+
+    .rectangleInactive rect {
+        stroke: var(--color-black);
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .container {
+        transition: none;
+    }
+
+    .rectangleActive,
+    .rectangleInactive {
+        animation: none;
+    }
+
+    .rectangleActive:hover,
+    .rectangleInactive:hover {
+        transform: none;
+    }
+}
+
+/* Special styles for icon content */
+.contentContainer:has(span:only-child) {
+
+    /* Larger font for single icons */
+}
+
+/* Special styles for text content */
+.contentContainer:has(span:not(:only-child)) {
+
+    /* Smaller font for multiple text elements */
+
+}

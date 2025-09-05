@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { UIPlaygroundSurface } from '../primitives/UIPlaygroundSurface';
-import { UICardSmall } from '../primitives/UICardSmall';
-import { UIPaginationMini } from '../primitives/UIPaginationMini';
-import { UIRuler } from '../primitives/UIRuler';
+import { UIPlaygroundSurface } from '../components/Playground/UIPlaygroundSurface';
+import { UICardSmall } from '../components/Cards/UICardSmall';
+import { UIPaginationMini } from '../components/Paginators/UIPaginationMini';
+import { UIRuler } from '../components/Elements/UIRuler';
 import { useGameStore } from '../../lib/game-state';
 import { ParticleType, UICardState } from '../../lib/types';
 

@@ -1,0 +1,10 @@
+.text {
+    user-select: none;
+    font-family: var(--font-digit-small), monospace;
+    font-size: var(--font-digit-small-size);
+    font-weight: normal;
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

@@ -75,10 +75,13 @@ class PaginationService {
         }
 
         const targetPage = context.pages.find(page => page.index === pageIndex);
-        if (!targetPage || targetPage.state === PaginationState.UNAVAILABLE || targetPage.state === PaginationState.LOCKED) {
+        if (!targetPage || targetPage.state === PaginationState.UNAVAILABLE) {
             console.warn(`Page ${pageIndex} is not available in context '${contextId}' (state: ${targetPage?.state})`);
             return false;
         }
+
+        // Debug: Log the state change
+        console.log(`Pagination: Changing from page ${context.currentPageIndex} to page ${pageIndex} in context '${contextId}'`);
 
         // Update context
         const updatedPages = context.pages.map(page => ({
@@ -93,6 +96,10 @@ class PaginationService {
         };
 
         this.contexts.set(contextId, updatedContext);
+
+        // Debug: Log the updated state
+        console.log(`Pagination: Updated context '${contextId}' - Active pages:`,
+            updatedPages.filter(p => p.isActive).map(p => p.index));
 
         // Emit page changed event
         this.emitEvent({

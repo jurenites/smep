@@ -134,9 +134,9 @@ enum ButtonState {
 | Term | Code Identifier | Notes |
 |------|-----------------|-------|
 | Tab | UITab | Active/Inactive/Disabled/Blank |
-| Big Pagination | UIPaginationBig | 4px rectangles, bottom-center |
+| Big Pagination | UIPaginationBig | 4px by 17px rectangles, bottom-center |
 | Mini Paginator | UIPaginationMini | 4px squares, horizontal only, supports state and clickable properties, activeIndex optional (defaults to 1) |
-| Pagination Dot | UIPaginationDot | Individual 4x4 pagination square component |
+| Small Square | UISquareSmall | Individual 4x4 square component with unified state enum (ACTIVE, INACTIVE, DISABLED, ERROR, LOCKED) |
 | Pagination Container | UIPaginationContainer | Higher-level component with event system integration |
 | Pagination Service | paginationService | Centralized pagination state and event management |
 | Pagination Hook | usePagination | React hook for easy pagination integration |
@@ -157,6 +157,14 @@ enum UICardState {
   LOADING,   // Loading/skeleton state
   SELECTED,  // Selected/highlighted state
 }
+
+enum UISquareState {
+  ACTIVE,    // Active and clickable
+  INACTIVE,  // Inactive but clickable
+  DISABLED,  // Disabled and not clickable
+  ERROR,     // Error state, not clickable
+  LOCKED,    // Locked, not clickable
+}
 ```
 
 ### Pagination System Architecture
@@ -165,8 +173,8 @@ The pagination system provides a higher-level abstraction for managing page navi
 
 #### Components
 - **UIPaginationContainer**: High-level component that integrates with the pagination service
-- **UIPaginationMini**: Low-level UI component for rendering pagination dots
-- **UIPaginationDot**: Individual pagination square component
+- **UIPaginationMini**: Low-level UI component for rendering pagination squares
+- **UISquareSmall**: Individual 4x4 square component with unified state enum (ACTIVE, INACTIVE, DISABLED, ERROR, LOCKED)
 
 #### Services & Hooks
 - **paginationService**: Centralized service managing pagination contexts and events

@@ -12,7 +12,18 @@
     --font-title: "'Roundabout-Regular', Urbanist, sans-serif";
     --font-body: "'Roundabout-Regular', Sulphur Point, sans-serif";
     --font-digit: "'4pixel', monospace";
+    --font-digit-small: "'4pixel', monospace";
+    --font-digit-big: "'4pixel', monospace";
     --font-code: "'Courier New', monospace";
+
+    /* Font Sizes */
+    /* added this siez again, we should not doing it, the font sizes are exactly conected to the fonts and as a reuslt to Typography rules allowed list of fonts*/
+    --font-size-small: 5px;
+    --font-size-medium: 10px;
+    --font-size-medium-large: 12px;
+    --font-size-large: 16px;
+    --font-digit-small-size: 5px;
+    --font-digit-big-size: 10px;
 
     /* Sizes */
     --size-dot-1: 1px;
@@ -21,9 +32,9 @@
     --size-circle-61: 61px;
     --size-mini-card: 31px;
     --size-mini-paginator: 4px;
-    --size-mini-paginator-gap: 16px;
-    --size-big-paginator-w: 4px;
-    --size-big-paginator-h: 17px;
+    --size-mini-paginator-gap: 2px;
+    --size-big-paginator-w: 17px;
+    --size-big-paginator-h: 4px;
     --size-big-paginator-gap: 6px;
     --size-mid-card-w: 83px;
     --size-mid-card-h: 109px;

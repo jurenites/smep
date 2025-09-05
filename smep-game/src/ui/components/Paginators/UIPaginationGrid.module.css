@@ -1,0 +1,29 @@
+/* Grid container for 2D pagination */
+.gridContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: flex-start;
+}
+
+/* Grid row */
+.gridRow {
+    display: flex;
+    gap: 2px;
+    align-items: flex-start;
+}
+
+/* Grid cell */
+.gridCell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Empty space for gaps in layouts (like periodic table) */
+.emptySpace {
+    width: 31px;
+    /* Same as mini-card size */
+    height: 31px;
+    /* Transparent - no visual element */
+}

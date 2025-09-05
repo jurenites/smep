@@ -1,11 +1,14 @@
 import React from 'react';
+import { FontProvider } from './ui/components/Providers/FontProvider';
 import { ScreenPlayground } from './ui/screens/ScreenPlayground';
 
 function App() {
     return (
-        <div className="app-root">
-            <ScreenPlayground />
-        </div>
+        <FontProvider>
+            <div className="app-root">
+                <ScreenPlayground />
+            </div>
+        </FontProvider>
     );
 }
 

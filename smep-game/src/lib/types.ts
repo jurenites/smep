@@ -35,18 +35,63 @@ export enum ButtonState {
 }
 
 export enum PaginationState {
-    ACTIVE = 'active', // Curreltly active page.
+    ACTIVE = 'active', // Currently active page.
     INACTIVE = 'inactive',
     DISABLED = 'disabled', // can't switch to that page
-    ERROR = 'error', // error loading for the page
     UNAVAILABLE = 'unavailable', // New state for unavailable pages
-    LOCKED = 'locked', // New state for locked pages
 }
 
 export enum UICardState {
     NORMAL = 'normal',
     LOADING = 'loading',
     SELECTED = 'selected',
+}
+
+export enum UISquareState {
+    ACTIVE = 'active', // Active and clickable
+    INACTIVE = 'inactive', // Inactive but clickable
+    DISABLED = 'disabled', // Disabled and not clickable
+}
+
+export enum ClickableState {
+    ENABLED = 'enabled', // Clickable and interactive
+    DISABLED = 'disabled', // Not clickable
+}
+
+// 2D Grid Pagination Types
+export interface GridPosition {
+    x: number;
+    y: number;
+}
+
+export interface GridPage {
+    id: string;
+    position: GridPosition;
+    title: string;
+    state: PaginationState;
+    isActive: boolean;
+    // Optional: custom data for specific layouts (e.g., atomic number for periodic table)
+    metadata?: Record<string, any>;
+}
+
+export interface GridPaginationContext {
+    id: string;
+    pages: GridPage[];
+    currentPosition: GridPosition;
+    gridDimensions: { width: number; height: number };
+    state: PaginationState;
+    // Navigation rules for complex layouts
+    navigationRules?: {
+        // Define which positions are valid for navigation
+        validPositions?: GridPosition[];
+        // Custom navigation logic (e.g., periodic table jumps)
+        customNavigation?: (from: GridPosition, direction: 'up' | 'down' | 'left' | 'right') => GridPosition | null;
+    };
+}
+
+export interface GridPaginationEvent extends PaginationEvent {
+    position: GridPosition;
+    metadata?: Record<string, any>;
 }
 
 // Pagination System Types

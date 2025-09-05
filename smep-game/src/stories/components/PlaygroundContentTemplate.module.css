@@ -1,9 +1,0 @@
-.content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: var(--color-white);
-    font-family: var(--font-code);
-    pointer-events: auto;
-}

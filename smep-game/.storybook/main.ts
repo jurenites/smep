@@ -1,4 +1,5 @@
 import type { StorybookConfig } from '@storybook/react-vite';
+import { resolve } from 'path';
 
 const config: StorybookConfig = {
   "stories": [
@@ -15,6 +16,17 @@ const config: StorybookConfig = {
   "framework": {
     "name": "@storybook/react-vite",
     "options": {}
-  }
+  },
+  "viteFinal": async (config) => {
+    // Ensure fonts and other assets are properly served
+    if (config.resolve) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@assets': resolve(__dirname, '../public/assets'),
+      };
+    }
+
+    return config;
+  },
 };
 export default config;

@@ -1,0 +1,94 @@
+/* Container to hug content exactly */
+.container {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+    vertical-align: top;
+    background-color: transparent;
+    transition: background-color 0.2s ease;
+}
+
+/* Clickable mode - 31px container */
+.container[data-active="clickable"] {
+    width: var(--size-mini-card);
+    height: var(--size-mini-card);
+}
+
+/* Only view mode - 4px container with 2px gap */
+.container[data-active="only view"] {
+    width: var(--size-mini-paginator);
+    height: var(--size-mini-paginator);
+    margin-right: var(--size-mini-paginator-gap-small);
+}
+
+/* Only view modifier - disables hover effects and cursor pointer */
+.onlyView {
+    cursor: default !important;
+}
+
+.onlyView:hover {
+    background-color: transparent !important;
+}
+
+.onlyView:hover rect {
+    fill: inherit !important;
+    stroke: inherit !important;
+}
+
+/* Base square styles */
+.squareActive {
+    cursor: pointer;
+    user-select: none;
+}
+
+.squareActive rect {
+    fill: var(--color-white);
+    stroke: var(--color-white);
+    stroke-width: var(--size-stroke);
+    transition: fill 0.2s ease, stroke 0.2s ease;
+}
+
+.squareActive:hover rect {
+    fill: var(--color-light-gray);
+    stroke: var(--color-light-gray);
+}
+
+/* Container hover effect for active squares */
+.squareActive:hover {
+    background-color: var(--color-dark-gray);
+}
+
+.squareInactive {
+    cursor: pointer;
+    user-select: none;
+}
+
+.squareInactive rect {
+    fill: var(--color-gray);
+    stroke: var(--color-gray);
+    stroke-width: var(--size-stroke);
+    transition: fill 0.2s ease, stroke 0.2s ease;
+}
+
+.squareInactive:hover rect {
+    fill: var(--color-white);
+    stroke: var(--color-white);
+}
+
+/* Container hover effect for inactive squares */
+.squareInactive:hover {
+    background-color: var(--color-dark-gray);
+}
+
+/* State-specific styles */
+.squareDisabled {
+    cursor: not-allowed;
+    user-select: none;
+}
+
+.squareDisabled rect {
+    fill: var(--color-dark-gray);
+    stroke: var(--color-gray);
+    stroke-width: var(--size-stroke);
+}

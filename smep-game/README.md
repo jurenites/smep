@@ -107,16 +107,20 @@ src/
 ├── engine/           # GPU simulation layer
 ├── lib/             # Game logic and state
 ├── ui/
-│   ├── primitives/  # SVG/Canvas components
+│   ├── components/  # SVG/Canvas components
 │   ├── screens/     # React screens
 │   ├── tokens/      # Design tokens
 │   └── debug/       # Debug components
-└── storybook/       # Component stories
+└── stories/         # Component stories (organized by category)
+    ├── Primitives/  # Basic UI primitives (UIRuler, etc.)
+    ├── Cards/       # Card components (UICardSmall, etc.)
+    ├── Paginators/  # Pagination components (UIPaginationMini, etc.)
+    └── PlaygroundContentTemplate/  # Playground-related components
 ```
 
 ### Adding New Components
-1. Create component in `src/ui/primitives/`
-2. Add Storybook story in `src/storybook/`
+1. Create component in `src/ui/components/`
+2. Add Storybook story in `src/stories/`
 3. Use design tokens from `src/ui/tokens/tokens.ts`
 4. Follow naming conventions from cookbook
 
