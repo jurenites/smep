@@ -18,8 +18,12 @@ interface FontProviderProps {
 export function FontProvider({ children }: FontProviderProps) {
     const fontLoader = useFontLoader(FONT_CONFIGS);
 
+    // Debug font loading status
+    console.log('FontProvider: Font statuses:', fontLoader.fontStatuses);
+    console.log('FontProvider: All fonts loaded:', fontLoader.allFontsLoaded);
+
     return (
-        <FontContext.Provider value={fontLoader}>
+        <FontContext.Provider value={fontLoader} data-testid="fontprovider">
             {children}
         </FontContext.Provider>
     );

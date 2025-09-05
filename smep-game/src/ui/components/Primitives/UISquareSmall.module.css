@@ -83,7 +83,8 @@
 
 /* State-specific styles */
 .squareDisabled {
-    cursor: not-allowed;
+    cursor: default;
+    /*not-allowed;*/
     user-select: none;
 }
 

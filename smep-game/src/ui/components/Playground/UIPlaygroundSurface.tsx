@@ -38,6 +38,7 @@ export function UIPlaygroundSurface({
             onMouseMove={onMouseMove}
             onMouseDown={onMouseDown}
             onMouseUp={onMouseUp}
+            data-testid="uiplaygroundsurface"
         >
             {/* Playground circle */}
             <svg

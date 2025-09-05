@@ -11,6 +11,7 @@ interface UIPaginationMiniProps {
     state?: PaginationState; // New state property
     clickable?: ClickableState; // New clickable property using enum
     active?: 'clickable' | 'only view'; // New property to control display mode
+    elementStates?: UISquareState[]; // Optional array to override individual element states
 }
 
 // Main paginator component that contains multiple squares
@@ -20,7 +21,8 @@ export function UIPaginationMini({
     onPageChange,
     state = PaginationState.ACTIVE, // Default to active state
     clickable = ClickableState.ENABLED, // Default to enabled
-    active = 'clickable' // Default to clickable mode
+    active = 'clickable', // Default to clickable mode
+    elementStates // Optional array to override individual element states
 }: UIPaginationMiniProps) {
     const sizes = TOKENS.sizes;
     const items = Array.from({ length: count });
@@ -32,7 +34,7 @@ export function UIPaginationMini({
     const gap = active === 'clickable' ? 0 : sizes.MINI_PAGINATOR_GAP;
 
     return (
-        <div style={{ display: 'flex', gap }}>
+        <div style={{ display: 'flex', gap }} data-testid="uipaginationmini">
             {items.map((_, i) => {
                 const pageNumber = i + 1; // Convert 0-based index to 1-based page number
                 const currentActiveIndex = activeIndex || 1; // Ensure we have a valid active index
@@ -40,6 +42,12 @@ export function UIPaginationMini({
 
                 // Map pagination state to square state
                 const getSquareState = (): UISquareState => {
+                    // Check if we have an override state for this specific element
+                    if (elementStates && elementStates[i] !== undefined) {
+                        return elementStates[i];
+                    }
+
+                    // Fall back to default state logic
                     if (state === PaginationState.DISABLED) return UISquareState.DISABLED;
                     if (state === PaginationState.UNAVAILABLE) return UISquareState.DISABLED;
 

@@ -82,7 +82,7 @@ export function UIRectangleMid({
         <div
             className={getItemClassName()}
             data-active={isClickable ? "clickable" : "static"}
-            data-testid={dataTestId}
+            data-testid={dataTestId || "uirectanglemid"}
             onClick={onClick}
         >
             <svg

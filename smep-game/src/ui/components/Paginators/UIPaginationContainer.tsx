@@ -74,7 +74,7 @@ export function UIPaginationContainer({
     const clickableState = context.state !== PaginationState.DISABLED ? ClickableState.ENABLED : ClickableState.DISABLED;
 
     return (
-        <div className={className}>
+        <div className={className} data-testid="uipaginationcontainer">
             <UIPaginationMini
                 count={context.totalPages}
                 activeIndex={context.currentPageIndex}

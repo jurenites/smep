@@ -26,6 +26,7 @@ export function UICardSmall({
                 preserveAspectRatio="xMidYMid meet"
                 onClick={onClick}
                 className={onClick ? styles.card : styles.card_default}
+                data-testid="uicardsmall"
             >
                 <rect
                     width={s.MINI_CARD}
@@ -45,6 +46,7 @@ export function UICardSmall({
             preserveAspectRatio="xMidYMid meet"
             onClick={onClick}
             className={onClick ? styles.card : styles.card_default}
+            data-testid="uicardsmall"
         >
             <rect
                 width={s.MINI_CARD}

@@ -1,6 +1,36 @@
+@font-face {
+    font-family: '4pixel';
+    src: url('/assets/fonts/4pixel.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 .text {
     user-select: none;
-    font-family: var(--font-digit-small), monospace;
+    font-family: '4pixel', var(--font-digit-small), monospace;
+    font-size: var(--font-digit-small-size);
+    font-weight: normal;
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.label {
+    user-select: none;
+    font-family: '4pixel', var(--font-digit-small), monospace;
+    font-size: var(--font-digit-small-size);
+    font-weight: normal;
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.scaleText {
+    user-select: none;
+    font-family: '4pixel', var(--font-digit-small), monospace;
     font-size: var(--font-digit-small-size);
     font-weight: normal;
     font-style: normal;

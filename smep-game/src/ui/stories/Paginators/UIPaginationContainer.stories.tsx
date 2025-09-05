@@ -53,42 +53,11 @@ const samplePages = [
 
 export const Default: Story = {
     args: {
-        contextId: 'storybook-pagination',
-        pages: samplePages,
-        initialState: PaginationState.ACTIVE,
-        active: 'clickable',
-    },
-    argTypes: {
-        initialState: {
-            control: 'select',
-            options: Object.values(PaginationState),
-            description: 'Initial state of the pagination',
-        },
-    },
-};
-
-export const Disabled: Story = {
-    args: {
-        contextId: 'storybook-pagination-disabled',
-        pages: samplePages,
-        initialState: PaginationState.DISABLED,
-        active: 'clickable',
-    },
-    argTypes: {
-        initialState: {
-            control: 'select',
-            options: Object.values(PaginationState),
-            description: 'Initial state of the pagination',
-        },
-    },
-};
-
-export const WithEventHandlers: Story = {
-    args: {
         contextId: 'storybook-pagination-events',
         pages: samplePages,
         initialState: PaginationState.ACTIVE,
         active: 'clickable',
+        className: 'custom-pagination',
         onPageChange: (pageIndex, event) => {
             console.log('Page changed to:', pageIndex, event);
         },
@@ -97,66 +66,6 @@ export const WithEventHandlers: Story = {
         },
         onPaginationReady: (event) => {
             console.log('Pagination ready:', event);
-        },
-    },
-};
-
-export const CustomStyling: Story = {
-    args: {
-        contextId: 'storybook-pagination-styled',
-        pages: samplePages,
-        initialState: PaginationState.ACTIVE,
-        active: 'clickable',
-        className: 'custom-pagination',
-    },
-    parameters: {
-        docs: {
-            description: {
-                story: 'Pagination container with custom CSS class for styling.',
-            },
-        },
-    },
-};
-
-export const RobustPagination: Story = {
-    args: {
-        contextId: 'storybook-pagination-robust',
-        pages: [
-            { id: 'page-1', title: 'Quantum', state: PaginationState.UNAVAILABLE },
-            { id: 'page-2', title: 'Nuclear', state: PaginationState.DISABLED },
-            { id: 'page-3', title: 'Atomic', state: PaginationState.ACTIVE },
-            { id: 'page-4', title: 'Molecular', state: PaginationState.INACTIVE },
-            { id: 'page-5', title: 'Astronomical', state: PaginationState.DISABLED },
-        ],
-        initialState: PaginationState.ACTIVE,
-        active: 'clickable',
-        onPageChange: (pageIndex, event) => {
-            console.log('Page changed to:', pageIndex, event);
-        },
-    },
-    parameters: {
-        docs: {
-            description: {
-                story: 'Demonstrates robust pagination that ensures there\'s always an active page, even when some pages are unavailable or disabled.',
-            },
-        },
-    },
-};
-
-export const ConfigurableStates: Story = {
-    args: {
-        contextId: 'storybook-pagination-configurable',
-        pages: [
-            { id: 'page-1', title: 'Quantum', state: PaginationState.ACTIVE },
-            { id: 'page-2', title: 'Nuclear', state: PaginationState.ACTIVE },
-            { id: 'page-3', title: 'Atomic', state: PaginationState.ACTIVE },
-            { id: 'page-4', title: 'Molecular', state: PaginationState.ACTIVE },
-            { id: 'page-5', title: 'Astronomical', state: PaginationState.ACTIVE },
-        ],
-        initialState: PaginationState.ACTIVE,
-        active: 'clickable',
-        onPageChange: (pageIndex, event) => {
-            console.log('Page changed to:', pageIndex, event);
         },
     },
     argTypes: {
@@ -170,30 +79,6 @@ export const ConfigurableStates: Story = {
         docs: {
             description: {
                 story: 'Interactive story where you can change the pagination state using the dropdown control. Try different states to see how the component behaves.',
-            },
-        },
-    },
-};
-
-export const SimpleTest: Story = {
-    args: {
-        contextId: 'storybook-pagination-simple-test',
-        pages: [
-            { id: 'page-1', title: 'Page 1', state: PaginationState.ACTIVE },
-            { id: 'page-2', title: 'Page 2', state: PaginationState.ACTIVE },
-            { id: 'page-3', title: 'Page 3', state: PaginationState.ACTIVE },
-        ],
-        initialState: PaginationState.ACTIVE,
-        active: 'clickable',
-        onPageChange: (pageIndex, event) => {
-            console.log('Simple Test: Page changed to:', pageIndex);
-            console.log('Event details:', event);
-        },
-    },
-    parameters: {
-        docs: {
-            description: {
-                story: 'Simple 3-page pagination test. Click on any square to see the active state change. The clicked square should become white (active) and the previously active square should become gray (inactive).',
             },
         },
     },

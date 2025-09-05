@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { UIPaginationMini } from '../../components/Paginators/UIPaginationMini';
-import { PaginationState, ClickableState } from '../../../lib/types';
+import { UISquareState } from '../../../lib/types';
 
 const meta: Meta<typeof UIPaginationMini> = {
     title: 'UI/UIPaginationMini',
@@ -23,14 +23,13 @@ const meta: Meta<typeof UIPaginationMini> = {
             options: ['clickable', 'only view'],
             description: 'Display mode - clickable (0px gap) or only view (2px gap)',
         },
-        clickable: {
-            control: 'select',
-            options: Object.values(ClickableState),
-            description: 'Whether the pagination is clickable or not',
-        },
         onPageChange: {
             action: 'pageChanged',
             description: 'Callback when page is changed (returns 1-based page number)',
+        },
+        elementStates: {
+            control: 'object',
+            description: 'Array to override individual element states (optional)',
         },
     },
 };
@@ -43,6 +42,19 @@ export const Default: Story = {
         count: 5,
         activeIndex: 1,
         active: 'clickable',
-        clickable: ClickableState.ENABLED,
+        elementStates: [
+            UISquareState.ACTIVE,    // First element - Active
+            UISquareState.INACTIVE,  // Second element - Inactive
+            UISquareState.INACTIVE,  // Third element - Inactive
+            UISquareState.INACTIVE,  // Fourth element - Inactive
+            UISquareState.DISABLED,  // Fifth element - Disabled
+        ],
+    },
+    parameters: {
+        docs: {
+            description: {
+                story: '5-element pagination with the fifth element set to DISABLED state. The first element is active, middle elements are inactive, and the last element is disabled.',
+            },
+        },
     },
 };

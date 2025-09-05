@@ -62,7 +62,7 @@ export function UISquareSmall({
     };
 
     return (
-        <div className={styles.container} data-active={active}>
+        <div className={styles.container} data-active={active} data-testid="uisquaresmall">
             <svg
                 width={svgSize}
                 height={svgSize}

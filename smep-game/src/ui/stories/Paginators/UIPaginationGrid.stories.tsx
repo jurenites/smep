@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { UIPaginationGrid } from '../../components/Paginators/UIPaginationGrid';
-import { PaginationState, ClickableState } from '../../../lib/types';
-import { gridPaginationService } from '../../../lib/grid-pagination-service';
+import { ClickableState } from '../../../lib/types';
+import { gridPaginationService, PaginationState } from '../../../lib/grid-pagination-service';
 
 const meta: Meta<typeof UIPaginationGrid> = {
     title: 'UI/UIPaginationGrid',

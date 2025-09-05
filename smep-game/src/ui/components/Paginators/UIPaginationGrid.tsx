@@ -85,7 +85,7 @@ export function UIPaginationGrid({
     const gap = active === 'clickable' ? 0 : sizes.MINI_PAGINATOR_GAP;
 
     return (
-        <div className={styles.gridContainer}>
+        <div className={styles.gridContainer} data-testid="uipaginationgrid">
             {grid.map((row, y) => (
                 <div key={y} className={styles.gridRow} style={{ gap }}>
                     {row.map((page, x) => (

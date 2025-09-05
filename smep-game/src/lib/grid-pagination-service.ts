@@ -6,6 +6,9 @@ import type {
     PaginationState
 } from './types';
 
+// Re-export PaginationState for external use
+export { PaginationState } from './types';
+
 // Grid Pagination Service - Manages 2D grid pagination contexts and events
 class GridPaginationService {
     private contexts: Map<string, GridPaginationContext> = new Map();

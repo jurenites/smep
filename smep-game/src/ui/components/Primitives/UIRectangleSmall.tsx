@@ -50,6 +50,7 @@ export function UIRectangleSmall({ state, onClick }: UIRectangleSmallProps) {
             className={getItemClassName()}
             data-active="clickable"
             onClick={onClick}
+            data-testid="uirectanglesmall"
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
