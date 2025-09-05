@@ -14,25 +14,25 @@ export function UICardSmall({
     state = UICardState.NORMAL,
     onClick
 }: UICardSmallProps) {
-    const s = TOKENS.sizes;
-    const c = TOKENS.colors;
+    const sizes = TOKENS.sizes;
+    const colors = TOKENS.colors;
 
     if (state === UICardState.LOADING) {
         return (
             <svg
-                width={s.MINI_CARD}
-                height={s.MINI_CARD}
-                viewBox={`0 0 ${s.MINI_CARD} ${s.MINI_CARD}`}
+                width={sizes.MINI_CARD}
+                height={sizes.MINI_CARD}
+                viewBox={`0 0 ${sizes.MINI_CARD} ${sizes.MINI_CARD}`}
                 preserveAspectRatio="xMidYMid meet"
                 onClick={onClick}
-                className={onClick ? styles.card : styles.card_default}
+                className={onClick ? stylesizes.card : stylesizes.card_default}
                 data-testid="uicardsmall"
             >
                 <rect
-                    width={s.MINI_CARD}
-                    height={s.MINI_CARD}
-                    fill={c.darkgray}
-                    strokeWidth={s.STROKE}
+                    width={sizes.MINI_CARD}
+                    height={sizes.MINI_CARD}
+                    fill={colors.darkgray}
+                    strokeWidth={sizes.STROKE}
                 />
             </svg>
         );
@@ -40,29 +40,29 @@ export function UICardSmall({
 
     return (
         <svg
-            width={s.MINI_CARD}
-            height={s.MINI_CARD}
-            viewBox={`0 0 ${s.MINI_CARD} ${s.MINI_CARD}`}
+            width={sizes.MINI_CARD}
+            height={sizes.MINI_CARD}
+            viewBox={`0 0 ${sizes.MINI_CARD} ${sizes.MINI_CARD}`}
             preserveAspectRatio="xMidYMid meet"
             onClick={onClick}
-            className={onClick ? styles.card : styles.card_default}
+            className={onClick ? stylesizes.card : stylesizes.card_default}
             data-testid="uicardsmall"
         >
             <rect
-                width={s.MINI_CARD}
-                height={s.MINI_CARD}
-                fill={c.black}
-                stroke={state === UICardState.SELECTED ? c.yolk : c.white}
-                strokeWidth={s.STROKE}
+                width={sizes.MINI_CARD}
+                height={sizes.MINI_CARD}
+                fill={colors.black}
+                stroke={state === UICardState.SELECTED ? colors.yolk : colors.white}
+                strokeWidth={sizes.STROKE}
             />
             <text
-                x={s.MINI_CARD / 2}
-                y={s.MINI_CARD / 2 + 4}
+                x={sizes.MINI_CARD / 2}
+                y={sizes.MINI_CARD / 2 + 4}
                 textAnchor="middle"
-                fill={c.white}
+                fill={colors.white}
                 fontSize={TOKENS.typography.body.fontSize}
                 fontFamily={TOKENS.typography.body.fontFamily}
-                className={styles.text}
+                className={stylesizes.text}
             >
                 {symbol}
             </text>

@@ -38,3 +38,15 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+.textWhite {
+    fill: var(--color-white);
+}
+
+.textGray {
+    fill: var(--color-gray);
+}
+
+.scaleTextGray {
+    fill: var(--color-gray);
+}

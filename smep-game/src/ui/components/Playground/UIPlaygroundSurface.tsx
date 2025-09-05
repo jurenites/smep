@@ -18,13 +18,13 @@ export function UIPlaygroundSurface({
     onMouseDown,
     onMouseUp
 }: UIPlaygroundSurfaceProps) {
-    const c = TOKENS.colors;
-    const s = TOKENS.sizes;
+    const colors = TOKENS.colors;
+    const sizes = TOKENS.sizes;
 
     // Calculate playground circle (centered)
     const centerX = width / 2;
     const centerY = height / 2;
-    const radius = Math.min(width, height) / 2 - s.HUD_PADDING; // 20px margin
+    const radius = Math.min(width, height) / 2 - sizes.HUD_PADDING; // 20px margin
 
     return (
         <div
@@ -32,7 +32,7 @@ export function UIPlaygroundSurface({
                 position: 'relative',
                 width,
                 height,
-                background: `radial-gradient(circle at top left, ${c.darkgray} 0%, ${c.black} 100%)`,
+                background: `radial-gradient(circle at top left, ${colors.darkgray} 0%, ${colors.black} 100%)`,
                 overflow: 'hidden',
             }}
             onMouseMove={onMouseMove}
@@ -58,15 +58,15 @@ export function UIPlaygroundSurface({
                     cx={centerX}
                     cy={centerY}
                     r={radius}
-                    fill={c.black}
-                    stroke={c.white}
-                    strokeWidth={s.STROKE}
+                    fill={colors.black}
+                    stroke={colors.white}
+                    strokeWidth={sizes.STROKE}
                 />
 
                 {/* Bottom blur effect */}
                 <defs>
                     <filter id="blur">
-                        <feGaussianBlur stdDeviation={s.BLUR_PLAYGROUND} />
+                        <feGaussianBlur stdDeviation={sizes.BLUR_PLAYGROUND} />
                     </filter>
                 </defs>
 
@@ -75,7 +75,7 @@ export function UIPlaygroundSurface({
                     cx={centerX}
                     cy={centerY + radius / 2}
                     r={radius / 2}
-                    fill={c.white}
+                    fill={colors.white}
                     opacity={0.1}
                     filter="url(#blur)"
                 />
