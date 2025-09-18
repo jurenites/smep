@@ -67,63 +67,76 @@ const createPeriodicTableContext = (viewMode: 'long' | 'short' = 'long') => {
         elements = [
             // S-block elements (first column, rows 0-6)
             ...S_BLOCK_ELEMENTS,
-            
+
             // F-block elements (second column, rows 7-8) - lanthanides and actinides
+            // Lanthanides (atomic numbers 57-71) in row 7, column 1
             ...F_BLOCK_ELEMENTS.filter(el => el.period === 6).map((el, index) => ({
                 ...el,
-                position: { x: 1, y: 7 } // Lanthanides in row 7, column 1
+                position: { x: 1, y: 7 }
             })),
+            // Actinides (atomic numbers 89-103) in row 8, column 1
             ...F_BLOCK_ELEMENTS.filter(el => el.period === 7).map((el, index) => ({
                 ...el,
-                position: { x: 1, y: 8 } // Actinides in row 8, column 1
+                position: { x: 1, y: 8 }
             })),
-            
+
             // D-block elements (third column, rows 3-6) - transition metals
+            // Period 4 D-block (Sc-Zn, atomic numbers 21-30)
             ...D_BLOCK_ELEMENTS.filter(el => el.period === 4).map((el, index) => ({
                 ...el,
-                position: { x: 2, y: 3 } // Period 4 D-block in row 3, column 2
+                position: { x: 2, y: 3 }
             })),
+            // Period 5 D-block (Y-Cd, atomic numbers 39-48)
             ...D_BLOCK_ELEMENTS.filter(el => el.period === 5).map((el, index) => ({
                 ...el,
-                position: { x: 2, y: 4 } // Period 5 D-block in row 4, column 2
+                position: { x: 2, y: 4 }
             })),
+            // Period 6 D-block (Hf-Hg, atomic numbers 72-80) - connected to F-block at La (57)
             ...D_BLOCK_ELEMENTS.filter(el => el.period === 6).map((el, index) => ({
                 ...el,
-                position: { x: 2, y: 5 } // Period 6 D-block in row 5, column 2
+                position: { x: 2, y: 5 }
             })),
+            // Period 7 D-block (Rf-Cn, atomic numbers 104-112) - connected to F-block at Ac (89)
             ...D_BLOCK_ELEMENTS.filter(el => el.period === 7).map((el, index) => ({
                 ...el,
-                position: { x: 2, y: 6 } // Period 7 D-block in row 6, column 2
+                position: { x: 2, y: 6 }
             })),
-            
+
             // P-block elements (fourth column, rows 0-6) - main group elements
+            // Period 1 P-block (He, atomic number 2)
             ...P_BLOCK_ELEMENTS.filter(el => el.period === 1).map((el, index) => ({
                 ...el,
-                position: { x: 3, y: 0 } // Period 1 P-block in row 0, column 3
+                position: { x: 3, y: 0 }
             })),
+            // Period 2 P-block (B-Ne, atomic numbers 5-10)
             ...P_BLOCK_ELEMENTS.filter(el => el.period === 2).map((el, index) => ({
                 ...el,
-                position: { x: 3, y: 1 } // Period 2 P-block in row 1, column 3
+                position: { x: 3, y: 1 }
             })),
+            // Period 3 P-block (Al-Ar, atomic numbers 13-18)
             ...P_BLOCK_ELEMENTS.filter(el => el.period === 3).map((el, index) => ({
                 ...el,
-                position: { x: 3, y: 2 } // Period 3 P-block in row 2, column 3
+                position: { x: 3, y: 2 }
             })),
+            // Period 4 P-block (Ga-Kr, atomic numbers 31-36)
             ...P_BLOCK_ELEMENTS.filter(el => el.period === 4).map((el, index) => ({
                 ...el,
-                position: { x: 3, y: 3 } // Period 4 P-block in row 3, column 3
+                position: { x: 3, y: 3 }
             })),
+            // Period 5 P-block (In-Xe, atomic numbers 49-54)
             ...P_BLOCK_ELEMENTS.filter(el => el.period === 5).map((el, index) => ({
                 ...el,
-                position: { x: 3, y: 4 } // Period 5 P-block in row 4, column 3
+                position: { x: 3, y: 4 }
             })),
+            // Period 6 P-block (Tl-Rn, atomic numbers 81-86)
             ...P_BLOCK_ELEMENTS.filter(el => el.period === 6).map((el, index) => ({
                 ...el,
-                position: { x: 3, y: 5 } // Period 6 P-block in row 5, column 3
+                position: { x: 3, y: 5 }
             })),
+            // Period 7 P-block (Nh-Og, atomic numbers 113-118)
             ...P_BLOCK_ELEMENTS.filter(el => el.period === 7).map((el, index) => ({
                 ...el,
-                position: { x: 3, y: 6 } // Period 7 P-block in row 6, column 3
+                position: { x: 3, y: 6 }
             }))
         ];
         dimensions = { width: 4, height: 9 };
