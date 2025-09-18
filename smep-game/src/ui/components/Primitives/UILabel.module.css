@@ -1,0 +1,125 @@
+/* UILabel Component Styles */
+
+@font-face {
+    font-family: '4pixel';
+    src: url('/assets/fonts/4pixel.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+.label {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Font Variants */
+.fontTitle {
+    font-family: var(--font-title);
+    font-size: var(--font-title-size);
+}
+
+.fontBody {
+    font-family: var(--font-body);
+    font-size: var(--font-body-size);
+}
+
+.fontDigitBig {
+    font-family: var(--font-digit-big);
+    font-size: var(--font-digit-big-size);
+}
+
+.fontDigitSmall {
+    font-family: var(--font-digit-small);
+    font-size: var(--font-digit-small-size);
+}
+
+.fontCode {
+    font-family: var(--font-code);
+    font-size: var(--font-code-size);
+}
+
+/* Color Variants */
+.colorPrimary {
+    color: var(--color-text-primary, var(--color-white));
+}
+
+.colorSecondary {
+    color: var(--color-text-secondary, var(--color-gray));
+}
+
+.colorAccent {
+    color: var(--color-yolk);
+}
+
+.colorWhite {
+    color: var(--color-white);
+}
+
+.colorBlack {
+    color: var(--color-black);
+}
+
+/* Text Alignment */
+.alignLeft {
+    text-align: left;
+}
+
+.alignCenter {
+    text-align: center;
+}
+
+.alignRight {
+    text-align: right;
+}
+
+/* Interactive State */
+.interactive {
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.interactive:hover {
+    opacity: 0.8;
+    transform: translateY(-1px);
+}
+
+.interactive:active {
+    transform: translateY(0);
+    opacity: 0.9;
+}
+
+.interactive:focus-visible {
+    outline: var(--size-stroke) solid var(--color-yolk);
+    outline-offset: var(--size-outline-offset);
+    border-radius: var(--size-radius-small);
+}
+
+/* Accessibility */
+.interactive:focus-visible {
+    outline: var(--size-stroke) solid var(--color-yolk);
+    outline-offset: var(--size-outline-offset);
+    border-radius: var(--size-radius-small);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .interactive {
+        transition: none;
+    }
+
+    .interactive:hover {
+        transform: none;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .label {
+        text-shadow: 0 0 1px currentColor;
+    }
+}
