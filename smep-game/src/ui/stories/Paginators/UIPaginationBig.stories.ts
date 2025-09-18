@@ -3,7 +3,7 @@ import { UIPaginationBig } from '../../components/Paginators/UIPaginationBig';
 import { PaginationState, ClickableState, UISquareState } from '../../../lib/types';
 
 const meta: Meta<typeof UIPaginationBig> = {
-    title: 'UI/UIPaginationBig',
+    title: 'UI/Pagination/UIPaginationBig',
     component: UIPaginationBig,
     parameters: {
         layout: 'centered',

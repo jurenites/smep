@@ -5,7 +5,7 @@ import type {
     GridPosition,
     GridPage
 } from '../../../lib/types';
-import { PaginationState, UISquareState, ClickableState } from '../../../lib/types';
+import { PaginationState, UISquareState } from '../../../lib/types';
 import { UISquareSmall } from '../Primitives/UISquareSmall';
 import styles from './UIPaginationGrid.module.css';
 
@@ -13,15 +13,13 @@ interface UIPaginationGridProps {
     context: GridPaginationContext;
     onPageChange?: (position: GridPosition, event: any) => void;
     active?: 'clickable' | 'only view';
-    clickable?: ClickableState;
 }
 
 export function UIPaginationGrid({
     context,
     onPageChange,
-    active = 'only view', // Default to read-only for table view
-    clickable = ClickableState.DISABLED // Default to disabled for table view
-}: UIGridPaginationProps) {
+    active = 'only view' // Default to read-only for table view
+}: UIPaginationGridProps) {
     const sizes = TOKENS.sizes;
     const { pages, gridDimensions, currentPosition, navigationRules } = context;
 
@@ -52,7 +50,7 @@ export function UIPaginationGrid({
     // Determine if a square is clickable
     const isSquareClickable = (page: GridPage | null) => {
         if (!page) return false;
-        if (clickable !== ClickableState.ENABLED) return false;
+        if (active !== 'clickable') return false;
         if (!onPageChange) return false;
         if (page.state === PaginationState.DISABLED || page.state === PaginationState.UNAVAILABLE) return false;
         return true;
@@ -81,27 +79,52 @@ export function UIPaginationGrid({
         }
     };
 
-    // Calculate gap based on active mode
-    const gap = active === 'clickable' ? 0 : sizes.MINI_PAGINATOR_GAP;
-
     return (
         <div className={styles.gridContainer} data-testid="uipaginationgrid">
             {grid.map((row, y) => (
-                <div key={y} className={styles.gridRow} style={{ gap }}>
-                    {row.map((page, x) => (
-                        <div key={`${x}-${y}`} className={styles.gridCell}>
-                            {page ? (
-                                <UISquareSmall
-                                    state={getSquareState(page)}
-                                    active={active}
-                                    onClick={() => handleSquareClick(page)}
-                                />
-                            ) : (
-                                // Empty space for gaps in the layout (like periodic table)
-                                <div className={styles.emptySpace} />
-                            )}
-                        </div>
-                    ))}
+                <div
+                    key={y}
+                    className={`${styles.gridRow} ${active === 'clickable' ? styles.gridRowClickable : styles.gridRowViewOnly}`}
+                >
+                    {row.map((page, x) => {
+                        // Generate additional CSS classes for element information
+                        const elementInfo = page ? {
+                            shellGroup: page.metadata?.electronShellGroup || 'unknown',
+                            coordinates: `x${x}y${y}`,
+                            atomicNumber: page.metadata?.atomicNumber || 'unknown'
+                        } : null;
+
+                        const additionalClasses = elementInfo
+                            ? `atomic-${elementInfo.atomicNumber}`
+                            : 'empty-cell';
+
+                        return (
+                            <div
+                                key={`${x}-${y}`}
+                                className={`${styles.gridCell} ${additionalClasses}`}
+                                data-shell-group={elementInfo?.shellGroup}
+                                data-coordinates={elementInfo?.coordinates}
+                                data-atomic-number={elementInfo?.atomicNumber}
+                            >
+                                {page ? (
+                                    <UISquareSmall
+                                        state={getSquareState(page)}
+                                        active={active}
+                                        onClick={() => handleSquareClick(page)}
+                                    />
+                                ) : (
+                                    // Empty space for gaps in the layout (like periodic table)
+                                    <div
+                                        className={styles.emptySpace}
+                                        style={{
+                                            width: active === 'clickable' ? sizes.MINI_CARD : sizes.MINI_PAGINATOR,
+                                            height: active === 'clickable' ? sizes.MINI_CARD : sizes.MINI_PAGINATOR
+                                        }}
+                                    />
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
             ))}
         </div>

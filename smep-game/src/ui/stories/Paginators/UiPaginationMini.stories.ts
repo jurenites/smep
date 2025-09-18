@@ -3,7 +3,7 @@ import { UIPaginationMini } from '../../components/Paginators/UIPaginationMini';
 import { UISquareState } from '../../../lib/types';
 
 const meta: Meta<typeof UIPaginationMini> = {
-    title: 'UI/UIPaginationMini',
+    title: 'UI/Pagination/UIPaginationMini',
     component: UIPaginationMini,
     parameters: {
         layout: 'centered',

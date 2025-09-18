@@ -25,7 +25,7 @@ export function UICardSmall({
                 viewBox={`0 0 ${sizes.MINI_CARD} ${sizes.MINI_CARD}`}
                 preserveAspectRatio="xMidYMid meet"
                 onClick={onClick}
-                className={onClick ? stylesizes.card : stylesizes.card_default}
+                className={onClick ? styles.card : styles.card_default}
                 data-testid="uicardsmall"
             >
                 <rect
@@ -45,7 +45,7 @@ export function UICardSmall({
             viewBox={`0 0 ${sizes.MINI_CARD} ${sizes.MINI_CARD}`}
             preserveAspectRatio="xMidYMid meet"
             onClick={onClick}
-            className={onClick ? stylesizes.card : stylesizes.card_default}
+            className={onClick ? styles.card : styles.card_default}
             data-testid="uicardsmall"
         >
             <rect
@@ -62,7 +62,7 @@ export function UICardSmall({
                 fill={colors.white}
                 fontSize={TOKENS.typography.body.fontSize}
                 fontFamily={TOKENS.typography.body.fontFamily}
-                className={stylesizes.text}
+                className={styles.text}
             >
                 {symbol}
             </text>

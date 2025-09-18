@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { UIPaginationMini } from './UIPaginationMini';
 import { paginationService } from '../../../lib/pagination-service';
-import { PaginationContext, PaginationEvent, PaginationListener, PaginationState, ClickableState } from '../../../lib/types';
+import type { PaginationContext, PaginationEvent, PaginationListener } from '../../../lib/types';
+import { PaginationState, ClickableState } from '../../../lib/types';
 
 interface UIPaginationContainerProps {
     contextId: string;
     pages: Array<{
         id: string;
+        index: number;
         title: string;
         state: PaginationState; // Replace isAvailable with state
     }>;
@@ -32,7 +34,7 @@ export function UIPaginationContainer({
     const [isReady, setIsReady] = useState(false);
 
     // Create pagination listener
-    const paginationListener: PaginationListener = useCallback({
+    const paginationListener: PaginationListener = {
         onPageChange: (event: PaginationEvent) => {
             setContext(paginationService.getContext(contextId));
             onPageChange?.(event.pageIndex, event);
@@ -44,18 +46,24 @@ export function UIPaginationContainer({
             setIsReady(true);
             onPaginationReady?.(event);
         },
-    }, [contextId, onPageChange, onPageLoad, onPaginationReady]);
+    };
 
     // Initialize pagination context
     useEffect(() => {
+        // Register listener first, before creating context
+        paginationService.addListener(contextId, paginationListener);
+
         const paginationContext = paginationService.createContext(contextId, pages, initialState);
         setContext(paginationContext);
 
-        // Register listener
-        paginationService.addListener(contextId, paginationListener);
+        // Fallback: if ready event is missed, set ready after a short delay
+        const fallbackTimer = setTimeout(() => {
+            setIsReady(true);
+        }, 100);
 
         // Cleanup on unmount
         return () => {
+            clearTimeout(fallbackTimer);
             paginationService.removeListener(contextId, paginationListener);
         };
     }, [contextId, pages, initialState, paginationListener]);

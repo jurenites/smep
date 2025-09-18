@@ -2,9 +2,9 @@ import type {
     GridPaginationContext,
     GridPaginationEvent,
     GridPosition,
-    GridPage,
-    PaginationState
+    GridPage
 } from './types';
+import { PaginationState } from './types';
 
 // Re-export PaginationState for external use
 export { PaginationState } from './types';

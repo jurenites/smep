@@ -14,7 +14,7 @@ export const FONT_CONFIGS: FontConfig[] = [
         format: 'truetype',
         weight: 'normal',
         style: 'normal'
-    },
+    }/*,
     {
         name: 'Sulphur Point',
         url: '/assets/fonts/SulphurPoint-Light.ttf',
@@ -28,7 +28,7 @@ export const FONT_CONFIGS: FontConfig[] = [
         format: 'truetype',
         weight: '200',
         style: 'normal'
-    }
+    } ? */
 ];
 
 // Font family presets for common use cases

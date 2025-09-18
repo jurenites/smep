@@ -3,7 +3,7 @@ import { UIPaginationContainer } from '../../components/Paginators/UIPaginationC
 import { PaginationState } from '../../../lib/types';
 
 const meta: Meta<typeof UIPaginationContainer> = {
-    title: 'UI/UIPaginationContainer',
+    title: 'UI/Pagination/UIPaginationContainer',
     component: UIPaginationContainer,
     parameters: {
         layout: 'centered',
@@ -44,11 +44,11 @@ type Story = StoryObj<typeof meta>;
 
 // Sample pages for stories
 const samplePages = [
-    { id: 'page-1', title: 'Quantum', state: PaginationState.ACTIVE },
-    { id: 'page-2', title: 'Nuclear', state: PaginationState.ACTIVE },
-    { id: 'page-3', title: 'Atomic', state: PaginationState.ACTIVE },
-    { id: 'page-4', title: 'Molecular', state: PaginationState.UNAVAILABLE },
-    { id: 'page-5', title: 'Astronomical', state: PaginationState.DISABLED },
+    { id: 'page-1', index: 1, title: 'Quantum', state: PaginationState.ACTIVE },
+    { id: 'page-2', index: 2, title: 'Nuclear', state: PaginationState.ACTIVE },
+    { id: 'page-3', index: 3, title: 'Atomic', state: PaginationState.ACTIVE },
+    { id: 'page-4', index: 4, title: 'Molecular', state: PaginationState.UNAVAILABLE },
+    { id: 'page-5', index: 5, title: 'Astronomical', state: PaginationState.DISABLED },
 ];
 
 export const Default: Story = {

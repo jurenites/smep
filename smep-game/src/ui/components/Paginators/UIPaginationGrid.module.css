@@ -9,8 +9,17 @@
 /* Grid row */
 .gridRow {
     display: flex;
-    gap: 2px;
     align-items: flex-start;
+}
+
+/* Grid row for clickable mode (no gap) */
+.gridRowClickable {
+    gap: 0;
+}
+
+/* Grid row for view-only mode (with gap) */
+.gridRowViewOnly {
+    gap: 2px;
 }
 
 /* Grid cell */
@@ -22,8 +31,6 @@
 
 /* Empty space for gaps in layouts (like periodic table) */
 .emptySpace {
-    width: 31px;
-    /* Same as mini-card size */
-    height: 31px;
+    /* Size is now controlled by inline styles based on active mode */
     /* Transparent - no visual element */
 }

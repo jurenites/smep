@@ -1,5 +1,16 @@
 /* Storybook-specific CSS overrides */
 
+/* Import tokens for CSS variables */
+@import '../src/ui/tokens/tokens.css';
+
+/* Font overrides for Storybook documentation */
+.sbdocs-title,
+h1.sbdocs-title,
+.sbdocs-title.sb-unstyled {
+    font-family: 'Roundabout-Regular', Urbanist, sans-serif !important;
+    font-size: 16px !important;
+}
+
 /* Allow scrolling in Storybook iframes */
 html,
 body {
@@ -61,4 +72,23 @@ iframe[id*="storybook-preview"] {
     height: auto !important;
     min-height: 100vh;
     max-height: none !important;
+}
+
+/* Global font overrides - most aggressive approach */
+* {
+    font-family: 'Roundabout-Regular', Sulphur Point, sans-serif !important;
+}
+
+/* Specific overrides for titles */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.sbdocs-title,
+h1.sbdocs-title,
+.sbdocs-title.sb-unstyled {
+    font-family: 'Roundabout-Regular', Urbanist, sans-serif !important;
+    font-size: 32px !important;
 }
