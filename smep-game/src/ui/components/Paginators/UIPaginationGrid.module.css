@@ -2,7 +2,7 @@
 .gridContainer {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: var(--size-gap-small);
     align-items: flex-start;
 }
 
@@ -19,7 +19,7 @@
 
 /* Grid row for view-only mode (with gap) */
 .gridRowViewOnly {
-    gap: 2px;
+    gap: var(--size-gap-small);
 }
 
 /* Grid cell */

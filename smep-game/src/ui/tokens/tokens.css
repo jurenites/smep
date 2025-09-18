@@ -1,7 +1,7 @@
 :root {
     /* Colors */
     --color-yolk: #F8E71C;
-    --color-ulatraviolet: #4C00FF;
+    --color-ultraviolet: #4C00FF;
     --color-white: #FFFFFF;
     --color-light-gray: #C0C0C0;
     --color-gray: #666666;
@@ -9,23 +9,23 @@
     --color-black: #000000;
 
     /* Fonts */
-    --font-title: "'Roundabout-Regular', Urbanist, sans-serif";
-    --font-body: "'Roundabout-Regular', Sulphur Point, sans-serif";
-    --font-digit: "'4pixel', monospace";
-    --font-digit-small: "'4pixel', monospace";
-    --font-digit-big: "'4pixel', monospace";
-    --font-code: "'Courier New', monospace";
+    --font-title: Roundabout-Regular, Urbanist, sans-serif;
+    --font-body: Roundabout-Regular, Sulphur Point, sans-serif;
+    --font-digit: 4pixel, monospace;
+    --font-digit-small: 4pixel, monospace;
+    --font-digit-big: 4pixel, monospace;
+    --font-code: 'Courier New', monospace;
 
     /* Font Sizes */
-    /* added this siez again, we should not doing it, the font sizes are exactly conected to the fonts and as a reuslt to Typography rules allowed list of fonts*/
-    --font-size-small: 5px;
-    --font-size-medium: 10px;
-    --font-size-medium-large: 12px;
-    --font-size-large: 16px;
-    --font-digit-small-size: 5px;
+    --font-title-size: 16px;
+    --font-body-size: 16px;
     --font-digit-big-size: 10px;
+    --font-digit-small-size: 5px;
+    --font-code-size: 12px;
 
     /* Sizes */
+    --size-hud-padding: 16px;
+    --z-index-hud: 1000;
     --size-dot-1: 1px;
     --size-circle-4: 4px;
     --size-circle-6: 6px;
@@ -36,10 +36,43 @@
     --size-big-paginator-w: 17px;
     --size-big-paginator-h: 4px;
     --size-big-paginator-gap: 6px;
+    --size-rectangle-small-w: 31px;
+    --size-rectangle-small-h: 31px;
     --size-mid-card-w: 83px;
     --size-mid-card-h: 109px;
     --size-tab-w: 109px;
     --size-tab-h: 23px;
     --size-blur-playground: 16px;
     --size-stroke: 1px;
+
+    /* Gap sizes */
+    --size-gap-small: 2px;
+    --size-gap-medium: 8px;
+    --size-gap-large: 16px;
+
+    /* Padding sizes */
+    --size-padding-small: 4px;
+    --size-padding-medium: 8px;
+    --size-padding-large: 12px;
+    --size-padding-xlarge: 16px;
+    --size-padding-tiny: 1px;
+
+    /* Margin sizes */
+    --size-margin-small: 8px;
+
+    /* Border radius sizes */
+    --size-radius-small: 4px;
+    --size-radius-medium: 6px;
+    --size-radius-large: 8px;
+
+    /* Font sizes */
+    --size-font-small: 10px;
+    --size-font-medium: 12px;
+    --size-font-large: 14px;
+    --size-font-xlarge: 16px;
+
+    /* Other sizes */
+    --size-outline-offset: 2px;
+    --size-hover-translate: 1px;
+    --size-line-height-tight: 1.2;
 }

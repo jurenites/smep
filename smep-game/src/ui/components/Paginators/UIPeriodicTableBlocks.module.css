@@ -3,18 +3,18 @@
 .periodicTableContainer {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    padding: 16px;
+    gap: var(--size-gap-large);
+    padding: var(--size-padding-xlarge);
     background: var(--color-background-secondary);
-    border-radius: 8px;
+    border-radius: var(--size-radius-large);
 }
 
 .activeElementInfo {
-    padding: 12px 16px;
+    padding: var(--size-padding-large) var(--size-padding-xlarge);
     background: var(--color-accent-primary);
     color: var(--color-text-on-accent);
-    border-radius: 6px;
-    font-size: 14px;
+    border-radius: var(--size-radius-medium);
+    font-size: var(--size-font-large);
     text-align: center;
     border: 2px solid var(--color-accent-secondary);
 }
@@ -22,48 +22,57 @@
 .periodicTableLong {
     display: flex;
     flex-direction: row;
-    gap: 16px;
-    align-items: flex-start;
+    gap: var(--size-gap-small);
+    align-items: flex-end;
+}
+
+/* F-block and D-block intersection in long view */
+.periodicTableLong .blockContainer[data-block="f"] {
+    margin-right: -6px;
+}
+
+.periodicTableLong .blockContainer[data-block="d"] {
+    margin-left: -0px;
 }
 
 .periodicTableShort {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--size-gap-small);
 }
 
 .mainTable {
     display: flex;
     flex-direction: row;
-    gap: 16px;
-    align-items: flex-start;
+    gap: var(--size-gap-small);
+    align-items: flex-end;
 }
 
 .fBlockBelow {
     display: flex;
     flex-direction: row;
-    gap: 16px;
+    gap: var(--size-gap-large);
     align-items: flex-start;
-    margin-top: 8px;
-    padding-left: 32px;
+    margin-top: var(--size-margin-small);
+    padding-left: var(--size-padding-large);
     /* Indent F-block for visual separation */
 }
 
 .blockContainer {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--size-gap-medium);
     min-width: fit-content;
 }
 
 .blockLabel {
-    font-size: 12px;
+    font-size: var(--size-font-medium);
     font-weight: 600;
     color: var(--color-text-secondary);
     text-align: center;
-    padding: 4px 8px;
+    padding: var(--size-padding-small) var(--size-padding-medium);
     background: var(--color-background-tertiary);
-    border-radius: 4px;
+    border-radius: var(--size-radius-small);
     border: 1px solid var(--color-border);
 }
 

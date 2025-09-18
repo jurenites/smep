@@ -10,18 +10,12 @@ interface UISquareMidProps {
     onClick?: () => void;
     /** Optional custom content to render inside the square */
     children?: React.ReactNode;
-    /** Optional additional CSS classes */
-    className?: string;
-    /** Optional data attributes for testing or identification */
-    'data-testid'?: string;
 }
 
 export function UISquareMid({
     state,
     onClick,
-    children,
-    className,
-    'data-testid': dataTestId
+    children
 }: UISquareMidProps) {
     const sizes = TOKENS.sizes;
 
@@ -39,12 +33,11 @@ export function UISquareMid({
     // Determine if the square is clickable
     const isClickable = !!onClick;
 
-    // Get CSS class based on state and any additional classes
+    // Get CSS class based on state
     const getItemClassName = (): string => {
         const baseClass = styles.container;
         const stateClass = styles[`square${state.charAt(0).toUpperCase() + state.slice(1)}`];
-        const additionalClasses = className ? ` ${className}` : '';
-        return `${baseClass} ${stateClass}${additionalClasses}`.trim();
+        return `${baseClass} ${stateClass}`.trim();
     };
 
     // Render the square content
@@ -82,7 +75,6 @@ export function UISquareMid({
         <div
             className={getItemClassName()}
             data-active={isClickable ? "clickable" : "static"}
-            data-testid={dataTestId || "uisquaremid"}
             onClick={onClick}
         >
             <svg

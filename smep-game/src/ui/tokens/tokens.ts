@@ -49,7 +49,38 @@ export const TOKENS = {
         TAB_H: 23,
         BLUR_PLAYGROUND: 16,
         STROKE: 1,
-        HUD_PADDING: 2, // New token
+        HUD_PADDING: 2,
+        
+        // Gap sizes
+        GAP_SMALL: 2,
+        GAP_MEDIUM: 8,
+        GAP_LARGE: 16,
+        
+        // Padding sizes
+        PADDING_SMALL: 4,
+        PADDING_MEDIUM: 8,
+        PADDING_LARGE: 12,
+        PADDING_XLARGE: 16,
+        PADDING_TINY: 1,
+        
+        // Margin sizes
+        MARGIN_SMALL: 8,
+        
+        // Border radius sizes
+        RADIUS_SMALL: 4,
+        RADIUS_MEDIUM: 6,
+        RADIUS_LARGE: 8,
+        
+        // Font sizes
+        FONT_SIZE_SMALL: 10,
+        FONT_SIZE_MEDIUM: 12,
+        FONT_SIZE_LARGE: 14,
+        FONT_SIZE_XLARGE: 16,
+        
+        // Other sizes
+        OUTLINE_OFFSET: 2,
+        HOVER_TRANSLATE: 1,
+        LINE_HEIGHT_TIGHT: 1.2,
     },
     zIndexes: {
         HUD_Z_Index: 10,
@@ -65,7 +96,7 @@ export const TOKENS = {
 // CSS Variables for global use
 export const CSS_VARS = {
     '--color-yolk': TOKENS.colors.yolk,
-    '--color-ulatraviolet': TOKENS.colors.ultraviolet,
+    '--color-ultraviolet': TOKENS.colors.ultraviolet,
     '--color-white': TOKENS.colors.white,
     '--color-light-gray': TOKENS.colors.lightgray,
     '--color-gray': TOKENS.colors.gray,
@@ -104,4 +135,35 @@ export const CSS_VARS = {
     '--size-tab-h': `${TOKENS.sizes.TAB_H}px`,
     '--size-blur-playground': `${TOKENS.sizes.BLUR_PLAYGROUND}px`,
     '--size-stroke': `${TOKENS.sizes.STROKE}px`,
+    
+    // Gap sizes
+    '--size-gap-small': `${TOKENS.sizes.GAP_SMALL}px`,
+    '--size-gap-medium': `${TOKENS.sizes.GAP_MEDIUM}px`,
+    '--size-gap-large': `${TOKENS.sizes.GAP_LARGE}px`,
+    
+    // Padding sizes
+    '--size-padding-small': `${TOKENS.sizes.PADDING_SMALL}px`,
+    '--size-padding-medium': `${TOKENS.sizes.PADDING_MEDIUM}px`,
+    '--size-padding-large': `${TOKENS.sizes.PADDING_LARGE}px`,
+    '--size-padding-xlarge': `${TOKENS.sizes.PADDING_XLARGE}px`,
+    '--size-padding-tiny': `${TOKENS.sizes.PADDING_TINY}px`,
+    
+    // Margin sizes
+    '--size-margin-small': `${TOKENS.sizes.MARGIN_SMALL}px`,
+    
+    // Border radius sizes
+    '--size-radius-small': `${TOKENS.sizes.RADIUS_SMALL}px`,
+    '--size-radius-medium': `${TOKENS.sizes.RADIUS_MEDIUM}px`,
+    '--size-radius-large': `${TOKENS.sizes.RADIUS_LARGE}px`,
+    
+    // Font sizes
+    '--size-font-small': `${TOKENS.sizes.FONT_SIZE_SMALL}px`,
+    '--size-font-medium': `${TOKENS.sizes.FONT_SIZE_MEDIUM}px`,
+    '--size-font-large': `${TOKENS.sizes.FONT_SIZE_LARGE}px`,
+    '--size-font-xlarge': `${TOKENS.sizes.FONT_SIZE_XLARGE}px`,
+    
+    // Other sizes
+    '--size-outline-offset': `${TOKENS.sizes.OUTLINE_OFFSET}px`,
+    '--size-hover-translate': `${TOKENS.sizes.HOVER_TRANSLATE}px`,
+    '--size-line-height-tight': TOKENS.sizes.LINE_HEIGHT_TIGHT,
 } as const;

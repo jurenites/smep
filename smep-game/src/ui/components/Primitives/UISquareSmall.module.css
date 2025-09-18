@@ -15,11 +15,10 @@
     height: var(--size-mini-card);
 }
 
-/* Only view mode - 4px container with 2px gap */
+/* Only view mode - 4px container */
 .container[data-active="only view"] {
     width: var(--size-mini-paginator);
     height: var(--size-mini-paginator);
-    margin-right: var(--size-mini-paginator-gap-small);
 }
 
 /* Only view modifier - disables hover effects and cursor pointer */

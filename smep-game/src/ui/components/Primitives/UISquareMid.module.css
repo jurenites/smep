@@ -68,7 +68,7 @@
     outline-offset: 2px;
 }
 
-/* Content container for children - optimized for small size */
+/* Content container for children - optimized for readable text */
 .contentContainer {
     width: 100%;
     height: 100%;
@@ -77,12 +77,12 @@
     justify-content: center;
     color: var(--color-white);
     font-family: var(--font-body);
-    font-size: var(--font-size-small);
+    font-size: 16px;
     text-align: center;
     overflow: hidden;
     word-wrap: break-word;
-    /* Optimize for small content */
-    line-height: 100%;
+    /* Optimize for readable content */
+    line-height: 1.2;
     padding: 1px;
 }
 

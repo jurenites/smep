@@ -125,6 +125,7 @@ body {
     src: url('/assets/fonts/4pixel.woff') format('woff');
     font-weight: normal;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {

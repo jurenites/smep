@@ -54,29 +54,12 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
     args: {
         state: UISquareState.ACTIVE,
-        children: (
-            <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '2px',
-                fontSize: '8px',
-                lineHeight: '1'
-            }}>
-                <span style={{
-                    position: 'absolute',
-                    top: '2px',
-                    left: '2px',
-                    fontSize: '6px'
-                }}>TL</span>
-                <span>ON</span>
-            </div>
-        ),
+        children: 'H',
     },
     parameters: {
         docs: {
             description: {
-                story: 'Default mid-sized square using MINI_CARD dimensions (31x31px) for consistent sizing across all instances.',
+                story: 'Default mid-sized square using MINI_CARD dimensions (31x31px) with 16px font size for readable content.',
             },
         },
     },

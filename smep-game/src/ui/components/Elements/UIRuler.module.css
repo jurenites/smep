@@ -8,7 +8,7 @@
 
 .text {
     user-select: none;
-    font-family: '4pixel', var(--font-digit-small), monospace;
+    font-family: var(--font-digit-small);
     font-size: var(--font-digit-small-size);
     font-weight: normal;
     font-style: normal;
@@ -19,7 +19,7 @@
 
 .label {
     user-select: none;
-    font-family: '4pixel', var(--font-digit-small), monospace;
+    font-family: var(--font-digit-small);
     font-size: var(--font-digit-small-size);
     font-weight: normal;
     font-style: normal;
@@ -30,7 +30,7 @@
 
 .scaleText {
     user-select: none;
-    font-family: '4pixel', var(--font-digit-small), monospace;
+    font-family: var(--font-digit-small);
     font-size: var(--font-digit-small-size);
     font-weight: normal;
     font-style: normal;

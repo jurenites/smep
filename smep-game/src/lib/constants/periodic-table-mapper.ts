@@ -1,10 +1,8 @@
 // Periodic Table Mapper - Connects atomic data with display coordinates
 // This layer combines atomic information with display positioning
 
-import type { AtomicElement } from './atomic-elements';
-import { ALL_ATOMIC_ELEMENTS } from './atomic-elements';
-import type { PeriodicTableLayout } from './periodic-table-layouts';
-import { getLayoutByName, getElementPosition } from './periodic-table-layouts';
+import type { AtomicElement } from './periodic-table-layouts';
+import { ALL_ATOMIC_ELEMENTS, getLayoutByName, getElementPosition } from './periodic-table-layouts';
 
 export interface PeriodicElement {
     symbol: string;
@@ -71,7 +69,11 @@ export function getBlockElements(layoutName: string, blockName: 's' | 'p' | 'd' 
     const elements: PeriodicElement[] = [];
 
     for (const elementMapping of block.elements) {
-        const atomicElement = ALL_ATOMIC_ELEMENTS.find(ae => ae.symbol === elementMapping.symbol);
+        // Handle both atomicNumber (new format) and symbol (legacy format)
+        const atomicElement = 'atomicNumber' in elementMapping 
+            ? ALL_ATOMIC_ELEMENTS.find(ae => ae.atomicNumber === elementMapping.atomicNumber)
+            : ALL_ATOMIC_ELEMENTS.find(ae => ae.symbol === elementMapping.symbol);
+            
         if (atomicElement) {
             elements.push({
                 symbol: atomicElement.symbol,

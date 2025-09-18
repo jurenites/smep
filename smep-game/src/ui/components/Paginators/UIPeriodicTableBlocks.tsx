@@ -67,7 +67,7 @@ function BlockGrid({ elements, blockName, onPageChange, active, disabledThreshol
 
     return (
         <div className={styles.blockContainer} data-block={blockName}>
-            <div className={styles.blockLabel}>{blockName.toUpperCase()}-Block</div>
+            {/* <div className={styles.blockLabel}>{blockName.toUpperCase()}-Block</div> */}
             <UIPaginationGrid
                 context={context}
                 onPageChange={handleElementClick}
