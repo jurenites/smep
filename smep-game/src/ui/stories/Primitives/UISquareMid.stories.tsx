@@ -1,16 +1,16 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { UIRectangleMid } from '../../components/Primitives/UIRectangleMid';
+import { UISquareMid } from '../../components/Primitives/UISquareMid';
 import { UISquareState } from '../../../lib/types';
 
-const meta: Meta<typeof UIRectangleMid> = {
-    title: 'Primitives/UIRectangleMid',
-    component: UIRectangleMid,
+const meta: Meta<typeof UISquareMid> = {
+    title: 'Primitives/UISquareMid',
+    component: UISquareMid,
     parameters: {
         layout: 'centered',
         docs: {
             description: {
-                component: 'A consistent mid-sized rectangle component (31x31px) designed as a core building block for multiple entities. Focuses on content presentation with icons, text, and flexible positioning.',
+                component: 'A consistent mid-sized square component (31x31px) designed as a core building block for multiple entities. Focuses on content presentation with icons, text, and flexible positioning.',
             },
         },
     },
@@ -19,7 +19,7 @@ const meta: Meta<typeof UIRectangleMid> = {
         state: {
             control: 'select',
             options: Object.values(UISquareState),
-            description: 'Current state of the rectangle',
+            description: 'Current state of the square',
         },
         onClick: {
             action: 'clicked',
@@ -27,7 +27,7 @@ const meta: Meta<typeof UIRectangleMid> = {
         },
         children: {
             control: 'text',
-            description: 'Content to render inside the rectangle (icons, text, etc.)',
+            description: 'Content to render inside the square (icons, text, etc.)',
         },
     },
     decorators: [
@@ -76,7 +76,7 @@ export const Default: Story = {
     parameters: {
         docs: {
             description: {
-                story: 'Default mid-sized rectangle using MINI_CARD dimensions (31x31px) for consistent sizing across all instances.',
+                story: 'Default mid-sized square using MINI_CARD dimensions (31x31px) for consistent sizing across all instances.',
             },
         },
     },

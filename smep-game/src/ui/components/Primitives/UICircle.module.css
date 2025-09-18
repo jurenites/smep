@@ -1,0 +1,125 @@
+/* UICircle Component Styles */
+
+.circle {
+    display: inline-block;
+    background-color: var(--color-accent-primary);
+    border: 1px solid var(--color-accent-secondary);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* Size-specific styles */
+.size-dot {
+    background-color: var(--color-accent-primary);
+    border: none;
+}
+
+.size-small {
+    background-color: var(--color-accent-primary);
+    border: 1px solid var(--color-accent-secondary);
+}
+
+.size-mini {
+    background-color: var(--color-accent-primary);
+    border: 1px solid var(--color-accent-secondary);
+}
+
+.size-middle {
+    background-color: var(--color-accent-primary);
+    border: 2px solid var(--color-accent-secondary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.size-mega {
+    background-color: var(--color-accent-primary);
+    border: 3px solid var(--color-accent-secondary);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Special dot rendering - dimmed vector circle */
+.dotDimmed {
+    background-color: transparent;
+    border: 1px solid var(--color-accent-primary);
+    opacity: 0.7;
+}
+
+/* Clickable state */
+.clickable {
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.clickable:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+.clickable:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease-in-out;
+}
+
+/* Animation for size changes */
+.circle {
+    animation: sizeTransition 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes sizeTransition {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.9;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+    .size-mega {
+        border-width: 2px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .size-middle {
+        border-width: 1px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .circle {
+        border-width: 2px;
+        border-color: var(--color-text-primary);
+    }
+
+    .dotDimmed {
+        border-width: 2px;
+        opacity: 1;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .circle {
+        transition: none;
+        animation: none;
+    }
+
+    .clickable:hover {
+        transform: none;
+    }
+
+    .clickable:active {
+        transform: none;
+    }
+}

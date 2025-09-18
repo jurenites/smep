@@ -1,4 +1,4 @@
-/* Rectangle Mid Container - Optimized for MINI_CARD size (31x31px) */
+/* Square Mid Container - Optimized for MINI_CARD size (31x31px) */
 .container {
     display: inline-block;
     margin: 0;
@@ -10,7 +10,7 @@
     position: relative;
 }
 
-/* Rectangle styles for different states */
+/* Square styles for different states */
 .container rect {
     fill: var(--color-gray);
     stroke: var(--color-gray);
@@ -19,51 +19,51 @@
 }
 
 /* Active state */
-.rectangleActive rect {
+.squareActive rect {
     fill: var(--color-white);
     stroke: var(--color-white);
 }
 
 /* Inactive state */
-.rectangleInactive rect {
+.squareInactive rect {
     fill: var(--color-gray);
     stroke: var(--color-gray);
 }
 
 /* Disabled state */
-.rectangleDisabled rect {
+.squareDisabled rect {
     fill: var(--color-dark-gray);
     stroke: var(--color-dark-gray);
 }
 
 /* Hover effects for interactive states */
-.rectangleActive:hover {
+.squareActive:hover {
     background-color: var(--color-dark-gray);
     transform: translateY(-1px);
 }
 
-.rectangleInactive:hover {
+.squareInactive:hover {
     background-color: var(--color-dark-gray);
     transform: translateY(-1px);
 }
 
-.rectangleActive:hover rect {
+.squareActive:hover rect {
     fill: var(--color-light-gray);
     stroke: var(--color-light-gray);
 }
 
-.rectangleInactive:hover rect {
+.squareInactive:hover rect {
     fill: var(--color-white);
     stroke: var(--color-white);
 }
 
 /* Focus states for accessibility */
-.rectangleActive:focus-visible {
+.squareActive:focus-visible {
     outline: var(--size-stroke) solid var(--color-yolk);
     outline-offset: 2px;
 }
 
-.rectangleInactive:focus-visible {
+.squareInactive:focus-visible {
     outline: var(--size-stroke) solid var(--color-yolk);
     outline-offset: 2px;
 }
@@ -87,23 +87,23 @@
 }
 
 /* Disabled state - no hover effects */
-.rectangleDisabled:hover {
+.squareDisabled:hover {
     background-color: transparent;
     transform: none;
 }
 
-.rectangleDisabled:hover rect {
+.squareDisabled:hover rect {
     fill: var(--color-dark-gray);
     stroke: var(--color-dark-gray);
 }
 
 /* Animation for state changes - subtle for small component */
-.rectangleActive,
-.rectangleInactive {
-    animation: rectanglePulse 0.2s ease-out;
+.squareActive,
+.squareInactive {
+    animation: squarePulse 0.2s ease-out;
 }
 
-@keyframes rectanglePulse {
+@keyframes squarePulse {
     0% {
         transform: scale(1);
     }
@@ -123,11 +123,11 @@
         stroke-width: 2;
     }
 
-    .rectangleActive rect {
+    .squareActive rect {
         stroke: var(--color-black);
     }
 
-    .rectangleInactive rect {
+    .squareInactive rect {
         stroke: var(--color-black);
     }
 }
@@ -138,13 +138,13 @@
         transition: none;
     }
 
-    .rectangleActive,
-    .rectangleInactive {
+    .squareActive,
+    .squareInactive {
         animation: none;
     }
 
-    .rectangleActive:hover,
-    .rectangleInactive:hover {
+    .squareActive:hover,
+    .squareInactive:hover {
         transform: none;
     }
 }

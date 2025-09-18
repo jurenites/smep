@@ -1,14 +1,14 @@
 import React from 'react';
 import { TOKENS } from '../../tokens/tokens';
 import { UISquareState } from '../../../lib/types';
-import styles from './UIRectangleMid.module.css';
+import styles from './UISquareMid.module.css';
 
-interface UIRectangleMidProps {
-    /** Current state of the rectangle */
+interface UISquareMidProps {
+    /** Current state of the square */
     state: UISquareState;
     /** Optional click handler for interactive behavior */
     onClick?: () => void;
-    /** Optional custom content to render inside the rectangle */
+    /** Optional custom content to render inside the square */
     children?: React.ReactNode;
     /** Optional additional CSS classes */
     className?: string;
@@ -16,46 +16,46 @@ interface UIRectangleMidProps {
     'data-testid'?: string;
 }
 
-export function UIRectangleMid({
+export function UISquareMid({
     state,
     onClick,
     children,
     className,
     'data-testid': dataTestId
-}: UIRectangleMidProps) {
+}: UISquareMidProps) {
     const sizes = TOKENS.sizes;
 
-    // Rectangle dimensions - always use MINI_CARD size for consistency
-    const rectWidth = sizes.MINI_CARD;  // 31px
-    const rectHeight = sizes.MINI_CARD;
+    // Square dimensions - always use MINI_CARD size for consistency
+    const squareWidth = sizes.MINI_CARD;  // 31px
+    const squareHeight = sizes.MINI_CARD;
 
-    // SVG container size - same as the rectangle for optimal space usage
-    const svgSize = rectWidth;
+    // SVG container size - same as the square for optimal space usage
+    const svgSize = squareWidth;
 
-    // Calculate center offset to center the rectangle within the SVG
-    const centerOffsetX = Math.round((svgSize - rectWidth) / 2);
-    const centerOffsetY = Math.round((svgSize - rectHeight) / 2);
+    // Calculate center offset to center the square within the SVG
+    const centerOffsetX = Math.round((svgSize - squareWidth) / 2);
+    const centerOffsetY = Math.round((svgSize - squareHeight) / 2);
 
-    // Determine if the rectangle is clickable
+    // Determine if the square is clickable
     const isClickable = !!onClick;
 
     // Get CSS class based on state and any additional classes
     const getItemClassName = (): string => {
         const baseClass = styles.container;
-        const stateClass = styles[`rectangle${state.charAt(0).toUpperCase() + state.slice(1)}`];
+        const stateClass = styles[`square${state.charAt(0).toUpperCase() + state.slice(1)}`];
         const additionalClasses = className ? ` ${className}` : '';
         return `${baseClass} ${stateClass}${additionalClasses}`.trim();
     };
 
-    // Render the rectangle content
+    // Render the square content
     const renderContent = () => {
-        // Rectangle with offset on half pixel because SVG draws 1px solid line center, not inner
+        // Square with offset on half pixel because SVG draws 1px solid line center, not inner
         return (
             <rect
                 x={centerOffsetX + 0.5}
                 y={centerOffsetY + 0.5}
-                width={rectWidth - 1}
-                height={rectHeight - 1}
+                width={squareWidth - 1}
+                height={squareHeight - 1}
             />
         );
     };
@@ -68,8 +68,8 @@ export function UIRectangleMid({
             <foreignObject
                 x={centerOffsetX + 2} // Reduced padding for better content fit
                 y={centerOffsetY + 2}
-                width={rectWidth - 4}
-                height={rectHeight - 4}
+                width={squareWidth - 4}
+                height={squareHeight - 4}
             >
                 <div className={styles.contentContainer}>
                     {children}
@@ -82,7 +82,7 @@ export function UIRectangleMid({
         <div
             className={getItemClassName()}
             data-active={isClickable ? "clickable" : "static"}
-            data-testid={dataTestId || "uirectanglemid"}
+            data-testid={dataTestId || "uisquaremid"}
             onClick={onClick}
         >
             <svg

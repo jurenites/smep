@@ -1,15 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { UIPaginationGrid } from '../../components/Paginators/UIPaginationGrid';
+import { UIPeriodicTableBlocks } from '../../components/Paginators/UIPeriodicTableBlocks';
 import { PaginationState } from '../../../lib/types';
 import { gridPaginationService } from '../../../lib/grid-pagination-service';
 import {
     PERIODIC_TABLE_ELEMENTS,
-    PERIODIC_TABLE_GRID_DIMENSIONS,
-    S_BLOCK_ELEMENTS,
-    P_BLOCK_ELEMENTS,
-    D_BLOCK_ELEMENTS,
-    F_BLOCK_ELEMENTS
+    PERIODIC_TABLE_GRID_DIMENSIONS
 } from '../../../lib/constants/periodic-table';
+import { mapAtomicDataToLayout } from '../../../lib/constants/periodic-table-mapper';
+import { getElementPosition } from '../../../lib/constants/periodic-table-position-mapper';
 
 const meta: Meta<typeof UIPaginationGrid> = {
     title: 'UI/Pagination/UIPaginationGrid',
@@ -29,7 +28,7 @@ const meta: Meta<typeof UIPaginationGrid> = {
             options: ['long', 'short'],
             description: 'Periodic table view - long form (standard) or short form (P-block under table)',
         },
-    },
+    } as any,
 };
 
 export default meta;
@@ -56,127 +55,25 @@ const createSimpleGridContext = () => {
     );
 };
 
-// Periodic table-like layout example using constants
+// Periodic table-like layout example using position mapper
 const createPeriodicTableContext = (viewMode: 'long' | 'short' = 'long') => {
-    let elements: any[];
-    let dimensions: { width: number; height: number };
+    const dimensions = viewMode === 'long'
+        ? PERIODIC_TABLE_GRID_DIMENSIONS.longForm
+        : PERIODIC_TABLE_GRID_DIMENSIONS.shortForm;
 
-    if (viewMode === 'long') {
-        // Long form: All S, P, D, F blocks displayed at the bottom in order: S, F, D, P
-        // F and D blocks interlinked at atomic numbers 57, 58, 89, 90
-        elements = [
-            // S-block elements (first column, rows 0-6)
-            ...S_BLOCK_ELEMENTS,
-
-            // F-block elements (second column, rows 7-8) - lanthanides and actinides
-            // Lanthanides (atomic numbers 57-71) in row 7, column 1
-            ...F_BLOCK_ELEMENTS.filter(el => el.period === 6).map((el, index) => ({
-                ...el,
-                position: { x: 1, y: 7 }
-            })),
-            // Actinides (atomic numbers 89-103) in row 8, column 1
-            ...F_BLOCK_ELEMENTS.filter(el => el.period === 7).map((el, index) => ({
-                ...el,
-                position: { x: 1, y: 8 }
-            })),
-
-            // D-block elements (third column, rows 3-6) - transition metals
-            // Period 4 D-block (Sc-Zn, atomic numbers 21-30)
-            ...D_BLOCK_ELEMENTS.filter(el => el.period === 4).map((el, index) => ({
-                ...el,
-                position: { x: 2, y: 3 }
-            })),
-            // Period 5 D-block (Y-Cd, atomic numbers 39-48)
-            ...D_BLOCK_ELEMENTS.filter(el => el.period === 5).map((el, index) => ({
-                ...el,
-                position: { x: 2, y: 4 }
-            })),
-            // Period 6 D-block (Hf-Hg, atomic numbers 72-80) - connected to F-block at La (57)
-            ...D_BLOCK_ELEMENTS.filter(el => el.period === 6).map((el, index) => ({
-                ...el,
-                position: { x: 2, y: 5 }
-            })),
-            // Period 7 D-block (Rf-Cn, atomic numbers 104-112) - connected to F-block at Ac (89)
-            ...D_BLOCK_ELEMENTS.filter(el => el.period === 7).map((el, index) => ({
-                ...el,
-                position: { x: 2, y: 6 }
-            })),
-
-            // P-block elements (fourth column, rows 0-6) - main group elements
-            // Period 1 P-block (He, atomic number 2)
-            ...P_BLOCK_ELEMENTS.filter(el => el.period === 1).map((el, index) => ({
-                ...el,
-                position: { x: 3, y: 0 }
-            })),
-            // Period 2 P-block (B-Ne, atomic numbers 5-10)
-            ...P_BLOCK_ELEMENTS.filter(el => el.period === 2).map((el, index) => ({
-                ...el,
-                position: { x: 3, y: 1 }
-            })),
-            // Period 3 P-block (Al-Ar, atomic numbers 13-18)
-            ...P_BLOCK_ELEMENTS.filter(el => el.period === 3).map((el, index) => ({
-                ...el,
-                position: { x: 3, y: 2 }
-            })),
-            // Period 4 P-block (Ga-Kr, atomic numbers 31-36)
-            ...P_BLOCK_ELEMENTS.filter(el => el.period === 4).map((el, index) => ({
-                ...el,
-                position: { x: 3, y: 3 }
-            })),
-            // Period 5 P-block (In-Xe, atomic numbers 49-54)
-            ...P_BLOCK_ELEMENTS.filter(el => el.period === 5).map((el, index) => ({
-                ...el,
-                position: { x: 3, y: 4 }
-            })),
-            // Period 6 P-block (Tl-Rn, atomic numbers 81-86)
-            ...P_BLOCK_ELEMENTS.filter(el => el.period === 6).map((el, index) => ({
-                ...el,
-                position: { x: 3, y: 5 }
-            })),
-            // Period 7 P-block (Nh-Og, atomic numbers 113-118)
-            ...P_BLOCK_ELEMENTS.filter(el => el.period === 7).map((el, index) => ({
-                ...el,
-                position: { x: 3, y: 6 }
-            }))
-        ];
-        dimensions = { width: 4, height: 9 };
-    } else {
-        // Short form: F-block elements moved to separate rows under main table
-        elements = [
-            // S, D, and P blocks in main table (rows 0-6)
-            ...S_BLOCK_ELEMENTS,
-            ...D_BLOCK_ELEMENTS,
-            ...P_BLOCK_ELEMENTS,
-
-            // F-block lanthanides repositioned to row 7 (under main table)
-            ...F_BLOCK_ELEMENTS.filter(el => el.period === 6).map((el, index) => ({
-                ...el,
-                position: { x: index, y: 7 }
-            })),
-
-            // F-block actinides repositioned to row 8 (under lanthanides)
-            ...F_BLOCK_ELEMENTS.filter(el => el.period === 7).map((el, index) => ({
-                ...el,
-                position: { x: index, y: 8 }
-            }))
-        ];
-        dimensions = { width: 18, height: 9 };
-    }
-
-    // Convert periodic table elements to grid pages
-    const pages = elements.map(element => ({
-        id: element.id,
-        position: element.position,
+    // Convert periodic table elements to grid pages using position mapper
+    const pages = PERIODIC_TABLE_ELEMENTS.map((element: any) => ({
+        id: element.symbol, // Use symbol as id
+        position: getElementPosition(element.atomicNumber, viewMode), // Calculate position based on atomicNumber
         title: element.symbol,
-        // Disable elements with atomic numbers greater than 90 (beyond Thorium)
-        state: element.atomicNumber > 90 ? PaginationState.DISABLED : PaginationState.ACTIVE,
+        // Disable elements with atomic numbers greater than 87 (beyond Francium)
+        state: element.atomicNumber > 87 ? PaginationState.DISABLED : PaginationState.ACTIVE,
         metadata: {
             atomicNumber: element.atomicNumber,
             name: element.name,
             category: element.category,
             electronShellGroup: element.electronShellGroup,
-            period: element.period,
-            group: element.group
+            period: element.period
         }
     }));
 
@@ -200,7 +97,7 @@ const createPeriodicTableContext = (viewMode: 'long' | 'short' = 'long') => {
         }
 
         // Check if the next position has a valid element
-        const hasElement = pages.some(page =>
+        const hasElement = pages.some((page: any) =>
             page.position.x === nextPosition.x && page.position.y === nextPosition.y
         );
 
@@ -234,7 +131,8 @@ export const PeriodicTable: Story = {
     args: {
         context: createPeriodicTableContext('long'),
         active: 'only view',
-    },
+        viewMode: 'long',
+    } as any,
     parameters: {
         docs: {
             description: {
@@ -247,6 +145,63 @@ export const PeriodicTable: Story = {
         const viewMode = (args as any).viewMode || 'long';
         const context = createPeriodicTableContext(viewMode);
         return <UIPaginationGrid {...args} context={context} />;
+    },
+};
+
+export const PeriodicTableBlocks: Story = {
+    args: {
+        active: 'only view',
+    },
+    parameters: {
+        docs: {
+            description: {
+                story: 'Block-based periodic table layout. Each block (S, P, D, F) is rendered as a separate SimpleGrid component, making it easier to arrange and manage the layout. Use the viewMode control to switch between long form (all blocks in a row) and short form (F-block below main table).',
+            },
+        },
+    },
+    render: (args) => {
+        return <UIPeriodicTableBlocks viewMode="long" {...args} />;
+    },
+};
+
+export const PeriodicTableWithNewAbstraction: Story = {
+    args: {
+        active: 'only view',
+    },
+    parameters: {
+        docs: {
+            description: {
+                story: 'Periodic table using the new abstraction layer. Atomic data is separated from display coordinates, making it easier to create different layouts without modifying the atomic information. The mapping layer connects atomic data with display positions.',
+            },
+        },
+    },
+    render: (args) => {
+        // Create context using the new abstraction
+        const viewMode = 'long'; // Fixed to long view for this story
+        const periodicTableData = mapAtomicDataToLayout(viewMode);
+
+        const pages = periodicTableData.elements.map(element => ({
+            id: element.symbol, // Use symbol as id
+            position: element.position,
+            title: element.symbol,
+            state: element.atomicNumber > 87 ? PaginationState.DISABLED : PaginationState.ACTIVE,
+            metadata: {
+                atomicNumber: element.atomicNumber,
+                name: element.name,
+                category: element.category,
+                electronShellGroup: element.electronShellGroup,
+                period: element.period
+            }
+        }));
+
+        const context = gridPaginationService.createContext(
+            `periodic-table-${viewMode}`,
+            pages,
+            periodicTableData.dimensions,
+            PaginationState.ACTIVE
+        );
+
+        return <UIPaginationGrid context={context} active={args.active} />;
     },
 };
 
