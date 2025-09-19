@@ -25,23 +25,28 @@ const meta: Meta<typeof UIBadge> = {
     },
     tags: ['autodocs'],
     argTypes: {
-        color: {
+        labelColor: {
             control: 'select',
-            options: ['primary', 'secondary', 'accent'],
-            description: 'Text color variant',
+            options: ['on-primary', 'on-secondary', 'on-accent'],
+            description: 'Text color variant - what color the text appears on',
+        },
+        badgeColor: {
+            control: 'select',
+            options: ['primary', 'secondary'],
+            description: 'Badge background color',
         },
         align: {
             control: 'select',
             options: ['left', 'center', 'right'],
             description: 'Text alignment',
         },
-        interactive: {
-            control: 'boolean',
-            description: 'Whether the badge is interactive (clickable)',
-        },
         children: {
             control: 'text',
             description: 'Text content to display',
+        },
+        // Hide className from controls - internal styling only
+        className: {
+            table: { disable: true },
         },
     },
 };
@@ -53,14 +58,63 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
     args: {
         children: 'Badge',
-        color: 'primary',
+        labelColor: 'on-primary',
+        badgeColor: 'primary',
         align: 'left',
-        interactive: false,
     },
     parameters: {
         docs: {
             description: {
-                story: 'Default UIBadge component with digitSmall font, dark background, and primary color.',
+                story: 'Default UIBadge component with digitSmall font and configurable label and badge colors.',
+            },
+        },
+    },
+};
+
+// Color combination examples
+export const OnPrimaryBackground: Story = {
+    args: {
+        children: 'Primary',
+        labelColor: 'on-primary',
+        badgeColor: 'primary',
+        align: 'center',
+    },
+    parameters: {
+        docs: {
+            description: {
+                story: 'Badge with on-primary text on primary background (black text on white background).',
+            },
+        },
+    },
+};
+
+export const OnSecondaryBackground: Story = {
+    args: {
+        children: 'Secondary',
+        labelColor: 'on-secondary',
+        badgeColor: 'secondary',
+        align: 'center',
+    },
+    parameters: {
+        docs: {
+            description: {
+                story: 'Badge with on-secondary text on secondary background (white text on gray background).',
+            },
+        },
+    },
+};
+
+export const OnAccentBackground: Story = {
+    args: {
+        children: 'Accent',
+        labelColor: 'on-accent',
+        badgeColor: 'primary',
+        align: 'center',
+    },
+    parameters: {
+        docs: {
+            description: {
+                story: 'Badge with on-accent text on primary background (black text on white background).',
             },
         },
     },

@@ -1,14 +1,15 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { UIPaginationGrid } from './UIPaginationGrid';
 import { gridPaginationService } from '../../../lib/grid-pagination-service';
 import { PaginationState } from '../../../lib/types';
-import { getElementsByBlock, mapAtomicDataToLayout } from '../../../lib/constants/periodic-table-mapper';
+import { getElementsByBlock } from '../../../lib/constants/periodic-table-mapper';
 import styles from './UIPeriodicTableBlocks.module.css';
 
 interface UIPeriodicTableBlocksProps {
     viewMode: 'long' | 'short';
     onPageChange?: (position: { x: number; y: number }, event: any) => void;
     active?: 'clickable' | 'only view';
+    activeIndex?: number; // 1-based atomic number to highlight
 }
 
 interface BlockGridProps {
@@ -17,7 +18,7 @@ interface BlockGridProps {
     onPageChange?: (position: { x: number; y: number }, event: any) => void;
     active?: 'clickable' | 'only view';
     disabledThreshold?: number;
-    activeElementId?: string;
+    activeElementId?: string | null; // Can be null for no active element
     onElementClick?: (elementId: string) => void;
 }
 
@@ -27,9 +28,11 @@ function BlockGrid({ elements, blockName, onPageChange, active, disabledThreshol
         id: element.symbol, // Use symbol as id
         position: element.position,
         title: element.symbol,
-        state: element.atomicNumber > disabledThreshold
-            ? PaginationState.DISABLED
-            : (activeElementId === element.symbol ? PaginationState.ACTIVE : PaginationState.UNAVAILABLE),
+        state: (activeElementId === element.symbol)
+            ? PaginationState.ACTIVE // If this element is the active one, it's always ACTIVE
+            : (element.atomicNumber > disabledThreshold
+                ? PaginationState.DISABLED // Only disable elements > threshold if they're not active
+                : PaginationState.INACTIVE),
         metadata: {
             atomicNumber: element.atomicNumber,
             name: element.name,
@@ -44,13 +47,33 @@ function BlockGrid({ elements, blockName, onPageChange, active, disabledThreshol
     const maxY = Math.max(...elements.map(el => el.position.y));
     const dimensions = { width: maxX + 1, height: maxY + 1 };
 
-    // Create context for this block
+    // Find the active element's position for this block
+    const activeElement = activeElementId ? elements.find(el => el.symbol === activeElementId) : null;
+    const activePosition = activeElement ? activeElement.position : { x: 0, y: 0 };
+
+    // Create context for this block with the correct active position
     const context = gridPaginationService.createContext(
-        `block-${blockName}`,
+        `block-${blockName}-${activeElementId || 'none'}`, // Include activeElementId in context ID for uniqueness
         pages,
         dimensions,
         PaginationState.ACTIVE
     );
+
+    // Override the current position to match our active element
+    if (activeElement) {
+        context.currentPosition = activePosition;
+        // Update the isActive property for all pages in this context
+        context.pages = context.pages.map(page => ({
+            ...page,
+            isActive: page.position.x === activePosition.x && page.position.y === activePosition.y
+        }));
+    } else {
+        // No active element in this block - ensure no pages are marked as active
+        context.pages = context.pages.map(page => ({
+            ...page,
+            isActive: false
+        }));
+    }
 
     // Handle element click
     const handleElementClick = useCallback((position: { x: number; y: number }, event: any) => {
@@ -70,33 +93,48 @@ function BlockGrid({ elements, blockName, onPageChange, active, disabledThreshol
             {/* <div className={styles.blockLabel}>{blockName.toUpperCase()}-Block</div> */}
             <UIPaginationGrid
                 context={context}
-                onPageChange={handleElementClick}
+                onGridPageChange={handleElementClick}
                 active={active}
             />
         </div>
     );
 }
 
+
 export function UIPeriodicTableBlocks({
     viewMode,
     onPageChange,
-    active = 'only view'
+    active = 'only view',
+    activeIndex = 1 // Default to Hydrogen (atomic number 1)
 }: UIPeriodicTableBlocksProps) {
-    // State for managing the single active element
-    const [activeElementId, setActiveElementId] = useState<string>('H'); // Start with Hydrogen
-
     // Get elements for each block using the new abstraction
     const blockElements = getElementsByBlock(viewMode);
 
+    // Combine all elements from all blocks into one array
+    const allElements = blockElements.s
+        .concat(blockElements.p, blockElements.d, blockElements.f);
+
+    // Find the element symbol based on atomic number (activeIndex)
+    // If activeIndex is 0 or null, no element should be active
+    const targetElement = activeIndex && activeIndex > 0 ? allElements.find(el => el.atomicNumber === activeIndex) : null;
+    const activeElementId = targetElement ? targetElement.symbol : null; // No default - can be null for no active element
+
+    // State for managing the single active element (for click interactions)
+    const [clickedElementId, setClickedElementId] = useState<string | null>(activeElementId);
+
+    // Update clickedElementId when activeIndex prop changes
+    useEffect(() => {
+        setClickedElementId(activeElementId);
+    }, [activeIndex, activeElementId]);
+
     // Handle element selection
     const handleElementClick = useCallback((elementId: string) => {
-        setActiveElementId(elementId);
+        setClickedElementId(elementId);
     }, []);
 
-    // Get active element info for display
-    const activeElement = blockElements.s
-        .concat(blockElements.p, blockElements.d, blockElements.f)
-        .find(el => el.symbol === activeElementId);
+    // Get active element info for display (use clickedElementId if user clicked, otherwise use activeIndex)
+    const displayElementId = clickedElementId || activeElementId;
+    const activeElement = displayElementId ? allElements.find(el => el.symbol === displayElementId) : null;
 
     if (viewMode === 'long') {
         // Long form: All blocks arranged horizontally
@@ -113,7 +151,7 @@ export function UIPeriodicTableBlocks({
                         blockName="s"
                         onPageChange={onPageChange}
                         active={active}
-                        activeElementId={activeElementId}
+                        activeElementId={displayElementId}
                         onElementClick={handleElementClick}
                     />
                     <BlockGrid
@@ -121,7 +159,7 @@ export function UIPeriodicTableBlocks({
                         blockName="f"
                         onPageChange={onPageChange}
                         active={active}
-                        activeElementId={activeElementId}
+                        activeElementId={displayElementId}
                         onElementClick={handleElementClick}
                     />
                     <BlockGrid
@@ -129,7 +167,7 @@ export function UIPeriodicTableBlocks({
                         blockName="d"
                         onPageChange={onPageChange}
                         active={active}
-                        activeElementId={activeElementId}
+                        activeElementId={displayElementId}
                         onElementClick={handleElementClick}
                     />
                     <BlockGrid
@@ -137,7 +175,7 @@ export function UIPeriodicTableBlocks({
                         blockName="p"
                         onPageChange={onPageChange}
                         active={active}
-                        activeElementId={activeElementId}
+                        activeElementId={displayElementId}
                         onElementClick={handleElementClick}
                     />
                 </div>
@@ -159,7 +197,7 @@ export function UIPeriodicTableBlocks({
                             blockName="s"
                             onPageChange={onPageChange}
                             active={active}
-                            activeElementId={activeElementId}
+                            activeElementId={displayElementId}
                             onElementClick={handleElementClick}
                         />
                         <BlockGrid
@@ -167,7 +205,7 @@ export function UIPeriodicTableBlocks({
                             blockName="d"
                             onPageChange={onPageChange}
                             active={active}
-                            activeElementId={activeElementId}
+                            activeElementId={displayElementId}
                             onElementClick={handleElementClick}
                         />
                         <BlockGrid
@@ -175,7 +213,7 @@ export function UIPeriodicTableBlocks({
                             blockName="p"
                             onPageChange={onPageChange}
                             active={active}
-                            activeElementId={activeElementId}
+                            activeElementId={displayElementId}
                             onElementClick={handleElementClick}
                         />
                     </div>
@@ -185,7 +223,7 @@ export function UIPeriodicTableBlocks({
                             blockName="f"
                             onPageChange={onPageChange}
                             active={active}
-                            activeElementId={activeElementId}
+                            activeElementId={displayElementId}
                             onElementClick={handleElementClick}
                         />
                     </div>

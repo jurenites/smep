@@ -1,5 +1,5 @@
 // Export all primitive component stories
-export { UISquareMid } from './UISquareMid.stories';
-export { UIRectangleBig } from './UIRectangleBig.stories';
-export { UIRectangleSmall } from './UIRectangleSmall.stories';
-export { UISquareSmall } from './UISquareSmall.stories';
+export { default as UISquare } from './UISquare.stories';
+export { default as UIProgressBar } from './UIProgressBar.stories';
+export { default as UIRectangleBig } from './UIRectangleBig.stories';
+export { default as UIRectangleSmall } from './UIRectangleSmall.stories';

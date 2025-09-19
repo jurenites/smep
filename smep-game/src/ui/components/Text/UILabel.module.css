@@ -8,15 +8,6 @@
     font-display: swap;
 }
 
-.label {
-    display: inline-block;
-    margin: 0;
-    padding: 2px;
-    line-height: 1.2;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-}
-
 /* Font Variants */
 .fontTitle {
     font-family: var(--font-title);
@@ -97,6 +88,17 @@
     outline: var(--size-stroke) solid var(--color-yolk);
     outline-offset: var(--size-outline-offset);
     border-radius: var(--size-radius-small);
+}
+
+.label {
+    display: inline-block;
+    margin: 0;
+    padding: 2px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    /*background-color: var(--color-text-secondary, var(--color-gray));*/
+    /*color: var(--color-text-primary, var(--color-white));*/
+    /* do we need a backup rile to dispaly this text? */
 }
 
 /* Reduced motion support */

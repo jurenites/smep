@@ -12,7 +12,6 @@
     display: inline-block;
     margin: 0;
     padding-left: 1px;
-    background-color: var(--color-dark-gray);
     line-height: 1.2;
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -20,17 +19,26 @@
     font-size: var(--font-digit-small-size);
 }
 
-/* Color Variants */
-.colorPrimary {
-    color: var(--color-text-primary, var(--color-white));
+/* Badge Background Colors */
+.badgeColorPrimary {
+    background-color: var(--color-primary);
 }
 
-.colorSecondary {
-    color: var(--color-text-secondary, var(--color-gray));
+.badgeColorSecondary {
+    background-color: var(--color-secondary);
 }
 
-.colorAccent {
-    color: var(--color-yolk);
+/* Label Text Colors */
+.labelColorOnPrimary {
+    color: var(--color-on-primary);
+}
+
+.labelColorOnSecondary {
+    color: var(--color-on-secondary);
+}
+
+.labelColorOnAccent {
+    color: var(--color-on-accent);
 }
 
 /* Text Alignment */

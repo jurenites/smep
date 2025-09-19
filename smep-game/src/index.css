@@ -1,11 +1,9 @@
 /* Import tokens for CSS variables */
-@import './ui/tokens/tokens.css';
-
-* {
+@import './ui/tokens/tokens.css' W * {
     box-sizing: border-box;
 }
 
-html,
+W html,
 body {
     margin: 0;
     padding: 0;

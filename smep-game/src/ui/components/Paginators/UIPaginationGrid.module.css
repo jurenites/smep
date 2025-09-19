@@ -33,4 +33,39 @@
 .emptySpace {
     /* Size is now controlled by inline styles based on active mode */
     /* Transparent - no visual element */
+    display: block;
+}
+
+/* Clickable area styles */
+.clickableArea {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Outer square wrapper - transparent by default */
+.outerSquareWrapper {
+    transition: opacity 0.2s ease;
+}
+
+/* Make outer UISquare Mid transparent by default */
+.outerSquareWrapper :global(.container) {
+    background-color: transparent !important;
+    border: 0px !important;
+}
+
+/* Show outer square on hover and remove transparent overrides */
+.clickableArea:hover .outerSquareWrapper {
+    opacity: 0.3;
+    cursor: pointer;
+}
+
+.clickableArea:hover .outerSquareWrapper :global(.container) {
+    background-color: unset !important;
+    border: unset !important;
+}
+
+/* Ensure inner UISquare Small is always visible */
+.outerSquareWrapper :global(.container) :global(.container) {
+    opacity: 1 !important;
 }

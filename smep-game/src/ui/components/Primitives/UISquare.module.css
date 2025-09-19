@@ -1,4 +1,6 @@
-/* Square Mid Container - Optimized for MINI_CARD size (31x31px) */
+/* UISquare Component Styles */
+
+/* Container - Base styles with size transitions */
 .container {
     display: inline-block;
     margin: 0;
@@ -6,11 +8,27 @@
     line-height: 0;
     vertical-align: top;
     background-color: transparent;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    box-sizing: border-box;
 }
 
-/* Square styles for different states */
+/* Size-specific container styles */
+.size-small {
+    /* Small size specific styles if needed */
+}
+
+.size-mid {
+    /* Mid size specific styles if needed */
+}
+
+/* SVG container styles */
+.container svg {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: block;
+}
+
+/* Square rect styles for different states */
 .container rect {
     fill: var(--color-gray);
     stroke: var(--color-gray);
@@ -32,8 +50,15 @@
 
 /* Disabled state */
 .squareDisabled rect {
-    fill: var(--color-dark-gray);
-    stroke: var(--color-dark-gray);
+    fill: var(--color-transparent);
+    stroke: var(--color-gray);
+}
+
+/* Small size disabled squares should be outlined, not filled */
+.size-small.squareDisabled rect {
+    fill: transparent;
+    stroke: var(--color-gray);
+    /* Same color as inactive state */
 }
 
 /* Hover effects for interactive states */
@@ -68,6 +93,17 @@
     outline-offset: 2px;
 }
 
+/* Only view mode - disable hover effects */
+.onlyView:hover {
+    background-color: transparent;
+    transform: none;
+}
+
+.onlyView:hover rect {
+    fill: inherit;
+    stroke: inherit;
+}
+
 /* Content container for children - optimized for readable text */
 .contentContainer {
     width: 100%;
@@ -81,9 +117,41 @@
     text-align: center;
     overflow: hidden;
     word-wrap: break-word;
-    /* Optimize for readable content */
-    /*line-height: 1.2;*/
     padding: 1px;
+}
+
+/* Size transition animation */
+.container {
+    animation: sizeTransition 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes sizeTransition {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.9;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+    .container {
+        transition: all 0.2s ease;
+    }
+
+    .squareActive:hover,
+    .squareInactive:hover {
+        transform: none;
+    }
 }
 
 /* Disabled state - no hover effects */
@@ -95,69 +163,4 @@
 .squareDisabled:hover rect {
     fill: var(--color-dark-gray);
     stroke: var(--color-dark-gray);
-}
-
-/* Animation for state changes - subtle for small component */
-.squareActive,
-.squareInactive {
-    animation: squarePulse 0.2s ease-out;
-}
-
-@keyframes squarePulse {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.01);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .container rect {
-        stroke-width: 2;
-    }
-
-    .squareActive rect {
-        stroke: var(--color-black);
-    }
-
-    .squareInactive rect {
-        stroke: var(--color-black);
-    }
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-    .container {
-        transition: none;
-    }
-
-    .squareActive,
-    .squareInactive {
-        animation: none;
-    }
-
-    .squareActive:hover,
-    .squareInactive:hover {
-        transform: none;
-    }
-}
-
-/* Special styles for icon content */
-.contentContainer:has(span:only-child) {
-
-    /* Larger font for single icons */
-}
-
-/* Special styles for text content */
-.contentContainer:has(span:not(:only-child)) {
-
-    /* Smaller font for multiple text elements */
-
 }

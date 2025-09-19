@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { UIPlaygroundSurface } from '../components/Playground/UIPlaygroundSurface';
 import { UICardSmall } from '../components/Cards/UICardSmall';
-import { UIPaginationMini } from '../components/Paginators/UIPaginationMini';
+import { UIPaginationGrid } from '../components/Paginators/UIPaginationGrid';
 import { UIRuler } from '../components/Elements/UIRuler';
 import { useGameStore } from '../../lib/game-state';
 import { ParticleType, UICardState } from '../../lib/types';
@@ -142,9 +142,12 @@ export function ScreenPlayground() {
                     />
 
                     {/* Pagination */}
-                    <UIPaginationMini
+                    <UIPaginationGrid
                         count={sampleParticles.length}
                         activeIndex={currentPage + 1}
+                        gridCols={sampleParticles.length}
+                        gridRows={1}
+                        active="clickable"
                         onPageChange={(pageNumber) => setCurrentPage(pageNumber - 1)}
                     />
 

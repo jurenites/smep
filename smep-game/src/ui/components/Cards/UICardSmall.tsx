@@ -1,110 +1,100 @@
-import { TOKENS } from '../../tokens/tokens';
-import { UICardState } from '../../../lib/types';
+import { UICardState, UISquareState } from '../../../lib/types';
 import { UICircle } from '../Primitives/UICircle';
+import { UISquare } from '../Primitives/UISquare';
+import { UILabel } from '../Text/UILabel';
 import type { LogicalSize } from '../Primitives/UICircle';
+import type { UILabelProps } from '../Text/UILabel';
 import styles from './UICardSmall.module.css';
 
 interface UICardSmallProps {
     symbol: string;
     state?: UICardState;
     onClick?: () => void;
-    shape?: 'rectangle' | 'circle';
-    circleSize?: LogicalSize;
-    circleActualSize?: number;
+    // Label configuration options
+    labelFontVariant?: UILabelProps['fontVariant'];
+    labelColor?: UILabelProps['color'];
+    labelAlign?: UILabelProps['align'];
+    labelClassName?: UILabelProps['className'];
+    labelInteractive?: UILabelProps['interactive'];
+    // UICircle configuration options (for the circle above the label)
+    showCircle?: boolean;
+    circleLogicalSize?: LogicalSize;
+    circleActualSizeInner?: number;
+    circleColor?: string;
+    circleBrightness?: 'full' | 'dimmed';
 }
 
 export function UICardSmall({
     symbol,
     state = UICardState.NORMAL,
     onClick,
-    shape = 'rectangle',
-    circleSize = 'middle',
-    circleActualSize
+    labelFontVariant = 'body',
+    labelColor = 'primary',
+    labelAlign = 'center',
+    labelClassName = '',
+    labelInteractive = false,
+    showCircle = false,
+    circleLogicalSize = 'small',
+    circleActualSizeInner,
+    circleColor = '#FFFFFF',
+    circleBrightness = 'full'
 }: UICardSmallProps) {
-    const sizes = TOKENS.sizes;
-    const colors = TOKENS.colors;
 
-    // Circle shape rendering
-    if (shape === 'circle') {
-        if (state === UICardState.LOADING) {
-            return (
-                <div className={styles.circleContainer}>
-                    <UICircle
-                        logicalSize={circleSize}
-                        actualSize={circleActualSize}
-                        brightness="dimmed"
-                        onClick={onClick}
-                        className={styles.circleLoading}
-                    />
-                </div>
-            );
+    // Rectangle shape rendering - using UISquare component (always rectangular)
+    const getSquareState = (): UISquareState => {
+        switch (state) {
+            case UICardState.SELECTED:
+                return UISquareState.ACTIVE;
+            case UICardState.LOADING:
+                return UISquareState.DISABLED;
+            default:
+                return UISquareState.INACTIVE;
         }
+    };
 
+    if (state === UICardState.LOADING) {
         return (
-            <div className={styles.circleContainer}>
-                <UICircle
-                    logicalSize={circleSize}
-                    actualSize={circleActualSize}
+            <div className={styles.rectangleContainer}>
+                <UISquare
+                    state={getSquareState()}
+                    logicalSize="mid"
+                    active="clickable"
                     onClick={onClick}
-                    className={`${styles.circleCard} ${state === UICardState.SELECTED ? styles.selected : ''}`}
                 />
-                <div className={styles.circleSymbol}>
-                    {symbol}
-                </div>
             </div>
         );
     }
 
-    // Rectangle shape rendering (default)
-    if (state === UICardState.LOADING) {
-        return (
-            <svg
-                width={sizes.MINI_CARD}
-                height={sizes.MINI_CARD}
-                viewBox={`0 0 ${sizes.MINI_CARD} ${sizes.MINI_CARD}`}
-                preserveAspectRatio="xMidYMid meet"
-                onClick={onClick}
-                className={onClick ? styles.card : styles.card_default}
-                data-testid="uicardsmall"
-            >
-                <rect
-                    width={sizes.MINI_CARD}
-                    height={sizes.MINI_CARD}
-                    fill={colors.darkgray}
-                    strokeWidth={sizes.STROKE}
-                />
-            </svg>
-        );
-    }
-
     return (
-        <svg
-            width={sizes.MINI_CARD}
-            height={sizes.MINI_CARD}
-            viewBox={`0 0 ${sizes.MINI_CARD} ${sizes.MINI_CARD}`}
-            preserveAspectRatio="xMidYMid meet"
-            onClick={onClick}
-            className={onClick ? styles.card : styles.card_default}
-            data-testid="uicardsmall"
-        >
-            <rect
-                width={sizes.MINI_CARD}
-                height={sizes.MINI_CARD}
-                fill={colors.black}
-                stroke={state === UICardState.SELECTED ? colors.yolk : colors.white}
-                strokeWidth={sizes.STROKE}
-            />
-            <text
-                x={sizes.MINI_CARD / 2}
-                y={sizes.MINI_CARD / 2 + 4}
-                textAnchor="middle"
-                fill={colors.white}
-                fontSize={TOKENS.typography.body.fontSize}
-                fontFamily={TOKENS.typography.body.fontFamily}
-                className={styles.text}
+        <div className={styles.rectangleContainer}>
+            <UISquare
+                state={getSquareState()}
+                logicalSize="mid"
+                active="clickable"
+                onClick={onClick}
             >
-                {symbol}
-            </text>
-        </svg>
+                <div className={`${styles.contentContainer} ${showCircle ? styles.withCircle : styles.withoutCircle}`}>
+                    {showCircle && (
+                        <div className={styles.circleAbove}>
+                            <UICircle
+                                logicalSize={circleLogicalSize}
+                                actualSize={circleActualSizeInner}
+                                color={circleColor}
+                                brightness={circleBrightness}
+                            />
+                        </div>
+                    )}
+                    <UILabel
+                        fontVariant={labelFontVariant}
+                        color={labelColor}
+                        align={labelAlign}
+                        className={`${styles.symbol} ${labelClassName}`}
+                        interactive={labelInteractive}
+                    >
+                        {symbol}
+                    </UILabel>
+                </div>
+            </UISquare>
+        </div>
     );
 }

@@ -1,45 +1,63 @@
 import React from 'react';
 import styles from './UIBadge.module.css';
 
+export type LabelColor = 'on-primary' | 'on-secondary' | 'on-accent';
+export type BadgeColor = 'primary' | 'secondary';
+
 export interface UIBadgeProps {
     /** Text content to display */
     children: React.ReactNode;
-    /** Text color variant */
-    color?: 'primary' | 'secondary' | 'accent';
+    /** Text color variant - what color the text appears on */
+    labelColor?: LabelColor;
+    /** Badge background color */
+    badgeColor?: BadgeColor;
     /** Text alignment */
     align?: 'left' | 'center' | 'right';
     /** Optional CSS class name */
     className?: string;
-    /** Optional click handler */
-    onClick?: () => void;
-    /** Whether the badge is interactive (clickable) */
-    interactive?: boolean;
 }
 
 export function UIBadge({
     children,
-    color = 'primary',
+    labelColor = 'on-primary',
+    badgeColor = 'primary',
     align = 'left',
-    className = '',
-    onClick,
-    interactive = false
+    className = ''
 }: UIBadgeProps) {
+    // Validation: Prevent bad color combinations
+    const validateColorCombination = (label: LabelColor, badge: BadgeColor): void => {
+        const invalidCombinations = [
+            { label: 'on-primary', badge: 'primary' }, // White on white
+            { label: 'on-secondary', badge: 'secondary' }, // Gray on gray
+        ];
+
+        const isInvalid = invalidCombinations.some(
+            combo => combo.label === label && combo.badge === badge
+        );
+
+        if (isInvalid) {
+            console.warn(
+                `UIBadge: Invalid color combination detected: "${label}" text on "${badge}" background. ` +
+                `This may result in poor contrast and accessibility issues. ` +
+                `Consider using a different combination for better visibility.`
+            );
+        }
+    };
+
+    // Validate color combination
+    validateColorCombination(labelColor, badgeColor);
+
     // Build CSS classes
     const cssClasses = [
         styles.badge,
-        styles[`color${color.charAt(0).toUpperCase() + color.slice(1)}`],
+        styles[`labelColor${labelColor.charAt(0).toUpperCase() + labelColor.slice(1).replace('-', '')}`],
+        styles[`badgeColor${badgeColor.charAt(0).toUpperCase() + badgeColor.slice(1)}`],
         styles[`align${align.charAt(0).toUpperCase() + align.slice(1)}`],
-        interactive ? styles.interactive : '',
         className
     ].filter(Boolean).join(' ');
 
     return (
-        <span
-            className={cssClasses}
-            onClick={interactive ? onClick : undefined}
-            role={interactive ? 'button' : undefined}
-            tabIndex={interactive ? 0 : undefined}
-        >
+        <span className={cssClasses}>
             {children}
         </span>
     );

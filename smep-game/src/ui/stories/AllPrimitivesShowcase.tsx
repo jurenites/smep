@@ -1,9 +1,8 @@
 import React from 'react';
 import { UICardSmall } from '../components/Cards/UICardSmall';
-import { UIPaginationMini } from '../components/Paginators/UIPaginationMini';
+import { UIPaginationGrid } from '../components/Paginators/UIPaginationGrid';
 import { UIPaginationBig } from '../components/Paginators/UIPaginationBig';
 import { UIRectangleSmall } from '../components/Primitives/UIRectangleSmall';
-import { UIPaginationGrid } from '../components/Paginators/UIPaginationGrid';
 import { UIRuler } from '../components/Elements/UIRuler';
 import { UICardState, UISquareState, PaginationState } from '../../lib/types';
 import styles from './AllPrimitivesShowcase.module.css';
@@ -22,10 +21,10 @@ export function AllPrimitivesShowcase() {
             </div>
 
             <div className={styles.section}>
-                <h3>UIPaginationMini Examples</h3>
+                <h3>UIPaginationGrid Examples</h3>
                 <div className={styles.pagination}>
-                    <UIPaginationMini count={5} activeIndex={1} active="clickable" />
-                    <UIPaginationMini count={3} activeIndex={2} active="only view" />
+                    <UIPaginationGrid count={5} activeIndex={1} gridCols={5} gridRows={1} active="clickable" />
+                    <UIPaginationGrid count={3} activeIndex={2} gridCols={3} gridRows={1} active="only view" />
                 </div>
             </div>
 

@@ -135,9 +135,8 @@ enum ButtonState {
 |------|-----------------|-------|
 | Tab | UITab | Active/Inactive/Disabled/Blank |
 | Big Pagination | UIPaginationBig | 4px by 17px rectangles, bottom-center |
-| Mini Paginator | UIPaginationMini | 4px squares, horizontal only, supports state and clickable properties, activeIndex optional (defaults to 1) |
+| Mini Paginator | UIPaginationGrid | 4px squares, configurable grid dimensions (gridCols, gridRows), supports state and clickable properties, activeIndex optional (defaults to 1) |
 | Small Square | UISquareSmall | Individual 4x4 square component with unified state enum (ACTIVE, INACTIVE, DISABLED, ERROR, LOCKED) |
-| Pagination Container | UIPaginationContainer | Higher-level component with event system integration |
 | Pagination Service | paginationService | Centralized pagination state and event management |
 | Pagination Hook | usePagination | React hook for easy pagination integration |
 | Slider Paginator | UISliderPaginator | Hybrid: Small Card as active, Mini Paginator as rest |
@@ -172,8 +171,7 @@ enum UISquareState {
 The pagination system provides a higher-level abstraction for managing page navigation with event-driven architecture:
 
 #### Components
-- **UIPaginationContainer**: High-level component that integrates with the pagination service
-- **UIPaginationMini**: Low-level UI component for rendering pagination squares
+- **UIPaginationGrid**: Low-level UI component for rendering pagination squares with configurable grid dimensions
 - **UISquareSmall**: Individual 4x4 square component with unified state enum (ACTIVE, INACTIVE, DISABLED, ERROR, LOCKED)
 
 #### Services & Hooks
@@ -195,18 +193,17 @@ The pagination system provides a higher-level abstraction for managing page navi
 
 #### Usage Example
 ```tsx
-// Using the container component
-<UIPaginationContainer
-    contextId="my-pagination"
-    pages={[
-        { id: 'page-1', title: 'Quantum', state: PaginationState.ACTIVE },
-        { id: 'page-2', title: 'Nuclear', state: PaginationState.ACTIVE },
-        { id: 'page-3', title: 'Atomic', state: PaginationState.UNAVAILABLE },
-    ]}
-    onPageChange={(pageIndex, event) => {
+// Using the pagination grid component for simple pagination
+<UIPaginationGrid
+    count={5}
+    activeIndex={2}
+    gridCols={5}
+    gridRows={1}
+    onPageChange={(pageIndex) => {
         console.log('Page changed to:', pageIndex);
         // Handle page change logic
     }}
+    active="clickable"
 />
 
 // Using the hook
@@ -380,7 +377,7 @@ All SVG elements **must** include a `viewBox` attribute to maintain proper aspec
 
 ### Affected Components
 
-- `UIPaginationMini` - 4px squares must maintain perfect 1:1 aspect ratio
+- `UIPaginationGrid` - 4px squares must maintain perfect 1:1 aspect ratio
 - `UIRuler` - Measurement lines and tick marks
 - `UICardSmall` - Card outlines and text positioning
 - `UIPlaygroundSurface` - Background circles and blur effects

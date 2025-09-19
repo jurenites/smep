@@ -1,0 +1,91 @@
+/* Rectangle Big Container - Optimized for MID_CARD dimensions (83x109px) */
+.container {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+    vertical-align: top;
+    background-color: transparent;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Rectangle styles for different states */
+.container rect {
+    fill: var(--color-gray);
+    stroke: var(--color-gray);
+    stroke-width: 1;
+    transition: fill 0.2s ease, stroke 0.2s ease, transform 0.1s ease;
+}
+
+/* Active state */
+.rectangleActive rect {
+    fill: var(--color-white);
+    stroke: var(--color-white);
+}
+
+/* Inactive state */
+.rectangleInactive rect {
+    fill: var(--color-gray);
+    stroke: var(--color-gray);
+}
+
+/* Disabled state */
+.rectangleDisabled rect {
+    fill: var(--color-dark-gray);
+    stroke: var(--color-dark-gray);
+}
+
+/* Hover effects for interactive states */
+.rectangleActive:hover {
+    background-color: var(--color-dark-gray);
+    transform: translateY(-1px);
+}
+
+.rectangleInactive:hover {
+    background-color: var(--color-dark-gray);
+    transform: translateY(-1px);
+}
+
+.rectangleActive:hover rect {
+    fill: var(--color-light-gray);
+    stroke: var(--color-light-gray);
+}
+
+.rectangleInactive:hover rect {
+    fill: var(--color-white);
+    stroke: var(--color-white);
+}
+
+/* Focus states for accessibility */
+.rectangleActive:focus-visible {
+    outline: var(--size-stroke) solid var(--color-yolk);
+    outline-offset: 2px;
+}
+
+.rectangleInactive:focus-visible {
+    outline: var(--size-stroke) solid var(--color-yolk);
+    outline-offset: 2px;
+}
+
+/* Disabled state - no hover effects */
+.rectangleDisabled:hover {
+    background-color: transparent;
+    transform: none;
+}
+
+.rectangleDisabled:hover rect {
+    fill: var(--color-dark-gray);
+    stroke: var(--color-dark-gray);
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+    .container {
+        transition: all 0.2s ease;
+    }
+
+    .rectangleActive:hover,
+    .rectangleInactive:hover {
+        transform: none;
+    }
+}

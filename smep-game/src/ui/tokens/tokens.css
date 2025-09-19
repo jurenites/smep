@@ -7,6 +7,14 @@
     --color-gray: #666666;
     --color-dark-gray: #232323;
     --color-black: #000000;
+    --color-transparent: transparent;
+
+    /* Badge Colors */
+    --color-primary: #FFFFFF;
+    --color-secondary: #666666;
+    --color-on-primary: #000000;
+    --color-on-secondary: #FFFFFF;
+    --color-on-accent: #000000;
 
     /* Fonts */
     --font-title: 'Roundabout-Regular', Urbanist, sans-serif;

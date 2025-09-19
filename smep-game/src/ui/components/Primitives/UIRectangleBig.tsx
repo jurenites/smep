@@ -1,22 +1,22 @@
 import React from 'react';
 import { TOKENS } from '../../tokens/tokens';
 import { UISquareState } from '../../../lib/types';
-import styles from './UIRectangleSmall.module.css';
+import styles from './UIRectangleBig.module.css';
 
-interface UIRectangleSmallProps {
+interface UIRectangleBigProps {
     state: UISquareState;
     onClick?: () => void;
 }
 
-export function UIRectangleSmall({ state, onClick }: UIRectangleSmallProps) {
+export function UIRectangleBig({ state, onClick }: UIRectangleBigProps) {
     const sizes = TOKENS.sizes;
 
-    // Rectangle dimensions from tokens
-    const rectWidth = sizes.BIG_PAGINATOR_W;  // 17px
-    const rectHeight = sizes.BIG_PAGINATOR_H; // 4px
+    // Rectangle dimensions from tokens - using MID_CARD dimensions for big rectangle
+    const rectWidth = sizes.MID_CARD_W;  // 83px
+    const rectHeight = sizes.MID_CARD_H; // 109px
 
-    // SVG container size (same as UISquare Mid for consistency)
-    const svgSize = sizes.MINI_CARD; // 31px
+    // SVG container size - using the larger dimension plus some padding for optimal rendering
+    const svgSize = Math.max(rectWidth, rectHeight) + 10; // 119px
 
     // Calculate center offset to center the rectangle within the SVG
     const centerOffsetX = Math.round((svgSize - rectWidth) / 2);
@@ -50,7 +50,7 @@ export function UIRectangleSmall({ state, onClick }: UIRectangleSmallProps) {
             className={getItemClassName()}
             data-active="clickable"
             onClick={onClick}
-            data-testid="uirectanglesmall"
+            data-testid="uirectanglebig"
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"

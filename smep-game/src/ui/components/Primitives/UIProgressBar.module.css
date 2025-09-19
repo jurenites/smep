@@ -1,0 +1,139 @@
+/* UIProgressBar Component Styles */
+
+/* Container - Base styles */
+.container {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+    vertical-align: top;
+    background-color: transparent;
+    transition: all 0.2s ease;
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* Size-specific container styles */
+.size-small {
+    /* Small size specific styles */
+}
+
+.size-mid {
+    /* Mid size specific styles */
+}
+
+/* SVG container styles */
+.container svg {
+    transition: all 0.2s ease;
+    display: block;
+}
+
+/* Background outline styles for different states */
+.background {
+    transition: stroke 0.2s ease;
+}
+
+/* Progress fill styles */
+.fill {
+    transition: width 0.3s ease, fill 0.2s ease;
+}
+
+/* Active state */
+.progressActive {
+    color: var(--color-white);
+}
+
+.progressActive .background {
+    stroke: var(--color-white);
+}
+
+/* Note: Fill color is controlled by the fillColor prop in the component, not CSS */
+
+/* Inactive state */
+.progressInactive {
+    color: var(--color-gray);
+}
+
+.progressInactive .background {
+    stroke: var(--color-gray);
+}
+
+/* Disabled state */
+.progressDisabled {
+    color: var(--color-dark-gray);
+}
+
+.progressDisabled .background {
+    stroke: var(--color-dark-gray);
+}
+
+.progressDisabled .fill {
+    opacity: 0.5;
+}
+
+/* Hover effects for interactive states */
+.progressActive:hover {
+    background-color: var(--color-dark-gray);
+}
+
+.progressInactive:hover {
+    background-color: var(--color-dark-gray);
+}
+
+.progressActive:hover .background {
+    stroke: var(--color-light-gray);
+}
+
+.progressInactive:hover .background {
+    stroke: var(--color-white);
+}
+
+/* Fill colors are controlled by the fillColor prop, not hover states */
+
+/* Focus states for accessibility */
+.progressActive:focus-visible {
+    outline: var(--size-stroke) solid var(--color-yolk);
+    outline-offset: 2px;
+}
+
+.progressInactive:focus-visible {
+    outline: var(--size-stroke) solid var(--color-yolk);
+    outline-offset: 2px;
+}
+
+/* Disabled state - no hover effects */
+.progressDisabled:hover {
+    background-color: transparent;
+}
+
+.progressDisabled:hover .background {
+    stroke: var(--color-dark-gray);
+}
+
+/* Disabled fill color is controlled by the fillColor prop */
+
+/* Progress animation for smooth transitions */
+.fill {
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+    .container {
+        transition: all 0.2s ease;
+    }
+
+    .progressActive:hover,
+    .progressInactive:hover {
+        background-color: transparent;
+    }
+}
+
+/* Size-specific adjustments */
+.size-small .fill {
+    transition: width 0.2s ease;
+}
+
+.size-mid .fill {
+    transition: width 0.4s ease;
+}
