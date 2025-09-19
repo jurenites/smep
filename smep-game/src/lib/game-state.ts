@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import type { GameState, PlayerWallet, EntityPlayground, EntitySingularity, Particle, ForceField } from './types';
 import { GameLevel, ParticleType } from './types';
-import { TOKENS } from '../ui/tokens/tokens';
+import { GAME_CONSTANTS } from './constants';
 
 // Initial state
 const initialWallet: PlayerWallet = {
@@ -116,7 +116,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
             const newTime = state.universe.time + deltaTime;
 
             // Simple idle progression - generate energy over time
-            const energyGenerated = deltaTime * TOKENS.gameConstants.energyGenerationRate; // 0.1 eV per second
+            const energyGenerated = deltaTime * GAME_CONSTANTS.energyGenerationRate; // 0.1 eV per second
 
             // Update particle positions (simple physics)
             const updatedParticles = state.particles.map(particle => ({

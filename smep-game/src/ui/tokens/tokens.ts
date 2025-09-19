@@ -1,3 +1,12 @@
+/**
+ * Visual Design Tokens
+ * 
+ * This file contains visual design parameters for the UI system including:
+ * - Colors, typography, sizes, spacing, and z-index values
+ * - CSS variables for consistent styling across components
+ * 
+ * For game logic constants, see: src/lib/constants/game-constants.ts
+ */
 export const TOKENS = {
     colors: {
         yolk: "#F8E71C",
@@ -80,16 +89,10 @@ export const TOKENS = {
         // Other sizes
         OUTLINE_OFFSET: 2,
         HOVER_TRANSLATE: 1,
-        LINE_HEIGHT_TIGHT: 1.2,
+        LINE_HEIGHT_TIGHT: 1,
     },
     zIndexes: {
         HUD_Z_Index: 10,
-    },
-    gameConstants: {
-        energyGenerationRate: 0.1,
-        particleRadius: 3,
-        quantaUnit: 1.602176634e-19,
-        playgroundDebugArtMode: false,
     },
 } as const;
 

@@ -77,12 +77,12 @@
     justify-content: center;
     color: var(--color-white);
     font-family: var(--font-body);
-    font-size: 16px;
+    font-size: var(--font-body-size);
     text-align: center;
     overflow: hidden;
     word-wrap: break-word;
     /* Optimize for readable content */
-    line-height: 1.2;
+    /*line-height: 1.2;*/
     padding: 1px;
 }
 

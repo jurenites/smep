@@ -76,7 +76,7 @@ iframe[id*="storybook-preview"] {
 
 /* Global font overrides - most aggressive approach */
 * {
-    font-family: 'Roundabout-Regular', Sulphur Point, sans-serif !important;
+    /*font-family: 'Roundabout-Regular', Sulphur Point, sans-serif !important; */
 }
 
 /* Specific overrides for titles */
@@ -90,5 +90,6 @@ h6,
 h1.sbdocs-title,
 .sbdocs-title.sb-unstyled {
     font-family: 'Roundabout-Regular', Urbanist, sans-serif !important;
-    font-size: 32px !important;
+    font-size: 16px !important;
+    color: white;
 }

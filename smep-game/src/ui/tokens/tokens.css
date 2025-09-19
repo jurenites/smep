@@ -9,11 +9,11 @@
     --color-black: #000000;
 
     /* Fonts */
-    --font-title: Roundabout-Regular, Urbanist, sans-serif;
-    --font-body: Roundabout-Regular, Sulphur Point, sans-serif;
-    --font-digit: 4pixel, monospace;
-    --font-digit-small: 4pixel, monospace;
-    --font-digit-big: 4pixel, monospace;
+    --font-title: 'Roundabout-Regular', Urbanist, sans-serif;
+    --font-body: 'Roundabout-Regular', 'Sulphur Point', sans-serif;
+    --font-digit: '4pixel', monospace;
+    --font-digit-small: '4pixel', monospace;
+    --font-digit-big: '4pixel', monospace;
     --font-code: 'Courier New', monospace;
 
     /* Font Sizes */

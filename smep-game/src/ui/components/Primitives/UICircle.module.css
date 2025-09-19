@@ -41,7 +41,6 @@
 .dotDimmed {
     background-color: transparent;
     border: 1px solid var(--color-accent-primary);
-    opacity: 0.7;
 }
 
 /* Clickable state */
