@@ -9,6 +9,15 @@
     transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
+/* Cursor states */
+.cursorPointer {
+    cursor: pointer;
+}
+
+.cursorDefault {
+    cursor: default;
+}
+
 /* Rectangle styles for different states */
 .container rect {
     fill: var(--color-gray);
@@ -58,12 +67,12 @@
 
 /* Focus states for accessibility */
 .rectangleActive:focus-visible {
-    outline: var(--size-stroke) solid var(--color-yolk);
+    outline: var(--size-line) solid var(--color-yolk);
     outline-offset: 2px;
 }
 
 .rectangleInactive:focus-visible {
-    outline: var(--size-stroke) solid var(--color-yolk);
+    outline: var(--size-line) solid var(--color-yolk);
     outline-offset: 2px;
 }
 

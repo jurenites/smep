@@ -12,6 +12,7 @@
     /* Badge Colors */
     --color-primary: #FFFFFF;
     --color-secondary: #666666;
+    --color-accent: #F8E71C;
     --color-on-primary: #000000;
     --color-on-secondary: #FFFFFF;
     --color-on-accent: #000000;
@@ -32,30 +33,25 @@
     --font-code-size: 12px;
 
     /* Sizes */
-    --size-hud-padding: 16px;
     --z-index-hud: 1000;
     --size-dot-1: 1px;
     --size-circle-4: 4px;
     --size-circle-6: 6px;
     --size-circle-61: 61px;
     --size-mini-card: 31px;
-    --size-mini-paginator: 4px;
-    --size-mini-paginator-gap: 2px;
+    --size-square-small: 4px;
     --size-big-paginator-w: 17px;
-    --size-big-paginator-h: 4px;
-    --size-big-paginator-gap: 6px;
-    --size-rectangle-small-w: 31px;
-    --size-rectangle-small-h: 31px;
+
     --size-mid-card-w: 83px;
     --size-mid-card-h: 109px;
     --size-tab-w: 109px;
     --size-tab-h: 23px;
+    --size-button-width: 175px;
     --size-blur-playground: 16px;
-    --size-stroke: 1px;
+    --size-line: 1px;
 
     /* Gap sizes */
     --size-gap-small: 2px;
-    --size-gap-medium: 8px;
     --size-gap-large: 16px;
 
     /* Padding sizes */
@@ -65,22 +61,8 @@
     --size-padding-xlarge: 16px;
     --size-padding-tiny: 1px;
 
-    /* Margin sizes */
-    --size-margin-small: 8px;
-
-    /* Border radius sizes */
-    --size-radius-small: 4px;
-    --size-radius-medium: 6px;
-    --size-radius-large: 8px;
-
-    /* Font sizes */
-    --size-font-small: 10px;
-    --size-font-medium: 12px;
-    --size-font-large: 14px;
-    --size-font-xlarge: 16px;
 
     /* Other sizes */
     --size-outline-offset: 2px;
     --size-hover-translate: 1px;
-    --size-line-height-tight: 1.2;
 }

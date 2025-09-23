@@ -3,7 +3,7 @@
  * Formats numeric values with appropriate units and notation
  */
 
-export type MeasurementType = 'temperature' | 'distance' | 'energy' | 'custom';
+export type MeasurementType = 'temperature' | 'distance' | 'energy' | 'time' | 'custom';
 export type DisplayMode = 'full' | 'shortened' | 'scientific';
 
 export interface FormattedValue {
@@ -94,16 +94,16 @@ export function formatValue(
     let result: FormattedValue;
     switch (displayMode) {
         case 'full':
-            result = formatFullDisplay(numericValue, measurementType, customUnit);
+            result = formatFullDisplay(numericValue, measurementType, customUnit, displayMode);
             break;
         case 'shortened':
-            result = formatShortenedDisplay(numericValue, measurementType, customUnit);
+            result = formatShortenedDisplay(numericValue, measurementType, customUnit, displayMode);
             break;
         case 'scientific':
-            result = formatScientificDisplay(numericValue, measurementType, customUnit);
+            result = formatScientificDisplay(numericValue, measurementType, customUnit, displayMode);
             break;
         default:
-            result = formatShortenedDisplay(numericValue, measurementType, customUnit);
+            result = formatShortenedDisplay(numericValue, measurementType, customUnit, displayMode);
     }
 
     // Add plus sign if it was manually specified
@@ -119,12 +119,90 @@ function getUnitForType(measurementType: MeasurementType, customUnit: string): s
         case 'temperature': return '°C';
         case 'distance': return 'm';
         case 'energy': return 'eV';
+        case 'time': return 'sec';
         case 'custom': return customUnit;
         default: return customUnit;
     }
 }
 
-function formatFullDisplay(value: number, measurementType: MeasurementType, customUnit: string): FormattedValue {
+function formatTimeDisplay(value: number, displayMode: DisplayMode): FormattedValue {
+    const absValue = Math.abs(value);
+    const isNegative = value < 0;
+    const sign = isNegative ? '-' : '';
+
+
+    // Time conversion constants
+    const SECONDS_IN_MINUTE = 60;
+    const SECONDS_IN_HOUR = 3600;
+    const SECONDS_IN_DAY = 86400;
+    const SECONDS_IN_MONTH = 2628000; // 30.44 days average
+    const SECONDS_IN_YEAR = 31536000; // 365 days
+
+    // Full mode: "100 000sec"
+    if (displayMode === 'full') {
+        const formattedValue = Math.floor(absValue).toLocaleString('en-US').replace(/,/g, ' ');
+        return { value: `${sign}${formattedValue}`, exponent: "", unit: 'sec' };
+    }
+
+    // Shortened mode: "1y 2m 3d 1h 2m 35s"
+    if (displayMode === 'shortened') {
+        const years = Math.floor(absValue / SECONDS_IN_YEAR);
+        const remainingAfterYears = absValue % SECONDS_IN_YEAR;
+
+        const months = Math.floor(remainingAfterYears / SECONDS_IN_MONTH);
+        const remainingAfterMonths = remainingAfterYears % SECONDS_IN_MONTH;
+
+        const days = Math.floor(remainingAfterMonths / SECONDS_IN_DAY);
+        const remainingAfterDays = remainingAfterMonths % SECONDS_IN_DAY;
+
+        const hours = Math.floor(remainingAfterDays / SECONDS_IN_HOUR);
+        const remainingAfterHours = remainingAfterDays % SECONDS_IN_HOUR;
+
+        const minutes = Math.floor(remainingAfterHours / SECONDS_IN_MINUTE);
+        const seconds = Math.floor(remainingAfterHours % SECONDS_IN_MINUTE);
+
+        const parts: string[] = [];
+        if (years > 0) parts.push(`${years}y`);
+        if (months > 0) parts.push(`${months}mo`);
+        if (days > 0) parts.push(`${days}d`);
+        if (hours > 0) parts.push(`${hours}h`);
+        if (minutes > 0) parts.push(`${minutes}m`);
+        if (seconds > 0) parts.push(`${seconds}s`);
+
+        return { value: `${sign}${parts.join(' ')}`, exponent: "", unit: '' };
+    }
+
+    // For minutes:seconds format (31:40)
+    if (absValue >= SECONDS_IN_MINUTE && absValue < SECONDS_IN_HOUR) {
+        const minutes = Math.floor(absValue / SECONDS_IN_MINUTE);
+        const seconds = Math.floor(absValue % SECONDS_IN_MINUTE);
+        return { value: `${sign}${minutes}:${seconds.toString().padStart(2, '0')}`, exponent: "", unit: '' };
+    }
+
+    // For hours:minutes format (2:45)
+    if (absValue >= SECONDS_IN_HOUR && absValue < SECONDS_IN_DAY) {
+        const hours = Math.floor(absValue / SECONDS_IN_HOUR);
+        const minutes = Math.floor((absValue % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE);
+        return { value: `${sign}${hours}:${minutes.toString().padStart(2, '0')}`, exponent: "", unit: '' };
+    }
+
+    // For days:hours format (3:12)
+    if (absValue >= SECONDS_IN_DAY) {
+        const days = Math.floor(absValue / SECONDS_IN_DAY);
+        const hours = Math.floor((absValue % SECONDS_IN_DAY) / SECONDS_IN_HOUR);
+        return { value: `${sign}${days}:${hours.toString().padStart(2, '0')}`, exponent: "", unit: '' };
+    }
+
+    // Fallback (should not happen)
+    return { value: `${sign}${Math.floor(absValue)}`, exponent: "", unit: 'sec' };
+}
+
+function formatFullDisplay(value: number, measurementType: MeasurementType, customUnit: string, displayMode: DisplayMode): FormattedValue {
+    // Handle time conversion specially
+    if (measurementType === 'time') {
+        return formatTimeDisplay(value, displayMode);
+    }
+
     const unit = getUnitForType(measurementType, customUnit);
 
     // For very small values, show all digits including leading zeros with space delimiters
@@ -153,8 +231,13 @@ function formatFullDisplay(value: number, measurementType: MeasurementType, cust
     return { value: formattedValue, exponent: "", unit };
 }
 
-function formatShortenedDisplay(value: number, measurementType: MeasurementType, customUnit: string): FormattedValue {
+function formatShortenedDisplay(value: number, measurementType: MeasurementType, customUnit: string, displayMode: DisplayMode): FormattedValue {
     const baseUnit = getUnitForType(measurementType, customUnit);
+
+    // Handle time conversion specially
+    if (measurementType === 'time') {
+        return formatTimeDisplay(value, displayMode);
+    }
 
     // Find the best metric prefix for this value
     const { prefix, adjustedValue } = findBestMetricPrefix(value);
@@ -192,7 +275,12 @@ function formatShortenedDisplay(value: number, measurementType: MeasurementType,
     return { value: formattedValue, exponent: "", unit };
 }
 
-function formatScientificDisplay(value: number, measurementType: MeasurementType, customUnit: string): FormattedValue {
+function formatScientificDisplay(value: number, measurementType: MeasurementType, customUnit: string, displayMode: DisplayMode): FormattedValue {
+    // Handle time conversion specially
+    if (measurementType === 'time') {
+        return formatTimeDisplay(value, displayMode);
+    }
+
     const unit = getUnitForType(measurementType, customUnit);
 
     // Calculate the order of magnitude

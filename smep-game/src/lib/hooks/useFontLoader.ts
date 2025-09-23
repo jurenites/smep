@@ -20,37 +20,37 @@ export function useFontLoader(fonts: FontConfig[]) {
 
     const loadFont = useCallback(async (font: FontConfig): Promise<FontStatus> => {
         try {
-            console.log(`Loading font: ${font.name} from ${font.url}`);
+            // console.log(`Loading font: ${font.name} from ${font.url}`);
 
             // Check if font is already loaded
-            if (document.fonts.check(`12px ${font.name}`)) {
-                console.log(`Font ${font.name} already loaded`);
+            if (document.fonts.check(`12px "${font.name}"`)) {
+                // console.log(`Font ${font.name} already loaded`);
                 return { loaded: true, error: null, loading: false };
             }
 
             // Create and load the font
             const fontFace = new FontFace(font.name, `url(${font.url}) format('${font.format}')`);
-            console.log(`Created FontFace for ${font.name}, loading...`);
+            //console.log(`Created FontFace for ${font.name}, loading...`);
             await fontFace.load();
-            console.log(`FontFace loaded for ${font.name}`);
+            //console.log(`FontFace loaded for ${font.name}`);
 
             // Add to document fonts
             document.fonts.add(fontFace);
-            console.log(`Added ${font.name} to document.fonts`);
+            //console.log(`Added ${font.name} to document.fonts`);
 
             // Wait for fonts to be ready
             await document.fonts.ready;
-            console.log(`Document fonts ready`);
+            //console.log(`Document fonts ready`);
 
             // Verify the font is actually available
-            const isAvailable = document.fonts.check(`12px ${font.name}`);
-            console.log(`Font ${font.name} available check:`, isAvailable);
+            const isAvailable = document.fonts.check(`12px "${font.name}"`);
+            // console.log(`Font ${font.name} available check:`, isAvailable);
 
             if (isAvailable) {
-                console.log(`Font ${font.name} successfully loaded and available`);
+                //console.log(`Font ${font.name} successfully loaded and available`);
                 return { loaded: true, error: null, loading: false };
             } else {
-                console.log(`Font ${font.name} loaded but not available for use`);
+                //console.log(`Font ${font.name} loaded but not available for use`);
                 return { loaded: false, error: 'Font loaded but not available for use', loading: false };
             }
         } catch (error) {

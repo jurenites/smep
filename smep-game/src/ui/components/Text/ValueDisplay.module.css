@@ -4,10 +4,15 @@
     display: inline-flex;
     align-items: baseline;
     position: relative;
-    /*padding: 2px 4px;*/
     /*border-radius: 2px;*/
     /* neever use the round corners in this project unless I let you doing so, ask in advance that you wanna add round corners somewhere, rememnber that */
     transition: background-color 0.2s ease;
+}
+
+/* Padding for digit fonts (digitBig, digitSmall) - not needed for body font */
+.valueDisplay :global(.fontDigitBig),
+.valueDisplay :global(.fontDigitSmall) {
+    padding: 2px 4px;
 }
 
 /* Clickable state */

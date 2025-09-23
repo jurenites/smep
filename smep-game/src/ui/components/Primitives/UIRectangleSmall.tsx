@@ -13,7 +13,7 @@ export function UIRectangleSmall({ state, onClick }: UIRectangleSmallProps) {
 
     // Rectangle dimensions from tokens
     const rectWidth = sizes.BIG_PAGINATOR_W;  // 17px
-    const rectHeight = sizes.BIG_PAGINATOR_H; // 4px
+    const rectHeight = sizes.SQUARE_SMALL; // 4px
 
     // SVG container size (same as UISquare Mid for consistency)
     const svgSize = sizes.MINI_CARD; // 31px
@@ -58,7 +58,7 @@ export function UIRectangleSmall({ state, onClick }: UIRectangleSmallProps) {
                 height={svgSize}
                 viewBox={`0 0 ${svgSize} ${svgSize}`}
                 preserveAspectRatio="xMidYMid meet"
-                style={{ cursor: isClickable ? 'pointer' : 'default' }}
+                className={isClickable ? styles.cursorPointer : styles.cursorDefault}
             >
                 {renderContent()}
             </svg>

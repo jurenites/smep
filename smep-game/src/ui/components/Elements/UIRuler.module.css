@@ -1,11 +1,3 @@
-@font-face {
-    font-family: '4pixel';
-    src: url('/assets/fonts/4pixel.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
 .text {
     user-select: none;
     font-family: var(--font-digit-small);
@@ -49,4 +41,34 @@
 
 .scaleTextGray {
     fill: var(--color-gray);
+}
+
+.rulerContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.valueDisplayContainer {
+    position: absolute;
+    top: 2.5px;
+    left: -2.5px;
+    z-index: 10;
+    pointer-events: auto;
+}
+
+.valueDisplay {
+    cursor: pointer;
+    user-select: none;
+}
+
+.scaleDisplayContainer {
+    position: absolute;
+    bottom: 1.5px;
+    z-index: 10;
+    pointer-events: none;
+    transform: translateX(-100%);
+}
+
+.scaleDisplay {
+    user-select: none;
 }

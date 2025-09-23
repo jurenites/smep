@@ -1,5 +1,8 @@
 /* Import tokens for CSS variables */
-@import './ui/tokens/tokens.css' W * {
+@import './ui/tokens/tokens.css';
+@import './ui/tokens/fonts.css';
+
+* {
     box-sizing: border-box;
 }
 
@@ -57,9 +60,9 @@ body {
 
 .hud-top {
     position: absolute;
-    top: var(--size-hud-padding);
-    left: var(--size-hud-padding);
-    right: var(--size-hud-padding);
+    top: var(--size-gap-small);
+    left: var(--size-gap-small);
+    right: var(--size-gap-small);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -68,9 +71,9 @@ body {
 
 .hud-bottom {
     position: absolute;
-    bottom: var(--size-hud-padding);
-    left: var(--size-hud-padding);
-    right: var(--size-hud-padding);
+    bottom: var(--size-gap-small);
+    left: var(--size-gap-small);
+    right: var(--size-gap-small);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -79,22 +82,22 @@ body {
 
 .wallet-display {
     background: var(--color-dark-gray);
-    padding: calc(var(--size-mini-paginator-gap) / 2) var(--size-mini-paginator-gap);
-    border: var(--size-stroke) solid var(--color-white);
+    padding: calc(var(--size-gap-small) / 2) var(--size-gap-small);
+    border: var(--size-line) solid var(--color-white);
     font-family: var(--font-digit);
     font-size: var(--font-size-medium-large);
 }
 
 .inventory {
     display: flex;
-    gap: calc(var(--size-mini-paginator-gap) / 2);
+    gap: calc(var(--size-gap-small) / 2);
     pointer-events: auto;
 }
 
 .level-indicator {
     background: var(--color-dark-gray);
-    padding: calc(var(--size-mini-paginator-gap) / 2) var(--size-mini-paginator-gap);
-    border: var(--size-stroke) solid var(--color-white);
+    padding: calc(var(--size-gap-small) / 2) var(--size-gap-small);
+    border: var(--size-line) solid var(--color-white);
     font-family: var(--font-body);
     font-size: var(--font-size-medium);
     text-transform: capitalize;
@@ -106,39 +109,10 @@ body {
     height: var(--size-circle-6);
     border-radius: 50%;
     background: radial-gradient(circle, var(--color-white) 0%, var(--color-light-gray) 100%);
-    border: var(--size-stroke) solid var(--color-white);
+    border: var(--size-line) solid var(--color-white);
     pointer-events: none;
 }
 
-/* Custom fonts */
-@font-face {
-    font-family: 'Roundabout-Regular';
-    src: url('/assets/fonts/Roundabout-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: '4pixel';
-    src: url('/assets/fonts/4pixel.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Sulphur Point';
-    src: url('/assets/fonts/SulphurPoint-Light.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Urbanist';
-    src: url('/assets/fonts/Urbanist-ExtraLight.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
 
 /* Disable text selection for UI elements */
 .no-select {
@@ -155,8 +129,8 @@ body {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-    width: calc(var(--size-mini-paginator-gap) / 2);
-    height: calc(var(--size-mini-paginator-gap) / 2);
+    width: calc(var(--size-gap-small) / 2);
+    height: calc(var(--size-gap-small) / 2);
 }
 
 ::-webkit-scrollbar-track {

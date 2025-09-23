@@ -22,7 +22,7 @@ export interface UISquareProps {
 
 // Logical size to pixel size mapping
 const LOGICAL_SIZE_MAP: Record<SquareLogicalSize, number> = {
-    small: TOKENS.sizes.MINI_PAGINATOR, // 4px
+    small: TOKENS.sizes.SQUARE_SMALL, // 4px
     mid: TOKENS.sizes.MINI_CARD, // 31px
 };
 

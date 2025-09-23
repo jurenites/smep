@@ -13,12 +13,18 @@
     box-sizing: border-box;
 }
 
+/* Full width container */
+.container.fullWidth {
+    display: block;
+    width: 100%;
+}
+
 /* Size-specific container styles */
-.size-small {
+.sizeSmall {
     /* Small size specific styles */
 }
 
-.size-mid {
+.sizeMid {
     /* Mid size specific styles */
 }
 
@@ -28,6 +34,15 @@
     display: block;
 }
 
+/* Cursor states */
+.cursorPointer {
+    cursor: pointer;
+}
+
+.cursorDefault {
+    cursor: default;
+}
+
 /* Background outline styles for different states */
 .background {
     transition: stroke 0.2s ease;
@@ -35,7 +50,7 @@
 
 /* Progress fill styles */
 .fill {
-    transition: width 0.3s ease, fill 0.2s ease;
+    transition: fill 0.2s ease;
 }
 
 /* Active state */
@@ -92,12 +107,12 @@
 
 /* Focus states for accessibility */
 .progressActive:focus-visible {
-    outline: var(--size-stroke) solid var(--color-yolk);
+    outline: var(--size-line) solid var(--color-yolk);
     outline-offset: 2px;
 }
 
 .progressInactive:focus-visible {
-    outline: var(--size-stroke) solid var(--color-yolk);
+    outline: var(--size-line) solid var(--color-yolk);
     outline-offset: 2px;
 }
 
@@ -112,9 +127,9 @@
 
 /* Disabled fill color is controlled by the fillColor prop */
 
-/* Progress animation for smooth transitions */
+/* Progress animation for smooth transitions - removed width transition for instant sync */
 .fill {
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Width transitions removed to sync with percentage display */
 }
 
 /* Responsive behavior */
@@ -129,11 +144,11 @@
     }
 }
 
-/* Size-specific adjustments */
-.size-small .fill {
-    transition: width 0.2s ease;
+/* Size-specific adjustments - width transitions removed for instant sync */
+.sizeSmall .fill {
+    /* Width transitions removed to sync with percentage display */
 }
 
-.size-mid .fill {
-    transition: width 0.4s ease;
+.sizeMid .fill {
+    /* Width transitions removed to sync with percentage display */
 }

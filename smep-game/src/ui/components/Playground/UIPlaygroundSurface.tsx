@@ -1,5 +1,6 @@
 import React from 'react';
 import { TOKENS } from '../../tokens/tokens';
+import styles from './UIPlaygroundSurface.module.css';
 
 interface UIPlaygroundSurfaceProps {
     width: number;
@@ -24,16 +25,15 @@ export function UIPlaygroundSurface({
     // Calculate playground circle (centered)
     const centerX = width / 2;
     const centerY = height / 2;
-    const radius = Math.min(width, height) / 2 - sizes.HUD_PADDING; // 20px margin
+    const radius = Math.min(width, height) / 2 - sizes.GAP_SMALL; // 2px margin
 
     return (
         <div
+            className={styles.container}
             style={{
-                position: 'relative',
                 width,
                 height,
                 background: `radial-gradient(circle at top left, ${colors.darkgray} 0%, ${colors.black} 100%)`,
-                overflow: 'hidden',
             }}
             onMouseMove={onMouseMove}
             onMouseDown={onMouseDown}
@@ -46,12 +46,7 @@ export function UIPlaygroundSurface({
                 height={height}
                 viewBox={`0 0 ${width} ${height}`}
                 preserveAspectRatio="xMidYMid meet"
-                style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    zIndex: 1,
-                }}
+                className={styles.backgroundSvg}
             >
                 {/* Background circle */}
                 <circle
@@ -60,7 +55,7 @@ export function UIPlaygroundSurface({
                     r={radius}
                     fill={colors.black}
                     stroke={colors.white}
-                    strokeWidth={sizes.STROKE}
+                    strokeWidth={sizes.LINE}
                 />
 
                 {/* Bottom blur effect */}
@@ -83,14 +78,10 @@ export function UIPlaygroundSurface({
 
             {/* Content overlay */}
             <div
+                className={styles.contentOverlay}
                 style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
                     width,
                     height,
-                    zIndex: 2,
-                    pointerEvents: 'none',
                 }}
             >
                 {children}

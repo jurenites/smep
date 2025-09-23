@@ -1,6 +1,7 @@
 import { TOKENS } from '../../tokens/tokens';
 import { PaginationState, UISquareState, ClickableState } from '../../../lib/types';
 import { UIRectangleSmall } from '../Primitives/UIRectangleSmall';
+import styles from './UIPaginationBig.module.css';
 
 interface UIPaginationBigProps {
     count: number;
@@ -30,7 +31,7 @@ export function UIPaginationBig({
     const gap = sizes.BIG_PAGINATOR_GAP;
 
     return (
-        <div style={{ display: 'flex', gap, flexDirection: 'row' }} data-testid="uipaginationbig">
+        <div className={styles.container} style={{ gap }} data-testid="uipaginationbig">
             {items.map((_, i) => {
                 const pageNumber = i + 1; // Convert 0-based index to 1-based page number
                 const currentActiveIndex = activeIndex || 1; // Ensure we have a valid active index
@@ -57,7 +58,7 @@ export function UIPaginationBig({
                         key={i}
                         state={getRectangleState()}
                         onClick={isRectangleClickable ? () => {
-                            console.log(`UIPaginationBig: Clicked on page ${pageNumber}, current active: ${currentActiveIndex}`);
+                            // console.log(`UIPaginationBig: Clicked on page ${pageNumber}, current active: ${currentActiveIndex}`);
                             onPageChange?.(pageNumber);
                         } : undefined}
                     />

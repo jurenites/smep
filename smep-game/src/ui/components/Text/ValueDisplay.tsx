@@ -15,6 +15,10 @@ export interface ValueDisplayProps {
     valueColor?: 'primary' | 'secondary' | 'accent';
     /** Color variant for the unit and exponent labels */
     unitColor?: 'primary' | 'secondary' | 'accent';
+    /** Font variant for the value (body, digitSmall, digitBig) */
+    valueFontVariant?: 'body' | 'digitSmall' | 'digitBig';
+    /** Font variant for the unit labels (body, digitSmall, digitBig) */
+    labelFontVariant?: 'body' | 'digitSmall' | 'digitBig';
     /** Whether the display mode can be clicked to cycle through modes */
     clickable?: boolean;
     /** Callback when display mode changes */
@@ -36,6 +40,7 @@ export interface ValueDisplayProps {
  * - Temperature: Uses °C units
  * - Distance: Uses m, km, cm, mm units
  * - Energy: Uses eV, keV, MeV, μeV units
+ * - Time: Uses sec, hour, day, week, year units
  * - Custom: Uses any custom unit string
  */
 export function ValueDisplay({
@@ -44,7 +49,9 @@ export function ValueDisplay({
     customUnit = "",
     displayMode = 'shortened',
     valueColor = 'primary',
-    unitColor = 'primary',
+    unitColor = 'secondary',
+    valueFontVariant = 'digitBig',
+    labelFontVariant = 'body',
     clickable = false,
     onDisplayModeChange,
     className = ''
@@ -71,16 +78,16 @@ export function ValueDisplay({
             className={`${styles.valueDisplay} ${clickable ? styles.clickable : ''} ${className}`}
             onClick={handleClick}
         >
-            <UILabel fontVariant="digitBig" color={valueColor}>{numberPart}</UILabel>
+            <UILabel fontVariant={valueFontVariant} color={valueColor}>{numberPart}</UILabel>
             {hasScientificNotation && (
-                <UILabel fontVariant="digitBig" color={unitColor}>·10</UILabel>
+                <UILabel fontVariant={valueFontVariant} color={unitColor}>·10</UILabel>
             )}
             {formatted.exponent && (
                 <UILabel fontVariant="digitSmall" color={unitColor} className={styles.exponent}>
                     {formatted.exponent}
                 </UILabel>
             )}
-            {formatted.unit && <UILabel fontVariant="body" color={unitColor}> {formatted.unit}</UILabel>}
+            {formatted.unit && <UILabel fontVariant={labelFontVariant} color={unitColor}> {formatted.unit}</UILabel>}
         </span>
     );
 }

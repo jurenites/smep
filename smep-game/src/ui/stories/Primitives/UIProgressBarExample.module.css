@@ -1,0 +1,8 @@
+.container {
+    width: 31px;
+    /* Fixed 31px width as specified */
+    padding: 8px;
+    border: 1px dashed var(--color-gray);
+    border-radius: var(--size-radius-small);
+    background-color: var(--color-light-gray);
+}

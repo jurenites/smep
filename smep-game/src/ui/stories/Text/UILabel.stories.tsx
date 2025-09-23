@@ -4,11 +4,11 @@ import { UILabel } from '../../components/Text/UILabel';
 // Direct font loading for Storybook
 const load4PixelFont = async () => {
     try {
-        console.log('Loading 4pixel font directly...');
+        // console.log('Loading 4pixel font directly...');
         const fontFace = new FontFace('4pixel', 'url(/assets/fonts/4pixel.woff) format("woff")');
         await fontFace.load();
         document.fonts.add(fontFace);
-        console.log('4pixel font loaded successfully');
+        // console.log('4pixel font loaded successfully');
     } catch (error) {
         console.error('Failed to load 4pixel font:', error);
     }

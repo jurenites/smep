@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { UIBadge } from '../../components/Text/UIBadge';
+import { UIBadge, type LabelColor, type BadgeColor } from '../../components/Text/UIBadge';
 
 // Direct font loading for Storybook
 const load4PixelFont = async () => {
     try {
-        console.log('Loading 4pixel font directly...');
+        // console.log('Loading 4pixel font directly...');
         const fontFace = new FontFace('4pixel', 'url(/assets/fonts/4pixel.woff) format("woff")');
         await fontFace.load();
         document.fonts.add(fontFace);
-        console.log('4pixel font loaded successfully');
+        // console.log('4pixel font loaded successfully');
     } catch (error) {
         console.error('Failed to load 4pixel font:', error);
     }
@@ -27,13 +27,13 @@ const meta: Meta<typeof UIBadge> = {
     argTypes: {
         labelColor: {
             control: 'select',
-            options: ['on-primary', 'on-secondary', 'on-accent'],
-            description: 'Text color variant - what color the text appears on',
+            options: ['primary', 'secondary', 'accent'],
+            description: 'Text color variant. Avoid selecting the same color as badgeColor for better contrast.',
         },
         badgeColor: {
             control: 'select',
             options: ['primary', 'secondary'],
-            description: 'Badge background color',
+            description: 'Badge background color. Avoid selecting the same color as labelColor for better contrast.',
         },
         align: {
             control: 'select',
@@ -58,64 +58,16 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
     args: {
         children: 'Badge',
-        labelColor: 'on-primary',
+        labelColor: 'secondary',
         badgeColor: 'primary',
         align: 'left',
     },
     parameters: {
         docs: {
             description: {
-                story: 'Default UIBadge component with digitSmall font and configurable label and badge colors.',
+                story: 'Default UIBadge component with digitSmall font and configurable label and badge colors. Choose from 3 labelColor options (primary, secondary, accent) and 2 badgeColor options (primary, secondary). The component will warn in console if same colors are selected for poor contrast.',
             },
         },
     },
 };
 
-// Color combination examples
-export const OnPrimaryBackground: Story = {
-    args: {
-        children: 'Primary',
-        labelColor: 'on-primary',
-        badgeColor: 'primary',
-        align: 'center',
-    },
-    parameters: {
-        docs: {
-            description: {
-                story: 'Badge with on-primary text on primary background (black text on white background).',
-            },
-        },
-    },
-};
-
-export const OnSecondaryBackground: Story = {
-    args: {
-        children: 'Secondary',
-        labelColor: 'on-secondary',
-        badgeColor: 'secondary',
-        align: 'center',
-    },
-    parameters: {
-        docs: {
-            description: {
-                story: 'Badge with on-secondary text on secondary background (white text on gray background).',
-            },
-        },
-    },
-};
-
-export const OnAccentBackground: Story = {
-    args: {
-        children: 'Accent',
-        labelColor: 'on-accent',
-        badgeColor: 'primary',
-        align: 'center',
-    },
-    parameters: {
-        docs: {
-            description: {
-                story: 'Badge with on-accent text on primary background (black text on white background).',
-            },
-        },
-    },
-};

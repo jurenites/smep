@@ -2,12 +2,13 @@
 
 /* Import tokens for CSS variables */
 @import '../src/ui/tokens/tokens.css';
+@import '../src/ui/tokens/fonts.css';
 
 /* Font overrides for Storybook documentation */
 .sbdocs-title,
 h1.sbdocs-title,
 .sbdocs-title.sb-unstyled {
-    font-family: 'Roundabout-Regular', Urbanist, sans-serif !important;
+    font-family: var(--font-title) !important;
     font-size: 16px !important;
 }
 
@@ -75,9 +76,11 @@ iframe[id*="storybook-preview"] {
 }
 
 /* Global font overrides - most aggressive approach */
+/* Uncomment if needed for global font override
 * {
-    /*font-family: 'Roundabout-Regular', Sulphur Point, sans-serif !important; */
+    font-family: var(--font-body) !important;
 }
+*/
 
 /* Specific overrides for titles */
 h1,
@@ -89,7 +92,7 @@ h6,
 .sbdocs-title,
 h1.sbdocs-title,
 .sbdocs-title.sb-unstyled {
-    font-family: 'Roundabout-Regular', Urbanist, sans-serif !important;
+    font-family: var(--font-title) !important;
     font-size: 16px !important;
     color: white;
 }

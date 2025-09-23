@@ -141,7 +141,7 @@ export function UISlider({
     const calculateOffset = () => {
         const gapSize = TOKENS.sizes.GAP_LARGE; // 16px
         const midSize = TOKENS.sizes.MINI_CARD; // 31px
-        const smallSize = TOKENS.sizes.MINI_PAGINATOR; // 4px
+        const smallSize = TOKENS.sizes.SQUARE_SMALL; // 4px
 
         const getElementWidth = (size: 'small' | 'mid', actualSize?: number) => {
             if (actualSize !== undefined) return actualSize;
@@ -178,7 +178,7 @@ export function UISlider({
     const calculateElementPositions = useMemo(() => {
         const gapSize = TOKENS.sizes.GAP_LARGE; // 16px
         const midSize = TOKENS.sizes.MINI_CARD; // 31px
-        const smallSize = TOKENS.sizes.MINI_PAGINATOR; // 4px
+        const smallSize = TOKENS.sizes.SQUARE_SMALL; // 4px
 
         const getElementWidth = (size: 'small' | 'mid', actualSize?: number) => {
             if (actualSize !== undefined) return actualSize;

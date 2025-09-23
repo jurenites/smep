@@ -147,7 +147,7 @@ export function UIPaginationGrid({
         if (isSimpleMode) {
             if (isSquareClickable(page) && onPageChange) {
                 const pageNumber = index !== undefined ? index + 1 : 1;
-                console.log(`UIPaginationGrid: Clicked on page ${pageNumber}, current active: ${activeIndex}`);
+                // console.log(`UIPaginationGrid: Clicked on page ${pageNumber}, current active: ${activeIndex}`);
                 onPageChange(pageNumber);
             }
         } else {
@@ -162,12 +162,12 @@ export function UIPaginationGrid({
     };
 
     // Calculate gap for simple mode (like UIPaginationMini)
-    const gap = isSimpleMode && active === 'clickable' ? 0 : sizes.MINI_PAGINATOR_GAP;
+    const gap = isSimpleMode && active === 'clickable' ? 0 : sizes.GAP_SMALL;
 
     // For simple mode with single row, use flex layout like UIPaginationMini
     if (isSimpleMode && gridRows === 1) {
         return (
-            <div style={{ display: 'flex', gap }} data-testid="uipaginationgrid">
+            <div className={styles.simpleFlexContainer} style={{ gap }} data-testid="uipaginationgrid">
                 {Array.from({ length: count! }, (_, i) => {
                     const pageNumber = i + 1;
                     const isActive = pageNumber === activeIndex;
@@ -201,7 +201,7 @@ export function UIPaginationGrid({
                                     state={UISquareState.INACTIVE}
                                     logicalSize="mid"
                                     onClick={isSquareClickableForPage ? () => {
-                                        console.log(`UIPaginationGrid: Clicked on page ${pageNumber}, current active: ${activeIndex}`);
+                                        // console.log(`UIPaginationGrid: Clicked on page ${pageNumber}, current active: ${activeIndex}`);
                                         onPageChange?.(pageNumber);
                                     } : undefined}
                                 >
@@ -261,8 +261,8 @@ export function UIPaginationGrid({
                                     <div
                                         className={styles.emptySpace}
                                         style={{
-                                            width: active === 'clickable' ? sizes.MINI_CARD : sizes.MINI_PAGINATOR,
-                                            height: active === 'clickable' ? sizes.MINI_CARD : sizes.MINI_PAGINATOR
+                                            width: active === 'clickable' ? sizes.MINI_CARD : sizes.SQUARE_SMALL,
+                                            height: active === 'clickable' ? sizes.MINI_CARD : sizes.SQUARE_SMALL
                                         }}
                                     />
                                 )}

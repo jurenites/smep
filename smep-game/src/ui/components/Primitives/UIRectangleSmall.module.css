@@ -9,6 +9,15 @@
     transition: background-color 0.2s ease;
 }
 
+/* Cursor states */
+.cursorPointer {
+    cursor: pointer;
+}
+
+.cursorDefault {
+    cursor: default;
+}
+
 /* Rectangle styles for different states */
 .container rect {
     fill: var(--color-gray);

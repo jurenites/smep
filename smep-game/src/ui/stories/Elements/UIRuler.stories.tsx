@@ -1,16 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { UIRuler } from '../../components/Elements/UIRuler';
 import { FontProvider } from '../../components/Providers/FontProvider';
+import { UILabel } from '../../components/Text/UILabel';
 import '../../tokens/tokens.css';
+import styles from './UIRuler.stories.module.css';
 
 // Direct font loading for Storybook
 const load4PixelFont = async () => {
     try {
-        console.log('Loading 4pixel font directly...');
+        // console.log('Loading 4pixel font directly...');
         const fontFace = new FontFace('4pixel', 'url(/assets/fonts/4pixel.woff) format("woff")');
         await fontFace.load();
         document.fonts.add(fontFace);
-        console.log('4pixel font loaded successfully');
+        // console.log('4pixel font loaded successfully');
     } catch (error) {
         console.error('Failed to load 4pixel font:', error);
     }
@@ -29,15 +31,13 @@ const meta: Meta<typeof UIRuler> = {
     decorators: [
         (Story) => {
             // Debug font loading
-            console.log('UIRuler Story: FontProvider wrapper loaded');
+            // console.log('UIRuler Story: FontProvider wrapper loaded');
             return (
                 <FontProvider>
-                    <div style={{
-                        background: '#000',
-                        padding: '20px',
-                        fontFamily: '4pixel, monospace'
-                    }}>
-                        <Story />
+                    <div className={styles.decoratorContainer}>
+                        <UILabel fontVariant="digitSmall" color="primary">
+                            <Story />
+                        </UILabel>
                     </div>
                 </FontProvider>
             );
@@ -47,18 +47,24 @@ const meta: Meta<typeof UIRuler> = {
         scale: {
             control: {
                 type: 'number',
-                max: 1e18,
-                min: 1e-27,
-                step: (args: any) => {
-                    // Dynamic step: round to nearest power of 10, then divide by 10
-                    const currentScale = args.scale || 1;
-                    const log10Scale = Math.log10(currentScale);
-                    const roundedLog10 = Math.ceil(log10Scale);
-                    const roundedScale = Math.pow(10, roundedLog10);
-                    return roundedScale / 10;
-                }
+                step: 1,
+                min: 1,
+                max: 1000
             },
-            description: 'Scale factor to display (step = scale / 10)',
+            description: 'Scale multiplier displayed as "x{scale}" (e.g., x100)',
+        },
+        measurement: {
+            control: {
+                type: 'number',
+                step: 0.1,
+                min: 0.1,
+                max: 1000
+            },
+            description: 'Measurement value displayed in ValueDisplay (e.g., 1m)',
+        },
+        customUnit: {
+            control: { type: 'text' },
+            description: 'Unit string for the measurement (default: "m")',
         },
         scaleType: {
             control: { type: 'select' },
@@ -74,12 +80,14 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
     args: {
         scale: 1,
+        measurement: 1,
+        customUnit: 'm',
         scaleType: 'linear',
     },
     parameters: {
         docs: {
             description: {
-                story: 'Default ruler with linear scale, progressive tick visibility, and 109px width using 4pixel font.',
+                story: 'Default ruler with separate scale multiplier (x1) and measurement value (1m). Scale controls the multiplier display, measurement controls the ValueDisplay value. Both can be adjusted independently.',
             },
         },
     },

@@ -84,12 +84,12 @@
 
 /* Focus states for accessibility */
 .squareActive:focus-visible {
-    outline: var(--size-stroke) solid var(--color-yolk);
+    outline: var(--size-line) solid var(--color-yolk);
     outline-offset: 2px;
 }
 
 .squareInactive:focus-visible {
-    outline: var(--size-stroke) solid var(--color-yolk);
+    outline: var(--size-line) solid var(--color-yolk);
     outline-offset: 2px;
 }
 

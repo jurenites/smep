@@ -28,6 +28,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
     args: {
         state: UISquareState.INACTIVE,
-        onClick: () => console.log('Rectangle clicked!'),
+        onClick: () => {/* console.log('Rectangle clicked!') */ },
     },
 };

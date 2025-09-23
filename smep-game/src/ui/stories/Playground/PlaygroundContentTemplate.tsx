@@ -20,7 +20,7 @@ export function PlaygroundContentTemplate() {
                         logicalSize={selectedSize}
                         actualSize={customSize}
                         brightness={brightness}
-                        onClick={() => console.log('Playground circle clicked!')}
+                        onClick={() => {/* console.log('Playground circle clicked!') */ }}
                     />
                 </div>
 

@@ -58,7 +58,7 @@ export function UIRectangleBig({ state, onClick }: UIRectangleBigProps) {
                 height={svgSize}
                 viewBox={`0 0 ${svgSize} ${svgSize}`}
                 preserveAspectRatio="xMidYMid meet"
-                style={{ cursor: isClickable ? 'pointer' : 'default' }}
+                className={isClickable ? styles.cursorPointer : styles.cursorDefault}
             >
                 {renderContent()}
             </svg>

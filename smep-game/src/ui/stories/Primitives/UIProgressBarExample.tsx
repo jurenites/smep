@@ -1,6 +1,8 @@
 import React from 'react';
 import { UIProgressBar } from '../../components/Primitives/UIProgressBar';
 import { UISquareState } from '../../../lib/types';
+import { TOKENS } from '../../tokens/tokens';
+import styles from './UIProgressBarExample.module.css';
 
 /**
  * Example wrapper element demonstrating UIProgressBar usage
@@ -8,18 +10,12 @@ import { UISquareState } from '../../../lib/types';
  */
 export function UIProgressBarExample() {
     return (
-        <div style={{
-            width: '31px', // Fixed 31px width as specified
-            padding: '8px',
-            border: '1px dashed #666',
-            borderRadius: '4px',
-            backgroundColor: '#f5f5f5'
-        }}>
+        <div className={styles.container}>
             <UIProgressBar
                 state={UISquareState.ACTIVE}
                 logicalSize="mid"
                 progress={0.75}
-                fillColor="#FFFFFF"
+                fillColor={TOKENS.colors.white}
             />
         </div>
     );

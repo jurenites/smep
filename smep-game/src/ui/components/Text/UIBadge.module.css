@@ -1,13 +1,5 @@
 /* UIBadge Component Styles */
 
-@font-face {
-    font-family: '4pixel';
-    src: url('/assets/fonts/4pixel.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
 .badge {
     display: inline-block;
     margin: 0;
@@ -29,16 +21,16 @@
 }
 
 /* Label Text Colors */
-.labelColorOnPrimary {
-    color: var(--color-on-primary);
+.labelColorPrimary {
+    color: var(--color-primary);
 }
 
-.labelColorOnSecondary {
-    color: var(--color-on-secondary);
+.labelColorSecondary {
+    color: var(--color-secondary);
 }
 
-.labelColorOnAccent {
-    color: var(--color-on-accent);
+.labelColorAccent {
+    color: var(--color-accent);
 }
 
 /* Text Alignment */
@@ -71,14 +63,14 @@
 }
 
 .interactive:focus-visible {
-    outline: var(--size-stroke) solid var(--color-yolk);
+    outline: var(--size-line) solid var(--color-yolk);
     outline-offset: var(--size-outline-offset);
     border-radius: var(--size-radius-small);
 }
 
 /* Accessibility */
 .interactive:focus-visible {
-    outline: var(--size-stroke) solid var(--color-yolk);
+    outline: var(--size-line) solid var(--color-yolk);
     outline-offset: var(--size-outline-offset);
     border-radius: var(--size-radius-small);
 }

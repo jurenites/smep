@@ -6,6 +6,11 @@
     align-items: flex-start;
 }
 
+/* Simple mode flex container for single row */
+.simpleFlexContainer {
+    display: flex;
+}
+
 /* Grid row */
 .gridRow {
     display: flex;

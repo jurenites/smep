@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './UIBadge.module.css';
 
-export type LabelColor = 'on-primary' | 'on-secondary' | 'on-accent';
-export type BadgeColor = 'primary' | 'secondary';
+export type LabelColor = 'primary' | 'secondary' | 'accent';
+export type BadgeColor = 'primary' | 'secondary' | 'accent';
 
 export interface UIBadgeProps {
     /** Text content to display */
@@ -19,23 +19,14 @@ export interface UIBadgeProps {
 
 export function UIBadge({
     children,
-    labelColor = 'on-primary',
-    badgeColor = 'primary',
+    labelColor = 'primary',
+    badgeColor = 'secondary',
     align = 'left',
     className = ''
 }: UIBadgeProps) {
-    // Validation: Prevent bad color combinations
+    // Validation: Prevent bad color combinations (same color for label and badge)
     const validateColorCombination = (label: LabelColor, badge: BadgeColor): void => {
-        const invalidCombinations = [
-            { label: 'on-primary', badge: 'primary' }, // White on white
-            { label: 'on-secondary', badge: 'secondary' }, // Gray on gray
-        ];
-
-        const isInvalid = invalidCombinations.some(
-            combo => combo.label === label && combo.badge === badge
-        );
-
-        if (isInvalid) {
+        if (label === badge) {
             console.warn(
                 `UIBadge: Invalid color combination detected: "${label}" text on "${badge}" background. ` +
                 `This may result in poor contrast and accessibility issues. ` +
@@ -50,7 +41,7 @@ export function UIBadge({
     // Build CSS classes
     const cssClasses = [
         styles.badge,
-        styles[`labelColor${labelColor.charAt(0).toUpperCase() + labelColor.slice(1).replace('-', '')}`],
+        styles[`labelColor${labelColor.charAt(0).toUpperCase() + labelColor.slice(1)}`],
         styles[`badgeColor${badgeColor.charAt(0).toUpperCase() + badgeColor.slice(1)}`],
         styles[`align${align.charAt(0).toUpperCase() + align.slice(1)}`],
         className

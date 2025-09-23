@@ -1,12 +1,5 @@
 /* UILabel Component Styles */
 
-@font-face {
-    font-family: '4pixel';
-    src: url('/assets/fonts/4pixel.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
 
 /* Font Variants */
 .fontTitle {
@@ -68,24 +61,25 @@
 }
 
 .interactive:hover {
-    opacity: 0.8;
+    /*opacity: 0.8;*/
+    /*never use opacity, unless I let yo udoing so,  I've told you so already*/
     transform: translateY(-1px);
 }
 
 .interactive:active {
     transform: translateY(0);
-    opacity: 0.9;
+    /*opacity: 0.9;*/
 }
 
 .interactive:focus-visible {
-    outline: var(--size-stroke) solid var(--color-yolk);
+    outline: var(--size-line) solid var(--color-yolk);
     outline-offset: var(--size-outline-offset);
     border-radius: var(--size-radius-small);
 }
 
 /* Accessibility */
 .interactive:focus-visible {
-    outline: var(--size-stroke) solid var(--color-yolk);
+    outline: var(--size-line) solid var(--color-yolk);
     outline-offset: var(--size-outline-offset);
     border-radius: var(--size-radius-small);
 }

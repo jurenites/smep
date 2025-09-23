@@ -2,6 +2,7 @@ import { UICardState, UISquareState } from '../../../lib/types';
 import { UICircle } from '../Primitives/UICircle';
 import { UISquare } from '../Primitives/UISquare';
 import { UILabel } from '../Text/UILabel';
+import { TOKENS } from '../../tokens/tokens';
 import type { LogicalSize } from '../Primitives/UICircle';
 import type { UILabelProps } from '../Text/UILabel';
 import styles from './UICardSmall.module.css';
@@ -36,7 +37,7 @@ export function UICardSmall({
     showCircle = false,
     circleLogicalSize = 'small',
     circleActualSizeInner,
-    circleColor = '#FFFFFF',
+    circleColor = TOKENS.colors.white,
     circleBrightness = 'full'
 }: UICardSmallProps) {
 

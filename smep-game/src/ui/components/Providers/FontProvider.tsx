@@ -1,4 +1,5 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import { createContext, useContext } from 'react';
+import type { ReactNode } from 'react';
 import { useFontLoader } from '../../../lib/hooks/useFontLoader';
 import { FONT_CONFIGS } from '../../../lib/config/fonts';
 
@@ -19,8 +20,8 @@ export function FontProvider({ children }: FontProviderProps) {
     const fontLoader = useFontLoader(FONT_CONFIGS);
 
     // Debug font loading status
-    console.log('FontProvider: Font statuses:', fontLoader.fontStatuses);
-    console.log('FontProvider: All fonts loaded:', fontLoader.allFontsLoaded);
+    // console.log('FontProvider: Font statuses:', fontLoader.fontStatuses);
+    // console.log('FontProvider: All fonts loaded:', fontLoader.allFontsLoaded);
 
     return (
         <FontContext.Provider value={fontLoader} data-testid="fontprovider">
