@@ -18,6 +18,9 @@
     width: 100%;
     height: 100%;
     z-index: 1;
+    overflow: hidden;
+    background-color: var(--color-dark-gray);
+    box-shadow: inset 0 0 0 1px var(--color-white);
 }
 
 /* When particle is shown, push content to bottom */
@@ -45,6 +48,7 @@
     text-shadow: var(--shadow-text-subtle);
     text-align: center;
     line-height: 1;
+    transform: translateY(-3px);
     /* Let UILabel handle font-size, font-family, and color through its own classes */
 }
 
@@ -75,7 +79,7 @@
 .bigCardShape {
     width: 100%;
     height: 503px;
-    border: var(--size-line) solid var(--color-gray);
+    border: var(--size-line) solid var(--color-white);
     border-radius: var(--size-border-radius);
     background-color: var(--color-dark-gray);
     cursor: pointer;
@@ -91,6 +95,19 @@
 
 .bigCardShape:active {
     transform: translateY(1px);
+}
+
+/* Disabled state for big cards */
+.bigCardShape.disabled {
+    border-color: var(--color-gray);
+    background-color: var(--color-dark-gray);
+    cursor: not-allowed;
+}
+
+.bigCardShape.disabled:hover {
+    border-color: var(--color-gray);
+    background-color: var(--color-dark-gray);
+    transform: none;
 }
 
 .bigContentContainer {
@@ -109,6 +126,7 @@
 }
 
 /* Additional responsive adjustments */
+/*
 @media (max-width: 768px) {
     .bigContainer {
         max-width: 280px;
@@ -118,4 +136,4 @@
     .bigCardShape {
         height: 450px;
     }
-}
+}*/

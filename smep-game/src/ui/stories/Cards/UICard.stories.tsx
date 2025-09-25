@@ -17,7 +17,7 @@ const meta: Meta<typeof UICard> = {
         },
         state: {
             control: 'select',
-            options: ['normal', 'selected', 'loading'],
+            options: ['normal', 'disabled'],
             description: 'State of the card',
         },
         // Size configuration

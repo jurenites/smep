@@ -43,8 +43,7 @@ export enum PaginationState {
 
 export enum UICardState {
     NORMAL = 'normal',
-    LOADING = 'loading',
-    SELECTED = 'selected',
+    DISABLED = 'disabled',
 }
 
 export enum UISquareState {

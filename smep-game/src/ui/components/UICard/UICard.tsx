@@ -32,12 +32,10 @@ export function UICard({
     // Rectangle shape rendering - using UISquare component (always rectangular)
     const getSquareState = (): UISquareState => {
         switch (state) {
-            case UICardState.SELECTED:
-                return UISquareState.ACTIVE;
-            case UICardState.LOADING:
+            case UICardState.DISABLED:
                 return UISquareState.DISABLED;
             default:
-                return UISquareState.INACTIVE;
+                return UISquareState.INACTIVE; // NORMAL state
         }
     };
 
@@ -92,18 +90,17 @@ export function UICard({
         }
     };
 
-    if (state === UICardState.LOADING) {
-        return (
-            <div className={getSizeClass()}>
-                {getShapeComponent()}
-            </div>
-        );
-    }
+    // Get label color based on state
+    const getLabelColor = (): 'primary' | 'secondary' => {
+        return state === UICardState.DISABLED ? 'secondary' : 'primary';
+    };
+
+    // No special loading state handling needed
 
     return (
         <div className={getSizeClass()}>
             {size === 'big' ? (
-                <div className={styles.bigCardShape} onClick={onClick}>
+                <div className={`${styles.bigCardShape} ${state === UICardState.DISABLED ? styles.disabled : ''}`} onClick={state === UICardState.DISABLED ? undefined : onClick}>
                     <div className={`${styles.contentContainer} ${styles.bigContentContainer} ${showParticle ? styles.withParticle : styles.withoutParticle}`}>
                         {showParticle && (
                             <div className={styles.particleAbove}>
@@ -115,7 +112,7 @@ export function UICard({
                         )}
                         <UILabel
                             fontVariant="body"
-                            color="primary"
+                            color={getLabelColor()}
                             align="center"
                             className={`${styles.symbol} ${showParticle && isAntiparticle(particleType) ? styles.antiparticle : ''}`}
                             interactive={false}
@@ -138,11 +135,11 @@ export function UICard({
                                 </div>
                             )}
                             <UILabel
-fontVariant="body"
-                            color="primary"
-                            align="center"
-                            className={`${styles.symbol} ${showParticle && isAntiparticle(particleType) ? styles.antiparticle : ''}`}
-                            interactive={false}
+                                fontVariant="body"
+                                color={getLabelColor()}
+                                align="center"
+                                className={`${styles.symbol} ${showParticle && isAntiparticle(particleType) ? styles.antiparticle : ''}`}
+                                interactive={false}
                             >
                                 {showParticle ? getFormattedParticleSymbol(particleType) : symbol}
                             </UILabel>
@@ -159,11 +156,11 @@ fontVariant="body"
                                 </div>
                             )}
                             <UILabel
-fontVariant="body"
-                            color="primary"
-                            align="center"
-                            className={`${styles.symbol} ${showParticle && isAntiparticle(particleType) ? styles.antiparticle : ''}`}
-                            interactive={false}
+                                fontVariant="body"
+                                color={getLabelColor()}
+                                align="center"
+                                className={`${styles.symbol} ${showParticle && isAntiparticle(particleType) ? styles.antiparticle : ''}`}
+                                interactive={false}
                             >
                                 {showParticle ? getFormattedParticleSymbol(particleType) : symbol}
                             </UILabel>

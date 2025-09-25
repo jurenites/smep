@@ -14,8 +14,8 @@ export function AllPrimitivesShowcase() {
                 <h3>UICard Examples</h3>
                 <div className={styles.cards}>
                     <UICard symbol="A" />
-                    <UICard symbol="B" state={UICardState.SELECTED} />
-                    <UICard symbol="C" state={UICardState.LOADING} />
+                    <UICard symbol="B" state={UICardState.DISABLED} />
+                    <UICard symbol="C" state={UICardState.NORMAL} />
                     <UICard symbol="D" />
                 </div>
             </div>

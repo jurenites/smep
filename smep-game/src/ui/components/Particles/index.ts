@@ -1,1 +1,1 @@
-export { UIParticle, getParticleShadowConfig } from './UIParticle';
+export { UIParticle, getParticleShadowConfig, getParticleCollisionBounds } from './UIParticle';

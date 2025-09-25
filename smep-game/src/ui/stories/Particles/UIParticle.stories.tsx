@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { UIParticle } from '../../components/Particles/UIParticle';
+import { UILabel } from '../../components/Text/UILabel';
 import { ParticleType, ParticleMatterType, getParticlesByMatterType } from '../../../lib/types/particle-types';
 
 const meta: Meta<typeof UIParticle> = {
@@ -40,13 +41,19 @@ export const ParticleComparison: Story = {
     render: () => (
         <div style={{ display: 'flex', gap: '40px', alignItems: 'center' }}>
             <div style={{ textAlign: 'center' }}>
-                <h3 style={{ color: 'white', marginBottom: '16px' }}>Matter</h3>
+                <div style={{ marginBottom: '16px' }}>
+                    <UILabel fontVariant="body" color="primary" align="center">
+                        Matter
+                    </UILabel>
+                </div>
                 <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
                     {matterParticles.map((particle) => (
                         <div key={particle.type} style={{ textAlign: 'center' }}>
                             <UIParticle particleType={particle.type} />
-                            <div style={{ marginTop: '8px', fontSize: '12px', color: '#F8E71C' }}>
-                                {particle.symbol}
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="primary" align="center">
+                                    {particle.symbol}
+                                </UILabel>
                             </div>
                         </div>
                     ))}
@@ -54,13 +61,19 @@ export const ParticleComparison: Story = {
             </div>
 
             <div style={{ textAlign: 'center' }}>
-                <h3 style={{ color: '#white', marginBottom: '16px' }}>Antimatter</h3>
+                <div style={{ marginBottom: '16px' }}>
+                    <UILabel fontVariant="body" color="primary" align="center">
+                        Antimatter
+                    </UILabel>
+                </div>
                 <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
                     {antimatterParticles.map((particle) => (
                         <div key={particle.type} style={{ textAlign: 'center' }}>
                             <UIParticle particleType={particle.type} />
-                            <div style={{ marginTop: '8px', fontSize: '16px', color: '#4C00FF' }}>
-                                {particle.symbol}
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="primary" align="center">
+                                    {particle.symbol}
+                                </UILabel>
                             </div>
                         </div>
                     ))}

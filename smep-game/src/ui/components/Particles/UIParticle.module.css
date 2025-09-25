@@ -3,32 +3,28 @@
 .particleContainer {
     position: relative;
     display: inline-block;
-}
-
-.particleCore {
-    position: relative;
-    z-index: 2;
+    /* Container is now sized exactly to the shadow size via inline styles */
 }
 
 /* SVG-based shadows are now handled in the component */
 
-/* Animation for particle interactions */
-.particleContainer:hover .particleCore {
-    transform: scale(1.05);
-    transition: transform 0.2s ease;
+/* Animation for particle interactions - using inline styles for centering */
+.particleContainer:hover [data-particle-core] {
+    transform: translate(-50%, -50%) scale(1.05) !important;
+    transition: transform 0.2s ease !important;
 }
 
-.particleContainer:active .particleCore {
-    transform: scale(0.95);
-    transition: transform 0.1s ease;
+.particleContainer:active [data-particle-core] {
+    transform: translate(-50%, -50%) scale(0.95) !important;
+    transition: transform 0.1s ease !important;
 }
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
 
-    .particleContainer:hover .particleCore,
-    .particleContainer:active .particleCore {
-        transform: none;
-        transition: none;
+    .particleContainer:hover [data-particle-core],
+    .particleContainer:active [data-particle-core] {
+        transform: translate(-50%, -50%) !important;
+        transition: none !important;
     }
 }

@@ -125,7 +125,7 @@ export function ScreenPlayground() {
                             <UICard
                                 key={index}
                                 symbol={particle.symbol}
-                                state={index === currentPage ? UICardState.SELECTED : UICardState.NORMAL}
+                                state={UICardState.NORMAL}
                                 onClick={() => setCurrentPage(index)}
                             />
                         ))}

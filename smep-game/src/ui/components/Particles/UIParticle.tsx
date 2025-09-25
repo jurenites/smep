@@ -1,6 +1,7 @@
 import { UICircle } from '../Primitives/UICircle';
 import type { UICircleProps } from '../Primitives/UICircle';
-import { ParticleType, getParticleProperties, ParticleSize, ParticleMatterType } from '../../../lib/types/particle-types';
+import { ParticleType, getParticleProperties, ParticleSize } from '../../../lib/types/particle-types';
+import { getParticleShadowConfig } from '../../../lib/config/particle-physics';
 import styles from './UIParticle.module.css';
 
 export interface UIParticleProps {
@@ -14,58 +15,8 @@ export interface UIParticleProps {
     size?: ParticleSize;
 }
 
-/**
- * Get particle shadow configuration for canvas rendering
- */
-export function getParticleShadowConfig(particleType: ParticleType, shadowSize: 'small' | 'mid' | 'big') {
-    const particleProps = getParticleProperties(particleType);
-
-    const getShadowSize = (): number => {
-        switch (shadowSize) {
-            case 'small': return 17;
-            case 'mid': return 40;
-            case 'big': return 109;
-            default: return 17;
-        }
-    };
-
-    const getShadowGradient = () => {
-        switch (particleProps.matterType) {
-            case ParticleMatterType.MATTER:
-                return {
-                    centerColor: 'rgba(248, 231, 28, 0.41)',
-                    edgeColor: 'rgba(255, 236, 0, 0)'
-                };
-            case ParticleMatterType.ANTIMATTER:
-                return {
-                    centerColor: 'rgba(134, 0, 255, 0.72)',
-                    edgeColor: 'rgba(134, 0, 255, 0)'
-                };
-            default:
-                return {
-                    centerColor: 'rgba(248, 231, 28, 0.41)',
-                    edgeColor: 'rgba(255, 236, 0, 0)'
-                };
-        }
-    };
-
-    return {
-        size: getShadowSize(),
-        gradient: getShadowGradient(),
-        particleColor: getParticleColor(particleProps)
-    };
-}
-
-function getParticleColor(particleProps: any): string {
-    switch (particleProps.matterType) {
-        case ParticleMatterType.MATTER:
-            return 'var(--color-yolk)';
-        case ParticleMatterType.ANTIMATTER:
-            return 'var(--color-ultraviolet)';
-        default:
-            return 'var(--color-yolk)';
-    }
-}
+// Re-export the centralized configuration functions for external use
+export { getParticleCollisionBounds, getParticleShadowConfig } from '../../../lib/config/particle-physics';
 
 export function UIParticle({
     particleType,
@@ -85,39 +36,48 @@ export function UIParticle({
 
     // Get shadow configuration using utility function
     const shadowConfig = getParticleShadowConfig(particleType, shadowSize);
-    const shadowId = `particle-shadow-${particleType}-${shadowSize}`;
 
     return (
-        <div className={`${styles.particleContainer} ${className}`}>
-            {/* SVG Shadow Background */}
-            <svg
-                width={shadowConfig.size}
-                height={shadowConfig.size}
+        <div
+            className={`${styles.particleContainer} ${className}`}
+            data-particle-type={particleType}
+            data-shadow-size={shadowSize}
+            style={{ width: shadowConfig.size, height: shadowConfig.size }}
+        >
+            {/* Shadow Background using CSS gradient from tokens */}
+            <div
+                data-svg-shadow
+                data-shadow-type={particleProps.matterType}
+                style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: shadowConfig.size,
+                    height: shadowConfig.size,
+                    background: shadowConfig.gradientToken,
+                    borderRadius: '50%',
+                    zIndex: 1,
+                    pointerEvents: 'none'
+                }}
+            />
+
+            {/* Particle core - perfectly centered */}
+            <div
+                data-particle-core
                 style={{
                     position: 'absolute',
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    zIndex: 1,
-                    pointerEvents: 'none'
+                    zIndex: 2,
+                    transition: 'transform 0.2s ease',
+                    width: '1px',  // Explicit width for dot size
+                    height: '1px', // Explicit height for dot size
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
                 }}
             >
-                <defs>
-                    <radialGradient id={shadowId} cx="50%" cy="50%" r="50%">
-                        <stop offset="0%" stopColor={shadowConfig.gradient.centerColor} />
-                        <stop offset="100%" stopColor={shadowConfig.gradient.edgeColor} />
-                    </radialGradient>
-                </defs>
-                <circle
-                    cx="50%"
-                    cy="50%"
-                    r="50%"
-                    fill={`url(#${shadowId})`}
-                />
-            </svg>
-
-            {/* Particle core */}
-            <div style={{ position: 'relative', zIndex: 2 }}>
                 <UICircle
                     logicalSize={getLogicalSize()}
                     color={shadowConfig.particleColor}
