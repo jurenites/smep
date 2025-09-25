@@ -1,4 +1,3 @@
-import React from 'react';
 import { UITab } from './UITab';
 import { UITabState } from '../../../lib/types';
 import styles from './UITabs.module.css';

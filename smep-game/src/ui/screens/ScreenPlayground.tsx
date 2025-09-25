@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { UIPlaygroundSurface } from '../components/Playground/UIPlaygroundSurface';
 import { UICard } from '../components/UICard/UICard';
 import { UIPaginationGrid } from '../components/Paginators/UIPaginationGrid';
@@ -7,7 +7,7 @@ import { useGameStore } from '../../lib/game-state';
 import { ParticleType, UICardState } from '../../lib/types';
 
 export function ScreenPlayground() {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+    //const canvasRef = useRef<HTMLCanvasElement>(null);
     const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
     const [currentPage, setCurrentPage] = useState(0);
 
@@ -17,7 +17,7 @@ export function ScreenPlayground() {
         particles,
         tick,
         createParticle,
-        updatePlayground
+        //updatePlayground
     } = useGameStore();
 
     // Handle window resize
@@ -137,8 +137,6 @@ export function ScreenPlayground() {
                     {/* Ruler */}
                     <UIRuler
                         scale={playground.scale}
-                        width={200}
-                        position="bottom"
                     />
 
                     {/* Pagination */}

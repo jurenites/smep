@@ -1,4 +1,14 @@
-/* UICard Component Styles */
+.card {
+    cursor: pointer;
+}
+
+.card_default {
+    cursor: default;
+}
+
+.text {
+    user-select: none;
+}
 
 /* Rectangle shape styles */
 .rectangleContainer {
@@ -18,22 +28,19 @@
     width: 100%;
     height: 100%;
     z-index: 1;
-    overflow: hidden;
-    background-color: var(--color-dark-gray);
-    box-shadow: inset 0 0 0 1px var(--color-white);
 }
 
-/* When particle is shown, push content to bottom */
-.withParticle {
+/* When circle is shown, push content to bottom */
+.withCircle {
     justify-content: end;
 }
 
-/* When no particle, center the label */
-.withoutParticle {
+/* When no circle, center the label */
+.withoutCircle {
     justify-content: center;
 }
 
-.particleAbove {
+.circleAbove {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -48,7 +55,6 @@
     text-shadow: var(--shadow-text-subtle);
     text-align: center;
     line-height: 1;
-    transform: translateY(-3px);
     /* Let UILabel handle font-size, font-family, and color through its own classes */
 }
 
@@ -79,7 +85,7 @@
 .bigCardShape {
     width: 100%;
     height: 503px;
-    border: var(--size-line) solid var(--color-white);
+    border: var(--size-line) solid var(--color-gray);
     border-radius: var(--size-border-radius);
     background-color: var(--color-dark-gray);
     cursor: pointer;
@@ -97,19 +103,6 @@
     transform: translateY(1px);
 }
 
-/* Disabled state for big cards */
-.bigCardShape.disabled {
-    border-color: var(--color-gray);
-    background-color: var(--color-dark-gray);
-    cursor: not-allowed;
-}
-
-.bigCardShape.disabled:hover {
-    border-color: var(--color-gray);
-    background-color: var(--color-dark-gray);
-    transform: none;
-}
-
 .bigContentContainer {
     width: 100%;
     height: 100%;
@@ -123,18 +116,59 @@
 
 /* Additional styling for mid-size content if needed */
 /*.midContentContainer {
-   
+    
 }*/
 
-/* Additional responsive adjustments */
-/*
-@media (max-width: 768px) {
-    .bigContainer {
-        max-width: 280px;
-        padding: 0 16px;
+/* Circle shape styles */
+.circleContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.circleCard {
+    transition: all 0.2s ease-in-out;
+}
+
+.circleCard.selected {
+    border-color: var(--color-accent-secondary) !important;
+    box-shadow: 0 0 8px var(--color-accent-secondary);
+}
+
+.circleLoading {
+    background-color: var(--color-dark-gray);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.circleSymbol {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Remove hardcoded color, font-size, and font-family to allow UILabel to control them */
+    /*font-weight: 600; */
+    user-select: none;
+    pointer-events: none;
+    text-shadow: var(--shadow-text-subtle);
+    z-index: 1;
+    /* Let UILabel handle color, font-size, and font-family through its own classes */
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        background-color: var(--color-dark-gray);
     }
 
-    .bigCardShape {
-        height: 450px;
+    50% {
+        background-color: var(--color-gray);
     }
-}*/
+}
+
+/* Responsive adjustments for circle symbols */
+/*@media (max-width: 768px) {
+    .circleSymbol {*/
+/*font-size: 10px; */
+/* Let UILabel handle color, font-size, and font-family through its own classes */
+/*}
+} */

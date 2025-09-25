@@ -1,10 +1,8 @@
-import React from 'react';
 import { UICard } from '../components/UICard/UICard';
 import { UIPaginationGrid } from '../components/Paginators/UIPaginationGrid';
 import { UIPaginationBig } from '../components/Paginators/UIPaginationBig';
-import { UIRectangleSmall } from '../components/Primitives/UIRectangleSmall';
 import { UIRuler } from '../components/Elements/UIRuler';
-import { UICardState, UISquareState, PaginationState } from '../../lib/types';
+import { UICardState, PaginationState } from '../../lib/types';
 import styles from './AllPrimitivesShowcase.module.css';
 
 export function AllPrimitivesShowcase() {
@@ -60,7 +58,7 @@ export function AllPrimitivesShowcase() {
             <div className={styles.section}>
                 <h3>UIRuler Examples</h3>
                 <div className={styles.rulers}>
-                    <UIRuler scale={1000000} width={200} position="bottom" />
+                    <UIRuler scale={1000000} />
                 </div>
             </div>
         </div>
