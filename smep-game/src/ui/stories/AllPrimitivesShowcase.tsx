@@ -1,5 +1,5 @@
 import React from 'react';
-import { UICardSmall } from '../components/Cards/UICardSmall';
+import { UICard } from '../components/UICard/UICard';
 import { UIPaginationGrid } from '../components/Paginators/UIPaginationGrid';
 import { UIPaginationBig } from '../components/Paginators/UIPaginationBig';
 import { UIRectangleSmall } from '../components/Primitives/UIRectangleSmall';
@@ -11,12 +11,12 @@ export function AllPrimitivesShowcase() {
     return (
         <div className={styles.container}>
             <div className={styles.section}>
-                <h3>UICardSmall Examples</h3>
+                <h3>UICard Examples</h3>
                 <div className={styles.cards}>
-                    <UICardSmall symbol="A" />
-                    <UICardSmall symbol="B" state={UICardState.SELECTED} />
-                    <UICardSmall symbol="C" state={UICardState.LOADING} />
-                    <UICardSmall symbol="D" />
+                    <UICard symbol="A" />
+                    <UICard symbol="B" state={UICardState.SELECTED} />
+                    <UICard symbol="C" state={UICardState.LOADING} />
+                    <UICard symbol="D" />
                 </div>
             </div>
 

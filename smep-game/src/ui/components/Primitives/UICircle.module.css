@@ -28,13 +28,13 @@
 .size-middle {
     background-color: var(--color-accent-primary);
     border: 2px solid var(--color-accent-secondary);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-box-subtle);
 }
 
 .size-mega {
     background-color: var(--color-accent-primary);
     border: 3px solid var(--color-accent-secondary);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-box-medium);
 }
 
 /* Special dot rendering - dimmed vector circle */
@@ -51,7 +51,7 @@
 
 .clickable:hover {
     transform: scale(1.05);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-box-strong);
 }
 
 .clickable:active {
@@ -67,17 +67,17 @@
 @keyframes sizeTransition {
     0% {
         transform: scale(0.8);
-        opacity: 0.7;
+        background-color: var(--color-dark-gray);
     }
 
     50% {
         transform: scale(1.1);
-        opacity: 0.9;
+        background-color: var(--color-gray);
     }
 
     100% {
         transform: scale(1);
-        opacity: 1;
+        background-color: var(--color-accent-primary);
     }
 }
 
@@ -85,12 +85,12 @@
 @media (max-width: 768px) {
     .size-mega {
         border-width: 2px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow-box-subtle);
     }
 
     .size-middle {
         border-width: 1px;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow-box-subtle);
     }
 }
 
@@ -103,7 +103,7 @@
 
     .dotDimmed {
         border-width: 2px;
-        opacity: 1;
+        background-color: var(--color-accent-primary);
     }
 }
 

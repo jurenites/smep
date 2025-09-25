@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { UIPlaygroundSurface } from '../components/Playground/UIPlaygroundSurface';
-import { UICardSmall } from '../components/Cards/UICardSmall';
+import { UICard } from '../components/UICard/UICard';
 import { UIPaginationGrid } from '../components/Paginators/UIPaginationGrid';
 import { UIRuler } from '../components/Elements/UIRuler';
 import { useGameStore } from '../../lib/game-state';
@@ -122,7 +122,7 @@ export function ScreenPlayground() {
                     {/* Inventory */}
                     <div className="inventory">
                         {sampleParticles.slice(0, 6).map((particle, index) => (
-                            <UICardSmall
+                            <UICard
                                 key={index}
                                 symbol={particle.symbol}
                                 state={index === currentPage ? UICardState.SELECTED : UICardState.NORMAL}

@@ -1,6 +1,7 @@
 .uiButton {
-    /* Fixed dimensions */
-    width: var(--size-button-width);
+    /* Dynamic dimensions */
+    min-width: var(--size-button-min-width);
+    width: auto;
     height: var(--size-mini-card);
     position: relative;
 
@@ -13,6 +14,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0 var(--size-padding-medium);
 
     /* Text styling */
     text-transform: uppercase;
@@ -176,7 +178,7 @@
     background-color: var(--color-yolk);
     color: var(--color-black);
     outline: 2px solid var(--color-white);
-    outline-offset: -2px;
+    outline-offset: calc(-1 * var(--size-outline-offset));
 }
 
 /* Override UILabel colors for filled button focus */
@@ -193,7 +195,7 @@
     color: var(--color-white);
     border-color: var(--color-white);
     outline: 2px solid var(--color-white);
-    outline-offset: -2px;
+    outline-offset: calc(-1 * var(--size-outline-offset));
 }
 
 /* Override UILabel colors for outlined button focus */
@@ -209,7 +211,7 @@
 .uiButton.styleFilled:disabled {
     background-color: var(--color-gray);
     color: var(--color-light-gray);
-    cursor: not-allowed;
+    cursor: default;
 }
 
 /* Override UILabel colors for filled button disabled */
@@ -226,7 +228,7 @@
     background-color: transparent;
     color: var(--color-gray);
     border-color: var(--color-gray);
-    cursor: not-allowed;
+    cursor: default;
 }
 
 /* Override UILabel colors for outlined button disabled */
@@ -281,7 +283,7 @@
 .uiButton.stateDone.styleFilled {
     background-color: var(--color-gray);
     color: var(--color-light-gray);
-    cursor: not-allowed;
+    cursor: default;
 }
 
 /* Override UILabel colors for filled button done */
@@ -297,7 +299,7 @@
     background-color: transparent;
     color: var(--color-gray);
     border-color: var(--color-gray);
-    cursor: not-allowed;
+    cursor: default;
 }
 
 /* Override UILabel colors for outlined button done */
@@ -430,8 +432,7 @@
 
 /* Override UIProgressBar height when inside progress state button */
 .uiButton.stateProgress .progressContainer :global(svg) {
-    height: 25px !important;
-    /* 31px - 2px border - 4px padding = 25px */
+    height: calc(var(--size-mini-card) - var(--size-line) - var(--size-line) - 2px - 2px);
 }
 
 /* Disable UIProgressBar hover effects when inside progress state button */

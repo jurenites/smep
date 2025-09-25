@@ -85,12 +85,12 @@
 /* Focus states for accessibility */
 .squareActive:focus-visible {
     outline: var(--size-line) solid var(--color-yolk);
-    outline-offset: 2px;
+    outline-offset: var(--size-outline-offset);
 }
 
 .squareInactive:focus-visible {
     outline: var(--size-line) solid var(--color-yolk);
-    outline-offset: 2px;
+    outline-offset: var(--size-outline-offset);
 }
 
 /* Only view mode - disable hover effects */
@@ -128,17 +128,17 @@
 @keyframes sizeTransition {
     0% {
         transform: scale(0.8);
-        opacity: 0.7;
+        background-color: var(--color-dark-gray);
     }
 
     50% {
         transform: scale(1.1);
-        opacity: 0.9;
+        background-color: var(--color-gray);
     }
 
     100% {
         transform: scale(1);
-        opacity: 1;
+        background-color: transparent;
     }
 }
 

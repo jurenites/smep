@@ -1,0 +1,34 @@
+/* UIParticle Component Styles */
+
+.particleContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.particleCore {
+    position: relative;
+    z-index: 2;
+}
+
+/* SVG-based shadows are now handled in the component */
+
+/* Animation for particle interactions */
+.particleContainer:hover .particleCore {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+}
+
+.particleContainer:active .particleCore {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+    .particleContainer:hover .particleCore,
+    .particleContainer:active .particleCore {
+        transform: none;
+        transition: none;
+    }
+}

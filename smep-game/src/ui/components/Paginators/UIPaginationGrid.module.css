@@ -61,7 +61,7 @@
 
 /* Show outer square on hover and remove transparent overrides */
 .clickableArea:hover .outerSquareWrapper {
-    opacity: 0.3;
+    background-color: var(--color-dark-gray);
     cursor: pointer;
 }
 
@@ -72,5 +72,5 @@
 
 /* Ensure inner UISquare Small is always visible */
 .outerSquareWrapper :global(.container) :global(.container) {
-    opacity: 1 !important;
+    background-color: transparent !important;
 }

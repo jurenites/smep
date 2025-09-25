@@ -1,0 +1,121 @@
+/* UICard Component Styles */
+
+/* Rectangle shape styles */
+.rectangleContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.contentContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* When particle is shown, push content to bottom */
+.withParticle {
+    justify-content: end;
+}
+
+/* When no particle, center the label */
+.withoutParticle {
+    justify-content: center;
+}
+
+.particleAbove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1px;
+}
+
+.symbol {
+    /* Remove hardcoded color to allow UILabel to control its own colors */
+    /*font-weight: 600; */
+    user-select: none;
+    pointer-events: none;
+    text-shadow: var(--shadow-text-subtle);
+    text-align: center;
+    line-height: 1;
+    /* Let UILabel handle font-size, font-family, and color through its own classes */
+}
+
+/* Overbar for antiparticle symbols */
+.symbol.antiparticle {
+    position: relative;
+}
+
+.symbol.antiparticle::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 1px;
+    background-color: currentColor;
+}
+
+/* Size-specific containers */
+.bigContainer {
+    width: 100%;
+    max-width: 311px;
+    margin: 0 auto;
+    padding: 0 23px;
+}
+
+.bigCardShape {
+    width: 100%;
+    height: 503px;
+    border: var(--size-line) solid var(--color-gray);
+    border-radius: var(--size-border-radius);
+    background-color: var(--color-dark-gray);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.bigCardShape:hover {
+    border-color: var(--color-white);
+    background-color: var(--color-gray);
+}
+
+.bigCardShape:active {
+    transform: translateY(1px);
+}
+
+.bigContentContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--size-padding-large);
+    box-sizing: border-box;
+}
+
+.midContentContainer {
+    /* Additional styling for mid-size content if needed */
+}
+
+/* Additional responsive adjustments */
+@media (max-width: 768px) {
+    .bigContainer {
+        max-width: 280px;
+        padding: 0 16px;
+    }
+
+    .bigCardShape {
+        height: 450px;
+    }
+}

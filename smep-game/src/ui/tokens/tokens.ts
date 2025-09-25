@@ -49,9 +49,9 @@ export const TOKENS = {
         BIG_PAGINATOR_W: 17,
         MID_CARD_W: 83,
         MID_CARD_H: 109,
-        TAB_W: 109,
+        TAB_MIN_W: 109,
         TAB_H: 23,
-        BUTTON_WIDTH: 175,
+        BUTTON_MIN_WIDTH: 175,
         BLUR_PLAYGROUND: 16,
         LINE: 1,
 
@@ -65,6 +65,25 @@ export const TOKENS = {
         // Other sizes
         OUTLINE_OFFSET: 2,
         HOVER_TRANSLATE: 1,
+
+        // Particle shadow sizes
+        PARTICLE_SHADOW_SMALL: 17,
+        PARTICLE_SHADOW_MID: 40,
+        PARTICLE_SHADOW_BIG: 109,
+    },
+    shadows: {
+        textSubtle: "0 1px 2px rgba(0, 0, 0, 0.5)",
+        textStrong: "0 2px 4px rgba(0, 0, 0, 0.8)",
+        boxSubtle: "0 2px 8px rgba(0, 0, 0, 0.1)",
+        boxMedium: "0 4px 16px rgba(0, 0, 0, 0.15)",
+        boxStrong: "0 8px 32px rgba(0, 0, 0, 0.2)",
+        // Particle shadows for matter/antimatter visualization
+        particleMatterSmall: "radial-gradient(circle, rgba(248, 231, 28, 0.41) 0%, rgba(255, 236, 0, 0) 100%)",
+        particleMatterMid: "radial-gradient(circle, rgba(248, 231, 28, 0.41) 0%, rgba(255, 236, 0, 0) 100%)",
+        particleMatterBig: "radial-gradient(circle, rgba(248, 231, 28, 0.41) 0%, rgba(255, 236, 0, 0) 100%)",
+        particleAntimatterSmall: "radial-gradient(circle, rgba(134, 0, 255, 0.72) 0%, rgba(134, 0, 255, 0) 100%)",
+        particleAntimatterMid: "radial-gradient(circle, rgba(134, 0, 255, 0.72) 0%, rgba(134, 0, 255, 0) 100%)",
+        particleAntimatterBig: "radial-gradient(circle, rgba(134, 0, 255, 0.72) 0%, rgba(134, 0, 255, 0) 100%)",
     },
     zIndexes: {
         HUD_Z_Index: 10,
@@ -80,6 +99,19 @@ export const CSS_VARS = {
     '--color-gray': TOKENS.colors.gray,
     '--color-dark-gray': TOKENS.colors.darkgray,
     '--color-black': TOKENS.colors.black,
+
+    '--shadow-text-subtle': TOKENS.shadows.textSubtle,
+    '--shadow-text-strong': TOKENS.shadows.textStrong,
+    '--shadow-box-subtle': TOKENS.shadows.boxSubtle,
+    '--shadow-box-medium': TOKENS.shadows.boxMedium,
+    '--shadow-box-strong': TOKENS.shadows.boxStrong,
+
+    '--shadow-particle-matter-small': TOKENS.shadows.particleMatterSmall,
+    '--shadow-particle-matter-mid': TOKENS.shadows.particleMatterMid,
+    '--shadow-particle-matter-big': TOKENS.shadows.particleMatterBig,
+    '--shadow-particle-antimatter-small': TOKENS.shadows.particleAntimatterSmall,
+    '--shadow-particle-antimatter-mid': TOKENS.shadows.particleAntimatterMid,
+    '--shadow-particle-antimatter-big': TOKENS.shadows.particleAntimatterBig,
 
     '--font-title': TOKENS.typography.title.fontFamily,
     '--font-title-size': `${TOKENS.typography.title.fontSize}px`,
@@ -103,9 +135,9 @@ export const CSS_VARS = {
     '--size-big-paginator-w': `${TOKENS.sizes.BIG_PAGINATOR_W}px`,
     '--size-mid-card-w': `${TOKENS.sizes.MID_CARD_W}px`,
     '--size-mid-card-h': `${TOKENS.sizes.MID_CARD_H}px`,
-    '--size-tab-w': `${TOKENS.sizes.TAB_W}px`,
+    '--size-tab-min-w': `${TOKENS.sizes.TAB_MIN_W}px`,
     '--size-tab-h': `${TOKENS.sizes.TAB_H}px`,
-    '--size-button-width': `${TOKENS.sizes.BUTTON_WIDTH}px`,
+    '--size-button-min-width': `${TOKENS.sizes.BUTTON_MIN_WIDTH}px`,
     '--size-blur-playground': `${TOKENS.sizes.BLUR_PLAYGROUND}px`,
     '--size-line': `${TOKENS.sizes.LINE}px`,
 
@@ -119,4 +151,9 @@ export const CSS_VARS = {
     // Other sizes
     '--size-outline-offset': `${TOKENS.sizes.OUTLINE_OFFSET}px`,
     '--size-hover-translate': `${TOKENS.sizes.HOVER_TRANSLATE}px`,
+
+    // Particle shadow sizes
+    '--size-particle-shadow-small': `${TOKENS.sizes.PARTICLE_SHADOW_SMALL}px`,
+    '--size-particle-shadow-mid': `${TOKENS.sizes.PARTICLE_SHADOW_MID}px`,
+    '--size-particle-shadow-big': `${TOKENS.sizes.PARTICLE_SHADOW_BIG}px`,
 } as const;

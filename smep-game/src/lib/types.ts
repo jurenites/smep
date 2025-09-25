@@ -53,6 +53,12 @@ export enum UISquareState {
     DISABLED = 'disabled', // Disabled and not clickable
 }
 
+export enum UITabState {
+    ACTIVE = 'active', // Active tab
+    INACTIVE = 'inactive', // Inactive but clickable tab
+    DISABLED = 'disabled', // Disabled and not clickable tab
+}
+
 export enum ClickableState {
     ENABLED = 'enabled', // Clickable and interactive
     DISABLED = 'disabled', // Not clickable

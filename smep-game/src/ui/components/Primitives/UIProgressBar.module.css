@@ -83,7 +83,7 @@
 }
 
 .progressDisabled .fill {
-    opacity: 0.5;
+    fill: var(--color-dark-gray);
 }
 
 /* Hover effects for interactive states */
@@ -108,12 +108,12 @@
 /* Focus states for accessibility */
 .progressActive:focus-visible {
     outline: var(--size-line) solid var(--color-yolk);
-    outline-offset: 2px;
+    outline-offset: var(--size-outline-offset);
 }
 
 .progressInactive:focus-visible {
     outline: var(--size-line) solid var(--color-yolk);
-    outline-offset: 2px;
+    outline-offset: var(--size-outline-offset);
 }
 
 /* Disabled state - no hover effects */

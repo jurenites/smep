@@ -13,7 +13,7 @@ const meta: Meta<typeof AllPrimitivesShowcase> = {
 
 ## Components
 
-### UICardSmall
+### UICard
 Small card components for displaying symbols and states.
 
 ### UIRuler

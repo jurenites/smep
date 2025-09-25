@@ -49,17 +49,17 @@
 /* Interactive State */
 .interactive {
     cursor: pointer;
-    transition: opacity 0.2s ease, transform 0.1s ease;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .interactive:hover {
-    opacity: 0.8;
+    background-color: var(--color-dark-gray);
     transform: translateY(-1px);
 }
 
 .interactive:active {
     transform: translateY(0);
-    opacity: 0.9;
+    background-color: var(--color-gray);
 }
 
 .interactive:focus-visible {
