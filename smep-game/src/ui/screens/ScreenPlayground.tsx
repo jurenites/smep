@@ -4,7 +4,7 @@ import { UICard } from '../components/UICard/UICard';
 import { UIPaginationGrid } from '../components/Paginators/UIPaginationGrid';
 import { UIRuler } from '../components/Elements/UIRuler';
 import { useGameStore } from '../../lib/game-state';
-import { ParticleType, UICardState } from '../../lib/types';
+import { ParticleList, UICardState } from '../../lib/types';
 
 export function ScreenPlayground() {
     //const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -64,7 +64,7 @@ export function ScreenPlayground() {
         const y = event.clientY - rect.top;
 
         // Create a particle at click position
-        const particleTypes = Object.values(ParticleType);
+        const particleTypes = Object.values(ParticleList);
         const randomType = particleTypes[Math.floor(Math.random() * particleTypes.length)];
         createParticle(randomType, { x, y });
     };
@@ -79,12 +79,12 @@ export function ScreenPlayground() {
 
     // Sample particles for UI display
     const sampleParticles = [
-        { symbol: 'e⁻', type: ParticleType.LEPTON },
-        { symbol: 'p⁺', type: ParticleType.BARYON },
-        { symbol: 'n⁰', type: ParticleType.BARYON },
-        { symbol: 'γ', type: ParticleType.BOSON },
-        { symbol: 'q', type: ParticleType.QUARK },
-        { symbol: 'π', type: ParticleType.MESON },
+        { symbol: 'e⁻', type: ParticleList.LEPTON },
+        { symbol: 'p⁺', type: ParticleList.BARYON },
+        { symbol: 'n⁰', type: ParticleList.BARYON },
+        { symbol: 'γ', type: ParticleList.BOSON },
+        { symbol: 'q', type: ParticleList.QUARK },
+        { symbol: 'π', type: ParticleList.MESON },
     ];
 
 

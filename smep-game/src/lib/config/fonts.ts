@@ -1,5 +1,5 @@
 import type { FontConfig } from '../hooks/useFontLoader';
-
+// TODO: cleanup , do we really ise this file ? i dont want to use the absolte names here need to be repaced from Tokens as variables   
 export const FONT_CONFIGS: FontConfig[] = [
     {
         name: '4pixel',
@@ -34,7 +34,7 @@ export const FONT_CONFIGS: FontConfig[] = [
 // Font family presets for common use cases
 export const FONT_PRESETS = {
     pixel: ['4pixel', 'monospace'],
-    title: ['Roundabout-Regular', 'Urbanist', 'sans-serif'],
-    body: ['Roundabout-Regular', 'Sulphur Point', 'sans-serif'],
-    code: ['4pixel', 'Courier New', 'monospace']
+    title: ['Roundabout-Regular', /*'Urbanist',*/ 'sans-serif'],
+    body: ['Roundabout-Regular', /*'Sulphur Point',*/ 'sans-serif'],
+    code: ['Courier New', 'monospace']
 } as const;

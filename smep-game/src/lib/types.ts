@@ -7,7 +7,7 @@ export enum GameLevel {
     ASTRONOMICAL = 'astronomical',
 }
 
-export enum ParticleType {
+export enum ParticleList {
     QUARK = 'quark',
     LEPTON = 'lepton',
     BOSON = 'boson',
@@ -172,7 +172,7 @@ export interface EntityMolecule {
 // Particles
 export interface Particle {
     id: string;
-    type: ParticleType;
+    type: ParticleList;
     position: { x: number; y: number };
     velocity: { x: number; y: number };
     mass: number;
@@ -227,7 +227,7 @@ export interface UIParticle {
     id: string;
     symbol: string;
     name: string;
-    type: ParticleType;
+    type: ParticleList;
     energy: number;
     charge: number;
     mass: number;

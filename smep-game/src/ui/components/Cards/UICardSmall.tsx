@@ -5,7 +5,7 @@ import { UIRectangleBig } from '../Primitives/UIRectangleBig';
 import { UILabel } from '../Text/UILabel';
 import { UIParticle } from '../Particles/UIParticle';
 import { TOKENS } from '../../tokens/tokens';
-import { ParticleType } from '../../../lib/types/particle-types';
+import { ParticleList } from '../../../lib/types/particle-types';
 import { getFormattedParticleSymbol, isAntiparticle } from '../../../lib/utils/particle-symbols';
 import type { LogicalSize } from '../Primitives/UICircle';
 import type { UILabelProps } from '../Text/UILabel';
@@ -33,7 +33,7 @@ interface UICardProps {
     circleBrightness?: 'full' | 'dimmed';
     // UIParticle configuration options (alternative to UICircle)
     showParticle?: boolean;
-    particleType?: ParticleType;
+    particleType?: ParticleList;
 }
 
 export function UICard({
@@ -52,7 +52,7 @@ export function UICard({
     circleColor = TOKENS.colors.white,
     circleBrightness = 'full',
     showParticle = false,
-    particleType = ParticleType.ELECTRON
+    particleType = ParticleList.ELECTRON
 }: UICardProps) {
 
     // Rectangle shape rendering - using UISquare component (always rectangular)

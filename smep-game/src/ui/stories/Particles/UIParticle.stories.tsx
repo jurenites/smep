@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { UIParticle } from '../../components/Particles/UIParticle';
 import { UILabel } from '../../components/Text/UILabel';
-import { ParticleType, ParticleMatterType, getParticlesByMatterType } from '../../../lib/types/particle-types';
+import { ParticleList, ParticleMatterType, getParticlesByMatterType } from '../../../lib/types/particle-types';
 
 const meta: Meta<typeof UIParticle> = {
     title: 'Particles/UIParticle',
@@ -18,7 +18,7 @@ const meta: Meta<typeof UIParticle> = {
     argTypes: {
         particleType: {
             control: { type: 'select' },
-            options: Object.values(ParticleType),
+            options: Object.values(ParticleList),
             description: 'Type of particle to display',
         },
         size: {

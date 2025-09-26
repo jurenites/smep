@@ -40,10 +40,12 @@ export const TOKENS = {
         },
     },
     sizes: {
-        DOT_1: 1, // 1px
-        CIRCLE_4: 4,
-        CIRCLE_6: 6,
-        CIRCLE_61: 61,
+        CIRCLE_DOT_1: 1, // 1px
+        CIRCLE_MICRO_4: 4,
+        CIRCLE_MINI_6: 6,
+        CIRCLE_MIDDLE_61: 61,
+        CIRCLE_MEGA_109: 109,
+
         MINI_CARD: 31,
         SQUARE_SMALL: 4,
         BIG_PAGINATOR_W: 17,
@@ -74,16 +76,13 @@ export const TOKENS = {
     shadows: {
         textSubtle: "0 1px 2px rgba(0, 0, 0, 0.5)",
         textStrong: "0 2px 4px rgba(0, 0, 0, 0.8)",
+
         boxSubtle: "0 2px 8px rgba(0, 0, 0, 0.1)",
         boxMedium: "0 4px 16px rgba(0, 0, 0, 0.15)",
         boxStrong: "0 8px 32px rgba(0, 0, 0, 0.2)",
         // Particle shadows for matter/antimatter visualization
-        particleMatterSmall: "radial-gradient(circle, rgba(248, 231, 28, 0.41) 0%, rgba(255, 236, 0, 0) 100%)",
-        particleMatterMid: "radial-gradient(circle, rgba(248, 231, 28, 0.41) 0%, rgba(255, 236, 0, 0) 100%)",
-        particleMatterBig: "radial-gradient(circle, rgba(248, 231, 28, 0.41) 0%, rgba(255, 236, 0, 0) 100%)",
-        particleAntimatterSmall: "radial-gradient(circle, rgba(134, 0, 255, 0.72) 0%, rgba(134, 0, 255, 0) 100%)",
-        particleAntimatterMid: "radial-gradient(circle, rgba(134, 0, 255, 0.72) 0%, rgba(134, 0, 255, 0) 100%)",
-        particleAntimatterBig: "radial-gradient(circle, rgba(134, 0, 255, 0.72) 0%, rgba(134, 0, 255, 0) 100%)",
+        particleMatter: "radial-gradient(circle, rgba(248, 231, 28, 0.41) 0%, rgba(255, 236, 0, 0) 100%)",
+        particleAntimatter: "radial-gradient(circle, rgba(134, 0, 255, 0.72) 0%, rgba(134, 0, 255, 0) 100%)",
     },
     zIndexes: {
         HUD_Z_Index: 10,
@@ -105,13 +104,8 @@ export const CSS_VARS = {
     '--shadow-box-subtle': TOKENS.shadows.boxSubtle,
     '--shadow-box-medium': TOKENS.shadows.boxMedium,
     '--shadow-box-strong': TOKENS.shadows.boxStrong,
-
-    '--shadow-particle-matter-small': TOKENS.shadows.particleMatterSmall,
-    '--shadow-particle-matter-mid': TOKENS.shadows.particleMatterMid,
-    '--shadow-particle-matter-big': TOKENS.shadows.particleMatterBig,
-    '--shadow-particle-antimatter-small': TOKENS.shadows.particleAntimatterSmall,
-    '--shadow-particle-antimatter-mid': TOKENS.shadows.particleAntimatterMid,
-    '--shadow-particle-antimatter-big': TOKENS.shadows.particleAntimatterBig,
+    '--shadow-particle-matter': TOKENS.shadows.particleMatter,
+    '--shadow-particle-antimatter': TOKENS.shadows.particleAntimatter,
 
     '--font-title': TOKENS.typography.title.fontFamily,
     '--font-title-size': `${TOKENS.typography.title.fontSize}px`,
@@ -121,15 +115,15 @@ export const CSS_VARS = {
     '--font-digit-big-size': `${TOKENS.typography.digitBig.fontSize}px`,
     '--font-digit-small': TOKENS.typography.digitSmall.fontFamily,
     '--font-digit-small-size': `${TOKENS.typography.digitSmall.fontSize}px`,
-    '--font-digit-size': `${TOKENS.typography.digitBig.fontSize}px`,
     '--font-code': TOKENS.typography.code.fontFamily,
     '--font-code-size': `${TOKENS.typography.code.fontSize}px`,
 
     '--z-index-hud': TOKENS.zIndexes.HUD_Z_Index,
-    '--size-dot-1': `${TOKENS.sizes.DOT_1}px`,
-    '--size-circle-4': `${TOKENS.sizes.CIRCLE_4}px`,
-    '--size-circle-6': `${TOKENS.sizes.CIRCLE_6}px`,
-    '--size-circle-61': `${TOKENS.sizes.CIRCLE_61}px`,
+    '--size-dot-1': `${TOKENS.sizes.CIRCLE_DOT_1}px`,
+    '--size-circle-4': `${TOKENS.sizes.CIRCLE_MICRO_4}px`,
+    '--size-circle-6': `${TOKENS.sizes.CIRCLE_MINI_6}px`,
+    '--size-circle-61': `${TOKENS.sizes.CIRCLE_MIDDLE_61}px`,
+    '--size-circle-109': `${TOKENS.sizes.CIRCLE_MEGA_109}px`,
     '--size-mini-card': `${TOKENS.sizes.MINI_CARD}px`,
     '--size-square-small': `${TOKENS.sizes.SQUARE_SMALL}px`,
     '--size-big-paginator-w': `${TOKENS.sizes.BIG_PAGINATOR_W}px`,

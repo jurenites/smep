@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { UICard } from '../../components/UICard/UICard';
-import { ParticleType } from '../../../lib/types/particle-types';
+import { ParticleList } from '../../../lib/types/particle-types';
 import { UICardState } from '../../../lib/types';
 
 const meta: Meta<typeof UICard> = {
@@ -34,12 +34,12 @@ const meta: Meta<typeof UICard> = {
         particleType: {
             control: 'select',
             options: [
-                ParticleType.ELECTRON,
-                ParticleType.MUON,
-                ParticleType.TAU,
-                ParticleType.POSITRON,
-                ParticleType.ANTIMUON,
-                ParticleType.ANTITAU,
+                ParticleList.ELECTRON,
+                ParticleList.MUON,
+                ParticleList.TAU,
+                ParticleList.POSITRON,
+                ParticleList.ANTIMUON,
+                ParticleList.ANTITAU,
             ],
             description: 'Type of particle to display',
         },
@@ -60,7 +60,7 @@ export const Default: Story = {
         state: UICardState.NORMAL,
         size: 'small',
         showParticle: true,
-        particleType: ParticleType.ELECTRON,
+        particleType: ParticleList.ELECTRON,
     },
     parameters: {
         docs: {

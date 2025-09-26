@@ -3,7 +3,7 @@ import { UISquare } from '../Primitives/UISquare';
 import { UIRectangleBig } from '../Primitives/UIRectangleBig';
 import { UILabel } from '../Text/UILabel';
 import { UIParticle } from '../Particles/UIParticle';
-import { ParticleType } from '../../../lib/types/particle-types';
+import { ParticleList } from '../../../lib/types/particle-types';
 import { getFormattedParticleSymbol, isAntiparticle } from '../../../lib/utils/particle-symbols';
 import styles from './UICard.module.css';
 
@@ -17,7 +17,7 @@ interface UICardProps {
     size?: UICardSize;
     // UIParticle configuration options
     showParticle?: boolean;
-    particleType?: ParticleType;
+    particleType?: ParticleList;
 }
 
 export function UICard({
@@ -26,7 +26,7 @@ export function UICard({
     onClick,
     size = 'small',
     showParticle = false,
-    particleType = ParticleType.ELECTRON
+    particleType = ParticleList.ELECTRON
 }: UICardProps) {
 
     // Rectangle shape rendering - using UISquare component (always rectangular)

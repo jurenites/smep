@@ -33,19 +33,19 @@ Use these consistently across engine, UI, and docs.
 |---------------|----------------|-------|
 | Particle | `Particle` | Base class / interface |
 | Antiparticle | `Antiparticle` | Inherits from `Particle` |
-| Lepton | `ParticleType.LEPTON` | Enum member |
-| Boson | `ParticleType.BOSON` | Enum member |
-| Quark | `ParticleType.QUARK` | Enum member |
-| Hadron | `ParticleType.HADRON` | Enum member |
-| Meson | `ParticleType.MESON` | Enum member (subtype of Hadron) |
-| Baryon | `ParticleType.BARYON` | Enum member (subtype of Hadron) |
-| Virtual Particle | `ParticleType.VIRTUAL` | Enum member, short-lived |
+| Lepton | `ParticleList.LEPTON` | Enum member |
+| Boson | `ParticleList.BOSON` | Enum member |
+| Quark | `ParticleList.QUARK` | Enum member |
+| Hadron | `ParticleList.HADRON` | Enum member |
+| Meson | `ParticleList.MESON` | Enum member (subtype of Hadron) |
+| Baryon | `ParticleList.BARYON` | Enum member (subtype of Hadron) |
+| Virtual Particle | `ParticleList.VIRTUAL` | Enum member, short-lived |
 | Quanta | `QUANTA_UNIT` | Constant representing indivisible unit |
 
 **Enum Example:**
 
 ```ts
-enum ParticleType {
+enum ParticleList {
   QUARK,
   LEPTON,
   BOSON,

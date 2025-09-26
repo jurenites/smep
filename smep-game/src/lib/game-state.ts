@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import type { GameState, PlayerWallet, EntityPlayground, EntitySingularity, Particle, ForceField } from './types';
-import { GameLevel, ParticleType } from './types';
+import { GameLevel, ParticleList } from './types';
 import { GAME_CONSTANTS } from './constants';
 
 // Initial state
@@ -49,7 +49,7 @@ interface GameStore extends GameState {
     // Actions
     addEnergy: (amount: number) => void;
     spendEnergy: (amount: number) => void;
-    createParticle: (type: ParticleType, position: { x: number; y: number }) => void;
+    createParticle: (type: ParticleList, position: { x: number; y: number }) => void;
     updatePlayground: (updates: Partial<EntityPlayground>) => void;
     tick: (deltaTime: number) => void;
     reset: () => void;
@@ -81,7 +81,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         }));
     },
 
-    createParticle: (type: ParticleType, position: { x: number; y: number }) => {
+    createParticle: (type: ParticleList, position: { x: number; y: number }) => {
         const newParticle: Particle = {
             id: `particle-${Date.now()}-${Math.random()}`,
             type,
