@@ -5,45 +5,6 @@
  * Converted from JSON to TypeScript for better type safety and performance.
  */
 
-// Base properties interface
-export interface AtomicProperties {
-    symbol: string;
-    atomicNumber: number;
-    name: string;
-    category: 'alkali-metal' | 'alkaline-earth' | 'transition-metal' | 'post-transition-metal' |
-    'metalloid' | 'nonmetal' | 'noble-gas' | 'lanthanide' | 'actinide' | 'unknown';
-    electronShellGroup: 's' | 'p' | 'd' | 'f';
-    period: number;
-    relativeDiameter: number;
-}
-
-// Render configuration interface
-export interface AtomicRenderConfig {
-    coreDiameter: number;
-    coreColor: string;
-}
-
-// Physics configuration interface
-export interface AtomicPhysicsConfig {
-    interactionRange: number;
-    collisionRadius: number;
-    mass: number;
-}
-
-// Table position interface
-export interface AtomicTablePosition {
-    longForm: { x: number; y: number };
-    shortForm: { x: number; y: number };
-}
-
-// Complete atomic element interface
-export interface PeriodicElement {
-    properties: AtomicProperties;
-    render: AtomicRenderConfig;
-    physics: AtomicPhysicsConfig;
-    table: AtomicTablePosition;
-}
-
 /**
  * Complete periodic table data for all 118 elements
  * Sorted by atomic number (1-118)
@@ -174,6 +135,45 @@ export const PERIODIC_TABLE_DATA: readonly PeriodicElement[] = [
     { properties: { symbol: 'Ts', atomicNumber: 117, name: 'Tennessine', category: 'metalloid', electronShellGroup: 'p', period: 7, relativeDiameter: 7.375 }, render: { coreDiameter: 4, coreColor: '#eb0026' }, physics: { interactionRange: 4, collisionRadius: 4, mass: 1 }, table: { longForm: { x: 16, y: 6 }, shortForm: { x: 16, y: 6 } } },
     { properties: { symbol: 'Og', atomicNumber: 118, name: 'Oganesson', category: 'noble-gas', electronShellGroup: 'p', period: 7, relativeDiameter: 6.5 }, render: { coreDiameter: 4, coreColor: '#eb0026' }, physics: { interactionRange: 4, collisionRadius: 4, mass: 1 }, table: { longForm: { x: 31, y: 6 }, shortForm: { x: 17, y: 6 } } },
 ] as const;
+
+// Base properties interface
+export interface AtomicProperties {
+    symbol: string;
+    atomicNumber: number;
+    name: string;
+    category: 'alkali-metal' | 'alkaline-earth' | 'transition-metal' | 'post-transition-metal' |
+    'metalloid' | 'nonmetal' | 'noble-gas' | 'lanthanide' | 'actinide' | 'unknown';
+    electronShellGroup: 's' | 'p' | 'd' | 'f';
+    period: number;
+    relativeDiameter: number;
+}
+
+// Render configuration interface
+export interface AtomicRenderConfig {
+    coreDiameter: number;
+    coreColor: string;
+}
+
+// Physics configuration interface
+export interface AtomicPhysicsConfig {
+    interactionRange: number;
+    collisionRadius: number;
+    mass: number;
+}
+
+// Table position interface
+export interface AtomicTablePosition {
+    longForm: { x: number; y: number };
+    shortForm: { x: number; y: number };
+}
+
+// Complete atomic element interface
+export interface PeriodicElement {
+    properties: AtomicProperties;
+    render: AtomicRenderConfig;
+    physics: AtomicPhysicsConfig;
+    table: AtomicTablePosition;
+}
 
 /**
  * Helper functions for accessing periodic table data

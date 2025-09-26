@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { UIParticle } from '../../components/Particles/UIParticle';
 import { UILabel } from '../../components/Text/UILabel';
 import { ParticleList } from '../../../lib/types/particle-list';
-import { getFormattedParticleSymbol } from '../../../lib/utils/particle-symbols';
+import { getFormattedParticleSymbol } from '../../../lib/data/particle-symbols';
 
 const meta: Meta<typeof UIParticle> = {
     title: 'Particles/UIParticle',

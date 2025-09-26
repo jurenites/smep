@@ -6,7 +6,7 @@ import { UILabel } from '../Text/UILabel';
 import { UIParticle } from '../Particles/UIParticle';
 import { TOKENS } from '../../tokens/tokens';
 import { ParticleList } from '../../../lib/types/particle-list';
-import { getFormattedParticleSymbol, isAntiparticle } from '../../../lib/utils/particle-symbols';
+import { getFormattedParticleSymbol, isAntiparticle } from '../../../lib/data/particle-symbols';
 import type { LogicalSize } from '../Primitives/UICircle';
 import type { UILabelProps } from '../Text/UILabel';
 import styles from './UICardSmall.module.css';

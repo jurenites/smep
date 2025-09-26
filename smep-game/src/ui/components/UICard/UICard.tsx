@@ -3,7 +3,7 @@ import { UIRectangleBig } from '../Primitives/UIRectangleBig';
 import { UILabel } from '../Text/UILabel';
 import { UIParticle } from '../Particles/UIParticle';
 import { ParticleList } from '../../../lib/data/particle-quantum.data';
-import { getFormattedParticleSymbol, isAntiparticle } from '../../../lib/utils/particle-symbols';
+import { getFormattedParticleSymbol, isAntiparticle } from '../../../lib/data/particle-symbols';
 import styles from './UICard.module.css';
 
 export enum UICardState {

@@ -1,6 +1,6 @@
 import { UICircle } from '../Primitives/UICircle';
 import { ParticleList, getParticleProperties, getParticleShadowConfig, getParticleRenderConfig } from '../../../lib/data/particle-quantum.data';
-import { shouldHaveBackgroundShadow } from '../../../lib/utils/particle-symbols';
+import { shouldHaveBackgroundShadow } from '../../../lib/data/particle-symbols';
 import styles from './UIParticle.module.css';
 
 export interface UIParticleProps {
