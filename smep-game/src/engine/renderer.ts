@@ -54,11 +54,11 @@ export class WebGPURenderer implements GPURenderer {
     }
 
     render(particles: any[]): void {
-        // TODO: Implement WebGPU rendering
+        // TODO: Implement WebGPU rendering, not ready yet to start doing it (To be defiend later on))
     }
 
     dispose(): void {
-        // TODO: Implement WebGPU cleanup
+        // TODO: Implement WebGPU cleanup not ready yet
     }
 }
 

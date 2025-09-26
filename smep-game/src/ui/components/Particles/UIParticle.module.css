@@ -20,7 +20,8 @@
 }
 
 /* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
+/*
+@media (prefers-reduced-motion: reduce) {   
 
     .particleContainer:hover [data-particle-core],
     .particleContainer:active [data-particle-core] {
@@ -28,3 +29,4 @@
         transition: none !important;
     }
 }
+*/

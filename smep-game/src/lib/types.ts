@@ -7,15 +7,11 @@ export enum GameLevel {
     ASTRONOMICAL = 'astronomical',
 }
 
-export enum ParticleList {
-    QUARK = 'quark',
-    LEPTON = 'lepton',
-    BOSON = 'boson',
-    HADRON = 'hadron',
-    MESON = 'meson',
-    BARYON = 'baryon',
-    VIRTUAL = 'virtual',
-}
+// Re-export particle types from data module
+export { ParticleList, ParticleMatterType } from './data';
+
+// Import for use in this file
+import type { ParticleList } from './data';
 
 export enum ForceType {
     STRONG = 'strong',

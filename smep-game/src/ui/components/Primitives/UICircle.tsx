@@ -1,4 +1,5 @@
 import React from 'react';
+import { TOKENS } from '../../tokens/tokens';
 import styles from './UICircle.module.css';
 
 export type LogicalSize = 'dot' | 'small' | 'mini' | 'middle' | 'mega';
@@ -11,20 +12,20 @@ export interface UICircleProps {
     onClick?: () => void;
 }
 
-// Logical size to pixel diameter mapping
+// Logical size to pixel diameter mapping using tokens
 const LOGICAL_SIZE_MAP: Record<LogicalSize, number> = {
-    dot: 1,      // 1px diameter
-    small: 4,    // 4px diameter
-    mini: 6,     // 6px diameter
-    middle: 61,  // 61px diameter
-    mega: 109    // 109px diameter
+    dot: TOKENS.sizes.CIRCLE_DOT_1,      // 1px diameter
+    small: TOKENS.sizes.CIRCLE_MICRO_4,  // 4px diameter
+    mini: TOKENS.sizes.CIRCLE_MINI_6,    // 6px diameter
+    middle: TOKENS.sizes.CIRCLE_MIDDLE_61, // 61px diameter
+    mega: TOKENS.sizes.CIRCLE_MEGA_109   // 109px diameter
 };
 
 export function UICircle({
     logicalSize,
     actualSize,
     brightness = 'full',
-    color = '#3B82F6', // Default blue color
+    color = '#FFF', // Default color
     onClick
 }: UICircleProps) {
     // Calculate final size: use actualSize if provided, otherwise use logical size
@@ -54,6 +55,7 @@ export function UICircle({
     ].filter(Boolean).join(' ');
 
     return (
+        // TODO maybe morebeeficial to replace this DOM element sith SVG element, so we can have better control over the shape and be able to animate it with CSS animations.
         <div
             className={cssClasses}
             style={dynamicStyles}

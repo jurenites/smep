@@ -5,7 +5,7 @@ import { UIRectangleBig } from '../Primitives/UIRectangleBig';
 import { UILabel } from '../Text/UILabel';
 import { UIParticle } from '../Particles/UIParticle';
 import { TOKENS } from '../../tokens/tokens';
-import { ParticleList } from '../../../lib/types/particle-types';
+import { ParticleList } from '../../../lib/types/particle-list';
 import { getFormattedParticleSymbol, isAntiparticle } from '../../../lib/utils/particle-symbols';
 import type { LogicalSize } from '../Primitives/UICircle';
 import type { UILabelProps } from '../Text/UILabel';
@@ -33,7 +33,7 @@ interface UICardProps {
     circleBrightness?: 'full' | 'dimmed';
     // UIParticle configuration options (alternative to UICircle)
     showParticle?: boolean;
-    particleType?: ParticleList;
+    particleList?: ParticleList;
 }
 
 export function UICard({
@@ -52,7 +52,7 @@ export function UICard({
     circleColor = TOKENS.colors.white,
     circleBrightness = 'full',
     showParticle = false,
-    particleType = ParticleList.ELECTRON
+    particleList = ParticleList.ELECTRON
 }: UICardProps) {
 
     // Rectangle shape rendering - using UISquare component (always rectangular)
@@ -144,7 +144,7 @@ export function UICard({
                         {showParticle && (
                             <div className={styles.circleAbove}>
                                 <UIParticle
-                                    particleType={particleType}
+                                    particleType={particleList}
                                     onClick={onClick}
                                 />
                             </div>
@@ -153,10 +153,10 @@ export function UICard({
                             fontVariant={labelFontVariant}
                             color={labelColor}
                             align={labelAlign}
-                            className={`${styles.symbol} ${showParticle && isAntiparticle(particleType) ? styles.antiparticle : ''} ${labelClassName}`}
+                            className={`${styles.symbol} ${showParticle && isAntiparticle(particleList) ? styles.antiparticle : ''} ${labelClassName}`}
                             interactive={labelInteractive}
                         >
-                            {showParticle ? getFormattedParticleSymbol(particleType) : symbol}
+                            {showParticle ? getFormattedParticleSymbol(particleList) : symbol}
                         </UILabel>
                     </div>
                 </div>
@@ -178,7 +178,7 @@ export function UICard({
                             {showParticle && (
                                 <div className={styles.circleAbove}>
                                     <UIParticle
-                                        particleType={particleType}
+                                        particleType={particleList}
                                         onClick={onClick}
                                     />
                                 </div>
@@ -187,10 +187,10 @@ export function UICard({
                                 fontVariant={labelFontVariant}
                                 color={labelColor}
                                 align={labelAlign}
-                                className={`${styles.symbol} ${showParticle && isAntiparticle(particleType) ? styles.antiparticle : ''} ${labelClassName}`}
+                                className={`${styles.symbol} ${showParticle && isAntiparticle(particleList) ? styles.antiparticle : ''} ${labelClassName}`}
                                 interactive={labelInteractive}
                             >
-                                {showParticle ? getFormattedParticleSymbol(particleType) : symbol}
+                                {showParticle ? getFormattedParticleSymbol(particleList) : symbol}
                             </UILabel>
                         </div>
                     )}
@@ -209,7 +209,7 @@ export function UICard({
                             {showParticle && (
                                 <div className={styles.circleAbove}>
                                     <UIParticle
-                                        particleType={particleType}
+                                        particleType={particleList}
                                         onClick={onClick}
                                     />
                                 </div>
@@ -218,10 +218,10 @@ export function UICard({
                                 fontVariant={labelFontVariant}
                                 color={labelColor}
                                 align={labelAlign}
-                                className={`${styles.symbol} ${showParticle && isAntiparticle(particleType) ? styles.antiparticle : ''} ${labelClassName}`}
+                                className={`${styles.symbol} ${showParticle && isAntiparticle(particleList) ? styles.antiparticle : ''} ${labelClassName}`}
                                 interactive={labelInteractive}
                             >
-                                {showParticle ? getFormattedParticleSymbol(particleType) : symbol}
+                                {showParticle ? getFormattedParticleSymbol(particleList) : symbol}
                             </UILabel>
                         </div>
                     )}

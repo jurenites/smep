@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import type { GameState, PlayerWallet, EntityPlayground, EntitySingularity, Particle, ForceField } from './types';
-import { GameLevel, ParticleList } from './types';
+import { GameLevel } from './types';
+import { ParticleList } from './data';
 import { GAME_CONSTANTS } from './constants';
 
 // Initial state

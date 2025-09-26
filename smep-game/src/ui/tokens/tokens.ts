@@ -75,14 +75,9 @@ export const TOKENS = {
     },
     shadows: {
         textSubtle: "0 1px 2px rgba(0, 0, 0, 0.5)",
-        textStrong: "0 2px 4px rgba(0, 0, 0, 0.8)",
-
         boxSubtle: "0 2px 8px rgba(0, 0, 0, 0.1)",
         boxMedium: "0 4px 16px rgba(0, 0, 0, 0.15)",
         boxStrong: "0 8px 32px rgba(0, 0, 0, 0.2)",
-        // Particle shadows for matter/antimatter visualization
-        particleMatter: "radial-gradient(circle, rgba(248, 231, 28, 0.41) 0%, rgba(255, 236, 0, 0) 100%)",
-        particleAntimatter: "radial-gradient(circle, rgba(134, 0, 255, 0.72) 0%, rgba(134, 0, 255, 0) 100%)",
     },
     zIndexes: {
         HUD_Z_Index: 10,
@@ -100,12 +95,17 @@ export const CSS_VARS = {
     '--color-black': TOKENS.colors.black,
 
     '--shadow-text-subtle': TOKENS.shadows.textSubtle,
-    '--shadow-text-strong': TOKENS.shadows.textStrong,
     '--shadow-box-subtle': TOKENS.shadows.boxSubtle,
     '--shadow-box-medium': TOKENS.shadows.boxMedium,
     '--shadow-box-strong': TOKENS.shadows.boxStrong,
-    '--shadow-particle-matter': TOKENS.shadows.particleMatter,
-    '--shadow-particle-antimatter': TOKENS.shadows.particleAntimatter,
+
+    // Particle colors
+    '--particle-lepton-matter': TOKENS.colors.yolk,
+    '--particle-lepton-antimatter': TOKENS.colors.ultraviolet,
+    '--particle-neutrino-matter': TOKENS.colors.white,
+    '--particle-neutrino-antimatter': TOKENS.colors.white,
+    '--particle-quark-matter': TOKENS.colors.gray,
+    '--particle-quark-antimatter': TOKENS.colors.gray,
 
     '--font-title': TOKENS.typography.title.fontFamily,
     '--font-title-size': `${TOKENS.typography.title.fontSize}px`,

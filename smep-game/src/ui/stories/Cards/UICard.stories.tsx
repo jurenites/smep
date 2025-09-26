@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { UICard } from '../../components/UICard/UICard';
-import { ParticleList } from '../../../lib/types/particle-types';
+import { ParticleList } from '../../../lib/types/particle-list';
 import { UICardState } from '../../../lib/types';
 
 const meta: Meta<typeof UICard> = {
@@ -33,14 +33,7 @@ const meta: Meta<typeof UICard> = {
         },
         particleType: {
             control: 'select',
-            options: [
-                ParticleList.ELECTRON,
-                ParticleList.MUON,
-                ParticleList.TAU,
-                ParticleList.POSITRON,
-                ParticleList.ANTIMUON,
-                ParticleList.ANTITAU,
-            ],
+            options: Object.values(ParticleList),
             description: 'Type of particle to display',
         },
         onClick: {

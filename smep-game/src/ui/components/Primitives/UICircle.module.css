@@ -82,6 +82,7 @@
 }
 
 /* Responsive behavior */
+/*
 @media (max-width: 768px) {
     .size-mega {
         border-width: 2px;
@@ -92,9 +93,11 @@
         border-width: 1px;
         box-shadow: var(--shadow-box-subtle);
     }
-}
+}*/
 
 /* High contrast mode support */
+/* no support yet */
+/*
 @media (prefers-contrast: high) {
     .circle {
         border-width: 2px;
@@ -105,9 +108,11 @@
         border-width: 2px;
         background-color: var(--color-accent-primary);
     }
-}
+}*/
 
 /* Reduced motion support */
+/* no epileptic support yet */
+/*
 @media (prefers-reduced-motion: reduce) {
     .circle {
         transition: none;
@@ -121,4 +126,4 @@
     .clickable:active {
         transform: none;
     }
-}
+}*/

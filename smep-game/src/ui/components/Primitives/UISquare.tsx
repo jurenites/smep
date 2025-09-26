@@ -1,7 +1,12 @@
 import React from 'react';
 import { TOKENS } from '../../tokens/tokens';
-import { UISquareState } from '../../../lib/types';
 import styles from './UISquare.module.css';
+
+export enum UISquareState {
+    ACTIVE = 'active', // Active and clickable
+    INACTIVE = 'inactive', // Inactive but clickable
+    DISABLED = 'disabled', // Disabled and not clickable
+}
 
 export type SquareLogicalSize = 'small' | 'mid';
 

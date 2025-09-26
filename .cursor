@@ -13,3 +13,4 @@
 + Mocking data is only needed for tests, never mock data for dev or prod
 + Never add stubbing or fake data patterns to code that affects the dev or prod environments
 + Never overwrite my .env file without first asking and confirming
++ Do not use constantly "const" in a JS files, to define properties to work with in the  *.ts files. "const" are only non-changeable parameters witch is declared at the top of the file, you may use "var" instead, it make it easeir to grasp witch variable name are changeable and which are static.

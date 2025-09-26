@@ -99,7 +99,7 @@ class PaginationService {
 
         // Debug: Log the updated state
         // console.log(`Pagination: Updated context '${contextId}' - Active pages:`,
-        updatedPages.filter(p => p.isActive).map(p => p.index));
+        // updatedPages.filter(p => p.isActive).map(p => p.index));
 
         // Emit page changed event
         this.emitEvent({

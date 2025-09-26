@@ -4,31 +4,22 @@
  * Provides formatted symbols for particles including special formatting for antiparticles.
  */
 
-import { ParticleList } from '../types/particle-types';
-
-export const PARTICLE_SYMBOLS: Record<ParticleList, string> = {
-    [ParticleList.ELECTRON]: 'e',
-    [ParticleList.MUON]: 'μ',
-    [ParticleList.TAU]: 'τ',
-    [ParticleList.POSITRON]: 'β',
-    [ParticleList.ANTIMUON]: 'μ',
-    [ParticleList.ANTITAU]: 'τ',
-};
+import { ParticleList, getParticleProperties, ParticleMatterType, getParticleRenderConfig } from '../data/particle-quantum.data';
 
 /**
- * Get the display symbol for a particle type
+ * Get the display symbol for a particle type from PARTICLE_DEFINITIONS
  */
 export function getParticleSymbol(particleType: ParticleList): string {
-    return PARTICLE_SYMBOLS[particleType];
+    const particleProps = getParticleProperties(particleType);
+    return particleProps.symbol;
 }
 
 /**
- * Check if a particle is an antiparticle (needs overbar)
+ * Check if a particle is an antiparticle by checking its matterType
  */
 export function isAntiparticle(particleType: ParticleList): boolean {
-    return particleType === ParticleList.POSITRON ||
-        particleType === ParticleList.ANTIMUON ||
-        particleType === ParticleList.ANTITAU;
+    const particleProps = getParticleProperties(particleType);
+    return particleProps.matterType === ParticleMatterType.ANTIMATTER;
 }
 
 /**
@@ -37,4 +28,12 @@ export function isAntiparticle(particleType: ParticleList): boolean {
 export function getFormattedParticleSymbol(particleType: ParticleList): string {
     var symbol = getParticleSymbol(particleType);
     return symbol;
+}
+
+/**
+ * Determines if a particle should have a background shadow by checking if shadowSize exists
+ */
+export function shouldHaveBackgroundShadow(particleType: ParticleList): boolean {
+    const renderConfig = getParticleRenderConfig(particleType);
+    return renderConfig.shadowSize != null;
 }

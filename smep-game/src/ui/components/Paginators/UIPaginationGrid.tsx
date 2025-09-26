@@ -5,9 +5,14 @@ import type {
     GridPosition,
     GridPage
 } from '../../../lib/types';
-import { PaginationState, UISquareState, ClickableState } from '../../../lib/types';
-import { UISquare } from '../Primitives/UISquare';
+import { PaginationState } from '../../../lib/types';
+import { UISquare, UISquareState } from '../Primitives/UISquare';
 import styles from './UIPaginationGrid.module.css';
+
+export enum ClickableState {
+    ENABLED = 'enabled', // Clickable and interactive
+    DISABLED = 'disabled', // Not clickable
+}
 
 interface UIPaginationGridProps {
     // For simple pagination (replaces UIPaginationMini functionality)

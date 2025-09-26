@@ -1,11 +1,15 @@
-import { UICardState, UISquareState } from '../../../lib/types';
-import { UISquare } from '../Primitives/UISquare';
+import { UISquare, UISquareState } from '../Primitives/UISquare';
 import { UIRectangleBig } from '../Primitives/UIRectangleBig';
 import { UILabel } from '../Text/UILabel';
 import { UIParticle } from '../Particles/UIParticle';
-import { ParticleList } from '../../../lib/types/particle-types';
+import { ParticleList } from '../../../lib/data/particle-quantum.data';
 import { getFormattedParticleSymbol, isAntiparticle } from '../../../lib/utils/particle-symbols';
 import styles from './UICard.module.css';
+
+export enum UICardState {
+    NORMAL = 'normal',
+    DISABLED = 'disabled',
+}
 
 export type UICardSize = 'small' | 'mid' | 'big';
 

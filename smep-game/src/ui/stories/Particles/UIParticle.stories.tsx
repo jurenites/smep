@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { UIParticle } from '../../components/Particles/UIParticle';
 import { UILabel } from '../../components/Text/UILabel';
-import { ParticleList, ParticleMatterType, getParticlesByMatterType } from '../../../lib/types/particle-types';
+import { ParticleList } from '../../../lib/types/particle-list';
+import { getFormattedParticleSymbol } from '../../../lib/utils/particle-symbols';
 
 const meta: Meta<typeof UIParticle> = {
     title: 'Particles/UIParticle',
@@ -21,20 +22,25 @@ const meta: Meta<typeof UIParticle> = {
             options: Object.values(ParticleList),
             description: 'Type of particle to display',
         },
-        size: {
-            control: { type: 'select' },
-            options: ['small', 'mid', 'big'],
-            description: 'Size of the shadow background (17px, 40px, 109px diameter)',
-        },
     },
 };
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Get all matter and antimatter particles
-const matterParticles = getParticlesByMatterType(ParticleMatterType.MATTER);
-const antimatterParticles = getParticlesByMatterType(ParticleMatterType.ANTIMATTER);
+// Default story showing electron
+export const Default: Story = {
+    args: {
+        particleType: ParticleList.ELECTRON,
+    },
+    parameters: {
+        docs: {
+            description: {
+                story: 'Default electron particle with shadow background.',
+            },
+        },
+    },
+};
 
 // Interactive particle comparison
 export const ParticleComparison: Story = {
@@ -43,40 +49,68 @@ export const ParticleComparison: Story = {
             <div style={{ textAlign: 'center' }}>
                 <div style={{ marginBottom: '16px' }}>
                     <UILabel fontVariant="body" color="primary" align="center">
-                        Matter
+                        Leptons (Matter)
                     </UILabel>
                 </div>
                 <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-                    {matterParticles.map((particle) => (
-                        <div key={particle.type} style={{ textAlign: 'center' }}>
-                            <UIParticle particleType={particle.type} />
-                            <div style={{ marginTop: '8px' }}>
-                                <UILabel fontVariant="body" color="primary" align="center">
-                                    {particle.symbol}
-                                </UILabel>
-                            </div>
+                    <div style={{ textAlign: 'center' }}>
+                        <UIParticle particleType={ParticleList.ELECTRON} />
+                        <div style={{ marginTop: '8px' }}>
+                            <UILabel fontVariant="body" color="primary" align="center">
+                                {getFormattedParticleSymbol(ParticleList.ELECTRON)}
+                            </UILabel>
                         </div>
-                    ))}
+                    </div>
+                    <div style={{ textAlign: 'center' }}>
+                        <UIParticle particleType={ParticleList.MUON} />
+                        <div style={{ marginTop: '8px' }}>
+                            <UILabel fontVariant="body" color="primary" align="center">
+                                {getFormattedParticleSymbol(ParticleList.MUON)}
+                            </UILabel>
+                        </div>
+                    </div>
+                    <div style={{ textAlign: 'center' }}>
+                        <UIParticle particleType={ParticleList.TAU} />
+                        <div style={{ marginTop: '8px' }}>
+                            <UILabel fontVariant="body" color="primary" align="center">
+                                {getFormattedParticleSymbol(ParticleList.TAU)}
+                            </UILabel>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div style={{ textAlign: 'center' }}>
                 <div style={{ marginBottom: '16px' }}>
                     <UILabel fontVariant="body" color="primary" align="center">
-                        Antimatter
+                        Antileptons (Antimatter)
                     </UILabel>
                 </div>
                 <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-                    {antimatterParticles.map((particle) => (
-                        <div key={particle.type} style={{ textAlign: 'center' }}>
-                            <UIParticle particleType={particle.type} />
-                            <div style={{ marginTop: '8px' }}>
-                                <UILabel fontVariant="body" color="primary" align="center">
-                                    {particle.symbol}
-                                </UILabel>
-                            </div>
+                    <div style={{ textAlign: 'center' }}>
+                        <UIParticle particleType={ParticleList.POSITRON} />
+                        <div style={{ marginTop: '8px' }}>
+                            <UILabel fontVariant="body" color="primary" align="center">
+                                {getFormattedParticleSymbol(ParticleList.POSITRON)}
+                            </UILabel>
                         </div>
-                    ))}
+                    </div>
+                    <div style={{ textAlign: 'center' }}>
+                        <UIParticle particleType={ParticleList.ANTIMUON} />
+                        <div style={{ marginTop: '8px' }}>
+                            <UILabel fontVariant="body" color="primary" align="center">
+                                {getFormattedParticleSymbol(ParticleList.ANTIMUON)}
+                            </UILabel>
+                        </div>
+                    </div>
+                    <div style={{ textAlign: 'center' }}>
+                        <UIParticle particleType={ParticleList.ANTITAU} />
+                        <div style={{ marginTop: '8px' }}>
+                            <UILabel fontVariant="body" color="primary" align="center">
+                                {getFormattedParticleSymbol(ParticleList.ANTITAU)}
+                            </UILabel>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -84,7 +118,107 @@ export const ParticleComparison: Story = {
     parameters: {
         docs: {
             description: {
-                story: 'Comparison of all elementary particles showing matter (yolk color) and antimatter (ultraviolet color) with their respective shadow sizes.',
+                story: 'Comparison of leptons (matter) and antileptons (antimatter) showing different shadow sizes and colors.',
+            },
+        },
+    },
+};
+
+// Neutrinos showcase (no shadows)
+export const Neutrinos: Story = {
+    render: () => (
+        <div style={{ textAlign: 'center' }}>
+            <div style={{ marginBottom: '16px' }}>
+                <UILabel fontVariant="body" color="primary" align="center">
+                    Neutrinos (No Shadows)
+                </UILabel>
+            </div>
+            <div style={{ display: 'flex', gap: '20px', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ textAlign: 'center' }}>
+                    <UIParticle particleType={ParticleList.ELECTRON_NEUTRINO} />
+                    <div style={{ marginTop: '8px' }}>
+                        <UILabel fontVariant="body" color="primary" align="center">
+                            {getFormattedParticleSymbol(ParticleList.ELECTRON_NEUTRINO)}
+                        </UILabel>
+                    </div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                    <UIParticle particleType={ParticleList.MUON_NEUTRINO} />
+                    <div style={{ marginTop: '8px' }}>
+                        <UILabel fontVariant="body" color="primary" align="center">
+                            {getFormattedParticleSymbol(ParticleList.MUON_NEUTRINO)}
+                        </UILabel>
+                    </div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                    <UIParticle particleType={ParticleList.TAU_NEUTRINO} />
+                    <div style={{ marginTop: '8px' }}>
+                        <UILabel fontVariant="body" color="primary" align="center">
+                            {getFormattedParticleSymbol(ParticleList.TAU_NEUTRINO)}
+                        </UILabel>
+                    </div>
+                </div>
+            </div>
+        </div>
+    ),
+    parameters: {
+        docs: {
+            description: {
+                story: 'Neutrinos are neutral particles that do not have shadow backgrounds.',
+            },
+        },
+    },
+};
+
+// Quarks showcase (mini size)
+export const Quarks: Story = {
+    render: () => (
+        <div style={{ textAlign: 'center' }}>
+            <div style={{ marginBottom: '16px' }}>
+                <UILabel fontVariant="body" color="primary" align="center">
+                    Quarks (Mini Size)
+                </UILabel>
+            </div>
+            <div style={{ display: 'flex', gap: '20px', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ textAlign: 'center' }}>
+                    <UIParticle particleType={ParticleList.UP} />
+                    <div style={{ marginTop: '8px' }}>
+                        <UILabel fontVariant="body" color="primary" align="center">
+                            {getFormattedParticleSymbol(ParticleList.UP)}
+                        </UILabel>
+                    </div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                    <UIParticle particleType={ParticleList.DOWN} />
+                    <div style={{ marginTop: '8px' }}>
+                        <UILabel fontVariant="body" color="primary" align="center">
+                            {getFormattedParticleSymbol(ParticleList.DOWN)}
+                        </UILabel>
+                    </div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                    <UIParticle particleType={ParticleList.CHARM} />
+                    <div style={{ marginTop: '8px' }}>
+                        <UILabel fontVariant="body" color="primary" align="center">
+                            {getFormattedParticleSymbol(ParticleList.CHARM)}
+                        </UILabel>
+                    </div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                    <UIParticle particleType={ParticleList.STRANGE} />
+                    <div style={{ marginTop: '8px' }}>
+                        <UILabel fontVariant="body" color="primary" align="center">
+                            {getFormattedParticleSymbol(ParticleList.STRANGE)}
+                        </UILabel>
+                    </div>
+                </div>
+            </div>
+        </div>
+    ),
+    parameters: {
+        docs: {
+            description: {
+                story: 'Quarks are smaller particles (mini size) with gray coloring and no shadows.',
             },
         },
     },

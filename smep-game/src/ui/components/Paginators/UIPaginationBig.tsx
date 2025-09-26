@@ -1,5 +1,7 @@
 import { TOKENS } from '../../tokens/tokens';
-import { PaginationState, UISquareState, ClickableState } from '../../../lib/types';
+import { PaginationState } from '../../../lib/types';
+import { ClickableState } from './UIPaginationGrid';
+import { UISquareState } from '../Primitives/UISquare';
 import { UIRectangleSmall } from '../Primitives/UIRectangleSmall';
 import styles from './UIPaginationBig.module.css';
 

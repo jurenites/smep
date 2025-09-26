@@ -1,3 +1,4 @@
+/* TODO rework this CSS file, it was created on early stage of the proejct so it has plenty of deprecated approaches*/
 .content {
     position: absolute;
     top: 50%;
@@ -13,16 +14,16 @@
 
 .playgroundSection {
     background: rgba(0, 0, 0, 0.8);
-    border-radius: 12px;
-    padding: 24px;
-    backdrop-filter: blur(10px);
+    border-radius: var(--size-border-radius);
+    padding: var(--size-padding-xlarge);
+    backdrop-filter: blur(var(--size-blur-playground));
 }
 
 .playgroundSection h3 {
-    margin: 0 0 24px 0;
-    color: var(--color-accent-primary);
+    margin: 0 0 var(--size-gap-large) 0;
+    color: var(--color-accent);
     text-align: center;
-    font-size: 24px;
+    font-size: var(--font-title-size);
 }
 
 .circleDisplay {
@@ -30,10 +31,12 @@
     justify-content: center;
     align-items: center;
     min-height: 200px;
-    margin-bottom: 32px;
+    margin-bottom: var(--size-gap-large);
     background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--size-radius-small);
+    border: var(--size-line) solid rgba(255, 255, 255, 0.1);
+    /* TODO: make the background shadow behind this circle of a playground to be based on where the gyroscope direction is,
+        the gyroscope library would be implemented later ?*/
 }
 
 .controls {

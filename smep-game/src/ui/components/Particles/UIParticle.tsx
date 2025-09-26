@@ -1,6 +1,6 @@
 import { UICircle } from '../Primitives/UICircle';
-import { ParticleList, getParticleProperties, ParticleProperties } from '../../../lib/types/particle-types';
-import { getParticleShadowConfig, getParticleRenderConfig } from '../../../lib/config/particle-physics';
+import { ParticleList, getParticleProperties, getParticleShadowConfig, getParticleRenderConfig } from '../../../lib/data/particle-quantum.data';
+import { shouldHaveBackgroundShadow } from '../../../lib/utils/particle-symbols';
 import styles from './UIParticle.module.css';
 
 export interface UIParticleProps {
@@ -10,31 +10,26 @@ export interface UIParticleProps {
     onClick?: () => void;
     /** Optional additional CSS class name */
     className?: string;
-    /** Override particle size (optional) */
-    size?: ParticleProperties.size;
 }
 
 // Re-export the centralized configuration functions for external use
-export { getParticleCollisionBounds, getParticleShadowConfig } from '../../../lib/config/particle-physics';
+export { getParticleCollisionBounds, getParticleShadowConfig } from '../../../lib/data/particle-quantum.data';
 
 export function UIParticle({
     particleType,
     onClick,
-    className = '',
-    size
+    className = ''
 }: UIParticleProps) {
     var particleProps = getParticleProperties(particleType);
     var renderConfig = getParticleRenderConfig(particleType);
-    // Use provided size or particle's default size for shadow background
-    var shadowSize = size || particleProps.size;
+    var hasBackgroundShadow = shouldHaveBackgroundShadow(particleType);
     // Get shadow configuration using utility function (returns null if no shadow)
-    var shadowConfig = getParticleShadowConfig(particleType, shadowSize);
-
+    var shadowConfig = hasBackgroundShadow ? getParticleShadowConfig(particleType) : null;
 
     return (
         <div
             className={`${styles.particleContainer} ${className}`}
-            data-particle-type={particleType}
+            data-particle-list={particleType}
             data-particle-family={particleProps.family}
         >
             {/* Optional shadow background for leptons only */}
@@ -53,7 +48,7 @@ export function UIParticle({
             <UICircle
                 logicalSize="dot" // Dummy value - actualSize overrides this
                 actualSize={renderConfig.coreDiameter}
-                color={shadowConfig?.particleColor || renderConfig.colors.matter}
+                color={renderConfig.coreColor}
                 brightness="full"
                 onClick={onClick}
             />

@@ -18,15 +18,10 @@
     --color-on-accent: #000000;
 
     /* Shadows */
-    /*TODO: cleanup shadows that not in use*/
     --shadow-text-subtle: 0 1px 2px rgba(0, 0, 0, 0.5);
-    --shadow-text-strong: 0 2px 4px rgba(0, 0, 0, 0.8);
     --shadow-box-subtle: 0 2px 8px rgba(0, 0, 0, 0.1);
     --shadow-box-medium: 0 4px 16px rgba(0, 0, 0, 0.15);
     --shadow-box-strong: 0 8px 32px rgba(0, 0, 0, 0.2);
-    /* Particle shadows for matter/antimatter visualization */
-    --shadow-particle-matter: radial-gradient(circle, rgba(248, 231, 28, 0.41) 0%, rgba(255, 236, 0, 0) 100%);
-    --shadow-particle-antimatter: radial-gradient(circle, rgba(134, 0, 255, 0.72) 0%, rgba(134, 0, 255, 0) 100%);
     /* Particle shadow sizes */
     --size-particle-shadow-small: 17px;
     --size-particle-shadow-mid: 40px;

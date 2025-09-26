@@ -2,10 +2,19 @@ import React, { useState, useEffect, useRef } from 'react';
 import { UILabel } from '../Text/UILabel';
 import { UIProgressBar } from './UIProgressBar';
 import { TOKENS } from '../../tokens/tokens';
-import { UISquareState } from '../../../lib/types';
+import { UISquareState } from './UISquare';
 import styles from './UIButton.module.css';
 
-export type ButtonState = 'enabled' | 'disabled' | 'hover' | 'focused' | 'pressed' | 'progress' | 'done' | 'hold';
+export enum ButtonState {
+    ENABLED = 'enabled',
+    DISABLED = 'disabled',
+    HOVER = 'hover',
+    FOCUSED = 'focused',
+    PRESSED = 'pressed',
+    PROGRESS = 'progress',
+    DONE = 'done',
+    HOLD = 'hold',
+}
 export type ButtonStyle = 'filled' | 'outlined';
 
 export interface UIButtonProps {
@@ -68,6 +77,7 @@ export function UIButton({
 
     // Handle pressed state with hold-to-complete functionality
     useEffect(() => {
+        // TODO: fix the pressed state when button bevcome wider for abrief moment 
         if (isPressed && internalState === 'pressed') {
             setPressStartTime(Date.now());
 

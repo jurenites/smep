@@ -1,5 +1,5 @@
 import type { FontConfig } from '../hooks/useFontLoader';
-// TODO: cleanup , do we really ise this file ? i dont want to use the absolte names here need to be repaced from Tokens as variables   
+// TODO: cleanup, do we really ise this file ? i dont want to use the absolte names here need to be repaced from Tokens as variables   
 export const FONT_CONFIGS: FontConfig[] = [
     {
         name: '4pixel',

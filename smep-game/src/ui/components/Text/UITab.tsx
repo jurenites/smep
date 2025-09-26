@@ -1,6 +1,11 @@
-import { UITabState } from '../../../lib/types';
 import { UILabel } from './UILabel';
 import styles from './UITab.module.css';
+
+export enum UITabState {
+    ACTIVE = 'active', // Active tab
+    INACTIVE = 'inactive', // Inactive but clickable tab
+    DISABLED = 'disabled', // Disabled and not clickable tab
+}
 
 export interface UITabProps {
     /** Text content of the tab */

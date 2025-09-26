@@ -71,6 +71,7 @@ iframe[id*="storybook-preview"] {
 .storybook-scrollable {
     overflow: auto !important;
     height: auto !important;
+    /* TOD lets cahnge the measurements vh to % maybe its easier to read */
     min-height: 100vh;
     max-height: none !important;
 }
@@ -93,6 +94,8 @@ h6,
 h1.sbdocs-title,
 .sbdocs-title.sb-unstyled {
     font-family: var(--font-title) !important;
+    /* TODO lets rework the font size to use tokens, aplicalbe to this whole CSS file */
     font-size: 16px !important;
+    /* TODO lets rework the colors to use tokens */
     color: white;
 }
