@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { UIPaginationGrid } from './UIPaginationGrid';
 import { gridPaginationService } from '../../../lib/grid-pagination-service';
 import { PaginationState } from '../../../lib/types';
-import { getElementsByBlock } from '../../../lib/data/periodic-table-mapper';
+import { getElementsByBlock } from '../../../lib/data/particle-atomic.data';
 import styles from './UIPeriodicTableBlocks.module.css';
 
 interface UIPeriodicTableBlocksProps {

@@ -3,6 +3,12 @@
  * 
  * This is the single source of truth for all atomic element data.
  * Converted from JSON to TypeScript for better type safety and performance.
+ * 
+ * This file combines all periodic table functionality including:
+ * - Element data and properties
+ * - Layout definitions (long form and short form)
+ * - Position mapping functions
+ * - Helper functions for accessing elements
  */
 
 /**
@@ -108,7 +114,7 @@ export const PERIODIC_TABLE_DATA: readonly PeriodicElement[] = [
     { properties: { symbol: 'Th', atomicNumber: 90, name: 'Thorium', category: 'actinide', electronShellGroup: 'f', period: 7, relativeDiameter: 31 }, render: { coreDiameter: 4, coreColor: '#00baff' }, physics: { interactionRange: 4, collisionRadius: 4, mass: 1 }, table: { longForm: { x: 2, y: 7 }, shortForm: { x: 2, y: 7 } } },
     { properties: { symbol: 'Pa', atomicNumber: 91, name: 'Protactinium', category: 'actinide', electronShellGroup: 'f', period: 7, relativeDiameter: 30.125 }, render: { coreDiameter: 4, coreColor: '#00a1ff' }, physics: { interactionRange: 4, collisionRadius: 4, mass: 1 }, table: { longForm: { x: 3, y: 7 }, shortForm: { x: 3, y: 7 } } },
     { properties: { symbol: 'U', atomicNumber: 92, name: 'Uranium', category: 'actinide', electronShellGroup: 'f', period: 7, relativeDiameter: 29.25 }, render: { coreDiameter: 4, coreColor: '#008fff' }, physics: { interactionRange: 4, collisionRadius: 4, mass: 1 }, table: { longForm: { x: 4, y: 7 }, shortForm: { x: 4, y: 7 } } },
-    { properties: { symbol: 'Np', atomicNumber: 93, name: 'Neptunium', category: 'actinide', electronShellGroup: 'f', period: 7, relativeDiameter: 28.375 }, render: { coreDiameter: 4, coreColor: '#0080ff' }, physics: { interactionRange: 4, collisionRadius: 4, mass: 1 }, table: { longForm: { x: 5, y: 7 }, shortForm: { x: 5, y: 7 } } }, { properties: { symbol: 'Pu', atomicNumber: 94, name: 'Plutonium', category: 'actinide', electronShellGroup: 'f', period: 7, relativeDiameter: 27.5 }, render: { coreDiameter: 4, coreColor: '#006bff' }, physics: { interactionRange: 4, collisionRadius: 4, mass: 1 }, table: { longForm: { x: 6, y: 7 }, shortForm: { x: 6, y: 7 } } },
+    { properties: { symbol: 'Np', atomicNumber: 93, name: 'Neptunium', category: 'actinide', electronShellGroup: 'f', period: 7, relativeDiameter: 28.375 }, render: { coreDiameter: 4, coreColor: '#0080ff' }, physics: { interactionRange: 4, collisionRadius: 4, mass: 1 }, table: { longForm: { x: 5, y: 7 }, shortForm: { x: 5, y: 7 } } },
     { properties: { symbol: 'Pu', atomicNumber: 94, name: 'Plutonium', category: 'actinide', electronShellGroup: 'f', period: 7, relativeDiameter: 27.5 }, render: { coreDiameter: 4, coreColor: '#006bff' }, physics: { interactionRange: 4, collisionRadius: 4, mass: 1 }, table: { longForm: { x: 6, y: 7 }, shortForm: { x: 6, y: 7 } } },
     { properties: { symbol: 'Am', atomicNumber: 95, name: 'Americium', category: 'actinide', electronShellGroup: 'f', period: 7, relativeDiameter: 26.625 }, render: { coreDiameter: 4, coreColor: '#545cf2' }, physics: { interactionRange: 4, collisionRadius: 4, mass: 1 }, table: { longForm: { x: 7, y: 7 }, shortForm: { x: 7, y: 7 } } },
     { properties: { symbol: 'Cm', atomicNumber: 96, name: 'Curium', category: 'actinide', electronShellGroup: 'f', period: 7, relativeDiameter: 25.75 }, render: { coreDiameter: 4, coreColor: '#785ce3' }, physics: { interactionRange: 4, collisionRadius: 4, mass: 1 }, table: { longForm: { x: 8, y: 7 }, shortForm: { x: 8, y: 7 } } },
@@ -217,4 +223,683 @@ export const getElementPhysicsConfig = (element: PeriodicElement): AtomicPhysics
 export const getElementTablePosition = (element: PeriodicElement): AtomicTablePosition => {
     return element.table;
 };
+
+// ============================================================================
+// LAYOUT DEFINITIONS AND POSITION MAPPING
+// ============================================================================
+
+/**
+ * Display position interface for layout coordinates
+ */
+export interface DisplayPosition {
+    x: number;
+    y: number;
+}
+
+/**
+ * Element display mapping for layout positioning
+ */
+export interface ElementDisplayMapping {
+    atomicNumber: number;
+    position: DisplayPosition;
+}
+
+/**
+ * Block layout interface for organizing elements by electron shell groups
+ */
+export interface BlockLayout {
+    blockName: 's' | 'p' | 'd' | 'f';
+    elements: ElementDisplayMapping[];
+    dimensions: { width: number; height: number };
+}
+
+/**
+ * Complete periodic table layout interface
+ */
+export interface PeriodicTableLayout {
+    layoutName: string;
+    blocks: BlockLayout[];
+    totalDimensions: { width: number; height: number };
+}
+
+/**
+ * Periodic element interface for display with position
+ */
+export interface PeriodicElementWithPosition {
+    symbol: string;
+    atomicNumber: number;
+    name: string;
+    position: DisplayPosition;
+    category: AtomicProperties['category'];
+    electronShellGroup: 's' | 'p' | 'd' | 'f';
+    period: number;
+}
+
+/**
+ * Periodic table data interface for layout mapping
+ */
+export interface PeriodicTableData {
+    elements: PeriodicElementWithPosition[];
+    dimensions: { width: number; height: number };
+    layoutName: string;
+}
+
+// ============================================================================
+// LAYOUT DEFINITIONS
+// ============================================================================
+
+/**
+ * Long Form Layout - All blocks arranged horizontally
+ * F-block integrated between S and D blocks
+ */
+export const LONG_FORM_LAYOUT: PeriodicTableLayout = {
+    layoutName: 'long',
+    totalDimensions: { width: 34, height: 9 },
+    blocks: [
+        {
+            blockName: 's',
+            dimensions: { width: 2, height: 7 },
+            elements: [
+                // S-block elements positioned in columns 0-1
+                { atomicNumber: 1, position: { x: 0, y: 0 } },   // H
+                { atomicNumber: 3, position: { x: 0, y: 1 } },   // Li
+                { atomicNumber: 4, position: { x: 1, y: 1 } },   // Be
+                { atomicNumber: 11, position: { x: 0, y: 2 } },  // Na
+                { atomicNumber: 12, position: { x: 1, y: 2 } },  // Mg
+                { atomicNumber: 19, position: { x: 0, y: 3 } },  // K
+                { atomicNumber: 20, position: { x: 1, y: 3 } },  // Ca
+                { atomicNumber: 37, position: { x: 0, y: 4 } },  // Rb
+                { atomicNumber: 38, position: { x: 1, y: 4 } },  // Sr
+                { atomicNumber: 55, position: { x: 0, y: 5 } },  // Cs
+                { atomicNumber: 56, position: { x: 1, y: 5 } },  // Ba
+                { atomicNumber: 87, position: { x: 0, y: 6 } },  // Fr
+                { atomicNumber: 88, position: { x: 1, y: 6 } },  // Ra
+            ]
+        },
+        {
+            blockName: 'f',
+            dimensions: { width: 15, height: 2 },
+            elements: [
+                // F-block elements positioned between S and D blocks
+                // Lanthanides (row 0)
+                { atomicNumber: 57, position: { x: 0, y: 0 } },  // La
+                { atomicNumber: 58, position: { x: 1, y: 0 } },  // Ce
+                { atomicNumber: 59, position: { x: 2, y: 0 } },  // Pr
+                { atomicNumber: 60, position: { x: 3, y: 0 } },  // Nd
+                { atomicNumber: 61, position: { x: 4, y: 0 } },  // Pm
+                { atomicNumber: 62, position: { x: 5, y: 0 } },  // Sm
+                { atomicNumber: 63, position: { x: 6, y: 0 } },  // Eu
+                { atomicNumber: 64, position: { x: 7, y: 0 } },  // Gd
+                { atomicNumber: 65, position: { x: 8, y: 0 } },  // Tb
+                { atomicNumber: 66, position: { x: 9, y: 0 } },  // Dy
+                { atomicNumber: 67, position: { x: 10, y: 0 } }, // Ho
+                { atomicNumber: 68, position: { x: 11, y: 0 } }, // Er
+                { atomicNumber: 69, position: { x: 12, y: 0 } }, // Tm
+                { atomicNumber: 70, position: { x: 13, y: 0 } }, // Yb
+                { atomicNumber: 71, position: { x: 14, y: 0 } }, // Lu
+                // Actinides (row 1)
+                { atomicNumber: 89, position: { x: 0, y: 1 } },  // Ac
+                { atomicNumber: 90, position: { x: 1, y: 1 } },  // Th
+                { atomicNumber: 91, position: { x: 2, y: 1 } },  // Pa
+                { atomicNumber: 92, position: { x: 3, y: 1 } },  // U
+                { atomicNumber: 93, position: { x: 4, y: 1 } },  // Np
+                { atomicNumber: 94, position: { x: 5, y: 1 } },  // Pu
+                { atomicNumber: 95, position: { x: 6, y: 1 } },  // Am
+                { atomicNumber: 96, position: { x: 7, y: 1 } },  // Cm
+                { atomicNumber: 97, position: { x: 8, y: 1 } },  // Bk
+                { atomicNumber: 98, position: { x: 9, y: 1 } },  // Cf
+                { atomicNumber: 99, position: { x: 10, y: 1 } }, // Es
+                { atomicNumber: 100, position: { x: 11, y: 1 } }, // Fm
+                { atomicNumber: 101, position: { x: 12, y: 1 } }, // Md
+                { atomicNumber: 102, position: { x: 13, y: 1 } }, // No
+                { atomicNumber: 103, position: { x: 14, y: 1 } }, // Lr
+            ]
+        },
+        {
+            blockName: 'd',
+            dimensions: { width: 10, height: 4 },
+            elements: [
+                // D-block elements positioned after F-block
+                // Period 4
+                { atomicNumber: 21, position: { x: 0, y: 0 } },  // Sc
+                { atomicNumber: 22, position: { x: 1, y: 0 } },  // Ti
+                { atomicNumber: 23, position: { x: 2, y: 0 } },  // V
+                { atomicNumber: 24, position: { x: 3, y: 0 } },  // Cr
+                { atomicNumber: 25, position: { x: 4, y: 0 } },  // Mn
+                { atomicNumber: 26, position: { x: 5, y: 0 } },  // Fe
+                { atomicNumber: 27, position: { x: 6, y: 0 } },  // Co
+                { atomicNumber: 28, position: { x: 7, y: 0 } },  // Ni
+                { atomicNumber: 29, position: { x: 8, y: 0 } },  // Cu
+                { atomicNumber: 30, position: { x: 9, y: 0 } },  // Zn
+                // Period 5
+                { atomicNumber: 39, position: { x: 0, y: 1 } },  // Y
+                { atomicNumber: 40, position: { x: 1, y: 1 } },  // Zr
+                { atomicNumber: 41, position: { x: 2, y: 1 } },  // Nb
+                { atomicNumber: 42, position: { x: 3, y: 1 } },  // Mo
+                { atomicNumber: 43, position: { x: 4, y: 1 } },  // Tc
+                { atomicNumber: 44, position: { x: 5, y: 1 } },  // Ru
+                { atomicNumber: 45, position: { x: 6, y: 1 } },  // Rh
+                { atomicNumber: 46, position: { x: 7, y: 1 } },  // Pd
+                { atomicNumber: 47, position: { x: 8, y: 1 } },  // Ag
+                { atomicNumber: 48, position: { x: 9, y: 1 } },  // Cd
+                // Period 6
+                { atomicNumber: 72, position: { x: 1, y: 2 } },  // Hf
+                { atomicNumber: 73, position: { x: 2, y: 2 } },  // Ta
+                { atomicNumber: 74, position: { x: 3, y: 2 } },  // W
+                { atomicNumber: 75, position: { x: 4, y: 2 } },  // Re
+                { atomicNumber: 76, position: { x: 5, y: 2 } },  // Os
+                { atomicNumber: 77, position: { x: 6, y: 2 } },  // Ir
+                { atomicNumber: 78, position: { x: 7, y: 2 } },  // Pt
+                { atomicNumber: 79, position: { x: 8, y: 2 } },  // Au
+                { atomicNumber: 80, position: { x: 9, y: 2 } },  // Hg
+                // Period 7
+                { atomicNumber: 104, position: { x: 1, y: 3 } }, // Rf
+                { atomicNumber: 105, position: { x: 2, y: 3 } }, // Db
+                { atomicNumber: 106, position: { x: 3, y: 3 } }, // Sg
+                { atomicNumber: 107, position: { x: 4, y: 3 } }, // Bh
+                { atomicNumber: 108, position: { x: 5, y: 3 } }, // Hs
+                { atomicNumber: 109, position: { x: 6, y: 3 } }, // Mt
+                { atomicNumber: 110, position: { x: 7, y: 3 } }, // Ds
+                { atomicNumber: 111, position: { x: 8, y: 3 } }, // Rg
+                { atomicNumber: 112, position: { x: 9, y: 3 } }, // Cn
+            ]
+        },
+        {
+            blockName: 'p',
+            dimensions: { width: 6, height: 7 },
+            elements: [
+                // P-block elements positioned after D-block
+                // Period 1
+                { atomicNumber: 2, position: { x: 5, y: 0 } },   // He
+                // Period 2
+                { atomicNumber: 5, position: { x: 0, y: 1 } },   // B
+                { atomicNumber: 6, position: { x: 1, y: 1 } },   // C
+                { atomicNumber: 7, position: { x: 2, y: 1 } },   // N
+                { atomicNumber: 8, position: { x: 3, y: 1 } },   // O
+                { atomicNumber: 9, position: { x: 4, y: 1 } },   // F
+                { atomicNumber: 10, position: { x: 5, y: 1 } },  // Ne
+                // Period 3
+                { atomicNumber: 13, position: { x: 0, y: 2 } },  // Al
+                { atomicNumber: 14, position: { x: 1, y: 2 } },  // Si
+                { atomicNumber: 15, position: { x: 2, y: 2 } },  // P
+                { atomicNumber: 16, position: { x: 3, y: 2 } },  // S
+                { atomicNumber: 17, position: { x: 4, y: 2 } },  // Cl
+                { atomicNumber: 18, position: { x: 5, y: 2 } },  // Ar
+                // Period 4
+                { atomicNumber: 31, position: { x: 0, y: 3 } },  // Ga
+                { atomicNumber: 32, position: { x: 1, y: 3 } },  // Ge
+                { atomicNumber: 33, position: { x: 2, y: 3 } },  // As
+                { atomicNumber: 34, position: { x: 3, y: 3 } },  // Se
+                { atomicNumber: 35, position: { x: 4, y: 3 } },  // Br
+                { atomicNumber: 36, position: { x: 5, y: 3 } },  // Kr
+                // Period 5
+                { atomicNumber: 49, position: { x: 0, y: 4 } },  // In
+                { atomicNumber: 50, position: { x: 1, y: 4 } },  // Sn
+                { atomicNumber: 51, position: { x: 2, y: 4 } },  // Sb
+                { atomicNumber: 52, position: { x: 3, y: 4 } },  // Te
+                { atomicNumber: 53, position: { x: 4, y: 4 } },  // I
+                { atomicNumber: 54, position: { x: 5, y: 4 } },  // Xe
+                // Period 6
+                { atomicNumber: 81, position: { x: 0, y: 5 } },  // Tl
+                { atomicNumber: 82, position: { x: 1, y: 5 } },  // Pb
+                { atomicNumber: 83, position: { x: 2, y: 5 } },  // Bi
+                { atomicNumber: 84, position: { x: 3, y: 5 } },  // Po
+                { atomicNumber: 85, position: { x: 4, y: 5 } },  // At
+                { atomicNumber: 86, position: { x: 5, y: 5 } },  // Rn
+                // Period 7
+                { atomicNumber: 113, position: { x: 0, y: 6 } }, // Nh
+                { atomicNumber: 114, position: { x: 1, y: 6 } }, // Fl
+                { atomicNumber: 115, position: { x: 2, y: 6 } }, // Mc
+                { atomicNumber: 116, position: { x: 3, y: 6 } }, // Lv
+                { atomicNumber: 117, position: { x: 4, y: 6 } }, // Ts
+                { atomicNumber: 118, position: { x: 5, y: 6 } }, // Og
+            ]
+        }
+    ]
+};
+
+/**
+ * Short Form Layout - F-block below main table
+ */
+export const SHORT_FORM_LAYOUT: PeriodicTableLayout = {
+    layoutName: 'short',
+    totalDimensions: { width: 18, height: 10 },
+    blocks: [
+        {
+            blockName: 's',
+            dimensions: { width: 2, height: 7 },
+            elements: [
+                // S-block elements in original positions
+                { atomicNumber: 1, position: { x: 0, y: 0 } },   // H
+                { atomicNumber: 3, position: { x: 0, y: 1 } },   // Li
+                { atomicNumber: 4, position: { x: 1, y: 1 } },   // Be
+                { atomicNumber: 11, position: { x: 0, y: 2 } },  // Na
+                { atomicNumber: 12, position: { x: 1, y: 2 } },  // Mg
+                { atomicNumber: 19, position: { x: 0, y: 3 } },  // K
+                { atomicNumber: 20, position: { x: 1, y: 3 } },  // Ca
+                { atomicNumber: 37, position: { x: 0, y: 4 } },  // Rb
+                { atomicNumber: 38, position: { x: 1, y: 4 } },  // Sr
+                { atomicNumber: 55, position: { x: 0, y: 5 } },  // Cs
+                { atomicNumber: 56, position: { x: 1, y: 5 } },  // Ba
+                { atomicNumber: 87, position: { x: 0, y: 6 } },  // Fr
+                { atomicNumber: 88, position: { x: 1, y: 6 } },  // Ra
+            ]
+        },
+        {
+            blockName: 'd',
+            dimensions: { width: 10, height: 4 },
+            elements: [
+                // D-block elements positioned after S-block
+                // Period 4
+                { atomicNumber: 21, position: { x: 0, y: 0 } },  // Sc
+                { atomicNumber: 22, position: { x: 1, y: 0 } },  // Ti
+                { atomicNumber: 23, position: { x: 2, y: 0 } },  // V
+                { atomicNumber: 24, position: { x: 3, y: 0 } },  // Cr
+                { atomicNumber: 25, position: { x: 4, y: 0 } },  // Mn
+                { atomicNumber: 26, position: { x: 5, y: 0 } },  // Fe
+                { atomicNumber: 27, position: { x: 6, y: 0 } },  // Co
+                { atomicNumber: 28, position: { x: 7, y: 0 } },  // Ni
+                { atomicNumber: 29, position: { x: 8, y: 0 } },  // Cu
+                { atomicNumber: 30, position: { x: 9, y: 0 } },  // Zn
+                // Period 5
+                { atomicNumber: 39, position: { x: 0, y: 1 } },  // Y
+                { atomicNumber: 40, position: { x: 1, y: 1 } },  // Zr
+                { atomicNumber: 41, position: { x: 2, y: 1 } },  // Nb
+                { atomicNumber: 42, position: { x: 3, y: 1 } },  // Mo
+                { atomicNumber: 43, position: { x: 4, y: 1 } },  // Tc
+                { atomicNumber: 44, position: { x: 5, y: 1 } },  // Ru
+                { atomicNumber: 45, position: { x: 6, y: 1 } },  // Rh
+                { atomicNumber: 46, position: { x: 7, y: 1 } },  // Pd
+                { atomicNumber: 47, position: { x: 8, y: 1 } },  // Ag
+                { atomicNumber: 48, position: { x: 9, y: 1 } },  // Cd
+                // Period 6
+                { atomicNumber: 72, position: { x: 1, y: 2 } },  // Hf
+                { atomicNumber: 73, position: { x: 2, y: 2 } },  // Ta
+                { atomicNumber: 74, position: { x: 3, y: 2 } },  // W
+                { atomicNumber: 75, position: { x: 4, y: 2 } },  // Re
+                { atomicNumber: 76, position: { x: 5, y: 2 } },  // Os
+                { atomicNumber: 77, position: { x: 6, y: 2 } },  // Ir
+                { atomicNumber: 78, position: { x: 7, y: 2 } },  // Pt
+                { atomicNumber: 79, position: { x: 8, y: 2 } },  // Au
+                { atomicNumber: 80, position: { x: 9, y: 2 } },  // Hg
+                // Period 7
+                { atomicNumber: 104, position: { x: 1, y: 3 } }, // Rf
+                { atomicNumber: 105, position: { x: 2, y: 3 } }, // Db
+                { atomicNumber: 106, position: { x: 3, y: 3 } }, // Sg
+                { atomicNumber: 107, position: { x: 4, y: 3 } }, // Bh
+                { atomicNumber: 108, position: { x: 5, y: 3 } }, // Hs
+                { atomicNumber: 109, position: { x: 6, y: 3 } }, // Mt
+                { atomicNumber: 110, position: { x: 7, y: 3 } }, // Ds
+                { atomicNumber: 111, position: { x: 8, y: 3 } }, // Rg
+                { atomicNumber: 112, position: { x: 9, y: 3 } }, // Cn
+            ]
+        },
+        {
+            blockName: 'p',
+            dimensions: { width: 6, height: 7 },
+            elements: [
+                // P-block elements positioned after D-block
+                // Period 1
+                { atomicNumber: 2, position: { x: 5, y: 0 } },   // He
+                // Period 2
+                { atomicNumber: 5, position: { x: 0, y: 1 } },   // B
+                { atomicNumber: 6, position: { x: 1, y: 1 } },   // C
+                { atomicNumber: 7, position: { x: 2, y: 1 } },   // N
+                { atomicNumber: 8, position: { x: 3, y: 1 } },   // O
+                { atomicNumber: 9, position: { x: 4, y: 1 } },   // F
+                { atomicNumber: 10, position: { x: 5, y: 1 } },  // Ne
+                // Period 3
+                { atomicNumber: 13, position: { x: 0, y: 2 } },  // Al
+                { atomicNumber: 14, position: { x: 1, y: 2 } },  // Si
+                { atomicNumber: 15, position: { x: 2, y: 2 } },  // P
+                { atomicNumber: 16, position: { x: 3, y: 2 } },  // S
+                { atomicNumber: 17, position: { x: 4, y: 2 } },  // Cl
+                { atomicNumber: 18, position: { x: 5, y: 2 } },  // Ar
+                // Period 4
+                { atomicNumber: 31, position: { x: 0, y: 3 } },  // Ga
+                { atomicNumber: 32, position: { x: 1, y: 3 } },  // Ge
+                { atomicNumber: 33, position: { x: 2, y: 3 } },  // As
+                { atomicNumber: 34, position: { x: 3, y: 3 } },  // Se
+                { atomicNumber: 35, position: { x: 4, y: 3 } },  // Br
+                { atomicNumber: 36, position: { x: 5, y: 3 } },  // Kr
+                // Period 5
+                { atomicNumber: 49, position: { x: 0, y: 4 } },  // In
+                { atomicNumber: 50, position: { x: 1, y: 4 } },  // Sn
+                { atomicNumber: 51, position: { x: 2, y: 4 } },  // Sb
+                { atomicNumber: 52, position: { x: 3, y: 4 } },  // Te
+                { atomicNumber: 53, position: { x: 4, y: 4 } },  // I
+                { atomicNumber: 54, position: { x: 5, y: 4 } },  // Xe
+                // Period 6
+                { atomicNumber: 81, position: { x: 0, y: 5 } },  // Tl
+                { atomicNumber: 82, position: { x: 1, y: 5 } },  // Pb
+                { atomicNumber: 83, position: { x: 2, y: 5 } },  // Bi
+                { atomicNumber: 84, position: { x: 3, y: 5 } },  // Po
+                { atomicNumber: 85, position: { x: 4, y: 5 } },  // At
+                { atomicNumber: 86, position: { x: 5, y: 5 } },  // Rn
+                // Period 7
+                { atomicNumber: 113, position: { x: 0, y: 6 } }, // Nh
+                { atomicNumber: 114, position: { x: 1, y: 6 } }, // Fl
+                { atomicNumber: 115, position: { x: 2, y: 6 } }, // Mc
+                { atomicNumber: 116, position: { x: 3, y: 6 } }, // Lv
+                { atomicNumber: 117, position: { x: 4, y: 6 } }, // Ts
+                { atomicNumber: 118, position: { x: 5, y: 6 } }, // Og
+            ]
+        },
+        {
+            blockName: 'f',
+            dimensions: { width: 15, height: 2 },
+            elements: [
+                // F-block elements below main table with indent
+                // Lanthanides (row 0)
+                { atomicNumber: 57, position: { x: 0, y: 0 } },  // La
+                { atomicNumber: 58, position: { x: 1, y: 0 } },  // Ce
+                { atomicNumber: 59, position: { x: 2, y: 0 } },  // Pr
+                { atomicNumber: 60, position: { x: 3, y: 0 } },  // Nd
+                { atomicNumber: 61, position: { x: 4, y: 0 } },  // Pm
+                { atomicNumber: 62, position: { x: 5, y: 0 } },  // Sm
+                { atomicNumber: 63, position: { x: 6, y: 0 } },  // Eu
+                { atomicNumber: 64, position: { x: 7, y: 0 } },  // Gd
+                { atomicNumber: 65, position: { x: 8, y: 0 } },  // Tb
+                { atomicNumber: 66, position: { x: 9, y: 0 } },  // Dy
+                { atomicNumber: 67, position: { x: 10, y: 0 } }, // Ho
+                { atomicNumber: 68, position: { x: 11, y: 0 } }, // Er
+                { atomicNumber: 69, position: { x: 12, y: 0 } }, // Tm
+                { atomicNumber: 70, position: { x: 13, y: 0 } }, // Yb
+                { atomicNumber: 71, position: { x: 14, y: 0 } }, // Lu
+                // Actinides (row 1)
+                { atomicNumber: 89, position: { x: 0, y: 1 } },  // Ac
+                { atomicNumber: 90, position: { x: 1, y: 1 } },  // Th
+                { atomicNumber: 91, position: { x: 2, y: 1 } },  // Pa
+                { atomicNumber: 92, position: { x: 3, y: 1 } },  // U
+                { atomicNumber: 93, position: { x: 4, y: 1 } },  // Np
+                { atomicNumber: 94, position: { x: 5, y: 1 } },  // Pu
+                { atomicNumber: 95, position: { x: 6, y: 1 } },  // Am
+                { atomicNumber: 96, position: { x: 7, y: 1 } },  // Cm
+                { atomicNumber: 97, position: { x: 8, y: 1 } },  // Bk
+                { atomicNumber: 98, position: { x: 9, y: 1 } },  // Cf
+                { atomicNumber: 99, position: { x: 10, y: 1 } }, // Es
+                { atomicNumber: 100, position: { x: 11, y: 1 } }, // Fm
+                { atomicNumber: 101, position: { x: 12, y: 1 } }, // Md
+                { atomicNumber: 102, position: { x: 13, y: 1 } }, // No
+                { atomicNumber: 103, position: { x: 14, y: 1 } }, // Lr
+            ]
+        }
+    ]
+};
+
+// ============================================================================
+// LAYOUT REGISTRY AND HELPER FUNCTIONS
+// ============================================================================
+
+/**
+ * Layout registry for accessing different periodic table layouts
+ */
+export const PERIODIC_TABLE_LAYOUTS = {
+    long: LONG_FORM_LAYOUT,
+    short: SHORT_FORM_LAYOUT,
+} as const;
+
+/**
+ * Get layout by name
+ */
+export const getLayoutByName = (layoutName: string): PeriodicTableLayout | undefined => {
+    return PERIODIC_TABLE_LAYOUTS[layoutName as keyof typeof PERIODIC_TABLE_LAYOUTS];
+};
+
+/**
+ * Get block layout for a specific layout and block
+ */
+export const getBlockLayout = (layoutName: string, blockName: 's' | 'p' | 'd' | 'f'): BlockLayout | undefined => {
+    const layout = getLayoutByName(layoutName);
+    return layout?.blocks.find(block => block.blockName === blockName);
+};
+
+/**
+ * Get element position in a specific layout
+ */
+export const getElementPosition = (layoutName: string, symbol: string): DisplayPosition | undefined => {
+    const layout = getLayoutByName(layoutName);
+    if (!layout) return undefined;
+
+    for (const block of layout.blocks) {
+        const element = block.elements.find(el => {
+            const atomicElement = getElementByAtomicNumber(el.atomicNumber);
+            return atomicElement?.properties.symbol === symbol;
+        });
+        if (element) return element.position;
+    }
+    return undefined;
+};
+
+// ============================================================================
+// LAYOUT MAPPING FUNCTIONS
+// ============================================================================
+
+/**
+ * Maps atomic data to display coordinates for a specific layout
+ */
+export function mapAtomicDataToLayout(layoutName: string): PeriodicTableData {
+    const layout = getLayoutByName(layoutName);
+    if (!layout) {
+        throw new Error(`Layout '${layoutName}' not found`);
+    }
+
+    const elements: PeriodicElementWithPosition[] = [];
+
+    // Map each atomic element to its display position
+    for (const atomicElement of PERIODIC_TABLE_DATA) {
+        const displayPosition = getElementPosition(layoutName, atomicElement.properties.symbol);
+
+        if (displayPosition) {
+            elements.push({
+                symbol: atomicElement.properties.symbol,
+                atomicNumber: atomicElement.properties.atomicNumber,
+                name: atomicElement.properties.name,
+                position: displayPosition,
+                category: atomicElement.properties.category,
+                electronShellGroup: atomicElement.properties.electronShellGroup,
+                period: atomicElement.properties.period,
+            });
+        }
+    }
+
+    return {
+        elements,
+        dimensions: layout.totalDimensions,
+        layoutName,
+    };
+}
+
+/**
+ * Gets elements for a specific block in a specific layout
+ */
+export function getBlockElements(layoutName: string, blockName: 's' | 'p' | 'd' | 'f'): PeriodicElementWithPosition[] {
+    const layout = getLayoutByName(layoutName);
+    if (!layout) return [];
+
+    const block = layout.blocks.find(b => b.blockName === blockName);
+    if (!block) return [];
+
+    const elements: PeriodicElementWithPosition[] = [];
+
+    for (const elementMapping of block.elements) {
+        const atomicElement = getElementByAtomicNumber(elementMapping.atomicNumber);
+
+        if (atomicElement) {
+            elements.push({
+                symbol: atomicElement.properties.symbol,
+                atomicNumber: atomicElement.properties.atomicNumber,
+                name: atomicElement.properties.name,
+                position: elementMapping.position,
+                category: atomicElement.properties.category,
+                electronShellGroup: atomicElement.properties.electronShellGroup,
+                period: atomicElement.properties.period,
+            });
+        }
+    }
+
+    return elements;
+}
+
+/**
+ * Gets all elements grouped by block for a specific layout
+ */
+export function getElementsByBlock(layoutName: string): {
+    s: PeriodicElementWithPosition[];
+    p: PeriodicElementWithPosition[];
+    d: PeriodicElementWithPosition[];
+    f: PeriodicElementWithPosition[];
+} {
+    return {
+        s: getBlockElements(layoutName, 's'),
+        p: getBlockElements(layoutName, 'p'),
+        d: getBlockElements(layoutName, 'd'),
+        f: getBlockElements(layoutName, 'f'),
+    };
+}
+
+/**
+ * Gets element by atomic number with display position for a specific layout
+ */
+export function getElementByAtomicNumberWithPosition(layoutName: string, atomicNumber: number): PeriodicElementWithPosition | undefined {
+    const atomicElement = getElementByAtomicNumber(atomicNumber);
+    if (!atomicElement) return undefined;
+
+    const displayPosition = getElementPosition(layoutName, atomicElement.properties.symbol);
+    if (!displayPosition) return undefined;
+
+    return {
+        symbol: atomicElement.properties.symbol,
+        atomicNumber: atomicElement.properties.atomicNumber,
+        name: atomicElement.properties.name,
+        position: displayPosition,
+        category: atomicElement.properties.category,
+        electronShellGroup: atomicElement.properties.electronShellGroup,
+        period: atomicElement.properties.period,
+    };
+}
+
+/**
+ * Gets element by symbol with display position for a specific layout
+ */
+export function getElementBySymbolWithPosition(layoutName: string, symbol: string): PeriodicElementWithPosition | undefined {
+    const atomicElement = getElementBySymbol(symbol);
+    if (!atomicElement) return undefined;
+
+    const displayPosition = getElementPosition(layoutName, symbol);
+    if (!displayPosition) return undefined;
+
+    return {
+        symbol: atomicElement.properties.symbol,
+        atomicNumber: atomicElement.properties.atomicNumber,
+        name: atomicElement.properties.name,
+        position: displayPosition,
+        category: atomicElement.properties.category,
+        electronShellGroup: atomicElement.properties.electronShellGroup,
+        period: atomicElement.properties.period,
+    };
+}
+
+/**
+ * Gets elements by category with display positions for a specific layout
+ */
+export function getElementsByCategoryWithPosition(layoutName: string, category: AtomicProperties['category']): PeriodicElementWithPosition[] {
+    const atomicElements = getElementsByCategory(category);
+    const elements: PeriodicElementWithPosition[] = [];
+
+    for (const atomicElement of atomicElements) {
+        const displayPosition = getElementPosition(layoutName, atomicElement.properties.symbol);
+        if (displayPosition) {
+            elements.push({
+                symbol: atomicElement.properties.symbol,
+                atomicNumber: atomicElement.properties.atomicNumber,
+                name: atomicElement.properties.name,
+                position: displayPosition,
+                category: atomicElement.properties.category,
+                electronShellGroup: atomicElement.properties.electronShellGroup,
+                period: atomicElement.properties.period,
+            });
+        }
+    }
+
+    return elements;
+}
+
+/**
+ * Gets elements by electron shell group with display positions for a specific layout
+ */
+export function getElementsByShellGroupWithPosition(layoutName: string, shellGroup: 's' | 'p' | 'd' | 'f'): PeriodicElementWithPosition[] {
+    return getBlockElements(layoutName, shellGroup);
+}
+
+// ============================================================================
+// BLOCK-SPECIFIC ELEMENT COLLECTIONS
+// ============================================================================
+
+/**
+ * S-Block Elements (Groups 1-2, Alkali and Alkaline Earth metals)
+ */
+export const S_BLOCK_ELEMENTS: readonly PeriodicElement[] = PERIODIC_TABLE_DATA.filter(
+    element => element.properties.electronShellGroup === 's'
+);
+
+/**
+ * F-Block Elements (Lanthanides and Actinides)
+ */
+export const F_BLOCK_ELEMENTS: readonly PeriodicElement[] = PERIODIC_TABLE_DATA.filter(
+    element => element.properties.electronShellGroup === 'f'
+);
+
+/**
+ * D-Block Elements (Groups 3-12, Transition metals)
+ */
+export const D_BLOCK_ELEMENTS: readonly PeriodicElement[] = PERIODIC_TABLE_DATA.filter(
+    element => element.properties.electronShellGroup === 'd'
+);
+
+/**
+ * P-Block Elements (Groups 13-18, including noble gases)
+ */
+export const P_BLOCK_ELEMENTS: readonly PeriodicElement[] = PERIODIC_TABLE_DATA.filter(
+    element => element.properties.electronShellGroup === 'p'
+);
+
+// ============================================================================
+// GRID DIMENSIONS
+// ============================================================================
+
+/**
+ * Grid dimensions for different periodic table views
+ */
+export const PERIODIC_TABLE_GRID_DIMENSIONS = {
+    // Long form (standard periodic table with F-block integrated between S and D blocks)
+    longForm: {
+        width: 34, // Increased to accommodate F-block between S and D blocks, and P-block after D-block
+        height: 9
+    },
+    // Short form (F-block moved under the table)
+    shortForm: {
+        width: 18,
+        height: 10
+    }
+} as const;
+
+// ============================================================================
+// BACKWARD COMPATIBILITY EXPORTS
+// ============================================================================
+
+/**
+ * Legacy compatibility - re-export with old name
+ */
+export const PERIODIC_TABLE_ELEMENTS = PERIODIC_TABLE_DATA;
+
+/**
+ * Legacy compatibility - main mapping function
+ */
+export const createPeriodicTableData = mapAtomicDataToLayout;
+
+/**
+ * Legacy compatibility - get elements by shell group with layout
+ */
+export const getElementsByShellGroupWithLayout = getElementsByShellGroupWithPosition;
 

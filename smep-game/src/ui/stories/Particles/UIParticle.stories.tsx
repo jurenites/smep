@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { UIParticle } from '../../components/Particles/UIParticle';
 import { UILabel } from '../../components/Text/UILabel';
-import { ParticleList } from '../../../lib/types/particle-list';
-import { getFormattedParticleSymbol } from '../../../lib/data/particle-symbols';
+import { ParticleList, getFormattedParticleSymbolByType } from '../../../lib/data/particle-quantum.data';
 
 const meta: Meta<typeof UIParticle> = {
     title: 'Particles/UIParticle',
@@ -57,7 +56,7 @@ export const ParticleComparison: Story = {
                         <UIParticle particleType={ParticleList.ELECTRON} />
                         <div style={{ marginTop: '8px' }}>
                             <UILabel fontVariant="body" color="primary" align="center">
-                                {getFormattedParticleSymbol(ParticleList.ELECTRON)}
+                                {getFormattedParticleSymbolByType(ParticleList.ELECTRON)}
                             </UILabel>
                         </div>
                     </div>
@@ -65,7 +64,7 @@ export const ParticleComparison: Story = {
                         <UIParticle particleType={ParticleList.MUON} />
                         <div style={{ marginTop: '8px' }}>
                             <UILabel fontVariant="body" color="primary" align="center">
-                                {getFormattedParticleSymbol(ParticleList.MUON)}
+                                {getFormattedParticleSymbolByType(ParticleList.MUON)}
                             </UILabel>
                         </div>
                     </div>
@@ -73,7 +72,7 @@ export const ParticleComparison: Story = {
                         <UIParticle particleType={ParticleList.TAU} />
                         <div style={{ marginTop: '8px' }}>
                             <UILabel fontVariant="body" color="primary" align="center">
-                                {getFormattedParticleSymbol(ParticleList.TAU)}
+                                {getFormattedParticleSymbolByType(ParticleList.TAU)}
                             </UILabel>
                         </div>
                     </div>
@@ -91,23 +90,23 @@ export const ParticleComparison: Story = {
                         <UIParticle particleType={ParticleList.POSITRON} />
                         <div style={{ marginTop: '8px' }}>
                             <UILabel fontVariant="body" color="primary" align="center">
-                                {getFormattedParticleSymbol(ParticleList.POSITRON)}
+                                {getFormattedParticleSymbolByType(ParticleList.POSITRON)}
                             </UILabel>
                         </div>
                     </div>
                     <div style={{ textAlign: 'center' }}>
-                        <UIParticle particleType={ParticleList.ANTIMUON} />
+                        <UIParticle particleType={ParticleList.ANTI_MUON} />
                         <div style={{ marginTop: '8px' }}>
                             <UILabel fontVariant="body" color="primary" align="center">
-                                {getFormattedParticleSymbol(ParticleList.ANTIMUON)}
+                                {getFormattedParticleSymbolByType(ParticleList.ANTI_MUON)}
                             </UILabel>
                         </div>
                     </div>
                     <div style={{ textAlign: 'center' }}>
-                        <UIParticle particleType={ParticleList.ANTITAU} />
+                        <UIParticle particleType={ParticleList.ANTI_TAU} />
                         <div style={{ marginTop: '8px' }}>
                             <UILabel fontVariant="body" color="primary" align="center">
-                                {getFormattedParticleSymbol(ParticleList.ANTITAU)}
+                                {getFormattedParticleSymbolByType(ParticleList.ANTI_TAU)}
                             </UILabel>
                         </div>
                     </div>
@@ -138,7 +137,7 @@ export const Neutrinos: Story = {
                     <UIParticle particleType={ParticleList.ELECTRON_NEUTRINO} />
                     <div style={{ marginTop: '8px' }}>
                         <UILabel fontVariant="body" color="primary" align="center">
-                            {getFormattedParticleSymbol(ParticleList.ELECTRON_NEUTRINO)}
+                            {getFormattedParticleSymbolByType(ParticleList.ELECTRON_NEUTRINO)}
                         </UILabel>
                     </div>
                 </div>
@@ -146,7 +145,7 @@ export const Neutrinos: Story = {
                     <UIParticle particleType={ParticleList.MUON_NEUTRINO} />
                     <div style={{ marginTop: '8px' }}>
                         <UILabel fontVariant="body" color="primary" align="center">
-                            {getFormattedParticleSymbol(ParticleList.MUON_NEUTRINO)}
+                            {getFormattedParticleSymbolByType(ParticleList.MUON_NEUTRINO)}
                         </UILabel>
                     </div>
                 </div>
@@ -154,7 +153,7 @@ export const Neutrinos: Story = {
                     <UIParticle particleType={ParticleList.TAU_NEUTRINO} />
                     <div style={{ marginTop: '8px' }}>
                         <UILabel fontVariant="body" color="primary" align="center">
-                            {getFormattedParticleSymbol(ParticleList.TAU_NEUTRINO)}
+                            {getFormattedParticleSymbolByType(ParticleList.TAU_NEUTRINO)}
                         </UILabel>
                     </div>
                 </div>
@@ -184,7 +183,7 @@ export const Quarks: Story = {
                     <UIParticle particleType={ParticleList.UP} />
                     <div style={{ marginTop: '8px' }}>
                         <UILabel fontVariant="body" color="primary" align="center">
-                            {getFormattedParticleSymbol(ParticleList.UP)}
+                            {getFormattedParticleSymbolByType(ParticleList.UP)}
                         </UILabel>
                     </div>
                 </div>
@@ -192,7 +191,7 @@ export const Quarks: Story = {
                     <UIParticle particleType={ParticleList.DOWN} />
                     <div style={{ marginTop: '8px' }}>
                         <UILabel fontVariant="body" color="primary" align="center">
-                            {getFormattedParticleSymbol(ParticleList.DOWN)}
+                            {getFormattedParticleSymbolByType(ParticleList.DOWN)}
                         </UILabel>
                     </div>
                 </div>
@@ -200,7 +199,7 @@ export const Quarks: Story = {
                     <UIParticle particleType={ParticleList.CHARM} />
                     <div style={{ marginTop: '8px' }}>
                         <UILabel fontVariant="body" color="primary" align="center">
-                            {getFormattedParticleSymbol(ParticleList.CHARM)}
+                            {getFormattedParticleSymbolByType(ParticleList.CHARM)}
                         </UILabel>
                     </div>
                 </div>
@@ -208,7 +207,7 @@ export const Quarks: Story = {
                     <UIParticle particleType={ParticleList.STRANGE} />
                     <div style={{ marginTop: '8px' }}>
                         <UILabel fontVariant="body" color="primary" align="center">
-                            {getFormattedParticleSymbol(ParticleList.STRANGE)}
+                            {getFormattedParticleSymbolByType(ParticleList.STRANGE)}
                         </UILabel>
                     </div>
                 </div>

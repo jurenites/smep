@@ -1,3 +1,4 @@
+// TODO review this file probably no longer needed.
 import { useState, useEffect, useCallback } from 'react';
 
 interface FontStatus {

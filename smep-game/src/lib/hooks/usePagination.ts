@@ -1,3 +1,4 @@
+//TODO: make sure we need this file and take it out of this folder /hooks/usePagination.ts if this file no longer needed it can be deleted.
 import { useState, useEffect, useCallback } from 'react';
 import { paginationService } from '../pagination-service';
 import { PaginationContext, PaginationEvent, PaginationListener, PaginationState } from '../types';

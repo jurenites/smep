@@ -1,6 +1,5 @@
 import { UICircle } from '../Primitives/UICircle';
-import { ParticleList, getParticleProperties, getParticleShadowConfig, getParticleRenderConfig } from '../../../lib/data/particle-quantum.data';
-import { shouldHaveBackgroundShadow } from '../../../lib/data/particle-symbols';
+import { ParticleList, getParticlePropertiesByType, getParticleShadowConfigByType, getParticleRenderConfigByType, shouldHaveBackgroundShadowByType } from '../../../lib/data/particle-quantum.data';
 import styles from './UIParticle.module.css';
 
 export interface UIParticleProps {
@@ -20,11 +19,11 @@ export function UIParticle({
     onClick,
     className = ''
 }: UIParticleProps) {
-    var particleProps = getParticleProperties(particleType);
-    var renderConfig = getParticleRenderConfig(particleType);
-    var hasBackgroundShadow = shouldHaveBackgroundShadow(particleType);
+    var particleProps = getParticlePropertiesByType(particleType);
+    var renderConfig = getParticleRenderConfigByType(particleType);
+    var hasBackgroundShadow = shouldHaveBackgroundShadowByType(particleType);
     // Get shadow configuration using utility function (returns null if no shadow)
-    var shadowConfig = hasBackgroundShadow ? getParticleShadowConfig(particleType) : null;
+    var shadowConfig = hasBackgroundShadow ? getParticleShadowConfigByType(particleType) : null;
 
     return (
         <div

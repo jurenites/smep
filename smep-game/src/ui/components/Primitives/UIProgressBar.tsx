@@ -22,7 +22,7 @@ export interface UIProgressBarProps {
 // Logical size to height mapping
 const LOGICAL_SIZE_MAP: Record<ProgressLogicalSize, number> = {
     small: TOKENS.sizes.SQUARE_SMALL, // 4px height
-    mid: TOKENS.sizes.MINI_CARD, // 31px height (maximum)
+    mid: TOKENS.sizes.CARD_SMALL, // 31px height (maximum)
 };
 
 export function UIProgressBar({
@@ -42,7 +42,7 @@ export function UIProgressBar({
     const height = LOGICAL_SIZE_MAP[logicalSize];
 
     // Container width - full width or fixed at 31px
-    const containerWidth = fullWidth ? 100 : sizes.MINI_CARD; // 100% or 31px
+    const containerWidth = fullWidth ? 100 : sizes.CARD_SMALL; // 100% or 31px
 
     // Calculate fill width based on progress
     const fillWidth = containerWidth * clampedProgress;

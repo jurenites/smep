@@ -28,7 +28,7 @@ export interface UISquareProps {
 // Logical size to pixel size mapping
 const LOGICAL_SIZE_MAP: Record<SquareLogicalSize, number> = {
     small: TOKENS.sizes.SQUARE_SMALL, // 4px
-    mid: TOKENS.sizes.MINI_CARD, // 31px
+    mid: TOKENS.sizes.CARD_SMALL, // 31px
 };
 
 export function UISquare({

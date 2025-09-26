@@ -266,8 +266,8 @@ export function UIPaginationGrid({
                                     <div
                                         className={styles.emptySpace}
                                         style={{
-                                            width: active === 'clickable' ? sizes.MINI_CARD : sizes.SQUARE_SMALL,
-                                            height: active === 'clickable' ? sizes.MINI_CARD : sizes.SQUARE_SMALL
+                                            width: active === 'clickable' ? sizes.CARD_SMALL : sizes.SQUARE_SMALL,
+                                            height: active === 'clickable' ? sizes.CARD_SMALL : sizes.SQUARE_SMALL
                                         }}
                                     />
                                 )}

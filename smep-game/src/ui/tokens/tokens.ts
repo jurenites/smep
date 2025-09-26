@@ -8,6 +8,7 @@
  * For game logic constants, see: src/lib/constants/game-constants.ts
  */
 export const TOKENS = {
+    // Colors
     colors: {
         yolk: "#F8E71C",
         ultraviolet: "#4C00FF",
@@ -17,6 +18,7 @@ export const TOKENS = {
         darkgray: "#232323",
         black: "#000000",
     },
+    // Typography
     typography: {
         title: {
             fontFamily: "Roundabout-Regular, Urbanist, sans-serif",
@@ -39,21 +41,26 @@ export const TOKENS = {
             fontSize: 12,
         },
     },
+    // Sizes
     sizes: {
+        // Circle sizes
         CIRCLE_DOT_1: 1, // 1px
         CIRCLE_MICRO_4: 4,
         CIRCLE_MINI_6: 6,
         CIRCLE_MIDDLE_61: 61,
         CIRCLE_MEGA_109: 109,
 
-        MINI_CARD: 31,
+        // Card sizes
+        CARD_SMALL: 31,
+        CARD_MID_W: 83,
+        CARD_MID_H: 109,
+        CARD_BIG: 175,
+
+        // Component sizes
         SQUARE_SMALL: 4,
-        BIG_PAGINATOR_W: 17,
-        MID_CARD_W: 83,
-        MID_CARD_H: 109,
+        RECTANGLE_SMALL: 17,
         TAB_MIN_W: 109,
         TAB_H: 23,
-        BUTTON_MIN_WIDTH: 175,
         BLUR_PLAYGROUND: 16,
         LINE: 1,
 
@@ -66,19 +73,23 @@ export const TOKENS = {
 
         // Other sizes
         OUTLINE_OFFSET: 2,
-        HOVER_TRANSLATE: 1,
-
-        // Particle shadow sizes
-        PARTICLE_SHADOW_SMALL: 17,
-        PARTICLE_SHADOW_MID: 40,
-        PARTICLE_SHADOW_BIG: 109,
+        ANIMATION_TRANSLATE_UP: 1,
     },
+    // Shadows
     shadows: {
         textSubtle: "0 1px 2px rgba(0, 0, 0, 0.5)",
         boxSubtle: "0 2px 8px rgba(0, 0, 0, 0.1)",
         boxMedium: "0 4px 16px rgba(0, 0, 0, 0.15)",
         boxStrong: "0 8px 32px rgba(0, 0, 0, 0.2)",
     },
+
+    // Shadow sizes
+    shadowSizes: {
+        SMALL: 17,
+        MID: 40,
+        BIG: 109,
+    },
+    // Z-indexes
     zIndexes: {
         HUD_Z_Index: 10,
     },
@@ -124,14 +135,14 @@ export const CSS_VARS = {
     '--size-circle-6': `${TOKENS.sizes.CIRCLE_MINI_6}px`,
     '--size-circle-61': `${TOKENS.sizes.CIRCLE_MIDDLE_61}px`,
     '--size-circle-109': `${TOKENS.sizes.CIRCLE_MEGA_109}px`,
-    '--size-mini-card': `${TOKENS.sizes.MINI_CARD}px`,
+    '--size-card-small': `${TOKENS.sizes.CARD_SMALL}px`,
     '--size-square-small': `${TOKENS.sizes.SQUARE_SMALL}px`,
-    '--size-big-paginator-w': `${TOKENS.sizes.BIG_PAGINATOR_W}px`,
-    '--size-mid-card-w': `${TOKENS.sizes.MID_CARD_W}px`,
-    '--size-mid-card-h': `${TOKENS.sizes.MID_CARD_H}px`,
+    '--size-rectangle-small': `${TOKENS.sizes.RECTANGLE_SMALL}px`,
+    '--size-card-mid-w': `${TOKENS.sizes.CARD_MID_W}px`,
+    '--size-card-mid-h': `${TOKENS.sizes.CARD_MID_H}px`,
     '--size-tab-min-w': `${TOKENS.sizes.TAB_MIN_W}px`,
     '--size-tab-h': `${TOKENS.sizes.TAB_H}px`,
-    '--size-button-min-width': `${TOKENS.sizes.BUTTON_MIN_WIDTH}px`,
+    '--size-card-big': `${TOKENS.sizes.CARD_BIG}px`,
     '--size-blur-playground': `${TOKENS.sizes.BLUR_PLAYGROUND}px`,
     '--size-line': `${TOKENS.sizes.LINE}px`,
 
@@ -144,10 +155,10 @@ export const CSS_VARS = {
 
     // Other sizes
     '--size-outline-offset': `${TOKENS.sizes.OUTLINE_OFFSET}px`,
-    '--size-hover-translate': `${TOKENS.sizes.HOVER_TRANSLATE}px`,
+    '--animation-translate-up': `${TOKENS.sizes.ANIMATION_TRANSLATE_UP}px`,
 
-    // Particle shadow sizes
-    '--size-particle-shadow-small': `${TOKENS.sizes.PARTICLE_SHADOW_SMALL}px`,
-    '--size-particle-shadow-mid': `${TOKENS.sizes.PARTICLE_SHADOW_MID}px`,
-    '--size-particle-shadow-big': `${TOKENS.sizes.PARTICLE_SHADOW_BIG}px`,
+    // Shadow sizes
+    '--shadow-size-small': `${TOKENS.shadowSizes.SMALL}px`,
+    '--shadow-size-mid': `${TOKENS.shadowSizes.MID}px`,
+    '--shadow-size-big': `${TOKENS.shadowSizes.BIG}px`,
 } as const;

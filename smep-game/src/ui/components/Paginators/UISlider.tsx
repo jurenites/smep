@@ -45,7 +45,7 @@ export function UISlider({
 
         if (positionFromActive === 0) {
             // Active element (center) - largest
-            return { size: 'mid', actualSize: TOKENS.sizes.MINI_CARD }; // 31px
+            return { size: 'mid', actualSize: TOKENS.sizes.CARD_SMALL }; // 31px
         } else if (absPosition === 1) {
             // Closest to active element - second largest
             return { size: 'small', actualSize: 4 }; // 4px
@@ -140,7 +140,7 @@ export function UISlider({
     // Calculate horizontal offset based on sticky edge behavior
     const calculateOffset = () => {
         const gapSize = TOKENS.sizes.GAP_LARGE; // 16px
-        const midSize = TOKENS.sizes.MINI_CARD; // 31px
+        const midSize = TOKENS.sizes.CARD_SMALL; // 31px
         const smallSize = TOKENS.sizes.SQUARE_SMALL; // 4px
 
         const getElementWidth = (size: 'small' | 'mid', actualSize?: number) => {
@@ -177,7 +177,7 @@ export function UISlider({
     // Calculate initial and final positions for wave animation
     const calculateElementPositions = useMemo(() => {
         const gapSize = TOKENS.sizes.GAP_LARGE; // 16px
-        const midSize = TOKENS.sizes.MINI_CARD; // 31px
+        const midSize = TOKENS.sizes.CARD_SMALL; // 31px
         const smallSize = TOKENS.sizes.SQUARE_SMALL; // 4px
 
         const getElementWidth = (size: 'small' | 'mid', actualSize?: number) => {

@@ -2,8 +2,7 @@ import { UISquare, UISquareState } from '../Primitives/UISquare';
 import { UIRectangleBig } from '../Primitives/UIRectangleBig';
 import { UILabel } from '../Text/UILabel';
 import { UIParticle } from '../Particles/UIParticle';
-import { ParticleList } from '../../../lib/data/particle-quantum.data';
-import { getFormattedParticleSymbol, isAntiparticle } from '../../../lib/data/particle-symbols';
+import { ParticleList, getFormattedParticleSymbolByType, isAntiparticleByType } from '../../../lib/data/particle-quantum.data';
 import styles from './UICard.module.css';
 
 export enum UICardState {
@@ -118,10 +117,10 @@ export function UICard({
                             fontVariant="body"
                             color={getLabelColor()}
                             align="center"
-                            className={`${styles.symbol} ${showParticle && isAntiparticle(particleType) ? styles.antiparticle : ''}`}
+                            className={`${styles.symbol} ${showParticle && isAntiparticleByType(particleType) ? styles.antiparticle : ''}`}
                             interactive={false}
                         >
-                            {showParticle ? getFormattedParticleSymbol(particleType) : symbol}
+                            {showParticle ? getFormattedParticleSymbolByType(particleType) : symbol}
                         </UILabel>
                     </div>
                 </div>
@@ -142,10 +141,10 @@ export function UICard({
                                 fontVariant="body"
                                 color={getLabelColor()}
                                 align="center"
-                                className={`${styles.symbol} ${showParticle && isAntiparticle(particleType) ? styles.antiparticle : ''}`}
+                                className={`${styles.symbol} ${showParticle && isAntiparticleByType(particleType) ? styles.antiparticle : ''}`}
                                 interactive={false}
                             >
-                                {showParticle ? getFormattedParticleSymbol(particleType) : symbol}
+                                {showParticle ? getFormattedParticleSymbolByType(particleType) : symbol}
                             </UILabel>
                         </div>
                     )}
@@ -163,10 +162,10 @@ export function UICard({
                                 fontVariant="body"
                                 color={getLabelColor()}
                                 align="center"
-                                className={`${styles.symbol} ${showParticle && isAntiparticle(particleType) ? styles.antiparticle : ''}`}
+                                className={`${styles.symbol} ${showParticle && isAntiparticleByType(particleType) ? styles.antiparticle : ''}`}
                                 interactive={false}
                             >
-                                {showParticle ? getFormattedParticleSymbol(particleType) : symbol}
+                                {showParticle ? getFormattedParticleSymbolByType(particleType) : symbol}
                             </UILabel>
                         </div>
                     )}
