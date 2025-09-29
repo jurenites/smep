@@ -12,6 +12,8 @@
 }
 
 /* Responsive behavior */
+/* not supported at this moment */
+/*
 @media (max-width: 768px) {
     .tabsContainer {
         flex-direction: column;
@@ -22,4 +24,4 @@
         width: 100%;
         margin-left: 0 !important;
     }
-}
+} */

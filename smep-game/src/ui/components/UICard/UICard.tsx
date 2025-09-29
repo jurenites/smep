@@ -1,6 +1,6 @@
 import { UISquare, UISquareState } from '../Primitives/UISquare';
 import { UIRectangleBig } from '../Primitives/UIRectangleBig';
-import { UILabel } from '../Text/UILabel';
+import { UILabel, type ColorList } from '../Text/UILabel';
 import { UIParticle } from '../Particles/UIParticle';
 import { ParticleList, getFormattedParticleSymbolByType, isAntiparticleByType } from '../../../lib/data/particle-quantum.data';
 import styles from './UICard.module.css';
@@ -94,8 +94,8 @@ export function UICard({
     };
 
     // Get label color based on state
-    const getLabelColor = (): 'primary' | 'secondary' => {
-        return state === UICardState.DISABLED ? 'secondary' : 'primary';
+    const getLabelColor = (): ColorList => {
+        return state === UICardState.DISABLED ? 'gray' : 'white';
     };
 
     // No special loading state handling needed

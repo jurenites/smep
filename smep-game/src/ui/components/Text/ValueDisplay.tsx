@@ -1,4 +1,4 @@
-import { UILabel } from './UILabel';
+import { UILabel, type ColorList, ColorList as ColorListObject, type FontList } from './UILabel';
 import { formatValue, type MeasurementType, type DisplayMode } from '../../../formatters/formatValue';
 import styles from './ValueDisplay.module.css';
 
@@ -12,13 +12,13 @@ export interface ValueDisplayProps {
     /** Display mode (full, shortened, scientific) */
     displayMode?: DisplayMode;
     /** Color variant for the value label */
-    valueColor?: 'primary' | 'secondary' | 'accent';
+    valueColor?: ColorList;
     /** Color variant for the unit and exponent labels */
-    unitColor?: 'primary' | 'secondary' | 'accent';
-    /** Font variant for the value (body, digitSmall, digitBig) */
-    valueFontVariant?: 'body' | 'digitSmall' | 'digitBig';
-    /** Font variant for the unit labels (body, digitSmall, digitBig) */
-    labelFontVariant?: 'body' | 'digitSmall' | 'digitBig';
+    unitColor?: ColorList;
+    /** Font variant for the value */
+    valueFontVariant?: FontList;
+    /** Font variant for the unit labels */
+    labelFontVariant?: FontList;
     /** Whether the display mode can be clicked to cycle through modes */
     clickable?: boolean;
     /** Callback when display mode changes */
@@ -48,8 +48,8 @@ export function ValueDisplay({
     measurementType = 'custom',
     customUnit = "",
     displayMode = 'shortened',
-    valueColor = 'primary',
-    unitColor = 'secondary',
+    valueColor = ColorListObject.white, //do NOT replace this variableswit h a spupid ismple string.
+    unitColor = ColorListObject.gray,
     valueFontVariant = 'digitBig',
     labelFontVariant = 'body',
     clickable = false,

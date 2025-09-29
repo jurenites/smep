@@ -2,7 +2,7 @@ import { UICardState, UISquareState, ParticleList } from '../../../lib/types';
 import { UICircle } from '../Primitives/UICircle';
 import { UISquare } from '../Primitives/UISquare';
 import { UIRectangleBig } from '../Primitives/UIRectangleBig';
-import { UILabel } from '../Text/UILabel';
+import { UILabel, type ColorList } from '../Text/UILabel';
 import { UIParticle } from '../Particles/UIParticle';
 import { TOKENS } from '../../tokens/tokens';
 import { getFormattedParticleSymbol, isAntiparticle } from '../../../lib/data/particle-quantum.data';
@@ -41,7 +41,7 @@ export function UICard({
     onClick,
     size = 'small',
     labelFontVariant = 'body',
-    labelColor = 'primary',
+    labelColor = 'white',
     labelAlign = 'center',
     labelClassName = '',
     labelInteractive = false,

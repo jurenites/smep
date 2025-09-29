@@ -30,7 +30,7 @@ export function UIPaginationBig({
     const isRectangleClickable = clickable === ClickableState.ENABLED && !!onPageChange && state !== PaginationState.DISABLED;
 
     // Calculate gap for big paginator
-    const gap = sizes.BIG_PAGINATOR_GAP;
+    const gap = sizes.GAP_LARGE;
 
     return (
         <div className={styles.container} style={{ gap }} data-testid="uipaginationbig">

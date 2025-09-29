@@ -2,6 +2,40 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ValueDisplay } from '../../components/Text/ValueDisplay';
 import { useState, useEffect } from 'react';
 import type { DisplayMode } from '../../../formatters/formatValue';
+import '../../tokens/tokens.css';
+
+// Direct font loading for Storybook - improved version
+const load4PixelFont = async () => {
+    try {
+        // Check if font is already loaded
+        if (document.fonts.check('16px "4pixel"')) {
+            console.log('4pixel font already loaded');
+            return;
+        }
+
+        console.log('Loading 4pixel font directly...');
+
+        // Try WOFF first, then TTF as fallback
+        const fontUrls = [
+            'url(/assets/fonts/4pixel.woff) format("woff")',
+            'url(/assets/fonts/4pixel.ttf) format("truetype")'
+        ];
+
+        const fontFace = new FontFace('4pixel', fontUrls.join(', '));
+        const loadedFont = await fontFace.load();
+        document.fonts.add(loadedFont);
+
+        // Wait for fonts to be ready
+        await document.fonts.ready;
+
+        console.log('4pixel font loaded successfully');
+    } catch (error) {
+        console.error('Failed to load 4pixel font:', error);
+    }
+};
+
+// Load font when module loads
+load4PixelFont();
 
 const meta: Meta<typeof ValueDisplay> = {
     title: 'Text/ValueDisplay',
@@ -109,4 +143,3 @@ export const Default: Story = {
         },
     },
 };
-

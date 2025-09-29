@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { UIButton } from '../../components/Primitives/UIButton';
+import { UIButton, ButtonState, ButtonStyle } from '../../components/Primitives/UIButton';
 import '../../tokens/tokens.css';
 
 const meta: Meta<typeof UIButton> = {
@@ -83,8 +83,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
     args: {
         children: 'Continue',
-        state: 'enabled',
-        buttonStyle: 'filled',
+        state: ButtonState.ENABLED,
+        buttonStyle: ButtonStyle.FILLED,
         progressDuration: 30000,
         holdDuration: 2000,
         loadingText: 'Loading...',

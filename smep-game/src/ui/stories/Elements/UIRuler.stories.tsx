@@ -4,14 +4,31 @@ import { UILabel } from '../../components/Text/UILabel';
 import '../../tokens/tokens.css';
 import styles from './UIRuler.stories.module.css';
 
-// Direct font loading for Storybook
+// Direct font loading for Storybook - improved version
 const load4PixelFont = async () => {
     try {
-        // console.log('Loading 4pixel font directly...');
-        const fontFace = new FontFace('4pixel', 'url(/assets/fonts/4pixel.woff) format("woff")');
-        await fontFace.load();
-        document.fonts.add(fontFace);
-        // console.log('4pixel font loaded successfully');
+        // Check if font is already loaded
+        if (document.fonts.check('16px "4pixel"')) {
+            console.log('4pixel font already loaded');
+            return;
+        }
+
+        console.log('Loading 4pixel font directly...');
+
+        // Try WOFF first, then TTF as fallback
+        const fontUrls = [
+            'url(/assets/fonts/4pixel.woff) format("woff")',
+            'url(/assets/fonts/4pixel.ttf) format("truetype")'
+        ];
+
+        const fontFace = new FontFace('4pixel', fontUrls.join(', '));
+        const loadedFont = await fontFace.load();
+        document.fonts.add(loadedFont);
+
+        // Wait for fonts to be ready
+        await document.fonts.ready;
+
+        console.log('4pixel font loaded successfully');
     } catch (error) {
         console.error('Failed to load 4pixel font:', error);
     }

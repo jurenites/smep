@@ -1,5 +1,6 @@
 import React from 'react';
 import { TOKENS } from '../../tokens/tokens';
+import { getNestedTranslation } from '../../../lib/data/translations';
 import styles from './UISurface.module.css';
 
 export interface UISurfaceProps {
@@ -64,7 +65,7 @@ export function UISurface({
             onMouseUp={onMouseUp}
             data-testid="uisurface"
             role="region"
-            aria-label="Playground surface"
+            aria-label={getNestedTranslation('accessibility.playgroundSurface')}
         >
             {/* Content overlay */}
             <div

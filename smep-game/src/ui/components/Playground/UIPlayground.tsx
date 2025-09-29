@@ -1,5 +1,6 @@
 import React from 'react';
 import { TOKENS } from '../../tokens/tokens';
+import { getNestedTranslation } from '../../../lib/data/translations';
 import styles from './UIPlayground.module.css';
 
 export interface UIPlaygroundProps {
@@ -56,7 +57,7 @@ export function UIPlayground({
                 preserveAspectRatio="xMidYMid meet"
                 className={styles.playgroundSvg}
                 role="img"
-                aria-label="Playground circle with shadow effects"
+                aria-label={getNestedTranslation('accessibility.playgroundCircle')}
             >
                 {/* Background circle */}
                 <circle

@@ -12,38 +12,45 @@
 }
 
 /* Badge Background Colors */
-.badgeColorPrimary {
+.badgeColor-white {
     background-color: var(--color-white);
 }
 
-.badgeColorSecondary {
+.badgeColor-gray {
     background-color: var(--color-gray);
 }
 
+.badgeColor-dark-gray {
+    background-color: var(--color-dark-gray);
+}
+
+.badgeColor-yolk {
+    background-color: var(--color-yolk);
+}
+
+.badgeColor-black {
+    background-color: var(--color-black);
+}
+
 /* Label Text Colors */
-.labelColorPrimary {
+.labelColor-white {
     color: var(--color-white);
 }
 
-.labelColorSecondary {
+.labelColor-gray {
     color: var(--color-gray);
 }
 
-.labelColorAccent {
+.labelColor-dark-gray {
+    color: var(--color-dark-gray);
+}
+
+.labelColor-yolk {
     color: var(--color-yolk);
 }
 
-/* Text Alignment */
-.alignLeft {
-    text-align: left;
-}
-
-.alignCenter {
-    text-align: center;
-}
-
-.alignRight {
-    text-align: right;
+.labelColor-black {
+    color: var(--color-black);
 }
 
 /* Interactive State */

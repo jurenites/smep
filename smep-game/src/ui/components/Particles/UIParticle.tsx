@@ -9,6 +9,9 @@ export interface UIParticleProps {
     onClick?: () => void;
     /** Optional additional CSS class name */
     className?: string;
+    // Position coordinates (center of the particle)
+    x?: number; // X coordinate for center positioning
+    y?: number; // Y coordinate for center positioning
 }
 
 // Re-export the centralized configuration functions for external use
@@ -17,7 +20,9 @@ export { getParticleCollisionBounds, getParticleShadowConfig } from '../../../li
 export function UIParticle({
     particleType,
     onClick,
-    className = ''
+    className = '',
+    x,
+    y
 }: UIParticleProps) {
     var particleProps = getParticlePropertiesByType(particleType);
     var renderConfig = getParticleRenderConfigByType(particleType);
@@ -34,6 +39,12 @@ export function UIParticle({
                 // Container size is only based on the UICircle, not the shadow
                 width: renderConfig.coreDiameter,
                 height: renderConfig.coreDiameter,
+                // Position coordinates (center-based positioning)
+                ...(x !== undefined && y !== undefined && {
+                    position: 'absolute',
+                    left: `${x - renderConfig.coreDiameter / 2}px`, // Center the particle on x coordinate
+                    top: `${y - renderConfig.coreDiameter / 2}px`,  // Center the particle on y coordinate
+                }),
             }}
         >
             {/* Optional shadow background for leptons only - positioned absolutely */}
@@ -56,6 +67,8 @@ export function UIParticle({
                 brightness="full"
                 onClick={onClick}
                 data-particle-core="true"
+                x={x}
+                y={y}
             />
         </div>
     );

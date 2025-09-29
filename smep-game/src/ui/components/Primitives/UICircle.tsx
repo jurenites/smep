@@ -11,6 +11,9 @@ export interface UICircleProps {
     color?: string; // HEX color code for the circle
     onClick?: () => void;
     'data-particle-core'?: string; // Data attribute for particle core identification
+    // Position coordinates (center of the circle)
+    x?: number; // X coordinate for center positioning
+    y?: number; // Y coordinate for center positioning
 }
 
 // Logical size to pixel diameter mapping using tokens
@@ -28,7 +31,9 @@ export function UICircle({
     brightness = 'full',
     color = '#FFF', // Default color
     onClick,
-    'data-particle-core': dataParticleCore
+    'data-particle-core': dataParticleCore,
+    x,
+    y
 }: UICircleProps) {
     // Calculate final size: use actualSize if provided, otherwise use logical size
     const finalSize = actualSize !== undefined ? actualSize : LOGICAL_SIZE_MAP[logicalSize];
@@ -46,6 +51,12 @@ export function UICircle({
         height: `${roundedSize}px`,
         borderRadius: '50%', // Always circular
         backgroundColor: color,
+        // Position coordinates (center-based positioning)
+        ...(x !== undefined && y !== undefined && {
+            position: 'absolute',
+            left: `${x - roundedSize / 2}px`, // Center the circle on x coordinate
+            top: `${y - roundedSize / 2}px`,  // Center the circle on y coordinate
+        }),
     };
 
     // CSS classes

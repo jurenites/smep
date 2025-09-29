@@ -3,6 +3,7 @@ import { UILabel } from '../Text/UILabel';
 import { UIProgressBar } from './UIProgressBar';
 import { TOKENS } from '../../tokens/tokens';
 import { UISquareState } from './UISquare';
+import { getNestedTranslation } from '../../../lib/data/translations';
 import styles from './UIButton.module.css';
 
 export enum ButtonState {
@@ -11,11 +12,14 @@ export enum ButtonState {
     HOVER = 'hover',
     FOCUSED = 'focused',
     PRESSED = 'pressed',
+    HOLD = 'hold',
     PROGRESS = 'progress',
     DONE = 'done',
-    HOLD = 'hold',
 }
-export type ButtonStyle = 'filled' | 'outlined';
+export enum ButtonStyle {
+    FILLED = 'filled',
+    OUTLINED = 'outlined',
+}
 
 export interface UIButtonProps {
     /** Button text content */
@@ -46,17 +50,17 @@ export interface UIButtonProps {
 
 export function UIButton({
     children,
-    state = 'enabled',
-    buttonStyle = 'filled',
+    state = ButtonState.ENABLED,
+    buttonStyle = ButtonStyle.FILLED,
     onClick,
     progressDuration = 30000, // 30 seconds default
     holdDuration = 2000, // 2 seconds default
     onComplete,
     className = '',
     focusable = true,
-    loadingText = 'Loading...',
-    doneText = 'Done',
-    holdText = 'Hold'
+    loadingText = getNestedTranslation('button.loading'),
+    doneText = getNestedTranslation('button.done'),
+    holdText = getNestedTranslation('button.hold')
 }: UIButtonProps) {
     const [internalState, setInternalState] = useState<ButtonState>(state);
     const [progress, setProgress] = useState(0);
@@ -127,7 +131,7 @@ export function UIButton({
 
                 if (progressPercent >= 100) {
                     // Progress completed
-                    setInternalState('done');
+                    setInternalState(ButtonState.DONE);
                     onComplete?.();
                 } else {
                     progressTimerRef.current = requestAnimationFrame(updateProgress);
@@ -207,7 +211,7 @@ export function UIButton({
     const handleClick = () => {
         if (internalState === 'enabled') {
             if (state === 'progress') {
-                setInternalState('progress');
+                setInternalState(ButtonState.PROGRESS);
             } else {
                 onClick?.();
             }

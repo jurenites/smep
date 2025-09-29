@@ -1,4 +1,4 @@
-import { UILabel } from './UILabel';
+import { UILabel, type ColorList, ColorList as ColorListObject } from './UILabel';
 import styles from './UITab.module.css';
 
 export enum UITabState {
@@ -51,16 +51,16 @@ export function UITab({
     };
 
     // Get appropriate UILabel color based on state
-    const getLabelColor = (): 'primary' | 'secondary' => {
+    const getLabelColor = (): ColorList => {
         switch (state) {
             case UITabState.ACTIVE:
-                return 'secondary'; // Black text on white background
+                return ColorListObject.black; // Black text on white background
             case UITabState.INACTIVE:
-                return 'primary'; // White text on transparent background
+                return ColorListObject.white; // White text on transparent background
             case UITabState.DISABLED:
-                return 'secondary'; // Gray text on transparent background
+                return ColorListObject.darkGray; // Gray text on transparent background
             default:
-                return 'primary';
+                return ColorListObject.white;
         }
     };
 
@@ -73,7 +73,6 @@ export function UITab({
             <UILabel
                 children={text}
                 fontVariant="body"
-                align="center"
                 color={getLabelColor()}
                 className={styles.tabLabel}
             />

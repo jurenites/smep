@@ -31,6 +31,6 @@ type Story = StoryObj<typeof meta>;
 // Default story
 export const Default: Story = {
     args: {
-        diameter: 600,
+        diameter: 400,
     },
 };
