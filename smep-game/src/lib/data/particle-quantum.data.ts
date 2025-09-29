@@ -62,7 +62,7 @@ export enum ParticleList {
 
 // eslint-disable-next-line @typescript-eslint/object-curly-spacing
 export const PARTICLE_QUANTUM_DATA: readonly ParticleQuantumData[] = [
-    // Quarks - use mini size with gray gradient
+    // Quarks - use custom size (8px) for better visibility
     { properties: { symbol: 'u', name: 'up', family: 'Quark', matterType: ParticleMatterType.MATTER, charge: 2 / 3, magneticFieldStrength: 0.5, massInMeV: 2.2 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-matter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 4.3 }, table: { shortForm: { x: 0, y: 0 } } },
     { properties: { symbol: 'd', name: 'down', family: 'Quark', matterType: ParticleMatterType.MATTER, charge: -1 / 3, magneticFieldStrength: 0.5, massInMeV: 4.7 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-matter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 9.4 }, table: { shortForm: { x: 0, y: 1 } } },
     { properties: { symbol: 'c', name: 'charm', family: 'Quark', matterType: ParticleMatterType.MATTER, charge: 2 / 3, magneticFieldStrength: 0.5, massInMeV: 1270 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-matter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 2550 }, table: { shortForm: { x: 1, y: 0 } } },
@@ -84,12 +84,12 @@ export const PARTICLE_QUANTUM_DATA: readonly ParticleQuantumData[] = [
     { properties: { symbol: 'μ⁺', name: 'antimuon', family: 'Antilepton', matterType: ParticleMatterType.ANTIMATTER, charge: +1, magneticFieldStrength: 2.1, massInMeV: 105.66 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, shadowSize: TOKENS.shadowSizes.MID, coreColor: 'var(--particle-lepton-antimatter)' }, physics: { interactionRange: 30, collisionRadius: 3, mass: 207 }, table: { shortForm: { x: 2, y: 4 } } },
     { properties: { symbol: 'τ⁺', name: 'antitau', family: 'Antilepton', matterType: ParticleMatterType.ANTIMATTER, charge: +1, magneticFieldStrength: 3.5, massInMeV: 1776.86 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, shadowSize: TOKENS.shadowSizes.BIG, coreColor: 'var(--particle-lepton-antimatter)' }, physics: { interactionRange: 40, collisionRadius: 3, mass: 3477 }, table: { shortForm: { x: 2, y: 5 } } },
     // Neutrinos - neutral particles with minimal interaction
-    { properties: { symbol: 'νè', name: 'electron neutrino', family: 'Neutrino', matterType: ParticleMatterType.MATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.000002 }, render: { coreDiameter: 6, coreColor: 'var(--particle-neutrino-matter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.0000022 }, table: { shortForm: { x: 3, y: 0 } } },
-    { properties: { symbol: 'νμ', name: 'muon neutrino', family: 'Neutrino', matterType: ParticleMatterType.MATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.00019 }, render: { coreDiameter: 6, coreColor: 'var(--particle-neutrino-matter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.00017 }, table: { shortForm: { x: 3, y: 1 } } },
-    { properties: { symbol: 'νî', name: 'tau neutrino', family: 'Neutrino', matterType: ParticleMatterType.MATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.0185 }, render: { coreDiameter: 6, coreColor: 'var(--particle-neutrino-matter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.035 }, table: { shortForm: { x: 3, y: 2 } } },
-    { properties: { symbol: 'νè', name: 'antineutrino', family: 'antineutrino', matterType: ParticleMatterType.ANTIMATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.000002 }, render: { coreDiameter: 6, coreColor: 'var(--particle-neutrino-antimatter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.0000022 }, table: { shortForm: { x: 3, y: 3 } } },
-    { properties: { symbol: 'νμ', name: 'antimuon neutrino', family: 'Antineutrino', matterType: ParticleMatterType.ANTIMATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.00019 }, render: { coreDiameter: 6, coreColor: 'var(--particle-neutrino-antimatter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.00017 }, table: { shortForm: { x: 3, y: 4 } } },
-    { properties: { symbol: 'νî', name: 'antitau neutrino', family: 'Antineutrino', matterType: ParticleMatterType.ANTIMATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.0185 }, render: { coreDiameter: 6, coreColor: 'var(--particle-neutrino-antimatter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.035 }, table: { shortForm: { x: 3, y: 5 } } },
+    { properties: { symbol: 'νè', name: 'electron neutrino', family: 'Neutrino', matterType: ParticleMatterType.MATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.000002 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, coreColor: 'var(--particle-neutrino-matter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.0000022 }, table: { shortForm: { x: 3, y: 0 } } },
+    { properties: { symbol: 'νμ', name: 'muon neutrino', family: 'Neutrino', matterType: ParticleMatterType.MATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.00019 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, coreColor: 'var(--particle-neutrino-matter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.00017 }, table: { shortForm: { x: 3, y: 1 } } },
+    { properties: { symbol: 'νî', name: 'tau neutrino', family: 'Neutrino', matterType: ParticleMatterType.MATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.0185 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, coreColor: 'var(--particle-neutrino-matter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.035 }, table: { shortForm: { x: 3, y: 2 } } },
+    { properties: { symbol: 'νè', name: 'antineutrino', family: 'antineutrino', matterType: ParticleMatterType.ANTIMATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.000002 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, coreColor: 'var(--particle-neutrino-antimatter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.0000022 }, table: { shortForm: { x: 3, y: 3 } } },
+    { properties: { symbol: 'νμ', name: 'antimuon neutrino', family: 'Antineutrino', matterType: ParticleMatterType.ANTIMATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.00019 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, coreColor: 'var(--particle-neutrino-antimatter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.00017 }, table: { shortForm: { x: 3, y: 4 } } },
+    { properties: { symbol: 'νî', name: 'antitau neutrino', family: 'Antineutrino', matterType: ParticleMatterType.ANTIMATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.0185 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, coreColor: 'var(--particle-neutrino-antimatter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.035 }, table: { shortForm: { x: 3, y: 5 } } },
 ];
 
 /**
@@ -181,15 +181,15 @@ export const getParticleCollisionBounds = (index: number) => {
 };
 
 export const getParticleShadowConfig = (index: number) => {
-    const renderConfig = getParticleRenderConfig(index);
+    var renderConfig = getParticleRenderConfig(index);
 
     // Return null if particle doesn't have shadow configuration
     if (!renderConfig.shadowSize) {
         return null;
     }
 
-    const particleProps = getParticleProperties(index);
-    const matterPrefix = particleProps.matterType === ParticleMatterType.MATTER ? 'particleMatter' : 'particleAntimatter';
+    var particleProps = getParticleProperties(index);
+    var matterPrefix = particleProps.matterType === ParticleMatterType.MATTER ? 'particle-matter' : 'particle-antimatter';
 
     return {
         size: renderConfig.shadowSize,
@@ -277,6 +277,10 @@ export const getFormattedParticleSymbolByType = (particleType: ParticleList): st
 };
 
 export const isAntiparticleByType = (particleType: ParticleList): boolean => {
+    // Special exception: positron should not have antiparticle bar
+    if (particleType === ParticleList.POSITRON) {
+        return false;
+    }
     return isAntiparticle(getParticleIndex(particleType));
 };
 

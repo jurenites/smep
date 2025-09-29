@@ -13,24 +13,24 @@
 
 /* Badge Background Colors */
 .badgeColorPrimary {
-    background-color: var(--color-primary);
+    background-color: var(--color-white);
 }
 
 .badgeColorSecondary {
-    background-color: var(--color-secondary);
+    background-color: var(--color-gray);
 }
 
 /* Label Text Colors */
 .labelColorPrimary {
-    color: var(--color-primary);
+    color: var(--color-white);
 }
 
 .labelColorSecondary {
-    color: var(--color-secondary);
+    color: var(--color-gray);
 }
 
 .labelColorAccent {
-    color: var(--color-accent);
+    color: var(--color-yolk);
 }
 
 /* Text Alignment */

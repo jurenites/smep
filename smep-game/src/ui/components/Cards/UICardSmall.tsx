@@ -1,11 +1,10 @@
-import { UICardState, UISquareState } from '../../../lib/types';
+import { UICardState, UISquareState, ParticleList } from '../../../lib/types';
 import { UICircle } from '../Primitives/UICircle';
 import { UISquare } from '../Primitives/UISquare';
 import { UIRectangleBig } from '../Primitives/UIRectangleBig';
 import { UILabel } from '../Text/UILabel';
 import { UIParticle } from '../Particles/UIParticle';
 import { TOKENS } from '../../tokens/tokens';
-import { ParticleList } from '../../../lib/types/particle-list';
 import { getFormattedParticleSymbol, isAntiparticle } from '../../../lib/data/particle-quantum.data';
 import type { LogicalSize } from '../Primitives/UICircle';
 import type { UILabelProps } from '../Text/UILabel';
@@ -187,7 +186,8 @@ export function UICard({
                                 fontVariant={labelFontVariant}
                                 color={labelColor}
                                 align={labelAlign}
-                                className={`${styles.symbol} ${showParticle && isAntiparticle(particleList) ? styles.antiparticle : ''} ${labelClassName}`}
+                                className={`${styles.symbol} ${labelClassName}`}
+                                isAntiparticle={showParticle && isAntiparticle(particleList)}
                                 interactive={labelInteractive}
                             >
                                 {showParticle ? getFormattedParticleSymbol(particleList) : symbol}
@@ -218,7 +218,8 @@ export function UICard({
                                 fontVariant={labelFontVariant}
                                 color={labelColor}
                                 align={labelAlign}
-                                className={`${styles.symbol} ${showParticle && isAntiparticle(particleList) ? styles.antiparticle : ''} ${labelClassName}`}
+                                className={`${styles.symbol} ${labelClassName}`}
+                                isAntiparticle={showParticle && isAntiparticle(particleList)}
                                 interactive={labelInteractive}
                             >
                                 {showParticle ? getFormattedParticleSymbol(particleList) : symbol}

@@ -1,7 +1,10 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { CSS_VARS } from '../src/ui/tokens/tokens.ts';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const tokensCssPath = path.resolve(__dirname, '../src/ui/tokens/tokens.css');
 
 let cssContent = ':root {\n';

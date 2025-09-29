@@ -10,6 +10,7 @@ export interface UICircleProps {
     brightness?: 'full' | 'dimmed'; // For dot size: full square vs dimmed vector circle
     color?: string; // HEX color code for the circle
     onClick?: () => void;
+    'data-particle-core'?: string; // Data attribute for particle core identification
 }
 
 // Logical size to pixel diameter mapping using tokens
@@ -26,7 +27,8 @@ export function UICircle({
     actualSize,
     brightness = 'full',
     color = '#FFF', // Default color
-    onClick
+    onClick,
+    'data-particle-core': dataParticleCore
 }: UICircleProps) {
     // Calculate final size: use actualSize if provided, otherwise use logical size
     const finalSize = actualSize !== undefined ? actualSize : LOGICAL_SIZE_MAP[logicalSize];
@@ -63,6 +65,7 @@ export function UICircle({
             data-logical-size={logicalSize}
             data-actual-size={actualSize}
             data-brightness={brightness}
+            data-particle-core={dataParticleCore}
         />
     );
 }

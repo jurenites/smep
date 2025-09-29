@@ -141,7 +141,8 @@ export function UICard({
                                 fontVariant="body"
                                 color={getLabelColor()}
                                 align="center"
-                                className={`${styles.symbol} ${showParticle && isAntiparticleByType(particleType) ? styles.antiparticle : ''}`}
+                                className={styles.symbol}
+                                isAntiparticle={showParticle && isAntiparticleByType(particleType)}
                                 interactive={false}
                             >
                                 {showParticle ? getFormattedParticleSymbolByType(particleType) : symbol}
@@ -162,7 +163,8 @@ export function UICard({
                                 fontVariant="body"
                                 color={getLabelColor()}
                                 align="center"
-                                className={`${styles.symbol} ${showParticle && isAntiparticleByType(particleType) ? styles.antiparticle : ''}`}
+                                className={styles.symbol}
+                                isAntiparticle={showParticle && isAntiparticleByType(particleType)}
                                 interactive={false}
                             >
                                 {showParticle ? getFormattedParticleSymbolByType(particleType) : symbol}

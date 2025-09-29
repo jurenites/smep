@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { UICard } from '../../components/UICard/UICard';
-import { ParticleList } from '../../../lib/types/particle-list';
-import { UICardState } from '../../../lib/types';
+import { ParticleList, UICardState } from '../../../lib/types';
 
 const meta: Meta<typeof UICard> = {
     title: 'UI/UICard',

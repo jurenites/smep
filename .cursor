@@ -14,3 +14,6 @@
 + Never add stubbing or fake data patterns to code that affects the dev or prod environments
 + Never overwrite my .env file without first asking and confirming
 + Do not use constantly "const" in a JS files, to define properties to work with in the  *.ts files. "const" are only non-changeable parameters witch is declared at the top of the file, you may use "var" instead, it make it easeir to grasp witch variable name are changeable and which are static.
++ CSS do not use funky size measurement such as "em", use "px" instead
++ CSS never use Opactiy unless I let you doiung so, always warn before using it and I can approve if its necessary.
++ CSS never use different font sizes, only use the allowed one, for the whole theme typography.

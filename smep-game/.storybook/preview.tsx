@@ -1,6 +1,5 @@
 import type { Preview } from '@storybook/react-vite';
 import React from 'react';
-import { FontProvider } from '../src/ui/components/Providers/FontProvider';
 import '../src/index.css';
 import '../src/ui/tokens/tokens.css';
 import './storybook-overrides.css';
@@ -38,9 +37,7 @@ const preview: Preview = {
   },
   decorators: [
     (Story) => (
-      <FontProvider>
-        <Story />
-      </FontProvider>
+      <Story />
     ),
   ],
 };

@@ -52,21 +52,7 @@
     /* Let UILabel handle font-size, font-family, and color through its own classes */
 }
 
-/* Overbar for antiparticle symbols */
-.symbol.antiparticle {
-    position: relative;
-}
-
-.symbol.antiparticle::after {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 6px;
-    height: 1px;
-    background-color: currentColor;
-}
+/* Antiparticle symbols now handled by AntiparticleSymbol component */
 
 /* Size-specific containers */
 .bigContainer {

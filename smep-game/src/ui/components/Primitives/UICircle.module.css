@@ -1,9 +1,7 @@
 /* UICircle Component Styles */
 
 .circle {
-    display: inline-block;
-    background-color: var(--color-accent-primary);
-    border: 1px solid var(--color-accent-secondary);
+    display: block;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     box-sizing: border-box;
@@ -11,36 +9,31 @@
 
 /* Size-specific styles */
 .size-dot {
-    background-color: var(--color-accent-primary);
     border: none;
 }
 
 .size-small {
-    background-color: var(--color-accent-primary);
-    border: 1px solid var(--color-accent-secondary);
+    border: 1px solid var(--color-white);
 }
 
 .size-mini {
-    background-color: var(--color-accent-primary);
-    border: 1px solid var(--color-accent-secondary);
+    border: 1px solid var(--color-white);
 }
 
 .size-middle {
-    background-color: var(--color-accent-primary);
-    border: 2px solid var(--color-accent-secondary);
+    border: 2px solid var(--color-white);
     box-shadow: var(--shadow-box-subtle);
 }
 
 .size-mega {
-    background-color: var(--color-accent-primary);
-    border: 3px solid var(--color-accent-secondary);
+    border: 3px solid var(--color-white);
     box-shadow: var(--shadow-box-medium);
 }
 
 /* Special dot rendering - dimmed vector circle */
 .dotDimmed {
     background-color: transparent;
-    border: 1px solid var(--color-accent-primary);
+    border: 1px solid var(--color-white);
 }
 
 /* Clickable state */
@@ -59,7 +52,8 @@
     transition: transform 0.1s ease-in-out;
 }
 
-/* Animation for size changes */
+/* Animation for size changes - disabled for now to prevent rendering issues */
+/*
 .circle {
     animation: sizeTransition 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -80,6 +74,7 @@
         background-color: var(--color-accent-primary);
     }
 }
+*/
 
 /* Responsive behavior */
 /*

@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { UIButton } from '../../components/Primitives/UIButton';
-import { FontProvider } from '../../components/Providers/FontProvider';
 import '../../tokens/tokens.css';
 
 const meta: Meta<typeof UIButton> = {
@@ -12,11 +11,9 @@ const meta: Meta<typeof UIButton> = {
     tags: ['autodocs'],
     decorators: [
         (Story) => (
-            <FontProvider>
-                <div style={{ padding: '20px' }}>
-                    <Story />
-                </div>
-            </FontProvider>
+            <div style={{ padding: '20px' }}>
+                <Story />
+            </div>
         ),
     ],
     argTypes: {

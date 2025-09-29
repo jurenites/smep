@@ -12,8 +12,8 @@ export function UIRectangleBig({ state, onClick }: UIRectangleBigProps) {
     const sizes = TOKENS.sizes;
 
     // Rectangle dimensions from tokens - using MID_CARD dimensions for big rectangle
-    const rectWidth = sizes.MID_CARD_W;  // 83px
-    const rectHeight = sizes.MID_CARD_H; // 109px
+    const rectWidth = sizes.CARD_MID_W;  // 83px
+    const rectHeight = sizes.CARD_MID_H; // 109px
 
     // SVG container size - using the larger dimension plus some padding for optimal rendering
     const svgSize = Math.max(rectWidth, rectHeight) + 10; // 119px

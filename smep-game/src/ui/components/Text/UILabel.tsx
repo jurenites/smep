@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './UILabel.module.css';
+import { AntiparticleSymbol } from './AntiparticleSymbol';
 
 export interface UILabelProps {
     /** Text content to display */
@@ -16,6 +17,8 @@ export interface UILabelProps {
     onClick?: () => void;
     /** Whether the label is interactive (clickable) */
     interactive?: boolean;
+    /** Whether this is an antiparticle symbol (enables character-level bar positioning) */
+    isAntiparticle?: boolean;
 }
 
 export function UILabel({
@@ -25,7 +28,8 @@ export function UILabel({
     align = 'left',
     className = '',
     onClick,
-    interactive = false
+    interactive = false,
+    isAntiparticle = false
 }: UILabelProps) {
     // Build CSS classes
     const cssClasses = [
@@ -36,6 +40,20 @@ export function UILabel({
         interactive ? styles.interactive : '',
         className
     ].filter(Boolean).join(' ');
+
+    // If this is an antiparticle symbol, use the AntiparticleSymbol component
+    if (isAntiparticle && typeof children === 'string') {
+        return (
+            <span className={cssClasses}>
+                <AntiparticleSymbol
+                    symbol={children}
+                    isAntiparticle={isAntiparticle}
+                    onClick={interactive ? onClick : undefined}
+                    interactive={interactive}
+                />
+            </span>
+        );
+    }
 
     return (
         <span

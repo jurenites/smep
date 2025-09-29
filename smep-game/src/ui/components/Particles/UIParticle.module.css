@@ -3,19 +3,31 @@
 .particleContainer {
     position: relative;
     display: inline-block;
-    /* Container is now sized exactly to the shadow size via inline styles */
+    /* Container size is only based on UICircle dimensions, not shadow */
+}
+
+/* Shadow background for leptons - positioned absolutely, doesn't affect container size */
+.shadowBackground {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    /* Shadow extends beyond container bounds but doesn't affect positioning */
 }
 
 /* SVG-based shadows are now handled in the component */
 
-/* Animation for particle interactions - using inline styles for centering */
+/* Animation for particle interactions - UICircle is positioned at top-left corner */
 .particleContainer:hover [data-particle-core] {
-    transform: translate(-50%, -50%) scale(1.05) !important;
+    transform: scale(1.05) !important;
     transition: transform 0.2s ease !important;
 }
 
 .particleContainer:active [data-particle-core] {
-    transform: translate(-50%, -50%) scale(0.95) !important;
+    transform: scale(0.95) !important;
     transition: transform 0.1s ease !important;
 }
 
@@ -25,7 +37,7 @@
 
     .particleContainer:hover [data-particle-core],
     .particleContainer:active [data-particle-core] {
-        transform: translate(-50%, -50%) !important;
+        transform: none !important;
         transition: none !important;
     }
 }

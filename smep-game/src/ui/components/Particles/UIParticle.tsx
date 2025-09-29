@@ -30,8 +30,13 @@ export function UIParticle({
             className={`${styles.particleContainer} ${className}`}
             data-particle-list={particleType}
             data-particle-family={particleProps.family}
+            style={{
+                // Container size is only based on the UICircle, not the shadow
+                width: renderConfig.coreDiameter,
+                height: renderConfig.coreDiameter,
+            }}
         >
-            {/* Optional shadow background for leptons only */}
+            {/* Optional shadow background for leptons only - positioned absolutely */}
             {shadowConfig && (
                 <div
                     className={styles.shadowBackground}
@@ -43,13 +48,14 @@ export function UIParticle({
                 />
             )}
 
-            {/* All particles use UICircle with actual diameter from ParticleConfig */}
+            {/* UICircle positioned at top-left corner of container */}
             <UICircle
                 logicalSize="dot" // Dummy value - actualSize overrides this
                 actualSize={renderConfig.coreDiameter}
                 color={renderConfig.coreColor}
                 brightness="full"
                 onClick={onClick}
+                data-particle-core="true"
             />
         </div>
     );

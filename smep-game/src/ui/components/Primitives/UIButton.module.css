@@ -2,7 +2,7 @@
     /* Dynamic dimensions */
     min-width: var(--size-button-min-width);
     width: auto;
-    height: var(--size-mini-card);
+    height: var(--size-button-height);
     position: relative;
 
     /* Reset button styles */
@@ -432,7 +432,7 @@
 
 /* Override UIProgressBar height when inside progress state button */
 .uiButton.stateProgress .progressContainer :global(svg) {
-    height: calc(var(--size-mini-card) - var(--size-line) - var(--size-line) - 2px - 2px);
+    height: calc(var(--size-button-height) - var(--size-line) - var(--size-line) - 2px - 2px);
 }
 
 /* Disable UIProgressBar hover effects when inside progress state button */

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { UIPlaygroundSurface } from '../components/Playground/UIPlaygroundSurface';
+import { UISurface, UIPlayground } from '../components/Playground';
 import { UICard } from '../components/UICard/UICard';
 import { UIPaginationGrid } from '../components/Paginators/UIPaginationGrid';
 import { UIRuler } from '../components/Elements/UIRuler';
 import { useGameStore } from '../../lib/game-state';
 import { ParticleList, UICardState } from '../../lib/types';
+import styles from './ScreenPlayground.module.css';
 
 export function ScreenPlayground() {
     //const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -90,25 +91,30 @@ export function ScreenPlayground() {
 
 
     return (
-        <div className="screen-playground">
+        <div className={styles.screenPlayground}>
             {/* Main Playground */}
-            <UIPlaygroundSurface
+            <UISurface
                 width={dimensions.width}
                 height={dimensions.height}
                 onMouseDown={handlePlaygroundClick}
             >
-                {/* Render particles */}
-                {particles.map((particle) => (
-                    <div
-                        key={particle.id}
-                        className="particle"
-                        style={{
-                            left: particle.position.x - 3,
-                            top: particle.position.y - 3,
-                        }}
-                    />
-                ))}
-            </UIPlaygroundSurface>
+                {/* Playground circle and shadow */}
+                <UIPlayground
+                    diameter={Math.min(dimensions.width, dimensions.height)}
+                >
+                    {/* Render particles */}
+                    {particles.map((particle) => (
+                        <div
+                            key={particle.id}
+                            className={`${styles.particle} ${styles[`particle--${particle.type}`]}`}
+                            style={{
+                                left: particle.position.x - 3,
+                                top: particle.position.y - 3,
+                            }}
+                        />
+                    ))}
+                </UIPlayground>
+            </UISurface>
 
             {/* HUD Overlay */}
             <div className="hud-overlay">

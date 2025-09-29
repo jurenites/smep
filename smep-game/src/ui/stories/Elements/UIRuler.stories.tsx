@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { UIRuler } from '../../components/Elements/UIRuler';
-import { FontProvider } from '../../components/Providers/FontProvider';
 import { UILabel } from '../../components/Text/UILabel';
 import '../../tokens/tokens.css';
 import styles from './UIRuler.stories.module.css';
@@ -33,13 +32,11 @@ const meta: Meta<typeof UIRuler> = {
             // Debug font loading
             // console.log('UIRuler Story: FontProvider wrapper loaded');
             return (
-                <FontProvider>
-                    <div className={styles.decoratorContainer}>
-                        <UILabel fontVariant="digitSmall" color="primary">
-                            <Story />
-                        </UILabel>
-                    </div>
-                </FontProvider>
+                <div className={styles.decoratorContainer}>
+                    <UILabel fontVariant="digitSmall" color="primary">
+                        <Story />
+                    </UILabel>
+                </div>
             );
         },
     ],
