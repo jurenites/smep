@@ -55,6 +55,36 @@
     stroke: var(--color-gray);
 }
 
+/* Hidden state - completely hidden from view */
+.squareHidden {
+    width: 0px !important;
+    height: 0px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+.squareHidden rect {
+    fill: transparent !important;
+    stroke: transparent !important;
+    opacity: 0 !important;
+}
+
+.squareHidden svg {
+    width: 0px !important;
+    height: 0px !important;
+    opacity: 0 !important;
+}
+
+.squareHidden .contentContainer {
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
 /* Small size disabled squares should be outlined, not filled */
 .size-small.squareDisabled rect {
     fill: transparent;
@@ -164,4 +194,15 @@
 .squareDisabled:hover rect {
     fill: var(--color-dark-gray);
     stroke: var(--color-dark-gray);
+}
+
+/* Hidden state - no hover effects */
+.squareHidden:hover {
+    background-color: transparent !important;
+    transform: none !important;
+}
+
+.squareHidden:hover rect {
+    fill: transparent !important;
+    stroke: transparent !important;
 }

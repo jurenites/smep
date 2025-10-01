@@ -50,10 +50,11 @@ const meta: Meta<typeof UIRuler> = {
             // console.log('UIRuler Story: FontProvider wrapper loaded');
             return (
                 <div className={styles.decoratorContainer}>
-                    <UILabel fontVariant="digitSmall" color="primary">
+                    <UILabel fontVariant="digitSmall" color="white">
                         <Story />
                     </UILabel>
                 </div>
+
             );
         },
     ],

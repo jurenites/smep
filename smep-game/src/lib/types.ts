@@ -35,6 +35,7 @@ export enum PaginationState {
     INACTIVE = 'inactive',
     DISABLED = 'disabled', // can't switch to that page
     UNAVAILABLE = 'unavailable', // New state for unavailable pages
+    INVISIBLE = 'invisible', // Hidden from user - not researched yet
 }
 
 export enum UICardState {
@@ -46,6 +47,7 @@ export enum UISquareState {
     ACTIVE = 'active', // Active and clickable
     INACTIVE = 'inactive', // Inactive but clickable
     DISABLED = 'disabled', // Disabled and not clickable
+    HIDDEN = 'hidden', // Hidden from view (0px width/height) but remains in DOM
 }
 
 export enum UITabState {

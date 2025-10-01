@@ -2,10 +2,10 @@ import { UICardState, UISquareState, ParticleList } from '../../../lib/types';
 import { UICircle } from '../Primitives/UICircle';
 import { UISquare } from '../Primitives/UISquare';
 import { UIRectangleBig } from '../Primitives/UIRectangleBig';
-import { UILabel, type ColorList } from '../Text/UILabel';
+import { UILabel } from '../Text/UILabel';
 import { UIParticle } from '../Particles/UIParticle';
 import { TOKENS } from '../../tokens/tokens';
-import { getFormattedParticleSymbol, isAntiparticle } from '../../../lib/data/particle-quantum.data';
+import { getFormattedParticleSymbolByType, isAntiparticleByType } from '../../../lib/data/particle-quantum.data';
 import type { LogicalSize } from '../Primitives/UICircle';
 import type { UILabelProps } from '../Text/UILabel';
 import styles from './UICardSmall.module.css';
@@ -21,9 +21,7 @@ interface UICardProps {
     // Label configuration options
     labelFontVariant?: UILabelProps['fontVariant'];
     labelColor?: UILabelProps['color'];
-    labelAlign?: UILabelProps['align'];
     labelClassName?: UILabelProps['className'];
-    labelInteractive?: UILabelProps['interactive'];
     // UICircle configuration options (for the circle above the label)
     showCircle?: boolean;
     circleLogicalSize?: LogicalSize;
@@ -42,9 +40,7 @@ export function UICard({
     size = 'small',
     labelFontVariant = 'body',
     labelColor = 'white',
-    labelAlign = 'center',
     labelClassName = '',
-    labelInteractive = false,
     showCircle = false,
     circleLogicalSize = 'small',
     circleActualSizeInner,
@@ -151,11 +147,9 @@ export function UICard({
                         <UILabel
                             fontVariant={labelFontVariant}
                             color={labelColor}
-                            align={labelAlign}
-                            className={`${styles.symbol} ${showParticle && isAntiparticle(particleList) ? styles.antiparticle : ''} ${labelClassName}`}
-                            interactive={labelInteractive}
+                            className={`${styles.symbol} ${showParticle && isAntiparticleByType(particleList) ? styles.antiparticle : ''} ${labelClassName}`}
                         >
-                            {showParticle ? getFormattedParticleSymbol(particleList) : symbol}
+                            {showParticle ? getFormattedParticleSymbolByType(particleList) : symbol}
                         </UILabel>
                     </div>
                 </div>
@@ -185,12 +179,10 @@ export function UICard({
                             <UILabel
                                 fontVariant={labelFontVariant}
                                 color={labelColor}
-                                align={labelAlign}
                                 className={`${styles.symbol} ${labelClassName}`}
-                                isAntiparticle={showParticle && isAntiparticle(particleList)}
-                                interactive={labelInteractive}
+                                isAntiparticle={showParticle && isAntiparticleByType(particleList)}
                             >
-                                {showParticle ? getFormattedParticleSymbol(particleList) : symbol}
+                                {showParticle ? getFormattedParticleSymbolByType(particleList) : symbol}
                             </UILabel>
                         </div>
                     )}
@@ -217,12 +209,10 @@ export function UICard({
                             <UILabel
                                 fontVariant={labelFontVariant}
                                 color={labelColor}
-                                align={labelAlign}
                                 className={`${styles.symbol} ${labelClassName}`}
-                                isAntiparticle={showParticle && isAntiparticle(particleList)}
-                                interactive={labelInteractive}
+                                isAntiparticle={showParticle && isAntiparticleByType(particleList)}
                             >
-                                {showParticle ? getFormattedParticleSymbol(particleList) : symbol}
+                                {showParticle ? getFormattedParticleSymbolByType(particleList) : symbol}
                             </UILabel>
                         </div>
                     )}

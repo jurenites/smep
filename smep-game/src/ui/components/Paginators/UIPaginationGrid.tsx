@@ -137,6 +137,7 @@ export function UIPaginationGrid({
             return isActive ? UISquareState.ACTIVE : UISquareState.INACTIVE;
         } else {
             // For grid mode, use existing logic
+            if (page.state === PaginationState.INVISIBLE) return UISquareState.HIDDEN; // Hide invisible elements
             if (page.state === PaginationState.DISABLED) return UISquareState.DISABLED;
 
             // Check if this page is currently active
@@ -246,6 +247,14 @@ export function UIPaginationGrid({
                             ? `atomic-${elementInfo.atomicNumber}`
                             : 'empty-cell';
 
+                        const squareState = page ? getSquareState(page, index) : null;
+                        const isHidden = squareState === UISquareState.HIDDEN;
+
+                        // Don't render hidden cells at all to eliminate gap spacing
+                        if (isHidden) {
+                            return null;
+                        }
+
                         return (
                             <div
                                 key={`${x}-${y}`}
@@ -254,9 +263,9 @@ export function UIPaginationGrid({
                                 data-coordinates={elementInfo?.coordinates}
                                 data-atomic-number={elementInfo?.atomicNumber}
                             >
-                                {page ? (
+                                {page && squareState ? (
                                     <UISquare
-                                        state={getSquareState(page, index)}
+                                        state={squareState}
                                         logicalSize="small"
                                         active={active}
                                         onClick={() => handleSquareClick(page, index)}
@@ -273,7 +282,7 @@ export function UIPaginationGrid({
                                 )}
                             </div>
                         );
-                    })}
+                    }).filter(Boolean)}
                 </div>
             ))}
         </div>

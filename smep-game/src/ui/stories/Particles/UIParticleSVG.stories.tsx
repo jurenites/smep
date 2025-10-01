@@ -110,9 +110,11 @@ export const AllParticles: Story = {
             {Object.values(ParticleList).slice(0, 18).map((particleType) => (
                 <div key={particleType} style={{ textAlign: 'center' }}>
                     <UIParticleSVG particleType={particleType} />
-                    <UILabel fontVariant="digitSmall" color="primary" style={{ marginTop: '8px', fontSize: '8px' }}>
-                        {getFormattedParticleSymbolByType(particleType)}
-                    </UILabel>
+                    <div style={{ marginTop: '8px' }}>
+                        <UILabel fontVariant="digitSmall" color="white">
+                            {getFormattedParticleSymbolByType(particleType)}
+                        </UILabel>
+                    </div>
                 </div>
             ))}
         </div>

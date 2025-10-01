@@ -6,6 +6,7 @@ export enum UISquareState {
     ACTIVE = 'active', // Active and clickable
     INACTIVE = 'inactive', // Inactive but clickable
     DISABLED = 'disabled', // Disabled and not clickable
+    HIDDEN = 'hidden', // Hidden from view (0px width/height) but remains in DOM
 }
 
 export type SquareLogicalSize = 'small' | 'mid';
@@ -65,6 +66,8 @@ export function UISquare({
                     return styles.squareInactive;
                 case UISquareState.DISABLED:
                     return styles.squareDisabled;
+                case UISquareState.HIDDEN:
+                    return styles.squareHidden;
                 default:
                     return styles.squareInactive;
             }

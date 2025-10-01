@@ -89,6 +89,27 @@ export const ColorList = COLOR_VALUES.reduce((acc, color) => {
 }, {} as Record<string, ColorList>);
 
 /**
+ * Convert React children to a string representation
+ * @param children React children (string, number, or ReactNode)
+ * @returns String representation of the children
+ */
+function childrenToString(children: React.ReactNode): string {
+    if (typeof children === 'string' || typeof children === 'number') {
+        return String(children);
+    }
+
+    if (React.isValidElement(children)) {
+        return childrenToString((children as any).props.children);
+    }
+
+    if (Array.isArray(children)) {
+        return children.map(child => childrenToString(child)).join('');
+    }
+
+    return '';
+}
+
+/**
  * Transforms text by replacing capital letters with UNICODE characters
  * Handles both Latin (A-Z) and Greek capital letters
  * @param text - The input text to transform
@@ -134,12 +155,10 @@ export function UILabel({
 
     // Transform text content for body font variant
     const getDisplayContent = (): React.ReactNode => {
-        if (typeof children === 'string') {
-            // Apply UNICODE transformation for body font variant
-            if (fontVariant === 'body') {
-                return transformTextWithUnicode(children);
-            }
-            return children;
+        // Apply UNICODE transformation for body font variant
+        if (fontVariant === 'body') {
+            const textContent = childrenToString(children);
+            return transformTextWithUnicode(textContent);
         }
         return children;
     };

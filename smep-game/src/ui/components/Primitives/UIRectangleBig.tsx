@@ -15,8 +15,8 @@ export function UIRectangleBig({ state, onClick }: UIRectangleBigProps) {
     const rectWidth = sizes.CARD_MID_W;  // 83px
     const rectHeight = sizes.CARD_MID_H; // 109px
 
-    // SVG container size - using the larger dimension plus some padding for optimal rendering
-    const svgSize = Math.max(rectWidth, rectHeight) + 10; // 119px
+    // SVG container size - use exact rectangle dimensions for precise sizing
+    const svgSize = Math.max(rectWidth, rectHeight); // 109px (no extra padding)
 
     // Calculate center offset to center the rectangle within the SVG
     const centerOffsetX = Math.round((svgSize - rectWidth) / 2);

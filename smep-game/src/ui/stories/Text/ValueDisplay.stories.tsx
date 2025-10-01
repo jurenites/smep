@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ValueDisplay } from '../../components/Text/ValueDisplay';
 import { useState, useEffect } from 'react';
 import type { DisplayMode } from '../../../formatters/formatValue';
+import { COLOR_OPTIONS, FONT_OPTIONS } from '../../components/Text/UILabel';
 import '../../tokens/tokens.css';
 
 // Direct font loading for Storybook - improved version
@@ -65,23 +66,23 @@ const meta: Meta<typeof ValueDisplay> = {
         },
         valueColor: {
             control: 'select',
-            options: ['primary', 'secondary', 'accent'],
+            options: COLOR_OPTIONS,
             description: 'Color variant for the value label',
         },
         unitColor: {
             control: 'select',
-            options: ['primary', 'secondary', 'accent'],
+            options: COLOR_OPTIONS,
             description: 'Color variant for the unit and exponent labels',
         },
         valueFontVariant: {
             control: 'select',
-            options: ['body', 'digitSmall', 'digitBig'],
-            description: 'Font variant for the value (body, digitSmall, digitBig)',
+            options: FONT_OPTIONS,
+            description: 'Font variant for the value',
         },
         labelFontVariant: {
             control: 'select',
-            options: ['body', 'digitSmall', 'digitBig'],
-            description: 'Font variant for the unit labels (body, digitSmall, digitBig)',
+            options: FONT_OPTIONS,
+            description: 'Font variant for the unit labels',
         },
         clickable: {
             control: 'boolean',
@@ -126,11 +127,11 @@ export const Default: Story = {
     },
     args: {
         value: '12000',
-        measurementType: 'energy',
-        customUnit: '',
+        measurementType: 'custom',
+        customUnit: 'TEST',
         displayMode: 'shortened',
-        valueColor: 'primary',
-        unitColor: 'secondary',
+        valueColor: 'white',
+        unitColor: 'gray',
         valueFontVariant: 'digitBig',
         labelFontVariant: 'body',
         clickable: true,

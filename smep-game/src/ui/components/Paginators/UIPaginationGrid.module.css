@@ -4,6 +4,8 @@
     flex-direction: column;
     gap: var(--size-gap-small);
     align-items: flex-start;
+    width: fit-content;
+    height: fit-content;
 }
 
 /* Simple mode flex container for single row */
@@ -33,6 +35,8 @@
     align-items: center;
     justify-content: center;
 }
+
+/* Hidden cells are no longer rendered in DOM, so no CSS needed */
 
 /* Empty space for gaps in layouts (like periodic table) */
 .emptySpace {

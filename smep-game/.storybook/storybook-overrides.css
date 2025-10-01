@@ -4,6 +4,11 @@
 @import '../src/ui/tokens/tokens.css';
 @import '../src/ui/tokens/fonts.css';
 
+/* Set minimum width for Storybook root element */
+#storybook-root {
+    min-width: 414px;
+}
+
 /* Font overrides for Storybook documentation */
 .sbdocs-title,
 h1.sbdocs-title,

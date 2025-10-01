@@ -100,77 +100,45 @@ export function UICard({
 
     // No special loading state handling needed
 
+    // Render content (particle + label) - shared across all sizes
+    const renderContent = () => (
+        <>
+            {showParticle && (
+                <div className={styles.particleAbove}>
+                    <UIParticle
+                        particleType={particleType}
+                        onClick={onClick}
+                    />
+                </div>
+            )}
+            <UILabel
+                fontVariant="body"
+                color={getLabelColor()}
+                className={`${styles.symbol} ${showParticle && isAntiparticleByType(particleType) ? styles.antiparticle : ''}`}
+                isAntiparticle={showParticle && isAntiparticleByType(particleType)}
+            >
+                {showParticle ? getFormattedParticleSymbolByType(particleType) : symbol}
+            </UILabel>
+        </>
+    );
+
     return (
         <div className={getSizeClass()}>
             {size === 'big' ? (
-                <div className={`${styles.bigCardShape} ${state === UICardState.DISABLED ? styles.disabled : ''}`} onClick={state === UICardState.DISABLED ? undefined : onClick}>
+                <div
+                    className={`${styles.bigCardShape} ${state === UICardState.DISABLED ? styles.disabled : ''}`}
+                    onClick={state === UICardState.DISABLED ? undefined : onClick}
+                >
                     <div className={`${styles.contentContainer} ${styles.bigContentContainer} ${showParticle ? styles.withParticle : styles.withoutParticle}`}>
-                        {showParticle && (
-                            <div className={styles.particleAbove}>
-                                <UIParticle
-                                    particleType={particleType}
-                                    onClick={onClick}
-                                />
-                            </div>
-                        )}
-                        <UILabel
-                            fontVariant="body"
-                            color={getLabelColor()}
-                            align="center"
-                            className={`${styles.symbol} ${showParticle && isAntiparticleByType(particleType) ? styles.antiparticle : ''}`}
-                            interactive={false}
-                        >
-                            {showParticle ? getFormattedParticleSymbolByType(particleType) : symbol}
-                        </UILabel>
+                        {renderContent()}
                     </div>
                 </div>
             ) : (
                 <>
                     {getShapeComponent()}
-                    {size === 'small' && (
-                        <div className={`${styles.contentContainer} ${showParticle ? styles.withParticle : styles.withoutParticle}`}>
-                            {showParticle && (
-                                <div className={styles.particleAbove}>
-                                    <UIParticle
-                                        particleType={particleType}
-                                        onClick={onClick}
-                                    />
-                                </div>
-                            )}
-                            <UILabel
-                                fontVariant="body"
-                                color={getLabelColor()}
-                                align="center"
-                                className={styles.symbol}
-                                isAntiparticle={showParticle && isAntiparticleByType(particleType)}
-                                interactive={false}
-                            >
-                                {showParticle ? getFormattedParticleSymbolByType(particleType) : symbol}
-                            </UILabel>
-                        </div>
-                    )}
-                    {size === 'mid' && (
-                        <div className={`${styles.contentContainer} ${styles.midContentContainer} ${showParticle ? styles.withParticle : styles.withoutParticle}`}>
-                            {showParticle && (
-                                <div className={styles.particleAbove}>
-                                    <UIParticle
-                                        particleType={particleType}
-                                        onClick={onClick}
-                                    />
-                                </div>
-                            )}
-                            <UILabel
-                                fontVariant="body"
-                                color={getLabelColor()}
-                                align="center"
-                                className={styles.symbol}
-                                isAntiparticle={showParticle && isAntiparticleByType(particleType)}
-                                interactive={false}
-                            >
-                                {showParticle ? getFormattedParticleSymbolByType(particleType) : symbol}
-                            </UILabel>
-                        </div>
-                    )}
+                    <div className={`${styles.contentContainer} ${size === 'mid' ? styles.midContentContainer : ''} ${showParticle ? styles.withParticle : styles.withoutParticle}`}>
+                        {renderContent()}
+                    </div>
                 </>
             )}
         </div>

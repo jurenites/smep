@@ -87,7 +87,7 @@ export function ValueDisplay({
                     {formatted.exponent}
                 </UILabel>
             )}
-            {formatted.unit && <UILabel fontVariant={labelFontVariant} color={unitColor}> {formatted.unit}</UILabel>}
+            {formatted.unit && <UILabel fontVariant={labelFontVariant} color={unitColor}>{formatted.unit}</UILabel>}
         </span>
     );
 }

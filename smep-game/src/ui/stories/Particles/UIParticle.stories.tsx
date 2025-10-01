@@ -174,7 +174,7 @@ export const Quarks: Story = {
     render: () => (
         <div style={{ textAlign: 'center' }}>
             <div style={{ marginBottom: '16px' }}>
-                <UILabel fontVariant="body" color="primary" align="center">
+                <UILabel fontVariant="body" color="white">
                     Quarks (Mini Size)
                 </UILabel>
             </div>
@@ -182,7 +182,7 @@ export const Quarks: Story = {
                 <div style={{ textAlign: 'center' }}>
                     <UIParticle particleType={ParticleList.UP} />
                     <div style={{ marginTop: '8px' }}>
-                        <UILabel fontVariant="body" color="primary" align="center">
+                        <UILabel fontVariant="body" color="white">
                             {getFormattedParticleSymbolByType(ParticleList.UP)}
                         </UILabel>
                     </div>
@@ -190,7 +190,7 @@ export const Quarks: Story = {
                 <div style={{ textAlign: 'center' }}>
                     <UIParticle particleType={ParticleList.DOWN} />
                     <div style={{ marginTop: '8px' }}>
-                        <UILabel fontVariant="body" color="primary" align="center">
+                        <UILabel fontVariant="body" color="white">
                             {getFormattedParticleSymbolByType(ParticleList.DOWN)}
                         </UILabel>
                     </div>
@@ -198,7 +198,7 @@ export const Quarks: Story = {
                 <div style={{ textAlign: 'center' }}>
                     <UIParticle particleType={ParticleList.CHARM} />
                     <div style={{ marginTop: '8px' }}>
-                        <UILabel fontVariant="body" color="primary" align="center">
+                        <UILabel fontVariant="body" color="white" >
                             {getFormattedParticleSymbolByType(ParticleList.CHARM)}
                         </UILabel>
                     </div>
@@ -206,7 +206,7 @@ export const Quarks: Story = {
                 <div style={{ textAlign: 'center' }}>
                     <UIParticle particleType={ParticleList.STRANGE} />
                     <div style={{ marginTop: '8px' }}>
-                        <UILabel fontVariant="body" color="primary" align="center">
+                        <UILabel fontVariant="body" color="white">
                             {getFormattedParticleSymbolByType(ParticleList.STRANGE)}
                         </UILabel>
                     </div>

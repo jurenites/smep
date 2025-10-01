@@ -330,7 +330,7 @@ export function UIRuler({
                 }}
             >
                 <UILabel
-                    color="secondary"
+                    color="gray"
                     fontVariant="digitSmall"
                     className={styles.scaleDisplay}
                 >

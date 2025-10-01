@@ -17,97 +17,107 @@
     border: 2px solid var(--color-accent-secondary);
 }
 
-.periodicTableLong {
-    display: flex;
-    flex-direction: row;
+/* Unified wrapper for all view modes */
+.periodicTableWrapper {
+    position: relative;
+    width: 100%;
+    min-height: 300px;
+    /* Ensure space for F-block repositioning */
+}
+
+/* Block positioner - uses CSS Grid for precise positioning */
+.blockPositioner {
+    display: grid;
+    grid-template-columns: auto auto auto 1fr;
+    grid-template-rows: auto auto;
     gap: var(--size-gap-small);
-    align-items: flex-end;
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
-/* F-block and D-block intersection in long view */
-.periodicTableLong .blockContainer[data-block="f"] {
-    margin-right: -6px;
-}
-
-.periodicTableLong .blockContainer[data-block="d"] {
-    margin-left: -0px;
-}
-
-.periodicTableShort {
-    display: flex;
-    flex-direction: column;
-    gap: var(--size-gap-small);
-}
-
-.mainTable {
-    display: flex;
-    flex-direction: row;
-    gap: var(--size-gap-small);
-    align-items: flex-end;
-}
-
-.fBlockBelow {
-    display: flex;
-    flex-direction: row;
-    gap: var(--size-gap-large);
-    align-items: flex-start;
-    padding-left: 12px;
-    /* Indent F-block for visual separation */
-}
-
+/* Base block container styles */
 .blockContainer {
     display: flex;
     flex-direction: column;
     gap: var(--size-gap-large);
     min-width: fit-content;
+    width: fit-content;
+    position: relative;
+    transition: all 0.1s ease-in-out;
+    transform-origin: center;
 }
 
-.blockLabel {
-    font-size: var(--font-code-size);
-    font-weight: 600;
-    color: var(--color-text-secondary);
-    text-align: center;
-    padding: 4px 8px;
-    background: var(--color-background-tertiary);
-    border-radius: var(--size-radius-small);
-    border: 1px solid var(--color-border);
+/* Long view mode positioning (horizontal layout: S, F, D, P) */
+.periodicTableWrapper[data-view-mode="long"] .blockPositioner {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    grid-template-columns: none;
+    grid-template-rows: none;
 }
 
-/* Block-specific styling */
-.blockContainer[data-block="s"] .blockLabel {
-    background: var(--color-accent-primary);
-    color: var(--color-text-on-accent);
+.periodicTableWrapper[data-view-mode="long"] .blockContainer {
+    position: static;
+    transform: translate(0, 0);
 }
 
-.blockContainer[data-block="p"] .blockLabel {
-    background: var(--color-accent-secondary);
-    color: var(--color-text-on-accent);
+/* F-block and D-block intersection in long view */
+.periodicTableWrapper[data-view-mode="long"] .blockContainer[data-block="f"] {
+    margin-right: -6px;
 }
 
-.blockContainer[data-block="d"] .blockLabel {
-    background: var(--color-accent-tertiary);
-    color: var(--color-text-on-accent);
+.periodicTableWrapper[data-view-mode="long"] .blockContainer[data-block="d"] {
+    margin-left: 0;
 }
 
-.blockContainer[data-block="f"] .blockLabel {
-    background: var(--color-accent-quaternary);
-    color: var(--color-text-on-accent);
+/* Short view mode positioning (S, D, P in main row, F below) */
+.periodicTableWrapper[data-view-mode="short"] .blockContainer[data-block="s"] {
+    grid-column: 1;
+    grid-row: 1;
+    transform: translate(0, 0);
+    align-self: end;
+}
+
+.periodicTableWrapper[data-view-mode="short"] .blockContainer[data-block="d"] {
+    grid-column: 2;
+    grid-row: 1;
+    transform: translate(0, 0);
+    align-self: end;
+}
+
+.periodicTableWrapper[data-view-mode="short"] .blockContainer[data-block="p"] {
+    grid-column: 3;
+    grid-row: 1;
+    transform: translate(0, 0);
+    align-self: end;
+}
+
+.periodicTableWrapper[data-view-mode="short"] .blockContainer[data-block="f"] {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    transform: translate(12px, var(--size-gap-small));
+    justify-self: start;
+}
+
+/* Enhanced transition for F-block repositioning */
+.blockContainer[data-block="f"] {
+    transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth transitions for all blocks during view mode changes */
+.blockContainer {
+    will-change: transform, grid-column, grid-row;
 }
 
 /* Responsive adjustments */
 @media (max-width: 1200px) {
-    .periodicTableLong {
+    .periodicTableWrapper[data-view-mode="long"] .blockPositioner {
         flex-direction: column;
         align-items: center;
     }
 
-    .mainTable {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .fBlockBelow {
-        padding-left: 0;
-        justify-content: center;
+    .periodicTableWrapper[data-view-mode="short"] .blockContainer[data-block="f"] {
+        transform: translate(0, var(--size-gap-small));
     }
 }
