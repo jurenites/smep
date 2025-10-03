@@ -9,9 +9,9 @@ export enum UITabState {
 
 export interface UITabProps {
     /** Text content of the tab */
-    text: string;
+    tabText: string;
     /** Current state of the tab */
-    state: UITabState;
+    tabState: UITabState;
     /** Optional click handler for interactive behavior */
     onClick?: () => void;
     /** Optional additional CSS class name */
@@ -19,18 +19,18 @@ export interface UITabProps {
 }
 
 export function UITab({
-    text,
-    state,
+    tabText,
+    tabState,
     onClick,
     className = ''
 }: UITabProps) {
-    // Determine if tab is clickable based on state
-    const isClickable = (state === UITabState.ACTIVE || state === UITabState.INACTIVE) && !!onClick;
+    // Determine if tab is clickable based on tabState
+    const isClickable = (tabState === UITabState.ACTIVE || tabState === UITabState.INACTIVE) && !!onClick;
 
     // Get appropriate CSS class based on state
     const getTabClassName = (): string => {
         const baseClass = (() => {
-            switch (state) {
+            switch (tabState) {
                 case UITabState.ACTIVE:
                     return styles.tabActive;
                 case UITabState.INACTIVE:
@@ -50,9 +50,9 @@ export function UITab({
         return baseClass;
     };
 
-    // Get appropriate UILabel color based on state
+    // Get appropriate UILabel color based on tabState
     const getLabelColor = (): ColorList => {
-        switch (state) {
+        switch (tabState) {
             case UITabState.ACTIVE:
                 return ColorListObject.black; // Black text on white background
             case UITabState.INACTIVE:
@@ -68,10 +68,10 @@ export function UITab({
         <div
             className={`${styles.tab} ${getTabClassName()} ${className}`}
             onClick={isClickable ? onClick : undefined}
-            data-state={state}
+            data-state={tabState}
         >
             <UILabel
-                children={text}
+                children={tabText}
                 fontVariant="body"
                 color={getLabelColor()}
                 className={styles.tabLabel}

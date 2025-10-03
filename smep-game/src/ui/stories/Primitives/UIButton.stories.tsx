@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { UIButton, ButtonState, ButtonStyle } from '../../components/Primitives/UIButton';
+import { UIButton, ButtonStyle, ButtonSize } from '../../components/Primitives/UIButton';
 import '../../tokens/tokens.css';
 
 const meta: Meta<typeof UIButton> = {
@@ -11,25 +11,34 @@ const meta: Meta<typeof UIButton> = {
     tags: ['autodocs'],
     decorators: [
         (Story) => (
-            <div style={{ padding: '20px' }}>
+            <div className="storybook-button-container">
                 <Story />
             </div>
         ),
     ],
     argTypes: {
-        children: {
+        buttonText: {
             control: 'text',
             description: 'Button text content',
         },
-        state: {
+        buttonState: {
             control: 'select',
-            options: ['enabled', 'disabled', 'hover', 'focused', 'pressed', 'progress', 'done', 'hold'],
-            description: 'Button state',
+            options: ['progress', 'done', 'hold'],
+            description: 'Button logical state (hold, progress, done)',
         },
         buttonStyle: {
             control: 'select',
             options: ['filled', 'outlined'],
             description: 'Button style variant',
+        },
+        buttonSize: {
+            control: 'select',
+            options: ['small', 'big'],
+            description: 'Button size variant',
+        },
+        isDisabled: {
+            control: 'boolean',
+            description: 'Whether the button is disabled',
         },
         onClick: {
             action: 'clicked',
@@ -47,19 +56,15 @@ const meta: Meta<typeof UIButton> = {
         holdDuration: {
             control: {
                 type: 'number',
-                min: 500,
-                max: 10000,
-                step: 500,
+                min: 1000,
+                max: 3000,
+                step: 1000,
             },
             description: 'Hold duration in milliseconds',
         },
         onComplete: {
             action: 'completed',
             description: 'Completion handler',
-        },
-        focusable: {
-            control: 'boolean',
-            description: 'Whether the button is focusable',
         },
         loadingText: {
             control: 'text',
@@ -82,22 +87,21 @@ type Story = StoryObj<typeof meta>;
 // Default story
 export const Default: Story = {
     args: {
-        children: 'Continue',
-        state: ButtonState.ENABLED,
         buttonStyle: ButtonStyle.FILLED,
-        progressDuration: 30000,
+        buttonSize: ButtonSize.BIG,
+        isDisabled: false,
+        progressDuration: 5000,
         holdDuration: 2000,
+        buttonText: 'Continue',
         loadingText: 'Loading...',
         doneText: 'Done',
         holdText: 'Hold',
-        focusable: true,
     },
     parameters: {
         docs: {
             description: {
-                story: 'Default button with Continue text. Click to test interaction.',
+                story: 'Default button with Continue text. Click to test interaction. Hover, active, and focus states are handled by CSS.',
             },
         },
     },
 };
-

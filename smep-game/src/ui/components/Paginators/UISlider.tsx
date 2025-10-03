@@ -6,8 +6,8 @@ import styles from './UISlider.module.css';
 
 export interface UISliderProps {
     /** Total number of elements in the slider (must be >= 1) */
-    count: number;
-    /** Currently active element index (1-based, will be clamped to 1-count range) */
+    elementCount: number;
+    /** Currently active element index (1-based, will be clamped to 1-elementCount range) */
     activeIndex: number;
     /** Callback when active element changes */
     onActiveChange?: (newActiveIndex: number) => void;
@@ -24,7 +24,7 @@ export interface UISliderProps {
 }
 
 export function UISlider({
-    count,
+    elementCount,
     activeIndex = 1,
     onActiveChange,
     clickable = false,
@@ -34,9 +34,9 @@ export function UISlider({
     visibleElementsCount = 10
 }: UISliderProps) {
 
-    // Validate and clamp activeIndex to valid range (1 to count)
-    // This prevents activeIndex from going beyond the count threshold
-    const validatedActiveIndex = Math.max(1, Math.min(activeIndex, Math.max(1, count)));
+    // Validate and clamp activeIndex to valid range (1 to elementCount)
+    // This prevents activeIndex from going beyond the elementCount threshold
+    const validatedActiveIndex = Math.max(1, Math.min(activeIndex, Math.max(1, elementCount)));
 
     // Reusable function to calculate element size based on position from active element
     // Follows normal distribution pattern: largest in center, smallest on edges
@@ -66,7 +66,7 @@ export function UISlider({
 
     // Debug logging for validation
     if (activeIndex !== validatedActiveIndex) {
-        console.warn(`UISlider: activeIndex ${activeIndex} was clamped to ${validatedActiveIndex} (count: ${count})`);
+        console.warn(`UISlider: activeIndex ${activeIndex} was clamped to ${validatedActiveIndex} (elementCount: ${elementCount})`);
     }
 
     const [translateX, setTranslateX] = useState(0);
@@ -85,15 +85,15 @@ export function UISlider({
             actualSize?: number;
         }> = [];
 
-        // Ensure count is at least 1
-        const safeCount = Math.max(1, count);
+        // Ensure elementCount is at least 1
+        const safeCount = Math.max(1, elementCount);
 
         // Convert 1-based validatedActiveIndex to 0-based for internal calculations
         const activeIndexZeroBased = validatedActiveIndex - 1;
 
         // Additional safety check
         if (activeIndexZeroBased < 0 || activeIndexZeroBased >= safeCount) {
-            console.error(`UISlider: Invalid activeIndex ${validatedActiveIndex} for count ${safeCount}`);
+            console.error(`UISlider: Invalid activeIndex ${validatedActiveIndex} for elementCount ${safeCount}`);
             return elements; // Return empty array if invalid
         }
 
@@ -133,7 +133,7 @@ export function UISlider({
         }
 
         return elements;
-    }, [validatedActiveIndex, count, visibleElementsCount]);
+    }, [validatedActiveIndex, elementCount, visibleElementsCount]);
 
     // Note: calculateTotalWidth removed - CSS gap property handles spacing automatically
 
@@ -271,11 +271,11 @@ export function UISlider({
 
     const handleElementClick = (index: number) => {
         // Validate that the clicked index is within bounds
-        const validIndex = Math.max(1, Math.min(index, Math.max(1, count)));
+        const validIndex = Math.max(1, Math.min(index, Math.max(1, elementCount)));
 
         // Debug logging for click validation
         if (index !== validIndex) {
-            console.warn(`UISlider: Clicked index ${index} was clamped to ${validIndex} (count: ${count})`);
+            console.warn(`UISlider: Clicked index ${index} was clamped to ${validIndex} (elementCount: ${elementCount})`);
         }
 
         if (clickable && onActiveChange && validIndex !== validatedActiveIndex) {

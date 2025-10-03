@@ -104,3 +104,21 @@ h1.sbdocs-title,
     /* TODO lets rework the colors to use tokens */
     color: white;
 }
+
+/* UIButton Storybook Animation */
+.storybook-button-container {
+    animation: slideUpFromBottom 0.1s ease-out;
+    animationFillMode: both;
+}
+
+@keyframes slideUpFromBottom {
+    from {
+        transform: translateY(7px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

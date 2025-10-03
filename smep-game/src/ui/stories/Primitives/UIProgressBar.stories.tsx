@@ -11,7 +11,7 @@ const meta: Meta<typeof UIProgressBar> = {
     },
     tags: ['autodocs'],
     argTypes: {
-        state: {
+        progressState: {
             control: 'select',
             options: Object.values(UISquareState),
             description: 'Current state of the progress bar',
@@ -42,7 +42,7 @@ type Story = StoryObj<typeof meta>;
 // Default story
 export const Default: Story = {
     args: {
-        state: UISquareState.ACTIVE,
+        progressState: UISquareState.ACTIVE,
         logicalSize: 'small',
         progress: 0.5,
         fillColor: '#FFFFFF',

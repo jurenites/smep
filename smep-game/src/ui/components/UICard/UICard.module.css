@@ -87,7 +87,7 @@
 .bigCardShape.disabled {
     border-color: var(--color-gray);
     background-color: var(--color-dark-gray);
-    cursor: not-allowed;
+    cursor: default;
 }
 
 .bigCardShape.disabled:hover {

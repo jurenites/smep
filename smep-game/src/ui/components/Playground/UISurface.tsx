@@ -5,9 +5,9 @@ import styles from './UISurface.module.css';
 
 export interface UISurfaceProps {
     /** Surface width in pixels */
-    width: number;
+    surfaceWidth: number;
     /** Surface height in pixels */
-    height: number;
+    surfaceHeight: number;
     /** Child components to render on the surface */
     children?: React.ReactNode;
     /** Mouse move event handler */
@@ -36,8 +36,8 @@ export interface UISurfaceProps {
  * ```
  */
 export function UISurface({
-    width,
-    height,
+    surfaceWidth,
+    surfaceHeight,
     children,
     onMouseMove,
     onMouseDown,
@@ -46,14 +46,14 @@ export function UISurface({
 }: UISurfaceProps) {
     // Use CSS variables for background gradient instead of inline styles
     const containerStyle: React.CSSProperties = {
-        width,
-        height,
+        width: surfaceWidth,
+        height: surfaceHeight,
         // Background gradient now handled by CSS variables
     };
 
     const contentStyle: React.CSSProperties = {
-        width,
-        height,
+        width: surfaceWidth,
+        height: surfaceHeight,
     };
 
     return (

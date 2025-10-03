@@ -6,7 +6,7 @@ export type ProgressLogicalSize = 'small' | 'mid';
 
 export interface UIProgressBarProps {
     /** Current state of the progress bar */
-    state: UISquareState;
+    progressState: UISquareState;
     /** Logical size of the progress bar */
     logicalSize: ProgressLogicalSize;
     /** Progress value from 0 to 1 */
@@ -26,7 +26,7 @@ const LOGICAL_SIZE_MAP: Record<ProgressLogicalSize, number> = {
 };
 
 export function UIProgressBar({
-    state,
+    progressState,
     logicalSize,
     progress,
     onClick,
@@ -53,7 +53,7 @@ export function UIProgressBar({
     // Get CSS class based on state
     const getItemClassName = (): string => {
         const baseClass = styles.container;
-        const stateClass = styles[`progress${state.charAt(0).toUpperCase() + state.slice(1)}`];
+        const stateClass = styles[`progress${progressState.charAt(0).toUpperCase() + progressState.slice(1)}`];
         const sizeClass = styles[`size${logicalSize.charAt(0).toUpperCase() + logicalSize.slice(1)}`];
         const fullWidthClass = fullWidth ? styles.fullWidth : '';
         return `${baseClass} ${stateClass} ${sizeClass} ${fullWidthClass}`.trim();

@@ -9,7 +9,7 @@ const meta: Meta<typeof UISquare> = {
     },
     tags: ['autodocs'],
     argTypes: {
-        state: {
+        squareState: {
             control: 'select',
             options: ['active', 'inactive', 'disabled'],
             description: 'Current state of the square',
@@ -41,7 +41,7 @@ type Story = StoryObj<typeof meta>;
 // Default story - matches UICircle pattern with size as parameter
 export const Default: Story = {
     args: {
-        state: 'active',
+        squareState: 'active',
         logicalSize: 'mid',
         active: 'clickable',
     },

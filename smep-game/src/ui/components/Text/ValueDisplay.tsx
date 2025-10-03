@@ -4,7 +4,7 @@ import styles from './ValueDisplay.module.css';
 
 export interface ValueDisplayProps {
     /** Numeric value to display (can include + prefix for positive numbers) */
-    value: number | string;
+    displayValue: number | string;
     /** Type of measurement (temperature, distance, energy, custom) */
     measurementType?: MeasurementType;
     /** Custom unit string when measurementType is 'custom' */
@@ -44,7 +44,7 @@ export interface ValueDisplayProps {
  * - Custom: Uses any custom unit string
  */
 export function ValueDisplay({
-    value,
+    displayValue,
     measurementType = 'custom',
     customUnit = "",
     displayMode = 'shortened',
@@ -56,7 +56,7 @@ export function ValueDisplay({
     onDisplayModeChange,
     className = ''
 }: ValueDisplayProps) {
-    const formatted = formatValue(value, measurementType, customUnit, displayMode);
+    const formatted = formatValue(displayValue, measurementType, customUnit, displayMode);
 
     // Split the value to separate the number part from the ·10 part for color styling
     const valueParts = formatted.value.split('·10');

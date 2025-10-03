@@ -46,7 +46,7 @@ const meta: Meta<typeof ValueDisplay> = {
     },
     tags: ['autodocs'],
     argTypes: {
-        value: {
+        displayValue: {
             control: 'text',
             description: 'Numeric value to display (can include + prefix for positive numbers)',
         },
@@ -126,9 +126,9 @@ export const Default: Story = {
         );
     },
     args: {
-        value: '12000',
+        displayValue: '1200000',
         measurementType: 'custom',
-        customUnit: 'TEST',
+        customUnit: ' Protons',
         displayMode: 'shortened',
         valueColor: 'white',
         unitColor: 'gray',

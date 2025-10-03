@@ -204,10 +204,8 @@ export const CSS_VARS = {
     '--size-tab-min-w': `${TOKENS.sizes.TAB_MIN_W}px`,
     '--size-tab-h': `${TOKENS.sizes.TAB_H}px`,
 
-    '--size-button-min-width': `${TOKENS.sizes.BUTTON_MIN_WIDTH}px`,
     '--size-button-width': `${TOKENS.sizes.BUTTON_MIN_WIDTH}px`,
     '--size-button-height': `${TOKENS.sizes.BUTTON_HEIGHT}px`,
-    '--size-mini-card': `${TOKENS.sizes.CARD_SMALL}px`,
 
     '--size-card-big': `${TOKENS.sizes.CARD_BIG}px`,
 

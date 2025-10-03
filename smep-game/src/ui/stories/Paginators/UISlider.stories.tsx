@@ -9,7 +9,7 @@ const meta: Meta<typeof UISlider> = {
     },
     tags: ['autodocs'],
     argTypes: {
-        count: {
+        elementCount: {
             control: { type: 'number', min: 1, max: 20 },
             description: 'Total number of elements in the slider',
         },
@@ -50,7 +50,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
     args: {
-        count: 10,
+        elementCount: 10,
         activeIndex: 1,
         clickable: true,
         visibleElementsCount: 6,

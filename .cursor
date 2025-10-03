@@ -17,3 +17,10 @@
 + CSS do not use funky size measurement such as "em", use "px" instead
 + CSS never use Opactiy unless I let you doiung so, always warn before using it and I can approve if its necessary.
 + CSS never use different font sizes, only use the allowed one, for the whole theme typography.
+
++All variables, fields, and properties must be named with at least two words. Disallow single-word variable names. Always extend short or generic names into a two-word compound. examplesBad:["active","type","color","mode","flag"];
+examplesGood:["isActive","measurementType","textColor","displayMode", "statusFlag"];
+suggestions:
+    "Boolean operands should start with a prefix (is, has, can, should)."
+    "For descriptive values, append a context word (measurementType, userRole, filePath)."
+    "Avoid generic one-word names: replace 'color' with 'textColor' or 'bgColor'."

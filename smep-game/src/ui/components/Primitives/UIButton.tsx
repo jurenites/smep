@@ -1,35 +1,40 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { UILabel } from '../Text/UILabel';
 import { UIProgressBar } from './UIProgressBar';
+// import { ValueDisplay } from '../Text/ValueDisplay'; // Temporarily commented out
 import { TOKENS } from '../../tokens/tokens';
 import { UISquareState } from './UISquare';
 import { getNestedTranslation } from '../../../lib/data/translations';
 import styles from './UIButton.module.css';
 
 export enum ButtonState {
-    ENABLED = 'enabled',
-    DISABLED = 'disabled',
-    HOVER = 'hover',
-    FOCUSED = 'focused',
-    PRESSED = 'pressed',
-    HOLD = 'hold',
-    PROGRESS = 'progress',
-    DONE = 'done',
+    HOLD = 'hold',        // Button type that requires holding with progress bar
+    PROGRESS = 'progress', // Button that shows progress over time
+    DONE = 'done',        // Button that has completed its action
 }
 export enum ButtonStyle {
     FILLED = 'filled',
     OUTLINED = 'outlined',
 }
 
+export enum ButtonSize {
+    SMALL = 'small',  // Fixed width: 31px
+    BIG = 'big',      // Min-width: 175px
+}
+
 export interface UIButtonProps {
     /** Button text content */
-    children: React.ReactNode;
-    /** Button state */
-    state?: ButtonState;
+    buttonText: React.ReactNode;
+    /** Button logical state (hold, progress, done) */
+    buttonState?: ButtonState;
     /** Button style */
     buttonStyle?: ButtonStyle;
+    /** Button size */
+    buttonSize?: ButtonSize;
     /** Click handler */
     onClick?: () => void;
+    /** Whether the button is disabled */
+    isDisabled?: boolean;
     /** Progress duration in milliseconds (for progress state) */
     progressDuration?: number;
     /** Hold duration in milliseconds (for hold state, default 2000ms) */
@@ -38,8 +43,6 @@ export interface UIButtonProps {
     onComplete?: () => void;
     /** Optional CSS class name */
     className?: string;
-    /** Whether the button is focusable */
-    focusable?: boolean;
     /** Loading text to display during progress */
     loadingText?: string;
     /** Done text to display when completed */
@@ -49,78 +52,40 @@ export interface UIButtonProps {
 }
 
 export function UIButton({
-    children,
-    state = ButtonState.ENABLED,
+    buttonText,
+    buttonState,
     buttonStyle = ButtonStyle.FILLED,
+    buttonSize = ButtonSize.BIG,
     onClick,
-    progressDuration = 30000, // 30 seconds default
+    isDisabled = false,
+    progressDuration = 5000, // 5 seconds default
     holdDuration = 2000, // 2 seconds default
     onComplete,
     className = '',
-    focusable = true,
     loadingText = getNestedTranslation('button.loading'),
     doneText = getNestedTranslation('button.done'),
     holdText = getNestedTranslation('button.hold')
 }: UIButtonProps) {
-    const [internalState, setInternalState] = useState<ButtonState>(state);
+    const [internalState, setInternalState] = useState<ButtonState | undefined>(buttonState);
     const [progress, setProgress] = useState(0);
-    const [isPressed, setIsPressed] = useState(false);
-    const [pressStartTime, setPressStartTime] = useState<number | null>(null);
     const [isHolding, setIsHolding] = useState(false);
     const [holdStartTime, setHoldStartTime] = useState<number | null>(null);
+    const [isProgressRunning, setIsProgressRunning] = useState(false);
 
-    const pressTimerRef = useRef<number | null>(null);
     const progressTimerRef = useRef<number | null>(null);
     const holdTimerRef = useRef<number | null>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     // Sync internal state with prop changes
     useEffect(() => {
-        setInternalState(state);
-    }, [state]);
+        setInternalState(buttonState);
+    }, [buttonState]);
 
-    // Handle pressed state with hold-to-complete functionality
+    // No more pressed state logic - handled by CSS :active
+
+    // Handle progress state with fixed duration - only when actively running
     useEffect(() => {
-        // TODO: fix the pressed state when button bevcome wider for abrief moment 
-        if (isPressed && internalState === 'pressed') {
-            setPressStartTime(Date.now());
-
-            const updateProgress = () => {
-                const elapsed = Date.now() - (pressStartTime || Date.now());
-                const progressPercent = Math.min((elapsed / 2000) * 100, 100); // 2 seconds to complete
-                setProgress(progressPercent);
-
-                if (progressPercent >= 100) {
-                    // Press completed - trigger completion
-                    setIsPressed(false);
-                    setProgress(0);
-                    onClick?.();
-                } else {
-                    pressTimerRef.current = requestAnimationFrame(updateProgress);
-                }
-            };
-
-            pressTimerRef.current = requestAnimationFrame(updateProgress);
-        } else if (!isPressed) {
-            // Reset progress when not pressed
-            if (pressTimerRef.current) {
-                cancelAnimationFrame(pressTimerRef.current);
-                pressTimerRef.current = null;
-            }
-            setProgress(0);
-            setPressStartTime(null);
-        }
-
-        return () => {
-            if (pressTimerRef.current) {
-                cancelAnimationFrame(pressTimerRef.current);
-            }
-        };
-    }, [isPressed, internalState, pressStartTime, onClick]);
-
-    // Handle progress state with fixed duration
-    useEffect(() => {
-        if (internalState === 'progress') {
+        if (internalState === 'progress' && isProgressRunning) {
             setProgress(0);
 
             const startTime = Date.now();
@@ -132,6 +97,7 @@ export function UIButton({
                 if (progressPercent >= 100) {
                     // Progress completed
                     setInternalState(ButtonState.DONE);
+                    setIsProgressRunning(false);
                     onComplete?.();
                 } else {
                     progressTimerRef.current = requestAnimationFrame(updateProgress);
@@ -146,7 +112,7 @@ export function UIButton({
                 cancelAnimationFrame(progressTimerRef.current);
             }
         };
-    }, [internalState, progressDuration, onComplete]);
+    }, [internalState, isProgressRunning, progressDuration, onComplete]);
 
     // Handle hold progress animation
     useEffect(() => {
@@ -157,10 +123,11 @@ export function UIButton({
                 setProgress(progressPercent);
 
                 if (progressPercent >= 100) {
-                    // Hold completed - trigger action
+                    // Hold completed - transition to done state
                     setIsHolding(false);
                     setProgress(0);
                     setHoldStartTime(null);
+                    setInternalState(ButtonState.DONE);
                     onClick?.();
                 } else {
                     holdTimerRef.current = requestAnimationFrame(updateHoldProgress);
@@ -178,18 +145,16 @@ export function UIButton({
     }, [isHolding, holdStartTime, holdDuration, onClick]);
 
     const handleMouseDown = () => {
-        if (internalState === 'enabled' || internalState === 'disabled') {
-            setIsPressed(true);
-        } else if (internalState === 'hold') {
+        if (internalState === 'hold' && !isDisabled) {
             // Start holding
             setIsHolding(true);
             setHoldStartTime(Date.now());
             setProgress(0);
         }
+        // Disabled buttons cannot be pressed - no action taken
     };
 
     const handleMouseUp = () => {
-        setIsPressed(false);
         if (internalState === 'hold' && isHolding) {
             // Stop holding - reset progress
             setIsHolding(false);
@@ -199,7 +164,6 @@ export function UIButton({
     };
 
     const handleMouseLeave = () => {
-        setIsPressed(false);
         if (internalState === 'hold' && isHolding) {
             // Stop holding - reset progress
             setIsHolding(false);
@@ -209,9 +173,10 @@ export function UIButton({
     };
 
     const handleClick = () => {
-        if (internalState === 'enabled') {
-            if (state === 'progress') {
-                setInternalState(ButtonState.PROGRESS);
+        if (!isDisabled) {
+            if (internalState === 'progress' && !isProgressRunning) {
+                // Start progress when user clicks on progress state button
+                setIsProgressRunning(true);
             } else {
                 onClick?.();
             }
@@ -227,7 +192,7 @@ export function UIButton({
             case 'hold':
                 return holdText;
             default:
-                return children;
+                return buttonText;
         }
     };
 
@@ -239,18 +204,19 @@ export function UIButton({
         return null;
     };
 
-    const isProgressVisible = internalState === 'pressed' || internalState === 'progress' || (internalState === 'hold' && isHolding);
+    const isProgressVisible = (internalState === 'hold' && isHolding) || (internalState === 'progress' && isProgressRunning);
+    const isButtonDisabled = isDisabled || internalState === 'done' || (internalState === 'progress' && isProgressRunning);
 
     return (
         <button
             ref={buttonRef}
-            className={`${styles.uiButton} ${styles[`style${buttonStyle.charAt(0).toUpperCase() + buttonStyle.slice(1)}`]} ${(internalState === 'progress' || internalState === 'done') ? styles[`state${internalState.charAt(0).toUpperCase() + internalState.slice(1)}`] : ''} ${className}`}
+            className={`${styles.uiButton} ${styles[`style${buttonStyle.charAt(0).toUpperCase() + buttonStyle.slice(1)}`]} ${styles[`size${buttonSize.charAt(0).toUpperCase() + buttonSize.slice(1)}`]} ${internalState ? styles[`state${internalState.charAt(0).toUpperCase() + internalState.slice(1)}`] : ''} ${className}`}
             onClick={handleClick}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseLeave}
-            disabled={internalState === 'disabled' || internalState === 'done' || internalState === 'progress'}
-            tabIndex={focusable ? 0 : -1}
+            disabled={isButtonDisabled}
+            tabIndex={isButtonDisabled ? -1 : 0}
             type="button"
         >
             {/* Progress bar background */}
@@ -260,31 +226,34 @@ export function UIButton({
                         progress={progress / 100}
                         logicalSize="mid"
                         fillColor={internalState === 'hold' ? TOKENS.colors.gray : TOKENS.colors.white}
-                        state={UISquareState.ACTIVE}
+                        progressState={UISquareState.ACTIVE}
                         fullWidth={true}
                     />
                 </div>
             )}
 
             {/* Button content */}
-            <div className={styles.buttonContent}>
-                <UILabel
-                    fontVariant="digitBig"
-                    className={styles.buttonText}
-                >
-                    {getButtonText()}
-                </UILabel>
+            <UILabel
+                fontVariant="digitBig"
+                className={styles.buttonText}
+            >
+                {getButtonText()}
+            </UILabel>
 
-                {/* Progress percentage */}
-                {internalState === 'progress' && (
-                    <UILabel
-                        fontVariant="digitSmall"
-                        className={styles.progressPercentage}
-                    >
-                        {getProgressPercentage()}%
-                    </UILabel>
-                )}
-            </div>
+            {/* Progress display - percentage when running, duration when not running */}
+            {internalState === 'progress' && (
+                <div className={styles.progressPercentage}>
+                    {isProgressRunning ? (
+                        <UILabel fontVariant="digitSmall">
+                            {getProgressPercentage()}%
+                        </UILabel>
+                    ) : (
+                        <UILabel fontVariant="digitSmall">
+                            {Math.round(progressDuration / 1000)}s
+                        </UILabel>
+                    )}
+                </div>
+            )}
         </button>
     );
 }

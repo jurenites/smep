@@ -9,6 +9,8 @@ export interface UIBadgeProps {
     labelColor?: ColorList;
     /** Badge background color */
     badgeColor?: ColorList;
+    /** Badge style variant */
+    variant?: 'filled' | 'outline';
     /** Optional CSS class name */
     className?: string;
 }
@@ -17,6 +19,7 @@ export function UIBadge({
     children,
     labelColor = 'white',
     badgeColor = 'gray',
+    variant = 'filled',
     className = ''
 }: UIBadgeProps) {
     // Validation: Prevent bad color combinations (same color for label and badge)
@@ -36,6 +39,7 @@ export function UIBadge({
     // Build CSS classes
     const cssClasses = [
         styles.badge,
+        styles[`variant-${variant}`],
         styles[`labelColor-${labelColor}`],
         styles[`badgeColor-${badgeColor}`],
         className

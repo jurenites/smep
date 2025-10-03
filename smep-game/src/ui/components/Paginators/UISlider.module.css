@@ -3,7 +3,7 @@
 .container {
     position: relative;
     /* Use relative positioning for absolute child elements */
-    height: var(--size-mini-card);
+    height: var(--size-card-small);
     /* Fixed height of 31px to prevent jumping */
     overflow: visible;
     /* Allow elements to be visible during animation */

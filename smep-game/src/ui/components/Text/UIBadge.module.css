@@ -11,25 +11,56 @@
     font-size: var(--font-digit-small-size);
 }
 
-/* Badge Background Colors */
-.badgeColor-white {
+/* Badge Variants */
+.variant-outline {
+    background-color: transparent;
+    border: var(--size-line) solid;
+    padding-top: var(--size-gap-small);
+    padding-bottom: 1px;
+    padding-right: 1px;
+    padding-left: var(--size-gap-small);
+}
+
+/* Badge Background Colors - Filled Variant */
+.variant-filled.badgeColor-white {
     background-color: var(--color-white);
 }
 
-.badgeColor-gray {
+.variant-filled.badgeColor-gray {
     background-color: var(--color-gray);
 }
 
-.badgeColor-dark-gray {
+.variant-filled.badgeColor-dark-gray {
     background-color: var(--color-dark-gray);
 }
 
-.badgeColor-yolk {
+.variant-filled.badgeColor-yolk {
     background-color: var(--color-yolk);
 }
 
-.badgeColor-black {
+.variant-filled.badgeColor-black {
     background-color: var(--color-black);
+}
+
+/* Badge Border Colors - Outline Variant */
+.variant-outline.badgeColor-white {
+    border-color: var(--color-white);
+}
+
+.variant-outline.badgeColor-gray {
+    border-color: var(--color-gray);
+}
+
+.variant-outline.badgeColor-dark-gray {
+    border-color: var(--color-dark-gray);
+}
+
+.variant-outline.badgeColor-yolk {
+    border-color: var(--color-yolk);
+}
+
+.variant-outline.badgeColor-black {
+    border-color: var(--color-black);
 }
 
 /* Label Text Colors */
@@ -56,17 +87,31 @@
 /* Interactive State */
 .interactive {
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
 }
 
-.interactive:hover {
+/* Interactive hover states for filled variant */
+.variant-filled.interactive:hover {
     background-color: var(--color-dark-gray);
     transform: translateY(-1px);
 }
 
-.interactive:active {
+.variant-filled.interactive:active {
     transform: translateY(0);
     background-color: var(--color-gray);
+}
+
+/* Interactive hover states for outline variant */
+.variant-outline.interactive:hover {
+    background-color: var(--color-dark-gray);
+    border-color: var(--color-dark-gray);
+    transform: translateY(-1px);
+}
+
+.variant-outline.interactive:active {
+    transform: translateY(0);
+    background-color: var(--color-gray);
+    border-color: var(--color-gray);
 }
 
 .interactive:focus-visible {

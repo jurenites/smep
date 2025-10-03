@@ -13,7 +13,7 @@ export type SquareLogicalSize = 'small' | 'mid';
 
 export interface UISquareProps {
     /** Current state of the square */
-    state: UISquareState;
+    squareState: UISquareState;
     /** Logical size of the square */
     logicalSize: SquareLogicalSize;
     /** Override logical size with actual pixel size (up to 2 decimal places) */
@@ -33,7 +33,7 @@ const LOGICAL_SIZE_MAP: Record<SquareLogicalSize, number> = {
 };
 
 export function UISquare({
-    state,
+    squareState,
     logicalSize,
     actualSize,
     onClick,
@@ -47,8 +47,8 @@ export function UISquare({
     // Round to 2 decimal places for actualSize
     const roundedSize = actualSize !== undefined ? Math.round(finalSize * 100) / 100 : finalSize;
 
-    // Determine if square is clickable based on state and active mode
-    const isClickable = (state === UISquareState.ACTIVE || state === UISquareState.INACTIVE) && active === 'clickable' && !!onClick;
+    // Determine if square is clickable based on squareState and active mode
+    const isClickable = (squareState === UISquareState.ACTIVE || squareState === UISquareState.INACTIVE) && active === 'clickable' && !!onClick;
 
     // Calculate dimensions based on active mode and size
     const isClickableMode = active === 'clickable';
@@ -59,7 +59,7 @@ export function UISquare({
     // Get appropriate CSS class based on state
     const getItemClassName = (): string => {
         const baseClass = (() => {
-            switch (state) {
+            switch (squareState) {
                 case UISquareState.ACTIVE:
                     return styles.squareActive;
                 case UISquareState.INACTIVE:

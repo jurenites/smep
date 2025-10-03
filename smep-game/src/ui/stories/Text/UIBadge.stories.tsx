@@ -23,7 +23,12 @@ const meta: Meta<typeof UIBadge> = {
         badgeColor: {
             control: 'select',
             options: COLOR_OPTIONS,
-            description: 'Badge background color. Avoid selecting the same color as labelColor for better contrast.',
+            description: 'Badge background color (filled) or border color (outline). Avoid selecting the same color as labelColor for better contrast.',
+        },
+        variant: {
+            control: 'select',
+            options: ['filled', 'outline'],
+            description: 'Badge style variant. Filled has background color, outline has border color.',
         },
         children: {
             control: 'text',
@@ -45,11 +50,29 @@ export const Default: Story = {
         children: 'Badge',
         labelColor: 'white',
         badgeColor: 'gray',
+        variant: 'filled',
     },
     parameters: {
         docs: {
             description: {
                 story: 'Default UIBadge component with digitSmall font and configurable label and badge colors. Choose from 5 color options (white, gray, dark-gray, yolk, black). The component will warn in console if same colors are selected for poor contrast.',
+            },
+        },
+    },
+};
+
+// Outline variant story
+export const Outline: Story = {
+    args: {
+        children: 'Outline Badge',
+        labelColor: 'white',
+        badgeColor: 'white',
+        variant: 'outline',
+    },
+    parameters: {
+        docs: {
+            description: {
+                story: 'Outline variant of UIBadge with transparent background and colored border. Uses badgeColor for border color and includes 2px padding around text.',
             },
         },
     },
