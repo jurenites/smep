@@ -1,6 +1,5 @@
 /* UILabel Component Styles */
 
-
 /* Font Variants */
 .fontTitle {
     font-family: var(--font-title);
@@ -76,9 +75,9 @@
     /* do we need a backup rile to dispaly this text? */
 }
 
-/* TODO: implement thent version of UI with no animatinon than */
+/* TODO: implement than version of UI with no animatinon i nthe future, untill then commented */
 /* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
+/* @media (prefers-reduced-motion: reduce) {
     .interactive {
         transition: none;
     }
@@ -86,11 +85,13 @@
     .interactive:hover {
         transform: none;
     }
-}
+} */
 
+/* TODO: implement hight contrast mode support */
 /* High contrast mode support */
+/*
 @media (prefers-contrast: high) {
     .label {
         text-shadow: 0 0 1px currentColor;
     }
-}
+} */

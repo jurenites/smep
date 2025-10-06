@@ -22,7 +22,8 @@ export enum ParticleMatterType {
 /**
  * Particle list enumeration for particle identification
  */
-// TODO: review do we really need this enum list? its being added again and again, i not kinda like it that much. lsit of static strings? better to move those evetntually into localisatino file.
+// NOTE: ParticleList enum is actively used throughout the codebase for type safety.
+// Consider moving particle names to localization files if internationalization is needed.
 export enum ParticleList {
     // Quarks
     UP = 'up',

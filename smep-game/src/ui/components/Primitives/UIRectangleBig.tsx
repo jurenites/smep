@@ -4,11 +4,11 @@ import { UISquareState } from '../../../lib/types';
 import styles from './UIRectangleBig.module.css';
 
 interface UIRectangleBigProps {
-    state: UISquareState;
+    rectangleState: UISquareState;
     onClick?: () => void;
 }
 
-export function UIRectangleBig({ state, onClick }: UIRectangleBigProps) {
+export function UIRectangleBig({ rectangleState, onClick }: UIRectangleBigProps) {
     const sizes = TOKENS.sizes;
 
     // Rectangle dimensions from tokens - using MID_CARD dimensions for big rectangle
@@ -28,7 +28,7 @@ export function UIRectangleBig({ state, onClick }: UIRectangleBigProps) {
     // Get CSS class based on state
     const getItemClassName = (): string => {
         const baseClass = styles.container;
-        const stateClass = styles[`rectangle${state.charAt(0).toUpperCase() + state.slice(1)}`];
+        const stateClass = styles[`rectangle${rectangleState.charAt(0).toUpperCase() + rectangleState.slice(1)}`];
         return `${baseClass} ${stateClass}`.trim();
     };
 

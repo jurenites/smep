@@ -40,14 +40,6 @@ export const TOKENS = {
             fontFamily: "'Courier New', monospace",
             fontSize: 12,
         },
-        large: {
-            fontFamily: "Roundabout-Regular, Urbanist, sans-serif",
-            fontSize: 18,
-        },
-        small: {
-            fontFamily: "Roundabout-Regular, Urbanist, sans-serif",
-            fontSize: 12,
-        },
     },
     // Sizes
     sizes: {
@@ -63,6 +55,8 @@ export const TOKENS = {
         CARD_MID_W: 83,
         CARD_MID_H: 109,
         CARD_BIG: 175,
+        CARD_BIG_W: 311,
+        CARD_BIG_H: 503,
 
         // Component sizes
         SQUARE_SMALL: 4,
@@ -98,11 +92,6 @@ export const TOKENS = {
         PLAYGROUND_SHADOW_OPACITY: 0.1, // Shadow opacity for bottom blur
         PLAYGROUND_SHADOW_OFFSET: 0.5, // Shadow offset ratio (0.5 = half radius)
 
-        // Opacity values
-        OPACITY_SUBTLE: 0.3, // Subtle opacity for borders
-        OPACITY_MEDIUM: 0.5, // Medium opacity for backgrounds
-        OPACITY_LOW: 0.2, // Low opacity for shadows
-        OPACITY_TEXT_SECONDARY: 0.7, // Secondary text opacity
     },
     // Shadows
     shadows: {
@@ -112,7 +101,7 @@ export const TOKENS = {
         boxStrong: "0 8px 32px rgba(0, 0, 0, 0.2)",
     },
 
-    // Shadow sizes
+    // Shadow sizes (electrons)
     shadowSizes: {
         SMALL: 17,
         MID: 40,
@@ -182,10 +171,6 @@ export const CSS_VARS = {
     '--font-digit-small-size': `${TOKENS.typography.digitSmall.fontSize}px`,
     '--font-code': TOKENS.typography.code.fontFamily,
     '--font-code-size': `${TOKENS.typography.code.fontSize}px`,
-    '--font-large': TOKENS.typography.large.fontFamily,
-    '--font-large-size': `${TOKENS.typography.large.fontSize}px`,
-    '--font-small': TOKENS.typography.small.fontFamily,
-    '--font-small-size': `${TOKENS.typography.small.fontSize}px`,
 
     // Sizes
     '--z-index-hud': TOKENS.zIndexes.HUD_Z_Index,
@@ -208,6 +193,8 @@ export const CSS_VARS = {
     '--size-button-height': `${TOKENS.sizes.BUTTON_HEIGHT}px`,
 
     '--size-card-big': `${TOKENS.sizes.CARD_BIG}px`,
+    '--size-card-big-w': `${TOKENS.sizes.CARD_BIG_W}px`,
+    '--size-card-big-h': `${TOKENS.sizes.CARD_BIG_H}px`,
 
     // lines sizes
     '--size-line': `${TOKENS.sizes.LINE}px`,
@@ -223,9 +210,6 @@ export const CSS_VARS = {
     // Margin sizes
     '--size-margin-small': `${TOKENS.sizes.MARGIN_SMALL}px`,
 
-    // Border radius
-    '--size-border-radius-small': `${TOKENS.sizes.BORDER_RADIUS_SMALL}px`,
-
     // Other sizes
     '--size-outline-offset': `${TOKENS.sizes.OUTLINE_OFFSET}px`,
 
@@ -237,10 +221,5 @@ export const CSS_VARS = {
     '--playground-shadow-opacity': TOKENS.sizes.PLAYGROUND_SHADOW_OPACITY,
     '--playground-shadow-offset': TOKENS.sizes.PLAYGROUND_SHADOW_OFFSET,
 
-    // Opacity values
-    '--opacity-subtle': TOKENS.sizes.OPACITY_SUBTLE,
-    '--opacity-medium': TOKENS.sizes.OPACITY_MEDIUM,
-    '--opacity-low': TOKENS.sizes.OPACITY_LOW,
-    '--opacity-text-secondary': TOKENS.sizes.OPACITY_TEXT_SECONDARY,
 
 } as const;

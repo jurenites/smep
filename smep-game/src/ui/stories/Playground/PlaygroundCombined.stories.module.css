@@ -24,8 +24,8 @@
     left: 50%;
     transform: translate(-50%, -50%);
     color: var(--color-white);
-    font-family: var(--font-large);
-    font-size: var(--font-large-size);
+    font-family: var(--font-title);
+    font-size: var(--font-title-size);
     text-align: center;
     pointer-events: auto;
     background: rgba(0, 0, 0, var(--opacity-medium));

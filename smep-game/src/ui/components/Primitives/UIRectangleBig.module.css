@@ -6,7 +6,8 @@
     line-height: 0;
     vertical-align: top;
     background-color: transparent;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    transition: all 0.3s ease-in-out, background-color 0.2s ease, transform 0.1s ease;
+    box-sizing: border-box;
 }
 
 /* Cursor states */
@@ -18,12 +19,18 @@
     cursor: default;
 }
 
+/* SVG container styles */
+.container svg {
+    transition: all 0.3s ease-in-out;
+    display: block;
+}
+
 /* Rectangle styles for different states */
 .container rect {
     fill: var(--color-gray);
     stroke: var(--color-gray);
     stroke-width: 1;
-    transition: fill 0.2s ease, stroke 0.2s ease, transform 0.1s ease;
+    transition: fill 0.3s ease-in-out, stroke 0.3s ease-in-out, transform 0.1s ease;
 }
 
 /* Active state */
@@ -40,8 +47,8 @@
 
 /* Disabled state */
 .rectangleDisabled rect {
-    fill: var(--color-dark-gray);
-    stroke: var(--color-dark-gray);
+    fill: var(--color-transparent);
+    stroke: var(--color-gray);
 }
 
 /* Hover effects for interactive states */
@@ -83,8 +90,8 @@
 }
 
 .rectangleDisabled:hover rect {
-    fill: var(--color-dark-gray);
-    stroke: var(--color-dark-gray);
+    fill: var(--color-transparent);
+    stroke: var(--color-gray);
 }
 
 /* Responsive behavior */

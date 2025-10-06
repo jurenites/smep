@@ -1,9 +1,28 @@
 /* UICard Component Styles */
 
+/* CSS Custom Properties for flexible color management:
+ * --card-background-color: Main background color (default: var(--color-dark-gray))
+ * --card-border-color: Border color (default: var(--color-gray))
+ * --card-hover-background-color: Hover background color (default: var(--color-gray))
+ * --card-hover-border-color: Hover border color (default: var(--color-white))
+ * --card-disabled-background-color: Disabled background color (default: var(--color-dark-gray))
+ * --card-disabled-border-color: Disabled border color (default: var(--color-gray))
+ * 
+ * Usage: Set these properties on the UICard component to customize colors
+ * Example: style={{ '--card-background-color': '#custom-color' }}
+ */
+
 /* Rectangle shape styles */
 .rectangleContainer {
     position: relative;
     display: inline-block;
+    /* Smooth transitions for size changes */
+    transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+    /* Dynamic sizing will be controlled by CSS custom properties */
+    width: var(--card-width, var(--size-card-small));
+    height: var(--card-height, var(--size-card-small));
+    /* Prevent shadows from going beyond card boundaries */
+    overflow: hidden;
 }
 
 .contentContainer {
@@ -17,23 +36,21 @@
     gap: 0px;
     width: 100%;
     height: 100%;
-    z-index: 1;
-    overflow: hidden;
-    background-color: var(--color-dark-gray);
-    box-shadow: inset 0 0 0 1px var(--color-white);
+    z-index: 2;
 }
 
-/* When particle is shown, push content to bottom */
-.withParticle {
+/* When circle is shown, push content to bottom */
+.withCircle {
     justify-content: end;
 }
 
-/* When no particle, center the label */
-.withoutParticle {
+/* When no circle, center the label */
+.withoutCircle {
     justify-content: center;
 }
 
-.particleAbove {
+/* TODO: check this , do we really usi it for something, seems obsolete*/
+.circleAbove {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -48,7 +65,6 @@
     text-shadow: var(--shadow-text-subtle);
     text-align: center;
     line-height: 1;
-    transform: translateY(-3px);
     /* Let UILabel handle font-size, font-family, and color through its own classes */
 }
 
@@ -57,43 +73,62 @@
 /* Size-specific containers */
 .bigContainer {
     width: 100%;
-    max-width: 311px;
+    max-width: var(--size-card-big-w);
     margin: 0 auto;
-    padding: 0 23px;
+    padding: 0 var(--size-padding-large);
+    /* Smooth transitions for size changes */
+    transition: max-width 0.3s ease-in-out, padding 0.3s ease-in-out;
+    /* Prevent shadows from going beyond card boundaries */
+    overflow: hidden;
 }
 
 .bigCardShape {
     width: 100%;
-    height: 503px;
-    border: var(--size-line) solid var(--color-white);
-    border-radius: var(--size-border-radius);
-    background-color: var(--color-dark-gray);
+    height: var(--size-card-big-h);
+    border: var(--size-line) solid var(--card-border-color, var(--color-gray));
+    border-radius: var(--size-border-radius-small);
+    background-color: var(--card-background-color, #232323);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease-in-out, width 0.3s ease-in-out, height 0.3s ease-in-out;
     position: relative;
     box-sizing: border-box;
+    /* Prevent shadows from going beyond card boundaries */
+    overflow: hidden;
 }
 
 .bigCardShape:hover {
-    border-color: var(--color-white);
-    background-color: var(--color-gray);
+    border-color: var(--card-hover-border-color, var(--color-white));
+    background-color: var(--card-hover-background-color, var(--color-gray));
 }
 
 .bigCardShape:active {
     transform: translateY(1px);
 }
 
-/* Disabled state for big cards */
+/* Disabled state for all card sizes */
+.disabled {
+    cursor: default !important;
+    filter: grayscale(50%);
+    pointer-events: none;
+
+}
+
+/* Disabled state for big card specifically */
 .bigCardShape.disabled {
-    border-color: var(--color-gray);
-    background-color: var(--color-dark-gray);
-    cursor: default;
+    border-color: var(--card-disabled-border-color, var(--color-gray));
+    background-color: var(--card-disabled-background-color, #232323);
 }
 
 .bigCardShape.disabled:hover {
-    border-color: var(--color-gray);
-    background-color: var(--color-dark-gray);
+    border-color: var(--card-disabled-border-color, var(--color-gray));
+    background-color: var(--card-disabled-background-color, #232323);
     transform: none;
+}
+
+/* Disabled state for small and mid cards */
+.cardWrapper.disabled {
+    /* Inherits from .disabled class above - no additional styles needed */
+    opacity: 0.7;
 }
 
 .bigContentContainer {
@@ -108,19 +143,110 @@
 }
 
 /* Additional styling for mid-size content if needed */
-/*.midContentContainer {
-   
-}*/
+/* .midContentContainer {
+    // Future mid-size specific styles can be added here
+} */
 
-/* Additional responsive adjustments */
-/*
-@media (max-width: 768px) {
-    .bigContainer {
-        max-width: 280px;
-        padding: 0 16px;
-    }
+/* Card wrapper for small and mid sizes */
+.cardWrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-sizing: border-box;
+    /* Prevent shadows from going beyond card boundaries */
+    overflow: hidden;
+    /* Normal state background - using CSS custom properties for flexibility */
+    background-color: var(--card-background-color, #232323);
+    /* Ensure background is visible behind shape components */
+    z-index: 0;
+}
 
-    .bigCardShape {
-        height: 450px;
-    }
-}*/
+/* TODO: cleanup this fime from direct addressing to HEX codes and repalce with tikens*/
+/* Override shape component backgrounds to ensure card background shows */
+.cardWrapper :global(.container) {
+    background-color: #232323 !important;
+}
+
+.cardWrapper :global(svg) {
+    background-color: #232323 !important;
+}
+
+/* More aggressive overrides to force dark background */
+.cardWrapper :global(.container),
+.cardWrapper :global(.container svg),
+.cardWrapper :global(.container rect) {
+    background-color: #232323 !important;
+    fill: #232323 !important;
+}
+
+/* Override UISquare active state to use card background instead of white */
+.cardWrapper :global(.squareActive rect) {
+    fill: var(--card-background-color, #232323) !important;
+    stroke: var(--card-border-color, var(--color-gray)) !important;
+}
+
+.cardWrapper :global(.squareInactive rect) {
+    fill: var(--card-background-color, #232323) !important;
+    stroke: var(--card-border-color, var(--color-gray)) !important;
+}
+
+/* Hover states for UICard squares */
+.cardWrapper :global(.squareActive:hover rect) {
+    fill: var(--card-hover-background-color, var(--color-gray)) !important;
+    stroke: var(--card-hover-border-color, var(--color-white)) !important;
+}
+
+.cardWrapper :global(.squareInactive:hover rect) {
+    fill: var(--card-hover-background-color, var(--color-gray)) !important;
+    stroke: var(--card-hover-border-color, var(--color-white)) !important;
+}
+
+/* Override any potential white backgrounds from UISquare */
+.cardWrapper :global(.squareActive) {
+    background-color: #232323 !important;
+}
+
+.cardWrapper :global(.squareInactive) {
+    background-color: #232323 !important;
+}
+
+/* Nuclear option - force all elements inside cardWrapper to have dark background */
+.cardWrapper * {
+    background-color: #232323 !important;
+}
+
+.cardWrapper * rect {
+    fill: #232323 !important;
+}
+
+/* Specific override for the exact UICard structure */
+.rectangleContainer .cardWrapper,
+.rectangleContainer .cardWrapper *,
+.rectangleContainer .cardWrapper * rect {
+    background-color: #232323 !important;
+    fill: #232323 !important;
+}
+
+/* Size-specific card dimensions for smooth transitions */
+.cardSizeSmall {
+    --card-width: var(--size-card-small);
+    --card-height: var(--size-card-small);
+}
+
+.cardSizeMid {
+    --card-width: var(--size-card-mid-w);
+    --card-height: var(--size-card-mid-h);
+}
+
+.cardSizeBig {
+    --card-width: var(--size-card-big-w);
+    --card-height: var(--size-card-big-h);
+}
+
+/* Disabled particle styling */
+.disabledParticle {
+    /* TODO: convert it to actual allowed colors from palette */
+    filter: grayscale(100%);
+}

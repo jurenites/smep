@@ -4,7 +4,8 @@ import { UICard } from '../components/UICard/UICard';
 import { UIPaginationGrid } from '../components/Paginators/UIPaginationGrid';
 import { UIRuler } from '../components/Elements/UIRuler';
 import { useGameStore } from '../../lib/game-state';
-import { ParticleList, UICardState } from '../../lib/types';
+import { UICardState } from '../../lib/types';
+import { ParticleList } from '../../lib/data/particle-quantum.data';
 import styles from './ScreenPlayground.module.css';
 
 export function ScreenPlayground() {

@@ -110,6 +110,15 @@
     will-change: transform, grid-column, grid-row;
 }
 
+/* UICard grid for clickable mode */
+.uicardGrid {
+    display: grid;
+    gap: 1px;
+    padding: 0px;
+    /*min-width: 200px;
+    min-height: 200px;*/
+}
+
 /* Responsive adjustments */
 @media (max-width: 1200px) {
     .periodicTableWrapper[data-view-mode="long"] .blockPositioner {

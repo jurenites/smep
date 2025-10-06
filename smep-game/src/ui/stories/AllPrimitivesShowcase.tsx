@@ -1,8 +1,8 @@
-import { UICard } from '../components/UICard/UICard';
+import { UICard, UICardState } from '../components/UICard/UICard';
 import { UIPaginationGrid } from '../components/Paginators/UIPaginationGrid';
 import { UIPaginationBig } from '../components/Paginators/UIPaginationBig';
 import { UIRuler } from '../components/Elements/UIRuler';
-import { UICardState, PaginationState } from '../../lib/types';
+import { PaginationState } from '../../lib/types';
 import styles from './AllPrimitivesShowcase.module.css';
 
 export function AllPrimitivesShowcase() {

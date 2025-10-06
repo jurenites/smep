@@ -138,7 +138,6 @@ enum ButtonState {
 | Mini Paginator | UIPaginationGrid | 4px squares, configurable grid dimensions (gridCols, gridRows), supports state and clickable properties, activeIndex optional (defaults to 1) |
 | Small Square | UISquareSmall | Individual 4x4 square component with unified state enum (ACTIVE, INACTIVE, DISABLED, ERROR, LOCKED) |
 | Pagination Service | paginationService | Centralized pagination state and event management |
-| Pagination Hook | usePagination | React hook for easy pagination integration |
 | Slider Paginator | UISliderPaginator | Hybrid: Small Card as active, Mini Paginator as rest |
 
 ```ts
@@ -174,9 +173,8 @@ The pagination system provides a higher-level abstraction for managing page navi
 - **UIPaginationGrid**: Low-level UI component for rendering pagination squares with configurable grid dimensions
 - **UISquareSmall**: Individual 4x4 square component with unified state enum (ACTIVE, INACTIVE, DISABLED, ERROR, LOCKED)
 
-#### Services & Hooks
+#### Services
 - **paginationService**: Centralized service managing pagination contexts and events
-- **usePagination**: React hook for easy integration with pagination functionality
 
 #### Event System
 - **PAGE_CHANGED**: Fired when user navigates to a different page
@@ -207,18 +205,18 @@ The pagination system provides a higher-level abstraction for managing page navi
 />
 
 // Using the hook
-const {
-    currentPageIndex,
-    changePage,
-    goToNextPage,
-    goToPreviousPage
-} = usePagination({
-    contextId: 'my-pagination',
-    pages: [...],
-    onPageChange: (pageIndex, event) => {
-        // Handle page change
-    }
-});
+// Use paginationService directly for pagination functionality
+const context = paginationService.getContext('my-pagination');
+const currentPageIndex = context?.currentPageIndex ?? 1;
+const changePage = (pageIndex: number) => paginationService.changePage('my-pagination', pageIndex);
+const goToNextPage = () => {
+    const nextPage = (context?.currentPageIndex ?? 1) + 1;
+    return nextPage <= (context?.totalPages ?? 0) ? changePage(nextPage) : false;
+};
+const goToPreviousPage = () => {
+    const prevPage = (context?.currentPageIndex ?? 1) - 1;
+    return prevPage >= 1 ? changePage(prevPage) : false;
+};
 ```
 
 ### Tables

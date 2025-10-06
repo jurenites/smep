@@ -1,19 +1,17 @@
 import { useState, useCallback, useEffect } from 'react';
 import { UIPaginationGrid } from './UIPaginationGrid';
+import { UICard, ParticleLevel, UICardState } from '../UICard/UICard';
 import { UILabel } from '../Text/UILabel';
 import { gridPaginationService } from '../../../lib/grid-pagination-service';
 import { PaginationState } from '../../../lib/types';
-import { getElementsByBlock } from '../../../lib/data/particle-atomic.data';
+import { getElementsByBlock } from '../../../lib/data';
 import styles from './UIPeriodicTableBlocks.module.css';
 
-// TESTING CONSTANT - Remove this when implementing real game mechanics
-// This makes every element with atomic number > 50 invisible (not researched yet)
-const HIDE_ELEMENTS_BEYOND_50_FOR_TESTING = true;
 
 interface UIPeriodicTableBlocksProps {
     viewMode: 'long' | 'short';
     onPageChange?: (position: { x: number; y: number }, event: any) => void;
-    active?: 'clickable' | 'only view';
+    interactionMode?: 'clickable' | 'only view';
     activeIndex?: number; // 1-based atomic number to highlight
 }
 
@@ -21,27 +19,18 @@ interface BlockGridProps {
     elements: any[];
     blockName: string;
     onPageChange?: (position: { x: number; y: number }, event: any) => void;
-    active?: 'clickable' | 'only view';
+    interactionMode?: 'clickable' | 'only view';
     activeElementId: string; // Always has a value - never null
     onElementClick?: (elementId: string) => void;
 }
 
-function BlockGrid({ elements, blockName, onPageChange, active, activeElementId, onElementClick }: BlockGridProps) {
+function BlockGrid({ elements, blockName, onPageChange, interactionMode, activeElementId, onElementClick }: BlockGridProps) {
     // Convert elements to grid pages
     const pages = elements.map(element => {
-        // Determine if element should be invisible (not researched yet)
-        //TODO fix the posiitoning of D-block its off grid.
-        const isInvisible = HIDE_ELEMENTS_BEYOND_50_FOR_TESTING && element.atomicNumber > 20;
-
-        // Determine element state
-        let state: PaginationState;
-        if (isInvisible) {
-            state = PaginationState.INVISIBLE; // Hidden from user - not researched yet
-        } else if (activeElementId === element.symbol) {
-            state = PaginationState.ACTIVE; // If this element is the active one, it's always ACTIVE
-        } else {
-            state = PaginationState.INACTIVE; // All other elements are inactive
-        }
+        // Determine element state based on whether it's the active element
+        const state = activeElementId === element.symbol
+            ? PaginationState.ACTIVE
+            : PaginationState.INACTIVE;
 
         return {
             id: element.symbol, // Use symbol as id
@@ -58,19 +47,13 @@ function BlockGrid({ elements, blockName, onPageChange, active, activeElementId,
         };
     });
 
-    // Calculate grid dimensions for this block based only on visible elements
-    const visibleElements = elements.filter(el => {
-        const isInvisible = HIDE_ELEMENTS_BEYOND_50_FOR_TESTING && el.atomicNumber > 50;
-        return !isInvisible;
-    });
-
-    // If no visible elements, use minimal dimensions
-    const dimensions = visibleElements.length > 0
+    // Calculate grid dimensions for this block based on all elements
+    const dimensions = elements.length > 0
         ? {
-            width: Math.max(...visibleElements.map(el => el.position.x)) + 1,
-            height: Math.max(...visibleElements.map(el => el.position.y)) + 1
+            width: Math.max(...elements.map(el => el.position.x)) + 1,
+            height: Math.max(...elements.map(el => el.position.y)) + 1
         }
-        : { width: 1, height: 1 }; // Minimal dimensions when no visible elements
+        : { width: 1, height: 1 }; // Minimal dimensions when no elements
 
     // Find the active element's position for this block
     const activeElement = elements.find(el => el.symbol === activeElementId);
@@ -116,15 +99,67 @@ function BlockGrid({ elements, blockName, onPageChange, active, activeElementId,
         }
     }, [elements, onElementClick, onPageChange]);
 
-    return (
-        <div className={styles.blockContainer} data-block={blockName}>
-            <UIPaginationGrid
-                context={context}
-                onGridPageChange={handleElementClick}
-                active={active}
-            />
-        </div>
-    );
+    // Render UICards when in clickable mode, otherwise use UIPaginationGrid
+    const renderContent = () => {
+        if (interactionMode === 'clickable') {
+            return (
+                <div className={styles.blockContainer} data-block={blockName}>
+                    <div className={styles.uicardGrid} style={{
+                        display: 'grid',
+                        gridTemplateColumns: `repeat(${dimensions.width}, 1fr)`,
+                        gridTemplateRows: `repeat(${dimensions.height}, 1fr)`,
+                        gap: '4px',
+                        padding: '8px',
+                        width: `${dimensions.width * 60}px`,
+                        height: `${dimensions.height * 80}px`
+                    }}>
+                        {elements.map((element) => (
+                            <div
+                                key={element.symbol}
+                                style={{
+                                    gridColumn: element.position.x + 1,
+                                    gridRow: element.position.y + 1,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                            >
+                                <UICard
+                                    textSymbol={element.symbol}
+                                    logicalSize="small"
+                                    cardState={activeElementId === element.symbol ? UICardState.NORMAL : UICardState.NORMAL}
+                                    showParticle={true}
+                                    particleLevel={ParticleLevel.ATOMIC}
+                                    particleType={element.symbol}
+                                    onClick={() => {
+                                        if (onElementClick) {
+                                            onElementClick(element.symbol);
+                                        }
+                                        if (onPageChange) {
+                                            onPageChange(element.position, null);
+                                        }
+                                    }}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        // Default view mode with UIPaginationGrid
+        return (
+            <div className={styles.blockContainer} data-block={blockName}>
+                <UIPaginationGrid
+                    context={context}
+                    onGridPageChange={handleElementClick}
+                    active={interactionMode}
+                />
+            </div>
+        );
+    };
+
+    return renderContent();
 }
 
 // Reusable function to render block grids with common props
@@ -132,7 +167,7 @@ function renderBlockGrids(
     blockElements: any,
     commonProps: {
         onPageChange?: (position: { x: number; y: number }, event: any) => void;
-        active?: 'clickable' | 'only view';
+        interactionMode?: 'clickable' | 'only view';
         displayElementId: string;
         handleElementClick: (elementId: string) => void;
     },
@@ -144,7 +179,7 @@ function renderBlockGrids(
             elements={blockElements[blockName]}
             blockName={blockName}
             onPageChange={commonProps.onPageChange}
-            active={commonProps.active}
+            interactionMode={commonProps.interactionMode}
             activeElementId={commonProps.displayElementId}
             onElementClick={commonProps.handleElementClick}
         />
@@ -154,7 +189,7 @@ function renderBlockGrids(
 export function UIPeriodicTableBlocks({
     viewMode,
     onPageChange,
-    active = 'only view',
+    interactionMode = 'only view',
     activeIndex = 1 // Default to Hydrogen (atomic number 1) - always has at least one active element
 }: UIPeriodicTableBlocksProps) {
     // Get elements for each block - note: positions are the same regardless of viewMode
@@ -165,53 +200,11 @@ export function UIPeriodicTableBlocks({
     const allElements = blockElements.s
         .concat(blockElements.p, blockElements.d, blockElements.f);
 
-    // Helper function to check if an element is invisible
-    const isElementInvisible = (element: any): boolean => {
-        return HIDE_ELEMENTS_BEYOND_50_FOR_TESTING && element.atomicNumber > 50;
-    };
-
-    // Helper function to find the next available (non-invisible) element
-    // Smart navigation: if target element is invisible, automatically jump to next available element
-    const findNextAvailableElement = (targetAtomicNumber: number): any => {
-        // First, try to find the target element
-        const targetElement = allElements.find(el => el.atomicNumber === targetAtomicNumber);
-
-        // If target element exists and is not invisible, use it
-        if (targetElement && !isElementInvisible(targetElement)) {
-            return targetElement;
-        }
-
-        // If target element is invisible or doesn't exist, find the next available element
-        // Look for elements with atomic number >= targetAtomicNumber
-        const availableElements = allElements.filter(el =>
-            el.atomicNumber >= targetAtomicNumber && !isElementInvisible(el)
-        );
-
-        if (availableElements.length > 0) {
-            // Return the element with the smallest atomic number >= target
-            return availableElements.reduce((prev, current) =>
-                prev.atomicNumber < current.atomicNumber ? prev : current
-            );
-        }
-
-        // If no elements found after target, look backwards for any available element
-        const allAvailableElements = allElements.filter(el => !isElementInvisible(el));
-        if (allAvailableElements.length > 0) {
-            // Return the element with the largest atomic number (closest to target going backwards)
-            return allAvailableElements.reduce((prev, current) =>
-                prev.atomicNumber > current.atomicNumber ? prev : current
-            );
-        }
-
-        // Fallback: return first element (should never happen as we ensure at least one element)
-        return allElements[0];
-    };
-
-    // Find the element symbol based on atomic number (activeIndex) with smart navigation
-    // Always ensure at least one element is active - default to first available element if no valid activeIndex
+    // Find the element symbol based on atomic number (activeIndex)
+    // Default to Hydrogen (atomic number 1) if no valid activeIndex provided
     const targetAtomicNumber = activeIndex && activeIndex > 0 ? activeIndex : 1;
-    const targetElement = findNextAvailableElement(targetAtomicNumber);
-    const activeElementId = targetElement.symbol;
+    const targetElement = allElements.find(el => el.atomicNumber === targetAtomicNumber);
+    const activeElementId = targetElement ? targetElement.symbol : allElements[0].symbol;
 
     // State for managing the single active element (for click interactions)
     const [clickedElementId, setClickedElementId] = useState<string>(activeElementId);
@@ -233,7 +226,7 @@ export function UIPeriodicTableBlocks({
     // Common props for all block grids
     const commonBlockProps = {
         onPageChange,
-        active,
+        interactionMode,
         displayElementId,
         handleElementClick
     };

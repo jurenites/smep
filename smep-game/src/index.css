@@ -145,3 +145,8 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--color-light-gray);
 }
+
+/* Error message styling */
+#error-message {
+    color: #ff4400;
+}

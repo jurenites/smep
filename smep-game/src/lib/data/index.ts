@@ -8,28 +8,32 @@
 // Export Game related constants
 export { GAME_CONSTANTS, type GameConstants } from '../data/game-constants.data';
 
+// Export types from particle-atomic.data
+export type {
+    PeriodicElement,
+    AtomicProperties,
+    AtomicRenderConfig,
+    AtomicPhysicsConfig,
+    AtomicTablePosition,
+    PeriodicTableLayout,
+    BlockLayout,
+    DisplayPosition,
+    ElementDisplayMapping,
+    PeriodicElementWithPosition,
+    PeriodicTableData,
+} from './particle-atomic.data';
+
 // Particle Atomic Data - Complete periodic table functionality
 export {
-    // Core data and types
+    // Core data
     PERIODIC_TABLE_DATA,
     PERIODIC_TABLE_ELEMENTS, // Legacy compatibility
-    type PeriodicElement,
-    type AtomicProperties,
-    type AtomicRenderConfig,
-    type AtomicPhysicsConfig,
-    type AtomicTablePosition,
 
-    // Layout definitions and types
+    // Layout definitions
     LONG_FORM_LAYOUT,
     SHORT_FORM_LAYOUT,
     PERIODIC_TABLE_LAYOUTS,
     PERIODIC_TABLE_GRID_DIMENSIONS,
-    type PeriodicTableLayout,
-    type BlockLayout,
-    type DisplayPosition,
-    type ElementDisplayMapping,
-    type PeriodicElementWithPosition,
-    type PeriodicTableData,
 
     // Block-specific element collections
     S_BLOCK_ELEMENTS,
@@ -60,10 +64,7 @@ export {
 
     // Legacy compatibility functions
     createPeriodicTableData,
-    getElementsByShellGroupWithLayout,
-
-    // Legacy type alias
-    type PeriodicElement as ParticleAtomicData
+    getElementsByShellGroupWithLayout
 } from './particle-atomic.data';
 
 // Particle Physics Data
@@ -90,6 +91,11 @@ export {
     getFormattedParticleSymbolByType,
     isAntiparticleByType,
     ParticleMatterType,
-    ParticleList,
-    type ParticleQuantumData
+    ParticleList
 } from './particle-quantum.data';
+
+// Export types from particle-quantum.data
+export type { ParticleQuantumData } from './particle-quantum.data';
+
+// Legacy type alias
+export type { PeriodicElement as ParticleAtomicData } from './particle-atomic.data';
