@@ -1,5 +1,6 @@
 import React from 'react';
 import { TOKENS } from '../../tokens/tokens';
+import { UITooltip } from '../Text/UITooltip';
 import styles from './UISquare.module.css';
 
 export enum UISquareState {
@@ -24,6 +25,8 @@ export interface UISquareProps {
     children?: React.ReactNode;
     /** Display mode for the square */
     active?: 'clickable' | 'only view';
+    /** Tooltip configuration */
+    tooltipContent?: string;
 }
 
 // Logical size to pixel size mapping
@@ -38,7 +41,8 @@ export function UISquare({
     actualSize,
     onClick,
     children,
-    active = 'clickable'
+    active = 'clickable',
+    tooltipContent
 }: UISquareProps) {
 
     // Calculate final size: use actualSize if provided, otherwise use logical size
@@ -49,12 +53,6 @@ export function UISquare({
 
     // Determine if square is clickable based on squareState and active mode
     const isClickable = (squareState === UISquareState.ACTIVE || squareState === UISquareState.INACTIVE) && active === 'clickable' && !!onClick;
-
-    // Calculate dimensions based on active mode and size
-    const isClickableMode = active === 'clickable';
-    const svgSize = isClickableMode ? roundedSize : roundedSize; // Same size for both modes in unified component
-    const rectSize = roundedSize; // Always use the calculated size for the rect
-    const centerOffset = isClickableMode ? 0 : 0; // No centering needed since svg and rect are same size
 
     // Get appropriate CSS class based on state
     const getItemClassName = (): string => {
@@ -81,62 +79,37 @@ export function UISquare({
         return baseClass;
     };
 
-    // Render the square content
-    const renderContent = () => {
-        // Square with offset on half pixel because SVG draws 1px solid line center, not inner
-        return (
-            <rect
-                x={centerOffset + 0.5}
-                y={centerOffset + 0.5}
-                width={rectSize - 1}
-                height={rectSize - 1}
-            />
-        );
-    };
-
-    // Render optional children content with flexible positioning
-    const renderChildren = () => {
-        if (!children) return null;
-
-        return (
-            <foreignObject
-                x={centerOffset + 2} // Reduced padding for better content fit
-                y={centerOffset + 2}
-                width={rectSize - 4}
-                height={rectSize - 4}
-            >
-                <div className={styles.contentContainer}>
-                    {children}
-                </div>
-            </foreignObject>
-        );
-    };
-
     // Create dynamic styles for size transitions
     const dynamicStyles: React.CSSProperties = {
         width: `${roundedSize}px`,
         height: `${roundedSize}px`,
     };
 
-    return (
+    const squareElement = (
         <div
-            className={`${styles.container} ${styles[`size-${logicalSize.toLowerCase()}`]}`}
+            className={`${styles.container} ${getItemClassName()} ${styles[`size-${logicalSize.toLowerCase()}`]}`}
             style={dynamicStyles}
+            onClick={isClickable ? onClick : undefined}
             data-logical-size={logicalSize}
             data-actual-size={actualSize}
             data-active={active}
         >
-            <svg
-                width={svgSize}
-                height={svgSize}
-                viewBox={`0 0 ${svgSize} ${svgSize}`}
-                preserveAspectRatio="xMidYMid meet"
-                onClick={isClickable ? onClick : undefined}
-                className={getItemClassName()}
-            >
-                {renderContent()}
-                {renderChildren()}
-            </svg>
+            {children && (
+                <div className={styles.contentContainer}>
+                    {children}
+                </div>
+            )}
         </div>
     );
+
+    // Wrap with tooltip if tooltipContent is provided
+    if (tooltipContent) {
+        return (
+            <UITooltip content={tooltipContent} position="top" delay={1000}>
+                {squareElement}
+            </UITooltip>
+        );
+    }
+
+    return squareElement;
 }

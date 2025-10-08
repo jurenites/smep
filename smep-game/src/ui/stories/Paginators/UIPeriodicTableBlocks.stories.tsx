@@ -33,24 +33,8 @@ const meta: Meta<typeof UIPeriodicTableBlocks> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Default story - Only view mode
-export const OnlyView: Story = {
-    args: {
-        viewMode: 'long',
-        interactionMode: 'only view',
-        activeIndex: 1,
-    },
-    parameters: {
-        docs: {
-            description: {
-                story: 'Default UIPeriodicTableBlocks in "only view" mode showing UISquares with standard periodic table layout.',
-            },
-        },
-    },
-};
-
-// Clickable mode story - shows UICards
-export const Clickable: Story = {
+// Default story showing the periodic table blocks component
+export const Default: Story = {
     args: {
         viewMode: 'long',
         interactionMode: 'clickable',
@@ -59,39 +43,7 @@ export const Clickable: Story = {
     parameters: {
         docs: {
             description: {
-                story: 'UIPeriodicTableBlocks in "clickable" mode showing UICards with atomic particle data. Each card displays the element symbol and can be clicked to navigate to detail views.',
-            },
-        },
-    },
-};
-
-// Short view mode with clickable
-export const ClickableShortView: Story = {
-    args: {
-        viewMode: 'short',
-        interactionMode: 'clickable',
-        activeIndex: 26, // Iron
-    },
-    parameters: {
-        docs: {
-            description: {
-                story: 'UIPeriodicTableBlocks in "clickable" mode with short view layout. F-block elements are positioned below the main row.',
-            },
-        },
-    },
-};
-
-// Interactive demo with different active elements
-export const InteractiveDemo: Story = {
-    args: {
-        viewMode: 'long',
-        interactionMode: 'clickable',
-        activeIndex: 1, // Start with Hydrogen
-    },
-    parameters: {
-        docs: {
-            description: {
-                story: 'Interactive demo showing clickable UICards. Use the Controls tab to change the active element and see how the highlighting works.',
+                story: 'UIPeriodicTableBlocks component displaying the periodic table in blocks. Use the Controls tab to switch between view modes (long/short), interaction modes (clickable/only view), and change the active element by atomic number.',
             },
         },
     },

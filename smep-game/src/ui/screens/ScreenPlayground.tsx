@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { UISurface, UIPlayground } from '../components/Playground';
-import { UICard } from '../components/UICard/UICard';
+import { UICard } from '../components/Cards/UICard';
 import { UIPaginationGrid } from '../components/Paginators/UIPaginationGrid';
 import { UIRuler } from '../components/Elements/UIRuler';
 import { useGameStore } from '../../lib/game-state';

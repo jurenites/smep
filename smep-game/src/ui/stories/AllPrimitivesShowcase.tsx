@@ -1,4 +1,4 @@
-import { UICard, UICardState } from '../components/UICard/UICard';
+import { UICard, UICardState } from '../components/Cards/UICard';
 import { UIPaginationGrid } from '../components/Paginators/UIPaginationGrid';
 import { UIPaginationBig } from '../components/Paginators/UIPaginationBig';
 import { UIRuler } from '../components/Elements/UIRuler';

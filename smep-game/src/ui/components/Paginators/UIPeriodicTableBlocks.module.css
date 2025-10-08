@@ -110,13 +110,22 @@
     will-change: transform, grid-column, grid-row;
 }
 
-/* UICard grid for clickable mode */
-.uicardGrid {
+/* Unified element grid for both modes */
+.elementGrid {
     display: grid;
     gap: 1px;
-    padding: 0px;
-    /*min-width: 200px;
-    min-height: 200px;*/
+    padding: 0;
+    width: fit-content;
+    height: fit-content;
+}
+
+/* Individual element cell for both UICard and UISquare */
+.elementCell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Responsive adjustments */

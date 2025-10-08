@@ -10,7 +10,7 @@ const meta: Meta<typeof UIRectangleBig> = {
     },
     tags: ['autodocs'],
     argTypes: {
-        state: {
+        rectangleState: {
             control: 'select',
             options: Object.values(UISquareState),
             description: 'Current state of the rectangle',
@@ -28,6 +28,6 @@ type Story = StoryObj<typeof meta>;
 // Default story
 export const Default: Story = {
     args: {
-        state: UISquareState.ACTIVE,
+        rectangleState: UISquareState.ACTIVE,
     },
 };

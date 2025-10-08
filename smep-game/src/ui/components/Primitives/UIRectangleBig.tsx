@@ -1,4 +1,3 @@
-import React from 'react';
 import { TOKENS } from '../../tokens/tokens';
 import { UISquareState } from '../../../lib/types';
 import styles from './UIRectangleBig.module.css';
@@ -15,12 +14,9 @@ export function UIRectangleBig({ rectangleState, onClick }: UIRectangleBigProps)
     const rectWidth = sizes.CARD_MID_W;  // 83px
     const rectHeight = sizes.CARD_MID_H; // 109px
 
-    // SVG container size - use exact rectangle dimensions for precise sizing
-    const svgSize = Math.max(rectWidth, rectHeight); // 109px (no extra padding)
-
-    // Calculate center offset to center the rectangle within the SVG
-    const centerOffsetX = Math.round((svgSize - rectWidth) / 2);
-    const centerOffsetY = Math.round((svgSize - rectHeight) / 2);
+    // SVG container size - use exact rectangle dimensions (no centering needed)
+    const svgWidth = rectWidth;
+    const svgHeight = rectHeight;
 
     // Determine if the rectangle is clickable
     const isClickable = !!onClick;
@@ -37,8 +33,8 @@ export function UIRectangleBig({ rectangleState, onClick }: UIRectangleBigProps)
         // Rectangle with offset on half pixel because SVG draws 1px solid line center, not inner
         return (
             <rect
-                x={centerOffsetX + 0.5}
-                y={centerOffsetY + 0.5}
+                x={0.5}
+                y={0.5}
                 width={rectWidth - 1}
                 height={rectHeight - 1}
             />
@@ -54,9 +50,9 @@ export function UIRectangleBig({ rectangleState, onClick }: UIRectangleBigProps)
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width={svgSize}
-                height={svgSize}
-                viewBox={`0 0 ${svgSize} ${svgSize}`}
+                width={svgWidth}
+                height={svgHeight}
+                viewBox={`0 0 ${svgWidth} ${svgHeight}`}
                 preserveAspectRatio="xMidYMid meet"
                 className={isClickable ? styles.cursorPointer : styles.cursorDefault}
             >

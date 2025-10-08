@@ -12,47 +12,24 @@
     position: relative;
     box-sizing: border-box;
     transform-origin: center;
-}
-
-/* Size-specific container styles */
-.size-small {
-    /* Small size specific styles if needed */
-}
-
-.size-mid {
-    /* Mid size specific styles if needed */
-}
-
-/* SVG container styles */
-.container svg {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: block;
-}
-
-/* Square rect styles for different states */
-.container rect {
-    fill: var(--color-gray);
-    stroke: var(--color-gray);
-    stroke-width: 1;
-    transition: fill 0.2s ease, stroke 0.2s ease, transform 0.1s ease;
+    border: 1px solid var(--color-gray);
 }
 
 /* Active state */
-.squareActive rect {
-    fill: var(--color-white);
-    stroke: var(--color-white);
+.squareActive {
+    cursor: pointer;
+    border-color: var(--color-white);
 }
 
 /* Inactive state */
-.squareInactive rect {
-    fill: var(--color-gray);
-    stroke: var(--color-gray);
+.squareInactive {
+    cursor: pointer;
+    border-color: var(--color-gray);
 }
 
 /* Disabled state */
-.squareDisabled rect {
-    fill: var(--color-transparent);
-    stroke: var(--color-gray);
+.squareDisabled {
+    border-color: var(--color-gray);
 }
 
 /* Hidden state - completely hidden from view */
@@ -68,49 +45,18 @@
     pointer-events: none !important;
 }
 
-.squareHidden rect {
-    fill: transparent !important;
-    stroke: transparent !important;
-    opacity: 0 !important;
-}
-
-.squareHidden svg {
-    width: 0px !important;
-    height: 0px !important;
-    opacity: 0 !important;
-}
-
-.squareHidden .contentContainer {
-    opacity: 0 !important;
-    visibility: hidden !important;
-}
-
-/* Small size disabled squares should be outlined, not filled */
-.size-small.squareDisabled rect {
-    fill: transparent;
-    stroke: var(--color-gray);
-    /* Same color as inactive state */
-}
 
 /* Hover effects for interactive states */
 .squareActive:hover {
-    background-color: var(--color-dark-gray);
-    transform: translateY(-1px);
+    transform: scale(1.1);
+    border-color: var(--color-white);
+    border-width: 2px;
 }
 
 .squareInactive:hover {
-    background-color: var(--color-dark-gray);
-    transform: translateY(-1px);
-}
-
-.squareActive:hover rect {
-    fill: var(--color-light-gray);
-    stroke: var(--color-light-gray);
-}
-
-.squareInactive:hover rect {
-    fill: var(--color-white);
-    stroke: var(--color-white);
+    transform: scale(1.1);
+    border-color: var(--color-white);
+    border-width: 2px;
 }
 
 /* Focus states for accessibility */
@@ -124,15 +70,15 @@
     outline-offset: var(--size-outline-offset);
 }
 
-/* Only view mode - disable hover effects */
-.onlyView:hover {
-    background-color: transparent;
-    transform: none;
+/* Only view mode - disable hover effects and cursor */
+.onlyView {
+    cursor: default !important;
 }
 
-.onlyView:hover rect {
-    fill: inherit;
-    stroke: inherit;
+.onlyView:hover {
+    background-color: transparent !important;
+    transform: none !important;
+    border-width: 1px !important;
 }
 
 /* Content container for children - optimized for readable text */
@@ -159,17 +105,17 @@
 @keyframes sizeTransition {
     0% {
         transform: scale(0.8);
-        background-color: var(--color-dark-gray);
+        /*background-color: var(--color-dark-gray);*/
     }
 
     50% {
         transform: scale(1.1);
-        background-color: var(--color-gray);
+        /*background-color: var(--color-gray);*/
     }
 
     100% {
         transform: scale(1);
-        background-color: transparent;
+        /*background-color: transparent;*/
     }
 }
 
@@ -189,20 +135,11 @@
 .squareDisabled:hover {
     background-color: transparent;
     transform: none;
-}
-
-.squareDisabled:hover rect {
-    fill: var(--color-dark-gray);
-    stroke: var(--color-dark-gray);
+    border-color: var(--color-dark-gray);
 }
 
 /* Hidden state - no hover effects */
 .squareHidden:hover {
     background-color: transparent !important;
     transform: none !important;
-}
-
-.squareHidden:hover rect {
-    fill: transparent !important;
-    stroke: transparent !important;
 }

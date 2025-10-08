@@ -10,6 +10,7 @@ export interface UICircleProps {
     brightness?: 'full' | 'dimmed'; // For dot size: full square vs dimmed vector circle
     color?: string; // HEX color code for the circle
     onClick?: () => void;
+    className?: string; // Optional CSS class for additional styling
     'data-particle-core'?: string; // Data attribute for particle core identification
     // Position coordinates (center of the circle)
     x?: number; // X coordinate for center positioning
@@ -31,6 +32,7 @@ export function UICircle({
     brightness = 'full',
     color = '#FFF', // Default color
     onClick,
+    className,
     'data-particle-core': dataParticleCore,
     x,
     y
@@ -45,12 +47,13 @@ export function UICircle({
     const isDot = logicalSize === 'dot' && actualSize === undefined;
     const useSpecialDot = isDot && brightness === 'dimmed';
 
-    // Create dynamic styles
-    const dynamicStyles: React.CSSProperties = {
+    // Calculate circle radius
+    const radius = roundedSize / 2;
+
+    // Create dynamic styles for SVG container
+    const svgContainerStyles: React.CSSProperties = {
         width: `${roundedSize}px`,
         height: `${roundedSize}px`,
-        borderRadius: '50%', // Always circular
-        backgroundColor: color,
         // Position coordinates (center-based positioning)
         ...(x !== undefined && y !== undefined && {
             position: 'absolute',
@@ -64,19 +67,41 @@ export function UICircle({
         styles.circle,
         styles[`size-${logicalSize}`],
         useSpecialDot ? styles.dotDimmed : '',
-        onClick ? styles.clickable : ''
+        className
     ].filter(Boolean).join(' ');
 
+    /*
+    // Determine stroke based on size (for visual consistency with previous implementation)
+    const getStrokeWidth = (): number => {
+        if (logicalSize === 'dot') return 0;
+        if (logicalSize === 'middle') return 2;
+        if (logicalSize === 'mega') return 0;
+        return 1; // small and mini
+    };*/
+
+    const strokeWidth = 0;//getStrokeWidth();
+    const hasStroke = strokeWidth > 0;
+
     return (
-        // TODO maybe morebeeficial to replace this DOM element sith SVG element, so we can have better control over the shape and be able to animate it with CSS animations.
-        <div
+        <svg
             className={cssClasses}
-            style={dynamicStyles}
+            style={svgContainerStyles}
             onClick={onClick}
             data-logical-size={logicalSize}
             data-actual-size={actualSize}
             data-brightness={brightness}
             data-particle-core={dataParticleCore}
-        />
+            viewBox={`0 0 ${roundedSize} ${roundedSize}`}
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <circle
+                cx={radius}
+                cy={radius}
+                r={hasStroke ? radius - strokeWidth / 2 : radius}
+                fill={color}
+                stroke={hasStroke ? 'var(--color-white)' : 'none'}
+                strokeWidth={strokeWidth}
+            />
+        </svg>
     );
 }

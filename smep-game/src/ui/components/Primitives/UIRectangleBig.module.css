@@ -27,7 +27,7 @@
 
 /* Rectangle styles for different states */
 .container rect {
-    fill: var(--color-gray);
+    /*fill: var(--color-gray);*/
     stroke: var(--color-gray);
     stroke-width: 1;
     transition: fill 0.3s ease-in-out, stroke 0.3s ease-in-out, transform 0.1s ease;
@@ -35,40 +35,40 @@
 
 /* Active state */
 .rectangleActive rect {
-    fill: var(--color-white);
+    /*fill: var(--color-white);*/
     stroke: var(--color-white);
 }
 
 /* Inactive state */
 .rectangleInactive rect {
-    fill: var(--color-gray);
+    /*fill: var(--color-gray);*/
     stroke: var(--color-gray);
 }
 
 /* Disabled state */
 .rectangleDisabled rect {
-    fill: var(--color-transparent);
+    /*fill: var(--color-transparent);*/
     stroke: var(--color-gray);
 }
 
 /* Hover effects for interactive states */
 .rectangleActive:hover {
-    background-color: var(--color-dark-gray);
+    /*background-color: var(--color-dark-gray);*/
     transform: translateY(-1px);
 }
 
 .rectangleInactive:hover {
-    background-color: var(--color-dark-gray);
+    /*background-color: var(--color-dark-gray);*/
     transform: translateY(-1px);
 }
 
 .rectangleActive:hover rect {
-    fill: var(--color-light-gray);
+    /*fill: var(--color-light-gray);*/
     stroke: var(--color-light-gray);
 }
 
 .rectangleInactive:hover rect {
-    fill: var(--color-white);
+    /*fill: var(--color-white);*/
     stroke: var(--color-white);
 }
 
@@ -90,11 +90,12 @@
 }
 
 .rectangleDisabled:hover rect {
-    fill: var(--color-transparent);
+    /*fill: var(--color-transparent);*/
     stroke: var(--color-gray);
 }
 
 /* Responsive behavior */
+/*
 @media (max-width: 768px) {
     .container {
         transition: all 0.2s ease;
@@ -104,4 +105,4 @@
     .rectangleInactive:hover {
         transform: none;
     }
-}
+}*/

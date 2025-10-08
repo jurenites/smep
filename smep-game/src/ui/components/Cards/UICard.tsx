@@ -2,8 +2,10 @@ import { UISquareState } from '../../../lib/types';
 import { ParticleList } from '../../../lib/data/particle-quantum.data';
 import { UISquare } from '../Primitives/UISquare';
 import { UIRectangleBig } from '../Primitives/UIRectangleBig';
+import { UICircle } from '../Primitives/UICircle';
 import { UILabel } from '../Text/UILabel';
 import { UIParticle } from '../Particles/UIParticle';
+import { UITooltip } from '../Text/UITooltip';
 import { getFormattedParticleSymbolByType, isAntiparticleByType, getElementBySymbol } from '../../../lib/data';
 import styles from './UICard.module.css';
 
@@ -19,6 +21,7 @@ export type ParticleType = ParticleList | string; // string for atomic element s
 
 interface UICardProps {
     textSymbol?: string;
+    textNumber?: string | number; // Numeric identifier (atomic number, inventory count, etc.) - only displayed on mid/big sizes
     cardState?: UICardState;
     onClick?: () => void;
     // Size configuration
@@ -28,16 +31,20 @@ interface UICardProps {
     particleType?: ParticleType;
     // Style override
     style?: React.CSSProperties;
+    // Tooltip configuration
+    tooltipContent?: string;
 }
 
 export function UICard({
     textSymbol = '',
+    textNumber,
     cardState = UICardState.NORMAL,
     onClick,
     logicalSize = 'small',
     showParticle = false,
     particleType = ParticleList.ELECTRON,
-    style
+    style,
+    tooltipContent
 }: UICardProps) {
 
     // Rectangle shape rendering - using UISquare component (always rectangular)
@@ -152,7 +159,16 @@ export function UICard({
         return ParticleList.ELECTRON;
     };
 
-    // Render particle component based on state
+    // Helper function to check if particle is an atomic element (not a quantum particle)
+    const isAtomicElement = (): boolean => {
+        if (typeof particleType === 'string' && !Object.values(ParticleList).includes(particleType as ParticleList)) {
+            const element = getElementBySymbol(particleType);
+            return element !== undefined;
+        }
+        return false;
+    };
+
+    // Render particle component based on state (quantum particle)
     const renderParticle = () => {
         return (
             <UIParticle
@@ -163,12 +179,49 @@ export function UICard({
         );
     };
 
+    // Render atomic element circle based on atomic data
+    const renderAtomicCircle = () => {
+        if (!isAtomicElement() || typeof particleType !== 'string') return null;
+
+        const element = getElementBySymbol(particleType);
+        if (!element) return null;
+
+        // Use relativeDiameter from atomic data for UICard display
+        const diameter = element.properties.relativeDiameter;
+        const color = element.render.coreColor;
+
+        return (
+            <UICircle
+                logicalSize="small"
+                actualSize={diameter}
+                color={color}
+                onClick={cardState === UICardState.DISABLED ? undefined : onClick}
+                className={cardState === UICardState.DISABLED ? styles.disabledParticle : ''}
+            />
+        );
+    };
+
     // Render content (particle + label) - shared across all sizes
     const renderContent = () => (
         <>
+            {textNumber !== undefined && logicalSize !== 'small' && (
+                <div className={styles.atomicNumber}>
+                    <UILabel
+                        fontVariant="digitSmall"
+                        color={getLabelColor()}
+                    >
+                        {textNumber}
+                    </UILabel>
+                </div>
+            )}
             {showParticle && typeof particleType === 'string' && Object.values(ParticleList).includes(particleType as ParticleList) && (
                 <div className={styles.circleAbove}>
                     {renderParticle()}
+                </div>
+            )}
+            {showParticle && isAtomicElement() && (
+                <div className={styles.circleAbove}>
+                    {renderAtomicCircle()}
                 </div>
             )}
             <UILabel
@@ -185,8 +238,9 @@ export function UICard({
     // Get content container classes
     const getContentClasses = (): string => {
         const baseClasses = styles.contentContainer;
-        const shouldShowParticle = showParticle && typeof particleType === 'string' && Object.values(ParticleList).includes(particleType as ParticleList);
-        const positionClasses = shouldShowParticle ? styles.withCircle : styles.withoutCircle;
+        const shouldShowQuantumParticle = showParticle && typeof particleType === 'string' && Object.values(ParticleList).includes(particleType as ParticleList);
+        const shouldShowAtomicCircle = showParticle && isAtomicElement();
+        const positionClasses = (shouldShowQuantumParticle || shouldShowAtomicCircle) ? styles.withCircle : styles.withoutCircle;
 
         if (logicalSize === 'big') {
             return `${baseClasses} ${styles.bigContentContainer} ${positionClasses}`;
@@ -263,9 +317,20 @@ export function UICard({
         }
     };
 
-    return (
+    const cardElement = (
         <div className={getSizeClass()} style={style}>
             {renderCardBySize()}
         </div>
     );
+
+    // Wrap with tooltip if tooltipContent is provided
+    if (tooltipContent) {
+        return (
+            <UITooltip content={tooltipContent} position="top" delay={1000}>
+                {cardElement}
+            </UITooltip>
+        );
+    }
+
+    return cardElement;
 }

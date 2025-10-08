@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { UICard, UICardState } from '../../components/UICard/UICard';
+import { UICard, UICardState } from '../../components/Cards/UICard';
 import { ParticleList } from '../../../lib/data/particle-quantum.data';
 
 // Get all atomic element symbols from the data
@@ -31,6 +31,10 @@ const meta: Meta<typeof UICard> = {
             control: 'text',
             description: 'The text symbol to display on the card',
         },
+        textNumber: {
+            control: 'number',
+            description: 'Numeric identifier (atomic number, inventory count, etc.) - only shown on mid/big sizes',
+        },
         cardState: {
             control: 'select',
             options: [UICardState.NORMAL, UICardState.DISABLED],
@@ -43,7 +47,7 @@ const meta: Meta<typeof UICard> = {
         },
         showParticle: {
             control: 'boolean',
-            description: 'Show particle instead of circle',
+            description: 'Show particle circle (quantum particles use UIParticle, atomic elements use UICircle)',
         },
         particleType: {
             control: 'select',
@@ -113,7 +117,7 @@ export const BackgroundColorTest: Story = {
                 </div>
             </div>
             <div style={{ textAlign: 'center' }}>
-                <div style={{ color: 'white', marginBottom: '10px' }}>Mid Card</div>
+                <div style={{ color: 'white', marginBottom: '10px' }}>Mid Card (Atomic Element)</div>
                 <div style={{
                     backgroundColor: '#232323',
                     padding: '10px',
@@ -124,7 +128,8 @@ export const BackgroundColorTest: Story = {
                         logicalSize="mid"
                         cardState={UICardState.NORMAL}
                         textSymbol="H"
-                        showParticle={false}
+                        textNumber={1}
+                        showParticle={true}
                         particleType="H"
                         onClick={() => console.log('Mid card clicked!')}
                         style={{
@@ -162,6 +167,91 @@ export const BackgroundColorTest: Story = {
         docs: {
             description: {
                 story: `Test story to verify that all UICard sizes have the correct dark-gray background color (#232323). The cards are wrapped in dark containers to make any white backgrounds visible.`,
+            },
+        },
+    },
+};
+
+// Atomic Elements with UICircle story
+export const AtomicElementsWithCircles: Story = {
+    render: () => (
+        <div style={{
+            display: 'flex',
+            gap: '20px',
+            padding: '20px',
+            background: '#000',
+            flexWrap: 'wrap'
+        }}>
+            {/* Hydrogen */}
+            <div style={{ textAlign: 'center' }}>
+                <div style={{ color: 'white', marginBottom: '10px', fontSize: '12px' }}>Hydrogen (H)</div>
+                <UICard
+                    logicalSize="small"
+                    cardState={UICardState.NORMAL}
+                    textSymbol="H"
+                    textNumber={1}
+                    showParticle={true}
+                    particleType="H"
+                />
+            </div>
+
+            {/* Carbon */}
+            <div style={{ textAlign: 'center' }}>
+                <div style={{ color: 'white', marginBottom: '10px', fontSize: '12px' }}>Carbon (C)</div>
+                <UICard
+                    logicalSize="small"
+                    cardState={UICardState.NORMAL}
+                    textSymbol="C"
+                    textNumber={6}
+                    showParticle={true}
+                    particleType="C"
+                />
+            </div>
+
+            {/* Oxygen */}
+            <div style={{ textAlign: 'center' }}>
+                <div style={{ color: 'white', marginBottom: '10px', fontSize: '12px' }}>Oxygen (O)</div>
+                <UICard
+                    logicalSize="small"
+                    cardState={UICardState.NORMAL}
+                    textSymbol="O"
+                    textNumber={8}
+                    showParticle={true}
+                    particleType="O"
+                />
+            </div>
+
+            {/* Iron */}
+            <div style={{ textAlign: 'center' }}>
+                <div style={{ color: 'white', marginBottom: '10px', fontSize: '12px' }}>Iron (Fe)</div>
+                <UICard
+                    logicalSize="small"
+                    cardState={UICardState.NORMAL}
+                    textSymbol="Fe"
+                    textNumber={26}
+                    showParticle={true}
+                    particleType="Fe"
+                />
+            </div>
+
+            {/* Gold */}
+            <div style={{ textAlign: 'center' }}>
+                <div style={{ color: 'white', marginBottom: '10px', fontSize: '12px' }}>Gold (Au)</div>
+                <UICard
+                    logicalSize="small"
+                    cardState={UICardState.NORMAL}
+                    textSymbol="Au"
+                    textNumber={79}
+                    showParticle={true}
+                    particleType="Au"
+                />
+            </div>
+        </div>
+    ),
+    parameters: {
+        docs: {
+            description: {
+                story: `Atomic elements displayed with UICircle component. Each circle's diameter is based on the 'relativeDiameter' property and colored with the 'coreColor' from atomic data. Use the Controls panel in the Default story to explore all 118 elements.`,
             },
         },
     },

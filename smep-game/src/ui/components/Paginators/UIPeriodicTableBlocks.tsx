@@ -1,9 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
-import { UIPaginationGrid } from './UIPaginationGrid';
-import { UICard, ParticleLevel, UICardState } from '../UICard/UICard';
+import { UICard, UICardState } from '../Cards/UICard';
+import { UISquare, UISquareState } from '../Primitives/UISquare';
 import { UILabel } from '../Text/UILabel';
-import { gridPaginationService } from '../../../lib/grid-pagination-service';
-import { PaginationState } from '../../../lib/types';
 import { getElementsByBlock } from '../../../lib/data';
 import styles from './UIPeriodicTableBlocks.module.css';
 
@@ -25,141 +23,94 @@ interface BlockGridProps {
 }
 
 function BlockGrid({ elements, blockName, onPageChange, interactionMode, activeElementId, onElementClick }: BlockGridProps) {
-    // Convert elements to grid pages
-    const pages = elements.map(element => {
-        // Determine element state based on whether it's the active element
-        const state = activeElementId === element.symbol
-            ? PaginationState.ACTIVE
-            : PaginationState.INACTIVE;
+    // Calculate minimum coordinates in this block for relative positioning
+    const minX = elements.length > 0 ? Math.min(...elements.map(el => el.position.x)) : 1;
+    const minY = elements.length > 0 ? Math.min(...elements.map(el => el.position.y)) : 1;
 
-        return {
-            id: element.symbol, // Use symbol as id
-            position: element.position,
-            title: element.symbol,
-            state: state,
-            metadata: {
-                atomicNumber: element.atomicNumber,
-                name: element.name,
-                category: element.category,
-                electronShellGroup: element.electronShellGroup,
-                period: element.period
-            }
-        };
-    });
-
-    // Calculate grid dimensions for this block based on all elements
+    // Calculate grid dimensions for this block based on relative positions
     const dimensions = elements.length > 0
         ? {
-            width: Math.max(...elements.map(el => el.position.x)) + 1,
-            height: Math.max(...elements.map(el => el.position.y)) + 1
+            width: Math.max(...elements.map(el => el.position.x)) - minX + 1,
+            height: Math.max(...elements.map(el => el.position.y)) - minY + 1
         }
         : { width: 1, height: 1 }; // Minimal dimensions when no elements
 
-    // Find the active element's position for this block
-    const activeElement = elements.find(el => el.symbol === activeElementId);
-    const activePosition = activeElement ? activeElement.position : null;
-
-    // Create context for this block with INACTIVE as default state
-    const context = gridPaginationService.createContext(
-        `block-${blockName}-${activeElementId}`, // Include activeElementId in context ID for uniqueness
-        pages,
-        dimensions,
-        PaginationState.INACTIVE
-    );
-
-    // Only set current position if there's an active element in this block
-    if (activeElement && activePosition) {
-        context.currentPosition = activePosition;
-        // Update the isActive property for all pages in this context
-        context.pages = context.pages.map(page => ({
-            ...page,
-            isActive: page.position.x === activePosition.x && page.position.y === activePosition.y
-        }));
-    } else {
-        // No active element in this block - set currentPosition to a position that doesn't exist
-        // This ensures no element in this block will match the currentPosition
-        context.currentPosition = { x: -1, y: -1 };
-        // Ensure no pages are marked as active
-        context.pages = context.pages.map(page => ({
-            ...page,
-            isActive: false
-        }));
-    }
-
     // Handle element click
-    const handleElementClick = useCallback((position: { x: number; y: number }, event: any) => {
-        const element = elements.find(el =>
-            el.position.x === position.x && el.position.y === position.y
-        );
-        if (element && onElementClick) {
+    const handleElementClick = useCallback((element: any) => {
+        if (onElementClick) {
             onElementClick(element.symbol);
         }
         if (onPageChange) {
-            onPageChange(position, event);
+            onPageChange(element.position, null);
         }
-    }, [elements, onElementClick, onPageChange]);
+    }, [onElementClick, onPageChange]);
 
-    // Render UICards when in clickable mode, otherwise use UIPaginationGrid
-    const renderContent = () => {
-        if (interactionMode === 'clickable') {
-            return (
-                <div className={styles.blockContainer} data-block={blockName}>
-                    <div className={styles.uicardGrid} style={{
-                        display: 'grid',
-                        gridTemplateColumns: `repeat(${dimensions.width}, 1fr)`,
-                        gridTemplateRows: `repeat(${dimensions.height}, 1fr)`,
-                        gap: '4px',
-                        padding: '8px',
-                        width: `${dimensions.width * 60}px`,
-                        height: `${dimensions.height * 80}px`
-                    }}>
-                        {elements.map((element) => (
-                            <div
-                                key={element.symbol}
-                                style={{
-                                    gridColumn: element.position.x + 1,
-                                    gridRow: element.position.y + 1,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }}
-                            >
+    // Calculate cell size based on interaction mode
+    const cellSize = interactionMode === 'clickable' ? 31 : 4; // UICard small = 31px, UISquare small = 4px
+
+    // Common grid container for both modes
+    return (
+        <div className={styles.blockContainer} data-block={blockName}>
+            <div
+                className={styles.elementGrid}
+                style={{
+                    gridTemplateColumns: `repeat(${dimensions.width}, ${cellSize}px)`,
+                    gridTemplateRows: `repeat(${dimensions.height}, ${cellSize}px)`
+                }}
+            >
+                {elements.map((element) => {
+                    const isActive = activeElementId === element.symbol;
+                    const squareState = isActive ? UISquareState.ACTIVE : UISquareState.INACTIVE;
+
+                    // Calculate relative position within the block
+                    const relativeX = element.position.x - minX + 1;
+                    const relativeY = element.position.y - minY + 1;
+
+                    // Tooltip shows absolute coordinates
+                    const tooltipText = `${element.atomicNumber} x:${element.position.x}, y:${element.position.y}`;
+
+                    return (
+                        <div
+                            key={element.symbol}
+                            className={styles.elementCell}
+                            style={{
+                                gridColumn: relativeX,
+                                gridRow: relativeY
+                            }}
+                        >
+                            {interactionMode === 'clickable' ? (
                                 <UICard
                                     textSymbol={element.symbol}
+                                    textNumber={element.atomicNumber}
                                     logicalSize="small"
-                                    cardState={activeElementId === element.symbol ? UICardState.NORMAL : UICardState.NORMAL}
+                                    cardState={UICardState.NORMAL}
                                     showParticle={true}
-                                    particleLevel={ParticleLevel.ATOMIC}
                                     particleType={element.symbol}
-                                    onClick={() => {
-                                        if (onElementClick) {
-                                            onElementClick(element.symbol);
-                                        }
-                                        if (onPageChange) {
-                                            onPageChange(element.position, null);
-                                        }
-                                    }}
+                                    onClick={() => handleElementClick(element)}
+                                    style={isActive ? {
+                                        '--card-border-color': 'var(--color-white)',
+                                        '--card-background-color': 'var(--color-gray)',
+                                        boxShadow: 'var(--shadow-box-strong)',
+                                        transform: 'scale(1.05)',
+                                        zIndex: 10
+                                    } as React.CSSProperties : undefined}
+                                    tooltipContent={tooltipText}
                                 />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            );
-        }
-
-        // Default view mode with UIPaginationGrid
-        return (
-            <div className={styles.blockContainer} data-block={blockName}>
-                <UIPaginationGrid
-                    context={context}
-                    onGridPageChange={handleElementClick}
-                    active={interactionMode}
-                />
+                            ) : (
+                                <UISquare
+                                    squareState={squareState}
+                                    logicalSize="small"
+                                    active={interactionMode}
+                                    onClick={() => handleElementClick(element)}
+                                    tooltipContent={tooltipText}
+                                />
+                            )}
+                        </div>
+                    );
+                })}
             </div>
-        );
-    };
-
-    return renderContent();
+        </div>
+    );
 }
 
 // Reusable function to render block grids with common props
@@ -236,13 +187,13 @@ export function UIPeriodicTableBlocks({
         activeElement && (
             <div className={styles.activeElementInfo}>
                 <UILabel fontVariant="body" color="gray">
-                    Active Element: {activeElement.name}(
+                    {activeElement.atomicNumber} (
                 </UILabel>
                 <UILabel fontVariant="title" color="white">
                     {activeElement.symbol}
                 </UILabel>
                 <UILabel fontVariant="body" color="gray">
-                    ) - Atomic Number: {activeElement.atomicNumber}
+                    ) - {activeElement.name}
                 </UILabel>
             </div>
         )

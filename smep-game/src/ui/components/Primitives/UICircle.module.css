@@ -1,56 +1,26 @@
-/* UICircle Component Styles */
+/* UICircle Component Styles - SVG-based */
 
 .circle {
     display: block;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    box-sizing: border-box;
     transform-origin: center;
+    overflow: visible;
+    /* Allow shadows and strokes to be visible */
 }
 
 /* Size-specific styles */
-.size-dot {
-    border: none;
-}
-
-.size-small {
-    border: 1px solid var(--color-white);
-}
-
-.size-mini {
-    border: 1px solid var(--color-white);
-}
-
 .size-middle {
-    border: 2px solid var(--color-white);
-    box-shadow: var(--shadow-box-subtle);
+    filter: drop-shadow(var(--shadow-box-subtle));
 }
 
 .size-mega {
-    border: 3px solid var(--color-white);
-    box-shadow: var(--shadow-box-medium);
+    filter: drop-shadow(var(--shadow-box-medium));
 }
 
 /* Special dot rendering - dimmed vector circle */
 .dotDimmed {
-    background-color: transparent;
-    border: 1px solid var(--color-white);
-}
-
-/* Clickable state */
-.clickable {
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
-
-.clickable:hover {
-    /*transform: scale(1.05);*/
-    box-shadow: var(--shadow-box-strong);
-}
-
-.clickable:active {
-    /*transform: scale(0.95);*/
-    transition: transform 0.1s ease-in-out;
+    opacity: 0.7;
 }
 
 /* Animation for size changes - disabled for now to prevent rendering issues */
