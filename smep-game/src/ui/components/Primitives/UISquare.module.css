@@ -8,28 +8,31 @@
     line-height: 0;
     vertical-align: top;
     background-color: transparent;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);*/
     position: relative;
     box-sizing: border-box;
-    transform-origin: center;
-    border: 1px solid var(--color-gray);
+    /*transform-origin: center;*/
+    /*border: 1px solid var(--color-gray);*/
 }
 
 /* Active state */
 .squareActive {
     cursor: pointer;
-    border-color: var(--color-white);
+    background-color: var(--color-white);
+    border: var(--size-line) solid var(--color-white);
 }
 
 /* Inactive state */
 .squareInactive {
     cursor: pointer;
-    border-color: var(--color-gray);
+    background-color: var(--color-gray);
+    border: var(--size-line) solid var(--color-gray);
 }
 
 /* Disabled state */
 .squareDisabled {
-    border-color: var(--color-gray);
+    background-color: var(--color-transparent);
+    border: var(--size-line) solid var(--color-gray);
 }
 
 /* Hidden state - completely hidden from view */
@@ -48,15 +51,16 @@
 
 /* Hover effects for interactive states */
 .squareActive:hover {
-    transform: scale(1.1);
+    /*transform: scale(1.1);*/
+    /* TODO: on hover effect we may add a mobement upwards +1px*/
     border-color: var(--color-white);
-    border-width: 2px;
+    /* border-width: 2px;*/
 }
 
 .squareInactive:hover {
-    transform: scale(1.1);
+    /*transform: scale(1.1);*/
     border-color: var(--color-white);
-    border-width: 2px;
+    /* border-width: 2px;*/
 }
 
 /* Focus states for accessibility */
@@ -78,7 +82,7 @@
 .onlyView:hover {
     background-color: transparent !important;
     transform: none !important;
-    border-width: 1px !important;
+    border-width: var(--size-line) !important;
 }
 
 /* Content container for children - optimized for readable text */
@@ -99,43 +103,44 @@
 
 /* Size transition animation */
 .container {
-    animation: sizeTransition 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* animation: sizeTransition 0.3s cubic-bezier(0.4, 0, 0.2, 1);*/
 }
 
-@keyframes sizeTransition {
-    0% {
-        transform: scale(0.8);
-        /*background-color: var(--color-dark-gray);*/
-    }
+/*
+    @keyframes sizeTransition {
+        0% {
+            transform: scale(0.8);
+        }
 
-    50% {
-        transform: scale(1.1);
-        /*background-color: var(--color-gray);*/
-    }
+        50% {
+            transform: scale(1.1);
+        }
 
-    100% {
-        transform: scale(1);
-        /*background-color: transparent;*/
-    }
-}
+        100% {
+            transform: scale(1);
+            
+        }
+    } */
 
 /* Responsive behavior */
-@media (max-width: 768px) {
-    .container {
-        transition: all 0.2s ease;
-    }
+/*
+    @media (max-width: 768px) {
+        .container {
+            transition: all 0.2s ease;
+        }
 
-    .squareActive:hover,
-    .squareInactive:hover {
-        transform: none;
+        .squareActive:hover,
+        .squareInactive:hover {
+            transform: none;
+        }
     }
-}
+    */
 
 /* Disabled state - no hover effects */
 .squareDisabled:hover {
     background-color: transparent;
     transform: none;
-    border-color: var(--color-dark-gray);
+    /*border-color: var(--color-dark-gray);*/
 }
 
 /* Hidden state - no hover effects */

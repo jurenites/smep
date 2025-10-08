@@ -4,16 +4,14 @@
     display: flex;
     flex-direction: column;
     gap: var(--size-gap-large);
-    padding: 16px;
     background: var(--color-background-secondary);
 }
 
 .activeElementInfo {
-    padding: 12px 16px;
     background: var(--color-accent-primary);
     color: var(--color-text-on-accent);
     font-size: var(--font-code-size);
-    text-align: center;
+    text-align: start;
     border: 2px solid var(--color-accent-secondary);
 }
 
@@ -38,13 +36,10 @@
 
 /* Base block container styles */
 .blockContainer {
-    display: flex;
-    flex-direction: column;
-    gap: var(--size-gap-large);
     min-width: fit-content;
     width: fit-content;
     position: relative;
-    transition: all 0.1s ease-in-out;
+    /*transition: all 0.1s ease-in-out;*/
     transform-origin: center;
 }
 
@@ -59,12 +54,12 @@
 
 .periodicTableWrapper[data-view-mode="long"] .blockContainer {
     position: static;
-    transform: translate(0, 0);
+    /*transform: translate(0, 0);*/
 }
 
 /* F-block and D-block intersection in long view */
 .periodicTableWrapper[data-view-mode="long"] .blockContainer[data-block="f"] {
-    margin-right: -6px;
+    /* margin-right: -6px; */
 }
 
 .periodicTableWrapper[data-view-mode="long"] .blockContainer[data-block="d"] {
@@ -75,34 +70,35 @@
 .periodicTableWrapper[data-view-mode="short"] .blockContainer[data-block="s"] {
     grid-column: 1;
     grid-row: 1;
-    transform: translate(0, 0);
+    /*transform: translate(0, 0);*/
     align-self: end;
 }
 
 .periodicTableWrapper[data-view-mode="short"] .blockContainer[data-block="d"] {
     grid-column: 2;
     grid-row: 1;
-    transform: translate(0, 0);
+    /*transform: translate(0, 0);*/
     align-self: end;
 }
 
 .periodicTableWrapper[data-view-mode="short"] .blockContainer[data-block="p"] {
     grid-column: 3;
     grid-row: 1;
-    transform: translate(0, 0);
+    /*transform: translate(0, 0);*/
     align-self: end;
 }
 
 .periodicTableWrapper[data-view-mode="short"] .blockContainer[data-block="f"] {
     grid-column: 1 / -1;
     grid-row: 2;
-    transform: translate(12px, var(--size-gap-small));
+    /*transform: translate(12px, var(--size-gap-small));*/
     justify-self: start;
+    padding-left: 16px;
 }
 
 /* Enhanced transition for F-block repositioning */
 .blockContainer[data-block="f"] {
-    transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    /*transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);*/
 }
 
 /* Smooth transitions for all blocks during view mode changes */
@@ -113,10 +109,25 @@
 /* Unified element grid for both modes */
 .elementGrid {
     display: grid;
-    gap: 1px;
+    gap: var(--size-gap-small);
     padding: 0;
     width: fit-content;
     height: fit-content;
+}
+
+.periodicTableWrapper .elementGrid .squareInactive {
+    background-color: var(--color-gray);
+    border: none !important;
+}
+
+.periodicTableWrapper .elementGrid .squareActive {
+    background-color: var(--color-white);
+    border: none !important;
+}
+
+.periodicTableWrapper .elementGrid .squareDisabled {
+    background-color: var(--color-transparent);
+    border: none !important;
 }
 
 /* Individual element cell for both UICard and UISquare */
@@ -125,7 +136,16 @@
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /*transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);*/
+}
+
+/* Block label styling */
+.blockLabel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: var(--size-gap-small);
+    text-align: center;
 }
 
 /* Responsive adjustments */

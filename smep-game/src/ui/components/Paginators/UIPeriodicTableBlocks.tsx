@@ -109,6 +109,11 @@ function BlockGrid({ elements, blockName, onPageChange, interactionMode, activeE
                     );
                 })}
             </div>
+            <div className={styles.blockLabel}>
+                <UILabel fontVariant="digitSmall" color="gray">
+                    {blockName}
+                </UILabel>
+            </div>
         </div>
     );
 }
