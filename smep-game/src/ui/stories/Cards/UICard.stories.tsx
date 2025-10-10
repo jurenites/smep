@@ -2,17 +2,43 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { UICard, UICardState } from '../../components/Cards/UICard';
 import { ParticleList } from '../../../lib/data/particle-quantum.data';
 
-// Get all atomic element symbols from the data
-import { PERIODIC_TABLE_DATA } from '../../../lib/data';
+// Get all atomic element symbols and meson data
+import { PERIODIC_TABLE_DATA, MESON_DATA } from '../../../lib/data';
 
+// Quantum particles (24 total)
 const QUANTUM_PARTICLE_OPTIONS = Object.values(ParticleList);
-const ATOMIC_ELEMENT_SYMBOLS = PERIODIC_TABLE_DATA.map(element => element.properties.symbol);
 
-// Concatenated list of all possible particles
+// Mesons (25 total) - create labeled options with primaryId values
+const MESON_OPTIONS_LABELED = MESON_DATA.map(meson => ({
+    label: `[Meson] ${meson.properties.name} (${meson.properties.symbol})`,
+    value: meson.properties.primaryId
+}));
+
+// Atomic elements (118 total)
+const ATOMIC_ELEMENT_OPTIONS = PERIODIC_TABLE_DATA.map(element => ({
+    label: `[Atomic] ${element.properties.name} (${element.properties.symbol})`,
+    value: element.properties.symbol
+}));
+
+// Create display labels for quantum particles
+const QUANTUM_PARTICLE_OPTIONS_LABELED = QUANTUM_PARTICLE_OPTIONS.map(particle => ({
+    label: `[Quantum] ${particle}`,
+    value: particle
+}));
+
+// Concatenated list of all possible particles with labels
 const ALL_PARTICLE_OPTIONS = [
-    ...QUANTUM_PARTICLE_OPTIONS,
-    ...ATOMIC_ELEMENT_SYMBOLS,
+    ...QUANTUM_PARTICLE_OPTIONS_LABELED.map(p => p.label),
+    ...MESON_OPTIONS_LABELED.map(m => m.label),
+    ...ATOMIC_ELEMENT_OPTIONS.map(a => a.label),
 ];
+
+// Mapping for Storybook to convert display labels to actual values
+const PARTICLE_MAPPING = {
+    ...Object.fromEntries(QUANTUM_PARTICLE_OPTIONS_LABELED.map(p => [p.label, p.value])),
+    ...Object.fromEntries(MESON_OPTIONS_LABELED.map(m => [m.label, m.value])),
+    ...Object.fromEntries(ATOMIC_ELEMENT_OPTIONS.map(a => [a.label, a.value])),
+};
 
 // Enhanced wrapper component for better Storybook controls
 const UICardWithEnhancedControls = (props: any) => {
@@ -47,12 +73,13 @@ const meta: Meta<typeof UICard> = {
         },
         showParticle: {
             control: 'boolean',
-            description: 'Show particle circle (quantum particles use UIParticle, atomic elements use UICircle)',
+            description: 'Show particle circle (quantum particles use UIParticle, mesons use UIMesonParticle, atomic elements use UICircle)',
         },
         particleType: {
             control: 'select',
             options: ALL_PARTICLE_OPTIONS,
-            description: 'Type of particle to display (quantum particles, atomic elements)',
+            mapping: PARTICLE_MAPPING,
+            description: 'Type of particle to display: Quantum (24), Mesons (25 - auto-detected), or Atomic (118)',
         },
         onClick: {
             action: 'clicked',
@@ -252,6 +279,91 @@ export const AtomicElementsWithCircles: Story = {
         docs: {
             description: {
                 story: `Atomic elements displayed with UICircle component. Each circle's diameter is based on the 'relativeDiameter' property and colored with the 'coreColor' from atomic data. Use the Controls panel in the Default story to explore all 118 elements.`,
+            },
+        },
+    },
+};
+
+// Meson particles story
+export const MesonParticles: Story = {
+    render: () => (
+        <div style={{
+            display: 'flex',
+            gap: '20px',
+            padding: '20px',
+            background: '#000',
+            flexWrap: 'wrap'
+        }}>
+            {/* Charged Pion */}
+            <div style={{ textAlign: 'center' }}>
+                <div style={{ color: 'white', marginBottom: '10px', fontSize: '12px' }}>Charged Pion (π+)</div>
+                <UICard
+                    logicalSize="small"
+                    cardState={UICardState.NORMAL}
+                    textSymbol="π+"
+                    textNumber={1}
+                    showParticle={true}
+                    particleType={1}
+                />
+            </div>
+
+            {/* Charged Kaon */}
+            <div style={{ textAlign: 'center' }}>
+                <div style={{ color: 'white', marginBottom: '10px', fontSize: '12px' }}>Charged Kaon (K+)</div>
+                <UICard
+                    logicalSize="small"
+                    cardState={UICardState.NORMAL}
+                    textSymbol="K+"
+                    textNumber={5}
+                    showParticle={true}
+                    particleType={5}
+                />
+            </div>
+
+            {/* Charged D Meson */}
+            <div style={{ textAlign: 'center' }}>
+                <div style={{ color: 'white', marginBottom: '10px', fontSize: '12px' }}>Charged D Meson (D+)</div>
+                <UICard
+                    logicalSize="small"
+                    cardState={UICardState.NORMAL}
+                    textSymbol="D+"
+                    textNumber={9}
+                    showParticle={true}
+                    particleType={9}
+                />
+            </div>
+
+            {/* Phi Meson */}
+            <div style={{ textAlign: 'center' }}>
+                <div style={{ color: 'white', marginBottom: '10px', fontSize: '12px' }}>Phi Meson (φ)</div>
+                <UICard
+                    logicalSize="small"
+                    cardState={UICardState.NORMAL}
+                    textSymbol="φ"
+                    textNumber={23}
+                    showParticle={true}
+                    particleType={23}
+                />
+            </div>
+
+            {/* J/Psi */}
+            <div style={{ textAlign: 'center' }}>
+                <div style={{ color: 'white', marginBottom: '10px', fontSize: '12px' }}>J/Psi (J/ψ)</div>
+                <UICard
+                    logicalSize="small"
+                    cardState={UICardState.NORMAL}
+                    textSymbol="J/ψ"
+                    textNumber={25}
+                    showParticle={true}
+                    particleType={25}
+                />
+            </div>
+        </div>
+    ),
+    parameters: {
+        docs: {
+            description: {
+                story: `Meson particles displayed as composite particles (quark-antiquark pairs). Each meson shows two bonded quarks with proper matter/antimatter gradient rendering. Mesons are automatically detected when particleType is a number (1-25). Use the Controls panel in the Default story to explore all 25 mesons.`,
             },
         },
     },

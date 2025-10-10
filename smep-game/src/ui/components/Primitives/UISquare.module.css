@@ -18,14 +18,16 @@
 /* Active state */
 .squareActive {
     cursor: pointer;
-    background-color: var(--color-white);
+    /* background-color: var(--color-white); */
+    /* keep the squre not filled with any color */
     border: var(--size-line) solid var(--color-white);
 }
 
 /* Inactive state */
 .squareInactive {
     cursor: pointer;
-    background-color: var(--color-gray);
+    /*background-color: var(--color-gray);*/
+    /* keep the squre not filled with any color */
     border: var(--size-line) solid var(--color-gray);
 }
 

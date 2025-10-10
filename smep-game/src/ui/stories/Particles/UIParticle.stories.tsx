@@ -1,16 +1,96 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { UIParticle } from '../../components/Particles/UIParticle';
+import { UIMesonParticle } from '../../components/Particles/UIMesonParticle';
 import { UILabel } from '../../components/Text/UILabel';
-import { ParticleList, getFormattedParticleSymbolByType } from '../../../lib/data/particle-quantum.data';
+import { UICircle } from '../../components/Primitives/UICircle';
+import { ParticleList, QCDColorCharge, getFormattedParticleSymbolByType } from '../../../lib/data/particle-quantum.data';
+import { MESON_DATA } from '../../../lib/data/particle-hadron-meson.data';
+import { PERIODIC_TABLE_DATA, getElementBySymbol } from '../../../lib/data/particle-atomic.data';
 
-const meta: Meta<typeof UIParticle> = {
-    title: 'Particles/UIParticle',
-    component: UIParticle,
+// Quantum particles (24 total)
+const QUANTUM_PARTICLE_OPTIONS = Object.values(ParticleList);
+
+// Mesons (25 total) - create labeled options with primaryId values
+const MESON_OPTIONS_LABELED = MESON_DATA.map(meson => ({
+    label: `[Meson] ${meson.properties.name} (${meson.properties.symbol})`,
+    value: meson.properties.primaryId
+}));
+
+// Atomic elements (118 total)
+const ATOMIC_ELEMENT_OPTIONS = PERIODIC_TABLE_DATA.map(element => ({
+    label: `[Atomic] ${element.properties.name} (${element.properties.symbol})`,
+    value: element.properties.symbol
+}));
+
+// Create display labels for quantum particles
+const QUANTUM_PARTICLE_OPTIONS_LABELED = QUANTUM_PARTICLE_OPTIONS.map(particle => ({
+    label: `[Quantum] ${particle}`,
+    value: particle
+}));
+
+// Concatenated list of all possible particles with labels
+const ALL_PARTICLE_OPTIONS = [
+    ...QUANTUM_PARTICLE_OPTIONS_LABELED.map(p => p.label),
+    ...MESON_OPTIONS_LABELED.map(m => m.label),
+    ...ATOMIC_ELEMENT_OPTIONS.map(a => a.label),
+];
+
+// Mapping for Storybook to convert display labels to actual values
+const PARTICLE_MAPPING = {
+    ...Object.fromEntries(QUANTUM_PARTICLE_OPTIONS_LABELED.map(p => [p.label, p.value])),
+    ...Object.fromEntries(MESON_OPTIONS_LABELED.map(m => [m.label, m.value])),
+    ...Object.fromEntries(ATOMIC_ELEMENT_OPTIONS.map(a => [a.label, a.value])),
+};
+
+// QCD color options for quarks (including colorless option)
+const QCD_COLOR_OPTIONS = [
+    'default',
+    ...Object.values(QCDColorCharge),
+] as const;
+
+// Smart particle renderer that handles all three particle types
+interface SmartParticleRendererProps {
+    particleType: ParticleList | string | number;
+    qcdColor?: QCDColorCharge;
+    qcdColor1?: QCDColorCharge;
+    qcdColor2?: QCDColorCharge;
+    onClick?: () => void;
+    className?: string;
+}
+
+function SmartParticleRenderer({ particleType, qcdColor, qcdColor1, qcdColor2, onClick, className }: SmartParticleRendererProps) {
+    // Check if it's a quantum particle
+    if (typeof particleType === 'string' && Object.values(ParticleList).includes(particleType as ParticleList)) {
+        return <UIParticle particleType={particleType as ParticleList} qcdColor={qcdColor} onClick={onClick} className={className} />;
+    }
+
+    // Check if it's a meson (numeric primaryId 1-25)
+    if (typeof particleType === 'number' && particleType >= 1 && particleType <= 25) {
+        return <UIMesonParticle mesonType={particleType} qcdColor1={qcdColor1} qcdColor2={qcdColor2} onClick={onClick} className={className} />;
+    }
+
+    // Check if it's an atomic element (string symbol)
+    if (typeof particleType === 'string') {
+        const element = getElementBySymbol(particleType);
+        if (element) {
+            const diameter = element.properties.relativeDiameter;
+            const color = element.render.coreColor;
+            return <UICircle logicalSize="small" actualSize={diameter} color={color} onClick={onClick} className={className} />;
+        }
+    }
+
+    // Fallback to electron
+    return <UIParticle particleType={ParticleList.ELECTRON} onClick={onClick} className={className} />;
+}
+
+const meta: Meta<typeof SmartParticleRenderer> = {
+    title: 'Particles/UIParticles',
+    component: SmartParticleRenderer,
     parameters: {
         layout: 'centered',
         docs: {
             description: {
-                component: 'Particle visualization component based on Standard Model physics. Shows matter (yolk) and antimatter (ultraviolet) particles with radial gradient shadows.',
+                component: 'Unified particle visualization supporting three types: Quantum particles (24 leptons, neutrinos, quarks from Standard Model), Mesons (25 composite particles), and Atomic elements (118 elements). Quantum particles show matter/antimatter colors with QCD charges for quarks. Mesons display quark-antiquark pairs. Atomic elements render as colored circles based on atomic properties.',
             },
         },
     },
@@ -18,8 +98,54 @@ const meta: Meta<typeof UIParticle> = {
     argTypes: {
         particleType: {
             control: { type: 'select' },
-            options: Object.values(ParticleList),
-            description: 'Type of particle to display',
+            options: ALL_PARTICLE_OPTIONS,
+            mapping: PARTICLE_MAPPING,
+            description: 'Type of particle to display: Quantum (24), Mesons (25), or Atomic (118)',
+        },
+        qcdColor: {
+            control: { type: 'select' },
+            options: QCD_COLOR_OPTIONS,
+            mapping: {
+                'default': undefined,
+                [QCDColorCharge.RED]: QCDColorCharge.RED,
+                [QCDColorCharge.GREEN]: QCDColorCharge.GREEN,
+                [QCDColorCharge.BLUE]: QCDColorCharge.BLUE,
+                [QCDColorCharge.CYAN]: QCDColorCharge.CYAN,
+                [QCDColorCharge.MAGENTA]: QCDColorCharge.MAGENTA,
+                [QCDColorCharge.YELLOW]: QCDColorCharge.YELLOW,
+                [QCDColorCharge.COLORLESS]: QCDColorCharge.COLORLESS,
+            },
+            description: 'QCD color charge override (quarks only). Use "default" for particle data color, "colorless" for gray quarks, or select a specific color (red, green, blue for matter; cyan, magenta, yellow for antimatter). This control only affects quantum quarks; it will be ignored for leptons, neutrinos, mesons, and atomic elements.',
+        },
+        qcdColor1: {
+            control: { type: 'select' },
+            options: QCD_COLOR_OPTIONS,
+            mapping: {
+                'default': undefined,
+                [QCDColorCharge.RED]: QCDColorCharge.RED,
+                [QCDColorCharge.GREEN]: QCDColorCharge.GREEN,
+                [QCDColorCharge.BLUE]: QCDColorCharge.BLUE,
+                [QCDColorCharge.CYAN]: QCDColorCharge.CYAN,
+                [QCDColorCharge.MAGENTA]: QCDColorCharge.MAGENTA,
+                [QCDColorCharge.YELLOW]: QCDColorCharge.YELLOW,
+                [QCDColorCharge.COLORLESS]: QCDColorCharge.COLORLESS,
+            },
+            description: 'QCD color for first quark in mesons. Only affects meson particles.',
+        },
+        qcdColor2: {
+            control: { type: 'select' },
+            options: QCD_COLOR_OPTIONS,
+            mapping: {
+                'default': undefined,
+                [QCDColorCharge.RED]: QCDColorCharge.RED,
+                [QCDColorCharge.GREEN]: QCDColorCharge.GREEN,
+                [QCDColorCharge.BLUE]: QCDColorCharge.BLUE,
+                [QCDColorCharge.CYAN]: QCDColorCharge.CYAN,
+                [QCDColorCharge.MAGENTA]: QCDColorCharge.MAGENTA,
+                [QCDColorCharge.YELLOW]: QCDColorCharge.YELLOW,
+                [QCDColorCharge.COLORLESS]: QCDColorCharge.COLORLESS,
+            },
+            description: 'QCD color for second quark in mesons. Only affects meson particles.',
         },
     },
 };
@@ -27,15 +153,18 @@ const meta: Meta<typeof UIParticle> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Default story showing electron
+// Default story - interactive particle selector
 export const Default: Story = {
     args: {
         particleType: ParticleList.ELECTRON,
+        qcdColor: undefined,
+        qcdColor1: undefined,
+        qcdColor2: undefined,
     },
     parameters: {
         docs: {
             description: {
-                story: 'Default electron particle with shadow background.',
+                story: 'Interactive particle selector supporting all particle types. Use the Controls panel to switch between Quantum particles (24), Mesons (25), and Atomic elements (118). The qcdColor control affects quantum quarks, while qcdColor1 and qcdColor2 control the two quarks in mesons independently.',
             },
         },
     },
@@ -47,7 +176,7 @@ export const ParticleComparison: Story = {
         <div style={{ display: 'flex', gap: '40px', alignItems: 'center' }}>
             <div style={{ textAlign: 'center' }}>
                 <div style={{ marginBottom: '16px' }}>
-                    <UILabel fontVariant="body" color="primary" align="center">
+                    <UILabel fontVariant="body" color="white">
                         Leptons (Matter)
                     </UILabel>
                 </div>
@@ -55,7 +184,7 @@ export const ParticleComparison: Story = {
                     <div style={{ textAlign: 'center' }}>
                         <UIParticle particleType={ParticleList.ELECTRON} />
                         <div style={{ marginTop: '8px' }}>
-                            <UILabel fontVariant="body" color="primary" align="center">
+                            <UILabel fontVariant="body" color="white">
                                 {getFormattedParticleSymbolByType(ParticleList.ELECTRON)}
                             </UILabel>
                         </div>
@@ -63,7 +192,7 @@ export const ParticleComparison: Story = {
                     <div style={{ textAlign: 'center' }}>
                         <UIParticle particleType={ParticleList.MUON} />
                         <div style={{ marginTop: '8px' }}>
-                            <UILabel fontVariant="body" color="primary" align="center">
+                            <UILabel fontVariant="body" color="white">
                                 {getFormattedParticleSymbolByType(ParticleList.MUON)}
                             </UILabel>
                         </div>
@@ -71,7 +200,7 @@ export const ParticleComparison: Story = {
                     <div style={{ textAlign: 'center' }}>
                         <UIParticle particleType={ParticleList.TAU} />
                         <div style={{ marginTop: '8px' }}>
-                            <UILabel fontVariant="body" color="primary" align="center">
+                            <UILabel fontVariant="body" color="white">
                                 {getFormattedParticleSymbolByType(ParticleList.TAU)}
                             </UILabel>
                         </div>
@@ -81,7 +210,7 @@ export const ParticleComparison: Story = {
 
             <div style={{ textAlign: 'center' }}>
                 <div style={{ marginBottom: '16px' }}>
-                    <UILabel fontVariant="body" color="primary" align="center">
+                    <UILabel fontVariant="body" color="white">
                         Antileptons (Antimatter)
                     </UILabel>
                 </div>
@@ -89,7 +218,7 @@ export const ParticleComparison: Story = {
                     <div style={{ textAlign: 'center' }}>
                         <UIParticle particleType={ParticleList.POSITRON} />
                         <div style={{ marginTop: '8px' }}>
-                            <UILabel fontVariant="body" color="primary" align="center">
+                            <UILabel fontVariant="body" color="white">
                                 {getFormattedParticleSymbolByType(ParticleList.POSITRON)}
                             </UILabel>
                         </div>
@@ -97,7 +226,7 @@ export const ParticleComparison: Story = {
                     <div style={{ textAlign: 'center' }}>
                         <UIParticle particleType={ParticleList.ANTI_MUON} />
                         <div style={{ marginTop: '8px' }}>
-                            <UILabel fontVariant="body" color="primary" align="center">
+                            <UILabel fontVariant="body" color="white">
                                 {getFormattedParticleSymbolByType(ParticleList.ANTI_MUON)}
                             </UILabel>
                         </div>
@@ -105,7 +234,7 @@ export const ParticleComparison: Story = {
                     <div style={{ textAlign: 'center' }}>
                         <UIParticle particleType={ParticleList.ANTI_TAU} />
                         <div style={{ marginTop: '8px' }}>
-                            <UILabel fontVariant="body" color="primary" align="center">
+                            <UILabel fontVariant="body" color="white">
                                 {getFormattedParticleSymbolByType(ParticleList.ANTI_TAU)}
                             </UILabel>
                         </div>
@@ -128,7 +257,7 @@ export const Neutrinos: Story = {
     render: () => (
         <div style={{ textAlign: 'center' }}>
             <div style={{ marginBottom: '16px' }}>
-                <UILabel fontVariant="body" color="primary" align="center">
+                <UILabel fontVariant="body" color="white">
                     Neutrinos (No Shadows)
                 </UILabel>
             </div>
@@ -136,7 +265,7 @@ export const Neutrinos: Story = {
                 <div style={{ textAlign: 'center' }}>
                     <UIParticle particleType={ParticleList.ELECTRON_NEUTRINO} />
                     <div style={{ marginTop: '8px' }}>
-                        <UILabel fontVariant="body" color="primary" align="center">
+                        <UILabel fontVariant="body" color="white">
                             {getFormattedParticleSymbolByType(ParticleList.ELECTRON_NEUTRINO)}
                         </UILabel>
                     </div>
@@ -144,7 +273,7 @@ export const Neutrinos: Story = {
                 <div style={{ textAlign: 'center' }}>
                     <UIParticle particleType={ParticleList.MUON_NEUTRINO} />
                     <div style={{ marginTop: '8px' }}>
-                        <UILabel fontVariant="body" color="primary" align="center">
+                        <UILabel fontVariant="body" color="white">
                             {getFormattedParticleSymbolByType(ParticleList.MUON_NEUTRINO)}
                         </UILabel>
                     </div>
@@ -152,7 +281,7 @@ export const Neutrinos: Story = {
                 <div style={{ textAlign: 'center' }}>
                     <UIParticle particleType={ParticleList.TAU_NEUTRINO} />
                     <div style={{ marginTop: '8px' }}>
-                        <UILabel fontVariant="body" color="primary" align="center">
+                        <UILabel fontVariant="body" color="white">
                             {getFormattedParticleSymbolByType(ParticleList.TAU_NEUTRINO)}
                         </UILabel>
                     </div>
@@ -169,46 +298,72 @@ export const Neutrinos: Story = {
     },
 };
 
-// Quarks showcase (mini size)
+// Quarks showcase (mini size with 3D sphere gradients)
 export const Quarks: Story = {
     render: () => (
         <div style={{ textAlign: 'center' }}>
             <div style={{ marginBottom: '16px' }}>
                 <UILabel fontVariant="body" color="white">
-                    Quarks (Mini Size)
+                    Quarks (3D Sphere with Depth Shadow)
                 </UILabel>
             </div>
-            <div style={{ display: 'flex', gap: '20px', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ textAlign: 'center' }}>
-                    <UIParticle particleType={ParticleList.UP} />
-                    <div style={{ marginTop: '8px' }}>
-                        <UILabel fontVariant="body" color="white">
-                            {getFormattedParticleSymbolByType(ParticleList.UP)}
-                        </UILabel>
+            <div style={{ display: 'flex', gap: '40px', alignItems: 'center', justifyContent: 'center' }}>
+                <div>
+                    <div style={{ marginBottom: '12px', color: 'white' }}>Matter Quarks</div>
+                    <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <UIParticle particleType={ParticleList.UP} />
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="white">
+                                    Up (u)
+                                </UILabel>
+                            </div>
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                            <UIParticle particleType={ParticleList.DOWN} />
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="white">
+                                    Down (d)
+                                </UILabel>
+                            </div>
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                            <UIParticle particleType={ParticleList.CHARM} />
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="white" >
+                                    Charm (c)
+                                </UILabel>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div style={{ textAlign: 'center' }}>
-                    <UIParticle particleType={ParticleList.DOWN} />
-                    <div style={{ marginTop: '8px' }}>
-                        <UILabel fontVariant="body" color="white">
-                            {getFormattedParticleSymbolByType(ParticleList.DOWN)}
-                        </UILabel>
-                    </div>
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                    <UIParticle particleType={ParticleList.CHARM} />
-                    <div style={{ marginTop: '8px' }}>
-                        <UILabel fontVariant="body" color="white" >
-                            {getFormattedParticleSymbolByType(ParticleList.CHARM)}
-                        </UILabel>
-                    </div>
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                    <UIParticle particleType={ParticleList.STRANGE} />
-                    <div style={{ marginTop: '8px' }}>
-                        <UILabel fontVariant="body" color="white">
-                            {getFormattedParticleSymbolByType(ParticleList.STRANGE)}
-                        </UILabel>
+                <div>
+                    <div style={{ marginBottom: '12px', color: 'white' }}>Antimatter Quarks</div>
+                    <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <UIParticle particleType={ParticleList.ANTI_UP} />
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="white">
+                                    Anti-up (ū)
+                                </UILabel>
+                            </div>
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                            <UIParticle particleType={ParticleList.ANTI_DOWN} />
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="white">
+                                    Anti-down (đ)
+                                </UILabel>
+                            </div>
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                            <UIParticle particleType={ParticleList.ANTI_CHARM} />
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="white">
+                                    Anti-charm (ĉ)
+                                </UILabel>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -217,7 +372,200 @@ export const Quarks: Story = {
     parameters: {
         docs: {
             description: {
-                story: 'Quarks are smaller particles (mini size) with gray coloring and no shadows.',
+                story: 'Quarks feature 3D sphere rendering with radial gradients and depth shadows. Matter quarks have bright centers fading to dark edges. Antimatter quarks have inverted gradients (dark center to bright edges). Each quark has an infinite glow animation with randomized timing.',
+            },
+        },
+    },
+};
+
+// QCD Color Charges showcase
+export const QCDColors: Story = {
+    render: () => (
+        <div style={{ textAlign: 'center' }}>
+            <div style={{ marginBottom: '16px' }}>
+                <UILabel fontVariant="body" color="white">
+                    QCD Color Charges (Quarks)
+                </UILabel>
+            </div>
+            <div style={{ display: 'flex', gap: '40px', alignItems: 'flex-start', justifyContent: 'center' }}>
+                <div>
+                    <div style={{ marginBottom: '12px', color: 'white' }}>Matter Colors</div>
+                    <div style={{ display: 'flex', gap: '20px', alignItems: 'center', marginBottom: '20px' }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <UIParticle particleType={ParticleList.UP} qcdColor={QCDColorCharge.RED} />
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="white">
+                                    Red
+                                </UILabel>
+                            </div>
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                            <UIParticle particleType={ParticleList.UP} qcdColor={QCDColorCharge.GREEN} />
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="white">
+                                    Green
+                                </UILabel>
+                            </div>
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                            <UIParticle particleType={ParticleList.UP} qcdColor={QCDColorCharge.BLUE} />
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="white">
+                                    Blue
+                                </UILabel>
+                            </div>
+                        </div>
+                    </div>
+                    <div style={{ textAlign: 'center' }}>
+                        <UIParticle particleType={ParticleList.UP} qcdColor={QCDColorCharge.COLORLESS} />
+                        <div style={{ marginTop: '8px' }}>
+                            <UILabel fontVariant="body" color="white">
+                                Colorless (Gray)
+                            </UILabel>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div style={{ marginBottom: '12px', color: 'white' }}>Antimatter Anticolors</div>
+                    <div style={{ display: 'flex', gap: '20px', alignItems: 'center', marginBottom: '20px' }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <UIParticle particleType={ParticleList.ANTI_UP} qcdColor={QCDColorCharge.CYAN} />
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="white">
+                                    Cyan (Antired)
+                                </UILabel>
+                            </div>
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                            <UIParticle particleType={ParticleList.ANTI_UP} qcdColor={QCDColorCharge.MAGENTA} />
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="white">
+                                    Magenta (Antigreen)
+                                </UILabel>
+                            </div>
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                            <UIParticle particleType={ParticleList.ANTI_UP} qcdColor={QCDColorCharge.YELLOW} />
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="white">
+                                    Yellow (Antiblue)
+                                </UILabel>
+                            </div>
+                        </div>
+                    </div>
+                    <div style={{ textAlign: 'center' }}>
+                        <UIParticle particleType={ParticleList.ANTI_UP} qcdColor={QCDColorCharge.COLORLESS} />
+                        <div style={{ marginTop: '8px' }}>
+                            <UILabel fontVariant="body" color="white">
+                                Colorless (Gray)
+                            </UILabel>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    ),
+    parameters: {
+        docs: {
+            description: {
+                story: 'QCD (Quantum Chromodynamics) color charges for quarks. Matter quarks can have red, green, or blue color charges. Antimatter quarks have anticolors: cyan (antired), magenta (antigreen), and yellow (antiblue). Quarks can also be colorless with a gray gradient (QCDColorCharge.COLORLESS). For colorless quarks, the QCD layer uses separate gradients: matter uses --qcd-gradient-colorless (light gray #dddddd → dark gray #232323), antimatter uses --qcd-gradient-colorless-anti (dark gray #232323 → light gray #dddddd). Use the qcdColor prop to override the default color from particle data.',
+            },
+        },
+    },
+};
+
+// Mesons showcase (composite particles)
+export const Mesons: Story = {
+    render: () => (
+        <div style={{ textAlign: 'center', background: '#000', padding: '20px', borderRadius: '8px' }}>
+            <div style={{ marginBottom: '16px' }}>
+                <UILabel fontVariant="body" color="white">
+                    Mesons (Composite Particles)
+                </UILabel>
+            </div>
+            <div style={{ display: 'flex', gap: '30px', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
+                {/* Pion Family */}
+                <div style={{ textAlign: 'center' }}>
+                    <div style={{ marginBottom: '8px', color: 'white', fontSize: '10px' }}>Pion Family</div>
+                    <div style={{ display: 'flex', gap: '15px' }}>
+                        <div>
+                            <UIMesonParticle mesonType={1} />
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="white">π+</UILabel>
+                            </div>
+                        </div>
+                        <div>
+                            <UIMesonParticle mesonType={2} />
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="white">π-</UILabel>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Kaon Family */}
+                <div style={{ textAlign: 'center' }}>
+                    <div style={{ marginBottom: '8px', color: 'white', fontSize: '10px' }}>Kaon Family</div>
+                    <div style={{ display: 'flex', gap: '15px' }}>
+                        <div>
+                            <UIMesonParticle mesonType={5} />
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="white">K+</UILabel>
+                            </div>
+                        </div>
+                        <div>
+                            <UIMesonParticle mesonType={7} />
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="white">K0</UILabel>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* D Meson Family */}
+                <div style={{ textAlign: 'center' }}>
+                    <div style={{ marginBottom: '8px', color: 'white', fontSize: '10px' }}>D Meson Family</div>
+                    <div style={{ display: 'flex', gap: '15px' }}>
+                        <div>
+                            <UIMesonParticle mesonType={9} />
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="white">D+</UILabel>
+                            </div>
+                        </div>
+                        <div>
+                            <UIMesonParticle mesonType={11} />
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="white">D0</UILabel>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Heavy Quarkonia */}
+                <div style={{ textAlign: 'center' }}>
+                    <div style={{ marginBottom: '8px', color: 'white', fontSize: '10px' }}>Heavy Quarkonia</div>
+                    <div style={{ display: 'flex', gap: '15px' }}>
+                        <div>
+                            <UIMesonParticle mesonType={23} />
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="white">φ</UILabel>
+                            </div>
+                        </div>
+                        <div>
+                            <UIMesonParticle mesonType={25} />
+                            <div style={{ marginTop: '8px' }}>
+                                <UILabel fontVariant="body" color="white">J/ψ</UILabel>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    ),
+    parameters: {
+        docs: {
+            description: {
+                story: 'Mesons are composite particles made of a quark-antiquark pair. Use qcdColor1 and qcdColor2 controls to experiment with different QCD color combinations for each quark. Each meson displays two bonded quarks with proper matter/antimatter gradient rendering and depth shadows for overlapping perception. The bond distance is configurable (default 3px). All 25 mesons can be explored via the Default story controls.',
             },
         },
     },

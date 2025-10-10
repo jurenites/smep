@@ -20,6 +20,29 @@ export enum ParticleMatterType {
 }
 
 /**
+ * QCD Color Charge enumeration for quarks
+ * Represents the three color charges in Quantum Chromodynamics
+ * Matter quarks: red, green, blue
+ * Antimatter quarks: cyan (antired), magenta (antigreen), yellow (antiblue)
+ * Colorless: neutral gray (no color charge)
+ */
+export enum QCDColorCharge {
+    // Matter Quarks
+    RED = 'red',
+    GREEN = 'green',
+    BLUE = 'blue',
+
+    // Antimatter Quarks (Anticolors)
+    CYAN = 'cyan',
+    MAGENTA = 'magenta',
+    YELLOW = 'yellow',
+
+    // Colorless (neutral state)
+    COLORLESS = 'colorless',
+    COLORLESS_ANTI = 'colorless-anti',
+}
+
+/**
  * Particle list enumeration for particle identification
  */
 // NOTE: ParticleList enum is actively used throughout the codebase for type safety.
@@ -32,12 +55,12 @@ export enum ParticleList {
     STRANGE = 'strange',
     TOP = 'top',
     BOTTOM = 'bottom',
-    ANTI_UP = 'anti-up',
-    ANTI_DOWN = 'anti-down',
-    ANTI_CHARM = 'anti-charm',
-    ANTI_STRANGE = 'anti-strange',
-    ANTI_TOP = 'anti-top',
-    ANTI_BOTTOM = 'anti-bottom',
+    ANTI_UP = 'anti up',
+    ANTI_DOWN = 'anti down',
+    ANTI_CHARM = 'anti charm',
+    ANTI_STRANGE = 'anti strange',
+    ANTI_TOP = 'anti top',
+    ANTI_BOTTOM = 'anti bottom',
 
     // Leptons
     ELECTRON = 'electron',
@@ -63,20 +86,20 @@ export enum ParticleList {
 
 // eslint-disable-next-line @typescript-eslint/object-curly-spacing
 export const PARTICLE_QUANTUM_DATA: readonly ParticleQuantumData[] = [
-    // Quarks - use custom size (8px) for better visibility
-    { properties: { symbol: 'u', name: 'up', family: 'Quark', matterType: ParticleMatterType.MATTER, charge: 2 / 3, magneticFieldStrength: 0.5, massInMeV: 2.2 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-matter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 4.3 }, table: { shortForm: { x: 0, y: 0 } } },
-    { properties: { symbol: 'd', name: 'down', family: 'Quark', matterType: ParticleMatterType.MATTER, charge: -1 / 3, magneticFieldStrength: 0.5, massInMeV: 4.7 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-matter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 9.4 }, table: { shortForm: { x: 0, y: 1 } } },
-    { properties: { symbol: 'c', name: 'charm', family: 'Quark', matterType: ParticleMatterType.MATTER, charge: 2 / 3, magneticFieldStrength: 0.5, massInMeV: 1270 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-matter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 2550 }, table: { shortForm: { x: 1, y: 0 } } },
-    { properties: { symbol: 's', name: 'strange', family: 'Quark', matterType: ParticleMatterType.MATTER, charge: -1 / 3, magneticFieldStrength: 0.5, massInMeV: 96 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-matter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 190 }, table: { shortForm: { x: 1, y: 1 } } },
-    { properties: { symbol: 't', name: 'top', family: 'Quark', matterType: ParticleMatterType.MATTER, charge: 2 / 3, magneticFieldStrength: 0.5, massInMeV: 173000 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-matter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 340000 }, table: { shortForm: { x: 2, y: 0 } } },
-    { properties: { symbol: 'b', name: 'bottom', family: 'Quark', matterType: ParticleMatterType.MATTER, charge: -1 / 3, magneticFieldStrength: 0.5, massInMeV: 4180 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-matter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 9200 }, table: { shortForm: { x: 2, y: 1 } } },
-    // Antiquarks - same as quarks but opposite charges
-    { properties: { symbol: 'û', name: 'anti up', family: 'Quark', matterType: ParticleMatterType.ANTIMATTER, charge: -2 / 3, magneticFieldStrength: 0.5, massInMeV: 2.2 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-antimatter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 4.3 }, table: { shortForm: { x: 4, y: 0 } } },
-    { properties: { symbol: 'đ', name: 'anti down', family: 'Quark', matterType: ParticleMatterType.ANTIMATTER, charge: 1 / 3, magneticFieldStrength: 0.5, massInMeV: 4.7 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-antimatter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 9.4 }, table: { shortForm: { x: 4, y: 1 } } },
-    { properties: { symbol: 'ĉ', name: 'anti charm', family: 'Quark', matterType: ParticleMatterType.ANTIMATTER, charge: -2 / 3, magneticFieldStrength: 0.5, massInMeV: 1270 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-antimatter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 2550 }, table: { shortForm: { x: 5, y: 0 } } },
-    { properties: { symbol: 'š', name: 'anti strange', family: 'Quark', matterType: ParticleMatterType.ANTIMATTER, charge: 1 / 3, magneticFieldStrength: 0.5, massInMeV: 96 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-antimatter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 190 }, table: { shortForm: { x: 5, y: 1 } } },
-    { properties: { symbol: 'í', name: 'anti top', family: 'Quark', matterType: ParticleMatterType.ANTIMATTER, charge: -2 / 3, magneticFieldStrength: 0.5, massInMeV: 173000 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-antimatter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 340000 }, table: { shortForm: { x: 6, y: 0 } } },
-    { properties: { symbol: 'ḃ', name: 'anti bottom', family: 'Quark', matterType: ParticleMatterType.ANTIMATTER, charge: 1 / 3, magneticFieldStrength: 0.5, massInMeV: 4180 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-antimatter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 9200 }, table: { shortForm: { x: 6, y: 1 } } },
+    // Quarks - use custom size (8px) for better visibility with QCD color charges
+    { properties: { symbol: 'u', name: 'up', family: 'Quark', matterType: ParticleMatterType.MATTER, charge: 2 / 3, magneticFieldStrength: 0.5, massInMeV: 2.2, colorCharge: QCDColorCharge.RED }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-matter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 4.3 }, table: { shortForm: { x: 0, y: 0 } } },
+    { properties: { symbol: 'd', name: 'down', family: 'Quark', matterType: ParticleMatterType.MATTER, charge: -1 / 3, magneticFieldStrength: 0.5, massInMeV: 4.7, colorCharge: QCDColorCharge.GREEN }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-matter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 9.4 }, table: { shortForm: { x: 0, y: 1 } } },
+    { properties: { symbol: 'c', name: 'charm', family: 'Quark', matterType: ParticleMatterType.MATTER, charge: 2 / 3, magneticFieldStrength: 0.5, massInMeV: 1270, colorCharge: QCDColorCharge.BLUE }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-matter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 2550 }, table: { shortForm: { x: 1, y: 0 } } },
+    { properties: { symbol: 's', name: 'strange', family: 'Quark', matterType: ParticleMatterType.MATTER, charge: -1 / 3, magneticFieldStrength: 0.5, massInMeV: 96, colorCharge: QCDColorCharge.RED }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-matter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 190 }, table: { shortForm: { x: 1, y: 1 } } },
+    { properties: { symbol: 't', name: 'top', family: 'Quark', matterType: ParticleMatterType.MATTER, charge: 2 / 3, magneticFieldStrength: 0.5, massInMeV: 173000, colorCharge: QCDColorCharge.GREEN }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-matter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 340000 }, table: { shortForm: { x: 2, y: 0 } } },
+    { properties: { symbol: 'b', name: 'bottom', family: 'Quark', matterType: ParticleMatterType.MATTER, charge: -1 / 3, magneticFieldStrength: 0.5, massInMeV: 4180, colorCharge: QCDColorCharge.BLUE }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-matter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 9200 }, table: { shortForm: { x: 2, y: 1 } } },
+    // Antiquarks - same as quarks but opposite charges and anticolors (cyan, magenta, yellow)
+    { properties: { symbol: 'û', name: 'anti up', family: 'Quark', matterType: ParticleMatterType.ANTIMATTER, charge: -2 / 3, magneticFieldStrength: 0.5, massInMeV: 2.2, colorCharge: QCDColorCharge.CYAN }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-antimatter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 4.3 }, table: { shortForm: { x: 4, y: 0 } } },
+    { properties: { symbol: 'đ', name: 'anti down', family: 'Quark', matterType: ParticleMatterType.ANTIMATTER, charge: 1 / 3, magneticFieldStrength: 0.5, massInMeV: 4.7, colorCharge: QCDColorCharge.MAGENTA }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-antimatter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 9.4 }, table: { shortForm: { x: 4, y: 1 } } },
+    { properties: { symbol: 'ĉ', name: 'anti charm', family: 'Quark', matterType: ParticleMatterType.ANTIMATTER, charge: -2 / 3, magneticFieldStrength: 0.5, massInMeV: 1270, colorCharge: QCDColorCharge.YELLOW }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-antimatter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 2550 }, table: { shortForm: { x: 5, y: 0 } } },
+    { properties: { symbol: 'š', name: 'anti strange', family: 'Quark', matterType: ParticleMatterType.ANTIMATTER, charge: 1 / 3, magneticFieldStrength: 0.5, massInMeV: 96, colorCharge: QCDColorCharge.CYAN }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-antimatter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 190 }, table: { shortForm: { x: 5, y: 1 } } },
+    { properties: { symbol: 'í', name: 'anti top', family: 'Quark', matterType: ParticleMatterType.ANTIMATTER, charge: -2 / 3, magneticFieldStrength: 0.5, massInMeV: 173000, colorCharge: QCDColorCharge.MAGENTA }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-antimatter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 340000 }, table: { shortForm: { x: 6, y: 0 } } },
+    { properties: { symbol: 'ḃ', name: 'anti bottom', family: 'Quark', matterType: ParticleMatterType.ANTIMATTER, charge: 1 / 3, magneticFieldStrength: 0.5, massInMeV: 4180, colorCharge: QCDColorCharge.YELLOW }, render: { coreDiameter: TOKENS.sizes.CIRCLE_MINI_6, coreColor: 'var(--particle-quark-antimatter)' }, physics: { interactionRange: 10, collisionRadius: 2, mass: 9200 }, table: { shortForm: { x: 6, y: 1 } } },
     // Leptons 
     { properties: { symbol: 'e⁻', name: 'electron', family: 'Lepton', matterType: ParticleMatterType.MATTER, charge: -1, magneticFieldStrength: 1.0, massInMeV: 0.511 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, shadowSize: TOKENS.shadowSizes.SMALL, coreColor: 'var(--particle-lepton-matter)' }, physics: { interactionRange: 25, collisionRadius: 3, mass: 1 }, table: { shortForm: { x: 2, y: 0 } } },
     { properties: { symbol: 'μ⁻', name: 'muon', family: 'Lepton', matterType: ParticleMatterType.MATTER, charge: -1, magneticFieldStrength: 2.1, massInMeV: 105.66 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, shadowSize: TOKENS.shadowSizes.MID, coreColor: 'var(--particle-lepton-matter)' }, physics: { interactionRange: 30, collisionRadius: 3, mass: 207 }, table: { shortForm: { x: 2, y: 1 } } },
@@ -85,12 +108,12 @@ export const PARTICLE_QUANTUM_DATA: readonly ParticleQuantumData[] = [
     { properties: { symbol: 'μ⁺', name: 'antimuon', family: 'Antilepton', matterType: ParticleMatterType.ANTIMATTER, charge: +1, magneticFieldStrength: 2.1, massInMeV: 105.66 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, shadowSize: TOKENS.shadowSizes.MID, coreColor: 'var(--particle-lepton-antimatter)' }, physics: { interactionRange: 30, collisionRadius: 3, mass: 207 }, table: { shortForm: { x: 2, y: 4 } } },
     { properties: { symbol: 'τ⁺', name: 'antitau', family: 'Antilepton', matterType: ParticleMatterType.ANTIMATTER, charge: +1, magneticFieldStrength: 3.5, massInMeV: 1776.86 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, shadowSize: TOKENS.shadowSizes.BIG, coreColor: 'var(--particle-lepton-antimatter)' }, physics: { interactionRange: 40, collisionRadius: 3, mass: 3477 }, table: { shortForm: { x: 2, y: 5 } } },
     // Neutrinos - neutral particles with minimal interaction
-    { properties: { symbol: 'νè', name: 'electron neutrino', family: 'Neutrino', matterType: ParticleMatterType.MATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.000002 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, coreColor: 'var(--particle-neutrino-matter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.0000022 }, table: { shortForm: { x: 3, y: 0 } } },
-    { properties: { symbol: 'νµ', name: 'muon neutrino', family: 'Neutrino', matterType: ParticleMatterType.MATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.00019 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, coreColor: 'var(--particle-neutrino-matter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.00017 }, table: { shortForm: { x: 3, y: 1 } } },
-    { properties: { symbol: 'νî', name: 'tau neutrino', family: 'Neutrino', matterType: ParticleMatterType.MATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.0185 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, coreColor: 'var(--particle-neutrino-matter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.035 }, table: { shortForm: { x: 3, y: 2 } } },
+    { properties: { symbol: 'νè', name: 'electron-neutrino', family: 'Neutrino', matterType: ParticleMatterType.MATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.000002 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, coreColor: 'var(--particle-neutrino-matter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.0000022 }, table: { shortForm: { x: 3, y: 0 } } },
+    { properties: { symbol: 'νµ', name: 'muon-neutrino', family: 'Neutrino', matterType: ParticleMatterType.MATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.00019 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, coreColor: 'var(--particle-neutrino-matter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.00017 }, table: { shortForm: { x: 3, y: 1 } } },
+    { properties: { symbol: 'νî', name: 'tau-neutrino', family: 'Neutrino', matterType: ParticleMatterType.MATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.0185 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, coreColor: 'var(--particle-neutrino-matter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.035 }, table: { shortForm: { x: 3, y: 2 } } },
     { properties: { symbol: 'νè', name: 'antineutrino', family: 'antineutrino', matterType: ParticleMatterType.ANTIMATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.000002 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, coreColor: 'var(--particle-neutrino-antimatter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.0000022 }, table: { shortForm: { x: 3, y: 3 } } },
-    { properties: { symbol: 'νµ', name: 'antimuon neutrino', family: 'Antineutrino', matterType: ParticleMatterType.ANTIMATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.00019 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, coreColor: 'var(--particle-neutrino-antimatter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.00017 }, table: { shortForm: { x: 3, y: 4 } } },
-    { properties: { symbol: 'νî', name: 'antitau neutrino', family: 'Antineutrino', matterType: ParticleMatterType.ANTIMATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.0185 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, coreColor: 'var(--particle-neutrino-antimatter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.035 }, table: { shortForm: { x: 3, y: 5 } } },
+    { properties: { symbol: 'νµ', name: 'antimuon-neutrino', family: 'Antineutrino', matterType: ParticleMatterType.ANTIMATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.00019 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, coreColor: 'var(--particle-neutrino-antimatter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.00017 }, table: { shortForm: { x: 3, y: 4 } } },
+    { properties: { symbol: 'νî', name: 'antitau-neutrino', family: 'Antineutrino', matterType: ParticleMatterType.ANTIMATTER, charge: 0, magneticFieldStrength: 0.0, massInMeV: 0.0185 }, render: { coreDiameter: TOKENS.sizes.CIRCLE_DOT_1, coreColor: 'var(--particle-neutrino-antimatter)' }, physics: { interactionRange: 0, collisionRadius: 0, mass: 0.035 }, table: { shortForm: { x: 3, y: 5 } } },
 ];
 
 /**
@@ -113,6 +136,8 @@ export interface ParticleQuantumData {
         magneticFieldStrength: number;
         /** Mass in MeV/c² for mass-energy conversion */
         massInMeV: number;
+        /** QCD color charge (only for quarks) */
+        colorCharge?: QCDColorCharge;
     };
 
     /** Rendering configuration */
@@ -242,7 +267,7 @@ export const shouldHaveBackgroundShadow = (index: number): boolean => {
 export const getParticleIndex = (particleType: ParticleList): number => {
     const particleNames = PARTICLE_QUANTUM_DATA.map(p => p.properties.name);
     const index = particleNames.findIndex(name =>
-        name.toLowerCase().replace(/\s+/g, '-') === particleType.toLowerCase()
+        name.toLowerCase() === particleType.toLowerCase()
     );
     if (index === -1) {
         throw new Error(`Particle type ${particleType} not found in particle data`);
@@ -279,7 +304,14 @@ export const getFormattedParticleSymbolByType = (particleType: ParticleList): st
 
 export const isAntiparticleByType = (particleType: ParticleList): boolean => {
     // Special exceptions: positron and anti-quarks should not have antiparticle bar
+    //TODO: check is there better way to list the anti matter particles
     if (particleType === ParticleList.POSITRON ||
+        particleType === ParticleList.ANTI_MUON ||
+        particleType === ParticleList.ANTI_TAU ||
+        particleType === ParticleList.ANTI_ELECTRON_NEUTRINO ||
+        particleType === ParticleList.ANTI_MUON_NEUTRINO ||
+        particleType === ParticleList.ANTI_TAU_NEUTRINO ||
+
         particleType === ParticleList.ANTI_UP ||
         particleType === ParticleList.ANTI_DOWN ||
         particleType === ParticleList.ANTI_CHARM ||
@@ -289,6 +321,35 @@ export const isAntiparticleByType = (particleType: ParticleList): boolean => {
         return false;
     }
     return isAntiparticle(getParticleIndex(particleType));
+};
+
+/**
+ * Get QCD color charge gradient CSS variable for a quark
+ * Returns the appropriate CSS variable based on the color charge
+ */
+export const getQCDColorGradient = (colorCharge?: QCDColorCharge): string | null => {
+    if (!colorCharge) return null;
+
+    const gradientMap: Record<QCDColorCharge, string> = {
+        [QCDColorCharge.RED]: 'var(--qcd-gradient-red)',
+        [QCDColorCharge.GREEN]: 'var(--qcd-gradient-green)',
+        [QCDColorCharge.BLUE]: 'var(--qcd-gradient-blue)',
+        [QCDColorCharge.CYAN]: 'var(--qcd-gradient-cyan)',
+        [QCDColorCharge.MAGENTA]: 'var(--qcd-gradient-magenta)',
+        [QCDColorCharge.YELLOW]: 'var(--qcd-gradient-yellow)',
+        [QCDColorCharge.COLORLESS]: 'var(--qcd-gradient-colorless)',
+        [QCDColorCharge.COLORLESS_ANTI]: ' --qcd-gradient-colorless-anti)',
+    };
+
+    return gradientMap[colorCharge];
+};
+
+/**
+ * Get QCD color charge gradient for a particle by type
+ */
+export const getQCDColorGradientByType = (particleType: ParticleList): string | null => {
+    const particleProps = getParticlePropertiesByType(particleType);
+    return getQCDColorGradient(particleProps.colorCharge);
 };
 
 

@@ -99,7 +99,7 @@
     height: var(--size-card-big-h);
     border: var(--size-line) solid var(--card-border-color, var(--color-gray));
     border-radius: var(--size-border-radius-small);
-    background-color: var(--card-background-color, #232323);
+    background-color: var(--card-background-color);
     cursor: pointer;
     transition: all 0.3s ease-in-out, width 0.3s ease-in-out, height 0.3s ease-in-out;
     position: relative;

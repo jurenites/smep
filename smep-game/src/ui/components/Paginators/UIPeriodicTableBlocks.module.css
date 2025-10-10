@@ -50,6 +50,7 @@
     align-items: flex-end;
     grid-template-columns: none;
     grid-template-rows: none;
+    justify-content: flex-start;
 }
 
 .periodicTableWrapper[data-view-mode="long"] .blockContainer {

@@ -36,6 +36,7 @@ Use these consistently across engine, UI, and docs.
 | Lepton | `ParticleList.LEPTON` | Enum member |
 | Boson | `ParticleList.BOSON` | Enum member |
 | Quark | `ParticleList.QUARK` | Enum member |
+| QCD Color Charge | `QCDColorCharge` | Enum: `RED`, `GREEN`, `BLUE`, `CYAN`, `MAGENTA`, `YELLOW` |
 | Hadron | `ParticleList.HADRON` | Enum member |
 | Meson | `ParticleList.MESON` | Enum member (subtype of Hadron) |
 | Baryon | `ParticleList.BARYON` | Enum member (subtype of Hadron) |
@@ -268,6 +269,21 @@ All UI elements must adhere to these rules unless explicitly overridden.
 | Dark Gray | `COLOR_DARK_GRAY` | `#232323` (`#darkgray`) | Surfaces, disabled state, skeletons. |
 | Black | `COLOR_BLACK` | `#000000` (`#black`) | Main background, Playground void. |
 
+### QCD Color Charge Colors
+
+Matter quarks (red, green, blue) and antimatter quarks (cyan, magenta, yellow) visualized through gradient tokens:
+
+| Color | Token Start | Token End | Usage |
+|------|------|-----|-------|
+| Red | `qcdRedStart` `#FC9938` | `qcdRedEnd` `#F83284` | Matter quark color charge |
+| Green | `qcdGreenStart` `#F0F340` | `qcdGreenEnd` `#3EA968` | Matter quark color charge |
+| Blue | `qcdBlueStart` `#4EDFF8` | `qcdBlueEnd` `#5554F5` | Matter quark color charge |
+| Cyan | `qcdCyanStart` `#95F2F4` | `qcdCyanEnd` `#59C4F6` | Antimatter quark anticolor (antired) |
+| Magenta | `qcdMagentaStart` `#C86DD7` | `qcdMagentaEnd` `#782AF7` | Antimatter quark anticolor (antigreen) |
+| Yellow | `qcdYellowStart` `#F8E71C` | `qcdYellowEnd` `#FD9A3E` | Antimatter quark anticolor (antiblue) |
+
+Gradients are rendered as radial gradients with 3D sphere effect positioned at 30% 30% offset for realistic lighting.
+
 ## Code Constants (TS/JS)
 
 ```ts
@@ -346,6 +362,50 @@ export const TYPOGRAPHY = {
 - **Tab** → `109px x 23px` outlined rectangle  
 
 Note the elements size sued as a prime numbers withg golden urle aspect ratio to eachother, nd other reasons maybe.
+
+### Sphere Rendering (3D Effect)
+
+Quarks and other particles can be rendered with a **3D sphere effect** using radial gradients:
+
+- **Sphere Mode**: Enabled for quarks (`family === 'Quark'`)
+- **Gradient Direction**: 
+  - **Matter quarks**: Light center → dark edges (normal sphere lighting)
+    - 0%: `#FFFFFF` (white - bright highlight)
+    - 25%: `#C0C0C0` (light gray - transition)
+    - 55%: Particle base color (CSS variable or hex)
+    - 100%: `#1a1a1a` (very dark gray - depth/shadow)
+  - **Antimatter quarks**: Dark center → light edges (inverted sphere lighting)
+    - 0%: `#1a1a1a` (very dark gray - dark core)
+    - 45%: Particle base color (CSS variable or hex)
+    - 75%: `#C0C0C0` (light gray - transition)
+    - 100%: `#FFFFFF` (white - bright outer glow)
+- **Highlight Position**: Fixed at top-left corner for both matter and antimatter
+  - Position: `-0.3, -0.3` (30% offset from center)
+  - Values: `-1` to `1` (percentage of radius)
+  - **Visual distinction**: Inverted gradient colors instantly identify antimatter
+  - Dynamically adjustable based on:
+    - Particle size (larger particles = proportional highlights)
+    - Light source direction (future: gyroscope data for mobile tilt)
+    - Vertical positioning in scene
+- **Gradient Calculation**: Center at `(radius + offsetX * radius, radius + offsetY * radius)`, radius 80%
+- **Implementation**: `UICircle` component with `sphereMode`, `highlightOffsetX`, `highlightOffsetY`, `invertGradient` props
+
+### Pearl-like Shining Animation (Quarks Only)
+
+Quarks feature a **Rain World Pearl-inspired** glowing animation:
+
+- **Animation**: Radial gradient overlay that blinks every ~10 seconds
+- **Size**: 2x larger than the quark particle itself
+- **Effect**: White radial gradient (`rgba(255,255,255,0.4)` → `transparent`)
+- **Timing**: 
+  - 0%: Fade in with scale 0.8→1.2 over 2%
+  - 2-4%: Fade out with scale 1.2→1.0 over 2%
+  - 4-100%: Hidden (96% of the cycle)
+- **Duration**: Random 8-12 seconds per particle instance (average ~10s)
+- **Delay**: Random 0-10 seconds per particle instance
+- **Randomization**: Each quark particle gets unique delay/duration values to avoid synchronization
+- **Scope**: Only applies to quarks (`family === 'Quark'`), not leptons or neutrinos
+- **Accessibility**: `aria-hidden="true"` for screen readers
 
 ---
 

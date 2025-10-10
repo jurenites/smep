@@ -1,0 +1,19 @@
+/* Meson Particle Component - Displays two bonded quarks */
+
+.mesonContainer {
+    position: relative;
+    display: block;
+}
+
+/* Bond line between particles (future use) */
+/* Positioned from particle1 center to particle2 center */
+.bondLine {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 2px;
+    background: var(--color-gray);
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
+}

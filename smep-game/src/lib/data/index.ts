@@ -99,3 +99,25 @@ export type { ParticleQuantumData } from './particle-quantum.data';
 
 // Legacy type alias
 export type { PeriodicElement as ParticleAtomicData } from './particle-atomic.data';
+
+// Particle Hadron Meson Data
+export {
+    MESON_DATA,
+    getMesonByPrimaryId,
+    getMesonBySymbol,
+    getMesonsByFamily,
+    getMesonsByQuarkComposition,
+    getFormattedQuarkComposition,
+    mapQuarkToParticleList,
+} from './particle-hadron-meson.data';
+
+// Export types from particle-hadron-meson.data
+export type {
+    MesonData,
+    MesonProperties,
+    MesonRenderConfig,
+    MesonPhysicsConfig,
+    MesonTablePosition,
+    QuarkComposition,
+    MesonFamily,
+} from './particle-hadron-meson.data';

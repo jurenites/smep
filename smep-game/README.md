@@ -31,10 +31,10 @@ npm run dev
 The game will be available at `http://localhost:5173`
 
 ### Available Scripts
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run storybook` - Start Storybook for UI components
+- `npm run storybook` - Start Sotrybook for UI components
+- `npm run dev` - Start Development server
+- `npm run build` - Build for Production
+- `npm run preview` - Preview Production build
 
 ## Technical Details
 

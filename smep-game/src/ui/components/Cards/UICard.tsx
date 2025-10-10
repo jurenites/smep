@@ -5,6 +5,7 @@ import { UIRectangleBig } from '../Primitives/UIRectangleBig';
 import { UICircle } from '../Primitives/UICircle';
 import { UILabel } from '../Text/UILabel';
 import { UIParticle } from '../Particles/UIParticle';
+import { UIMesonParticle } from '../Particles/UIMesonParticle';
 import { UITooltip } from '../Text/UITooltip';
 import { getFormattedParticleSymbolByType, isAntiparticleByType, getElementBySymbol } from '../../../lib/data';
 import styles from './UICard.module.css';
@@ -17,7 +18,7 @@ export enum UICardState {
 export type UICardLogicalSize = 'small' | 'mid' | 'big';
 
 // Union type for all possible particle types
-export type ParticleType = ParticleList | string; // string for atomic element symbols
+export type ParticleType = ParticleList | string | number; // string for atomic element symbols, number for meson primaryId
 
 interface UICardProps {
     textSymbol?: string;
@@ -29,6 +30,8 @@ interface UICardProps {
     // UIParticle configuration options
     showParticle?: boolean;
     particleType?: ParticleType;
+    // Composite particle configuration
+    compositeParticleType?: 'meson' | 'baryon';
     // Style override
     style?: React.CSSProperties;
     // Tooltip configuration
@@ -43,6 +46,7 @@ export function UICard({
     logicalSize = 'small',
     showParticle = false,
     particleType = ParticleList.ELECTRON,
+    compositeParticleType,
     style,
     tooltipContent
 }: UICardProps) {
@@ -138,8 +142,8 @@ export function UICard({
             }
         }
 
-        // Default to textSymbol or particleType
-        return textSymbol || particleType || '?';
+        // Default to textSymbol or particleType (convert to string if number)
+        return textSymbol || String(particleType) || '?';
     };
 
     // Helper function to check if particle is antiparticle (only for quantum particles)
@@ -168,8 +172,32 @@ export function UICard({
         return false;
     };
 
-    // Render particle component based on state (quantum particle)
+    // Helper function to check if particle is a meson (numeric primaryId 1-25)
+    // Reason: Automatically detect mesons without requiring compositeParticleType property
+    const isMeson = (): boolean => {
+        return typeof particleType === 'number' && particleType >= 1 && particleType <= 25;
+    };
+
+    // Render particle component based on state (quantum particle or composite particle)
     const renderParticle = () => {
+        // Automatically detect and render meson if particleType is a number (primaryId)
+        if (isMeson() || compositeParticleType === 'meson') {
+            return (
+                <UIMesonParticle
+                    mesonType={particleType}
+                    onClick={cardState === UICardState.DISABLED ? undefined : onClick}
+                    className={cardState === UICardState.DISABLED ? styles.disabledParticle : ''}
+                />
+            );
+        }
+
+        // Render baryon (future implementation)
+        if (compositeParticleType === 'baryon') {
+            // TODO: Implement baryon rendering
+            return null;
+        }
+
+        // Render single quantum particle
         return (
             <UIParticle
                 particleType={getUIParticleType()}

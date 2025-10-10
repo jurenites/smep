@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { UIPeriodicTableBlocks } from '../../components/Paginators/UIPeriodicTableBlocks';
 
 const meta: Meta<typeof UIPeriodicTableBlocks> = {
-    title: 'Paginators/UIPeriodicTableBlocks',
+    title: 'UI/Pagination/UIPeriodicTableBlocks',
     component: UIPeriodicTableBlocks,
     parameters: {
         layout: 'centered',

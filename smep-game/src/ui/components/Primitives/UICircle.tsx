@@ -15,6 +15,11 @@ export interface UICircleProps {
     // Position coordinates (center of the circle)
     x?: number; // X coordinate for center positioning
     y?: number; // Y coordinate for center positioning
+    // Sphere rendering options
+    sphereMode?: boolean; // Enable 3D sphere effect with radial gradient
+    highlightOffsetX?: number; // Highlight position offset X (percentage: -1 to 1, default: -0.3 for top-left)
+    highlightOffsetY?: number; // Highlight position offset Y (percentage: -1 to 1, default: -0.3 for top-left)
+    invertGradient?: boolean; // Invert gradient colors (dark center to light edges) for antimatter
 }
 
 // Logical size to pixel diameter mapping using tokens
@@ -35,7 +40,11 @@ export function UICircle({
     className,
     'data-particle-core': dataParticleCore,
     x,
-    y
+    y,
+    sphereMode = false,
+    highlightOffsetX = -0.3, // Default: top-left
+    highlightOffsetY = -0.3,  // Default: top-left
+    invertGradient = false // Default: normal gradient (light center to dark edges)
 }: UICircleProps) {
     // Calculate final size: use actualSize if provided, otherwise use logical size
     const finalSize = actualSize !== undefined ? actualSize : LOGICAL_SIZE_MAP[logicalSize];
@@ -82,6 +91,20 @@ export function UICircle({
     const strokeWidth = 0;//getStrokeWidth();
     const hasStroke = strokeWidth > 0;
 
+    // Calculate highlight position for sphere mode
+    // Convert offset percentages to actual coordinates within the circle
+    const highlightCx = radius + (highlightOffsetX * radius);
+    const highlightCy = radius + (highlightOffsetY * radius);
+
+    // Reason: Highlight radius calculation for future use if needed for dynamic sizing
+    // Currently using percentage-based radial gradient (r="80%")
+    // TODO: check if we need to use this ?
+    // const highlightRadius = radius * 0.4; // Highlight covers 40% of radius
+
+    // Generate unique gradient ID based on position and size (not color, as it may be a CSS variable)
+    // Use a simple unique ID that doesn't include the color value
+    const gradientId = `sphere-gradient-${Math.round(highlightCx * 100)}-${Math.round(highlightCy * 100)}-${Math.round(roundedSize * 100)}`;
+
     return (
         <svg
             className={cssClasses}
@@ -91,14 +114,48 @@ export function UICircle({
             data-actual-size={actualSize}
             data-brightness={brightness}
             data-particle-core={dataParticleCore}
+            data-sphere-mode={sphereMode}
             viewBox={`0 0 ${roundedSize} ${roundedSize}`}
             xmlns="http://www.w3.org/2000/svg"
         >
+            {sphereMode && (
+                <defs>
+                    <radialGradient
+                        id={gradientId}
+                        cx={`${(highlightCx / roundedSize) * 100}%`}
+                        cy={`${(highlightCy / roundedSize) * 100}%`}
+                        r="80%"
+                        fx={`${(highlightCx / roundedSize) * 100}%`}
+                        fy={`${(highlightCy / roundedSize) * 100}%`}
+                    >
+                        {invertGradient ? (
+                            // Inverted gradient for antimatter: very dark center → bright edges
+                            // Reason: More pronounced gradient for better visibility at small sizes (6px quarks)
+                            <>
+                                <stop offset="0%" stopColor="#000000" />
+                                <stop offset="30%" stopColor="#1a1a1a" />
+                                <stop offset="60%" stopColor={color} />
+                                <stop offset="85%" stopColor="#E0E0E0" />
+                                <stop offset="100%" stopColor="#FFFFFF" />
+                            </>
+                        ) : (
+                            // Normal gradient for matter: bright center → very dark edges
+                            <>
+                                <stop offset="0%" stopColor="#FFFFFF" />
+                                <stop offset="15%" stopColor="#E0E0E0" />
+                                <stop offset="40%" stopColor={color} />
+                                <stop offset="70%" stopColor="#1a1a1a" />
+                                <stop offset="100%" stopColor="#000000" />
+                            </>
+                        )}
+                    </radialGradient>
+                </defs>
+            )}
             <circle
                 cx={radius}
                 cy={radius}
                 r={hasStroke ? radius - strokeWidth / 2 : radius}
-                fill={color}
+                fill={sphereMode ? `url(#${gradientId})` : color}
                 stroke={hasStroke ? 'var(--color-white)' : 'none'}
                 strokeWidth={strokeWidth}
             />

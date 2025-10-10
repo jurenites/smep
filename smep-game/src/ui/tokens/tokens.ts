@@ -17,6 +17,22 @@ export const TOKENS = {
         gray: "#666666",
         darkgray: "#232323",
         black: "#000000",
+
+        // QCD Color Charge - Matter Quarks
+        qcdRedStart: "#FC9938",
+        qcdRedEnd: "#F83284",
+        qcdGreenStart: "#F0F340",
+        qcdGreenEnd: "#3EA968",
+        qcdBlueStart: "#4EDFF8",
+        qcdBlueEnd: "#5554F5",
+
+        // QCD Color Charge - Antimatter Quarks (Anticolors)
+        qcdCyanStart: "#95F2F4",
+        qcdCyanEnd: "#59C4F6",
+        qcdMagentaStart: "#C86DD7",
+        qcdMagentaEnd: "#782AF7",
+        qcdYellowStart: "#F8E71C",
+        qcdYellowEnd: "#FD9A3E",
     },
     // Typography
     typography: {
@@ -113,6 +129,25 @@ export const TOKENS = {
     shadowGradients: {
         particleMatter: 'radial-gradient(circle, rgba(248, 231, 28, 0.3) 0%, rgba(248, 231, 28, 0.1) 50%, transparent 100%)',
         particleAntimatter: 'radial-gradient(circle, rgba(76, 0, 255, 0.3) 0%, rgba(76, 0, 255, 0.1) 50%, transparent 100%)',
+        quarkDepth: 'radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 100%)',
+    },
+
+    // QCD Color Charge Gradients for Quarks
+    qcdGradients: {
+        // Matter Quarks - 3D sphere gradients (light center to dark edge)
+        red: 'radial-gradient(circle at 30% 30%, #FC9938 0%, #F83284 100%)',
+        green: 'radial-gradient(circle at 30% 30%, #F0F340 0%, #3EA968 100%)',
+        blue: 'radial-gradient(circle at 30% 30%, #4EDFF8 0%, #5554F5 100%)',
+
+        // Antimatter Quarks (Anticolors) - 3D sphere gradients (light center to dark edge)
+        cyan: 'radial-gradient(circle at 30% 30%, #95F2F4 0%, #59C4F6 100%)',
+        magenta: 'radial-gradient(circle at 30% 30%, #C86DD7 0%, #782AF7 100%)',
+        yellow: 'radial-gradient(circle at 30% 30%, #F8E71C 0%, #FD9A3E 100%)',
+    },
+
+    // Quark shadow configuration
+    quarkShadow: {
+        extension: 2, // Shadow extends 2px beyond particle diameter on each side
     },
     // Z-indexes
     zIndexes: {
@@ -130,6 +165,20 @@ export const CSS_VARS = {
     '--color-dark-gray': TOKENS.colors.darkgray,
     '--color-black': TOKENS.colors.black,
     '--color-transparent': 'transparent',
+
+    // QCD Color Charge Colors
+    '--qcd-red-start': TOKENS.colors.qcdRedStart,
+    '--qcd-red-end': TOKENS.colors.qcdRedEnd,
+    '--qcd-green-start': TOKENS.colors.qcdGreenStart,
+    '--qcd-green-end': TOKENS.colors.qcdGreenEnd,
+    '--qcd-blue-start': TOKENS.colors.qcdBlueStart,
+    '--qcd-blue-end': TOKENS.colors.qcdBlueEnd,
+    '--qcd-cyan-start': TOKENS.colors.qcdCyanStart,
+    '--qcd-cyan-end': TOKENS.colors.qcdCyanEnd,
+    '--qcd-magenta-start': TOKENS.colors.qcdMagentaStart,
+    '--qcd-magenta-end': TOKENS.colors.qcdMagentaEnd,
+    '--qcd-yellow-start': TOKENS.colors.qcdYellowStart,
+    '--qcd-yellow-end': TOKENS.colors.qcdYellowEnd,
 
     // Particle Colors
     '--particle-lepton-matter': TOKENS.colors.yolk,
@@ -156,6 +205,18 @@ export const CSS_VARS = {
     // Shadow gradients
     '--particle-matter-shadow': TOKENS.shadowGradients.particleMatter,
     '--particle-antimatter-shadow': TOKENS.shadowGradients.particleAntimatter,
+    '--quark-depth-shadow': TOKENS.shadowGradients.quarkDepth,
+
+    // QCD Color Charge Gradients
+    '--qcd-gradient-red': TOKENS.qcdGradients.red,
+    '--qcd-gradient-green': TOKENS.qcdGradients.green,
+    '--qcd-gradient-blue': TOKENS.qcdGradients.blue,
+    '--qcd-gradient-cyan': TOKENS.qcdGradients.cyan,
+    '--qcd-gradient-magenta': TOKENS.qcdGradients.magenta,
+    '--qcd-gradient-yellow': TOKENS.qcdGradients.yellow,
+
+    // Quark shadow
+    '--quark-shadow-extension': `${TOKENS.quarkShadow.extension}px`,
 
     // Blurs sizes 
     '--size-blur-playground': `${TOKENS.sizes.BLUR_PLAYGROUND}px`,

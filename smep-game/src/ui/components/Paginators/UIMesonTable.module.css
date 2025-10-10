@@ -1,0 +1,80 @@
+/* Meson Table Layout */
+
+.mesonTableContainer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-gap-large);
+    background: var(--color-background-secondary);
+}
+
+.activeMesonInfo {
+    background: var(--color-accent-primary);
+    color: var(--color-text-on-accent);
+    font-size: var(--font-code-size);
+    text-align: start;
+    border: 2px solid var(--color-accent-secondary);
+    padding: var(--size-gap-small);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--size-gap-tiny);
+}
+
+.mesonTableWrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-gap-small);
+}
+
+.mesonGrid {
+    display: grid;
+    gap: var(--size-gap-small);
+    width: fit-content;
+    height: fit-content;
+    align-items: end;
+}
+
+.mesonCell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.mesonTableWrapper .mesonGrid .squareInactive {
+    background-color: var(--color-gray);
+    border: none !important;
+}
+
+.mesonTableWrapper .mesonGrid .squareActive {
+    background-color: var(--color-white);
+    border: none !important;
+}
+
+.mesonTableWrapper .mesonGrid .squareDisabled {
+    background-color: var(--color-transparent);
+    border: none !important;
+}
+
+.familyLabels {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--size-gap-small);
+    width: 100%;
+}
+
+.familyLabel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .mesonTableContainer {
+        align-items: center;
+    }
+}

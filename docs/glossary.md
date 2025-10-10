@@ -47,7 +47,10 @@ Group of particles that includes the electron and electron neutrino.
 Force carriers. In this model: photon, gluon, W boson, Z boson.
 
 ### Quark (Кварк)
-Elementary particle known in modern physics; building blocks of hadrons.
+Elementary particle known in modern physics; building blocks of hadrons. Each quark carries a color charge property (red, green, or blue for matter quarks; cyan, magenta, or yellow for antimatter quarks) representing the Quantum Chromodynamics (QCD) force.
+
+### QCD Color Charge
+Property of quarks representing their interaction through the strong force. Matter quarks have three colors (red, green, blue) while antimatter quarks have their corresponding anticolors (cyan, magenta, yellow). This is not a real color but a quantum property visualized through colored gradients.
 
 ### Hadron (Адрон)
 Composite particle made of quarks.
