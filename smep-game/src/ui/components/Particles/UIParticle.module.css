@@ -6,6 +6,14 @@
     /* Container size is only based on UICircle dimensions, not shadow */
 }
 
+/* Ensure UICircle SVG is positioned at the origin of the container */
+/* Reason: UICircle should fill the container without additional positioning */
+.particleContainer>svg[data-particle-core="true"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 /* Shadow background for leptons - positioned absolutely, doesn't affect container size */
 .shadowBackground {
     position: absolute;

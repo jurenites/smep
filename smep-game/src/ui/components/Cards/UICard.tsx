@@ -247,6 +247,11 @@ export function UICard({
                     {renderParticle()}
                 </div>
             )}
+            {showParticle && isMeson() && (
+                <div className={styles.circleAbove}>
+                    {renderParticle()}
+                </div>
+            )}
             {showParticle && isAtomicElement() && (
                 <div className={styles.circleAbove}>
                     {renderAtomicCircle()}
@@ -267,8 +272,9 @@ export function UICard({
     const getContentClasses = (): string => {
         const baseClasses = styles.contentContainer;
         const shouldShowQuantumParticle = showParticle && typeof particleType === 'string' && Object.values(ParticleList).includes(particleType as ParticleList);
+        const shouldShowMeson = showParticle && isMeson();
         const shouldShowAtomicCircle = showParticle && isAtomicElement();
-        const positionClasses = (shouldShowQuantumParticle || shouldShowAtomicCircle) ? styles.withCircle : styles.withoutCircle;
+        const positionClasses = (shouldShowQuantumParticle || shouldShowMeson || shouldShowAtomicCircle) ? styles.withCircle : styles.withoutCircle;
 
         if (logicalSize === 'big') {
             return `${baseClasses} ${styles.bigContentContainer} ${positionClasses}`;

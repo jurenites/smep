@@ -5,15 +5,24 @@
     display: block;
 }
 
-/* Bond line between particles (future use) */
+/* Bond line between particles (placeholder for future Gluon force carriers) */
 /* Positioned from particle1 center to particle2 center */
+/* Future: This will be replaced with UIGluon component (8 QCD color variants) */
 .bondLine {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
-    height: 2px;
+    height: 1px;
     background: var(--color-gray);
-    opacity: 0.5;
+    transform: translateY(-0.5px);
+    /* Half-pixel offset for crisp 1px line */
+    opacity: 0.3;
+    /* Subtle connection */
     pointer-events: none;
     z-index: 0;
+}
+
+/* Future enhancement: Gluon force carrier visualization */
+.bondLine[data-future-gluon="true"] {
+    /* Placeholder for future 8-color QCD gluon variants */
+    /* Will render actual UIGluon particles with color-anticolor combinations */
 }

@@ -45,11 +45,11 @@ export const TOKENS = {
             fontSize: 16,
         },
         digitBig: {
-            fontFamily: "4pixel, monospace",
+            fontFamily: "'4pixel', monospace",
             fontSize: 10,
         },
         digitSmall: {
-            fontFamily: "4pixel, monospace",
+            fontFamily: "'4pixel', monospace",
             fontSize: 5,
         },
         code: {

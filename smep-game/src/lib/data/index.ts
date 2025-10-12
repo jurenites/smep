@@ -121,3 +121,27 @@ export type {
     QuarkComposition,
     MesonFamily,
 } from './particle-hadron-meson.data';
+
+// Particle Hadron Baryon Data
+export {
+    BARYON_DATA,
+    getBaryonByPrimaryId,
+    getBaryonBySymbol,
+    getBaryonsByFamily,
+    getBaryonsByQuarkComposition,
+    getFormattedBaryonQuarkComposition,
+    mapBaryonQuarkToParticleList,
+    getPredictedMassBaryons,
+    getMeasuredMassBaryons,
+} from './particle-hadron-baryon.data';
+
+// Export types from particle-hadron-baryon.data
+export type {
+    BaryonData,
+    BaryonProperties,
+    BaryonRenderConfig,
+    BaryonPhysicsConfig,
+    BaryonTablePosition,
+    BaryonQuarkComposition,
+    BaryonFamily,
+} from './particle-hadron-baryon.data';

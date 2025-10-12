@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { UICircle } from '../Primitives/UICircle';
-import { ParticleList, QCDColorCharge, getParticlePropertiesByType, getParticleShadowConfigByType, getParticleRenderConfigByType, shouldHaveBackgroundShadowByType, getQCDColorGradientByType, getQCDColorGradient } from '../../../lib/data/particle-quantum.data';
+import { ParticleList, QCDColorCharge, getParticlePropertiesByType, getParticleShadowConfigByType, getParticleRenderConfigByType, shouldHaveBackgroundShadowByType, getQCDColorGradient } from '../../../lib/data/particle-quantum.data';
 import styles from './UIParticle.module.css';
 
 export interface UIParticleProps {
@@ -42,28 +42,18 @@ export function UIParticle({
     var isAntimatter = particleProps.matterType === 'antimatter';
 
     // Get QCD color charge gradient for quarks
-    // Reason: Allow override via qcdColor prop for quarks only, including colorless gray
+    // Reason: QCD color is now dynamic - defaults to colorless (gray) when not specified
     // For colorless quarks, use different gradient for matter vs antimatter
     var qcdGradient: string | null = null;
     if (isSphereMode) {
-        if (qcdColor !== undefined) {
-            // Use override color (red, green, blue, cyan, magenta, yellow, colorless)
-            // Special handling for colorless: use colorless-anti gradient for antimatter
-            if (qcdColor === QCDColorCharge.COLORLESS && isAntimatter) {
-                qcdGradient = 'var(--qcd-gradient-colorless-anti)';
-            } else {
-                qcdGradient = getQCDColorGradient(qcdColor);
-            }
+        // Default to colorless if no qcdColor is provided
+        const effectiveColor = qcdColor ?? QCDColorCharge.COLORLESS;
+
+        // Special handling for colorless: use colorless-anti gradient for antimatter
+        if (effectiveColor === QCDColorCharge.COLORLESS && isAntimatter) {
+            qcdGradient = 'var(--qcd-gradient-colorless-anti)';
         } else {
-            // Use default color from particle data when qcdColor is undefined
-            const defaultColor = getQCDColorGradientByType(particleType);
-            // Check if default is colorless and antimatter
-            const particleColorCharge = particleProps.colorCharge;
-            if (particleColorCharge === QCDColorCharge.COLORLESS && isAntimatter) {
-                qcdGradient = 'var(--qcd-gradient-colorless-anti)';
-            } else {
-                qcdGradient = defaultColor;
-            }
+            qcdGradient = getQCDColorGradient(effectiveColor);
         }
     }
 
@@ -134,7 +124,9 @@ export function UIParticle({
                 />
             )}
 
-            {/* UICircle positioned at top-left corner of container */}
+            {/* UICircle positioned at origin of container - container already handles x,y positioning */}
+            {/* Reason: Don't pass x,y to UICircle as the container is already positioned at (x,y) */}
+            {/* If we pass x,y again, UICircle will apply absolute positioning twice causing misalignment */}
             <UICircle
                 logicalSize="dot" // Dummy value - actualSize overrides this
                 actualSize={renderConfig.coreDiameter}
@@ -142,8 +134,6 @@ export function UIParticle({
                 brightness="full"
                 onClick={onClick}
                 data-particle-core="true"
-                x={x}
-                y={y}
                 sphereMode={isSphereMode}
                 highlightOffsetX={-0.3}
                 highlightOffsetY={-0.3}

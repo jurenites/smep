@@ -51,9 +51,9 @@
     --font-title-size: 16px;
     --font-body: Roundabout-Regular, Sulphur Point, sans-serif;
     --font-body-size: 16px;
-    --font-digit-big: 4pixel, monospace;
+    --font-digit-big: '4pixel', monospace;
     --font-digit-big-size: 10px;
-    --font-digit-small: 4pixel, monospace;
+    --font-digit-small: '4pixel', monospace;
     --font-digit-small-size: 5px;
     --font-code: 'Courier New', monospace;
     --font-code-size: 12px;

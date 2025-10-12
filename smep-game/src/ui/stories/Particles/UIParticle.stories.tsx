@@ -56,9 +56,11 @@ interface SmartParticleRendererProps {
     qcdColor2?: QCDColorCharge;
     onClick?: () => void;
     className?: string;
+    showBond?: boolean;
+    bondDistance?: number;
 }
 
-function SmartParticleRenderer({ particleType, qcdColor, qcdColor1, qcdColor2, onClick, className }: SmartParticleRendererProps) {
+function SmartParticleRenderer({ particleType, qcdColor, qcdColor1, qcdColor2, onClick, className, showBond, bondDistance }: SmartParticleRendererProps) {
     // Check if it's a quantum particle
     if (typeof particleType === 'string' && Object.values(ParticleList).includes(particleType as ParticleList)) {
         return <UIParticle particleType={particleType as ParticleList} qcdColor={qcdColor} onClick={onClick} className={className} />;
@@ -66,7 +68,7 @@ function SmartParticleRenderer({ particleType, qcdColor, qcdColor1, qcdColor2, o
 
     // Check if it's a meson (numeric primaryId 1-25)
     if (typeof particleType === 'number' && particleType >= 1 && particleType <= 25) {
-        return <UIMesonParticle mesonType={particleType} qcdColor1={qcdColor1} qcdColor2={qcdColor2} onClick={onClick} className={className} />;
+        return <UIMesonParticle mesonType={particleType} qcdColor1={qcdColor1} qcdColor2={qcdColor2} showBond={showBond} bondDistance={bondDistance} onClick={onClick} className={className} />;
     }
 
     // Check if it's an atomic element (string symbol)
@@ -115,7 +117,7 @@ const meta: Meta<typeof SmartParticleRenderer> = {
                 [QCDColorCharge.YELLOW]: QCDColorCharge.YELLOW,
                 [QCDColorCharge.COLORLESS]: QCDColorCharge.COLORLESS,
             },
-            description: 'QCD color charge override (quarks only). Use "default" for particle data color, "colorless" for gray quarks, or select a specific color (red, green, blue for matter; cyan, magenta, yellow for antimatter). This control only affects quantum quarks; it will be ignored for leptons, neutrinos, mesons, and atomic elements.',
+            description: 'QCD color charge (quarks only). Defaults to "colorless" (gray). Select red/green/blue for matter quarks, or cyan/magenta/yellow for antimatter quarks. This control only affects quantum quarks; it will be ignored for leptons, neutrinos, mesons, and atomic elements.',
         },
         qcdColor1: {
             control: { type: 'select' },
@@ -130,7 +132,7 @@ const meta: Meta<typeof SmartParticleRenderer> = {
                 [QCDColorCharge.YELLOW]: QCDColorCharge.YELLOW,
                 [QCDColorCharge.COLORLESS]: QCDColorCharge.COLORLESS,
             },
-            description: 'QCD color for first quark in mesons. Only affects meson particles.',
+            description: 'QCD color for first quark in mesons. Defaults to colorless (gray). Only affects meson particles.',
         },
         qcdColor2: {
             control: { type: 'select' },
@@ -145,7 +147,15 @@ const meta: Meta<typeof SmartParticleRenderer> = {
                 [QCDColorCharge.YELLOW]: QCDColorCharge.YELLOW,
                 [QCDColorCharge.COLORLESS]: QCDColorCharge.COLORLESS,
             },
-            description: 'QCD color for second quark in mesons. Only affects meson particles.',
+            description: 'QCD color for second quark in mesons. Defaults to colorless (gray). Only affects meson particles.',
+        },
+        showBond: {
+            control: 'boolean',
+            description: 'Show bond/gluon between quarks in mesons (future: will be actual Gluon force carrier particles). Only affects meson particles.',
+        },
+        bondDistance: {
+            control: { type: 'number', min: 1, max: 20 },
+            description: 'Distance between quark centers in pixels. Only affects meson particles.',
         },
     },
 };
@@ -160,11 +170,13 @@ export const Default: Story = {
         qcdColor: undefined,
         qcdColor1: undefined,
         qcdColor2: undefined,
+        showBond: false,
+        bondDistance: 3,
     },
     parameters: {
         docs: {
             description: {
-                story: 'Interactive particle selector supporting all particle types. Use the Controls panel to switch between Quantum particles (24), Mesons (25), and Atomic elements (118). The qcdColor control affects quantum quarks, while qcdColor1 and qcdColor2 control the two quarks in mesons independently.',
+                story: 'Interactive particle selector supporting all particle types. Use the Controls panel to switch between Quantum particles (24), Mesons (25), and Atomic elements (118). Quarks default to colorless (gray). For mesons: use qcdColor1/qcdColor2 for quark colors, showBond to display the connection, and bondDistance to adjust spacing. The bond is a placeholder for future Gluon force carriers.',
             },
         },
     },
@@ -468,7 +480,76 @@ export const QCDColors: Story = {
     parameters: {
         docs: {
             description: {
-                story: 'QCD (Quantum Chromodynamics) color charges for quarks. Matter quarks can have red, green, or blue color charges. Antimatter quarks have anticolors: cyan (antired), magenta (antigreen), and yellow (antiblue). Quarks can also be colorless with a gray gradient (QCDColorCharge.COLORLESS). For colorless quarks, the QCD layer uses separate gradients: matter uses --qcd-gradient-colorless (light gray #dddddd → dark gray #232323), antimatter uses --qcd-gradient-colorless-anti (dark gray #232323 → light gray #dddddd). Use the qcdColor prop to override the default color from particle data.',
+                story: 'QCD (Quantum Chromodynamics) color charges for quarks. Quarks default to colorless (gray) and can be assigned colors dynamically. Matter quarks can have red, green, or blue color charges. Antimatter quarks have anticolors: cyan (antired), magenta (antigreen), and yellow (antiblue). For colorless quarks, the QCD layer uses separate gradients: matter uses --qcd-gradient-colorless (light gray #dddddd → dark gray #232323), antimatter uses --qcd-gradient-colorless-anti (dark gray #232323 → light gray #dddddd).',
+            },
+        },
+    },
+};
+
+// Meson Composition - Full control over quarks and colors
+export const MesonComposition: Story = {
+    render: (args) => (
+        <UIMesonParticle showBond={args.showBond} bondDistance={args.bondDistance}>
+            <UIParticle
+                particleType={ParticleList.UP}
+                qcdColor={args.qcdColor1}
+            />
+            <UIParticle
+                particleType={ParticleList.ANTI_DOWN}
+                qcdColor={args.qcdColor2}
+            />
+        </UIMesonParticle>
+    ),
+    args: {
+        qcdColor1: undefined,  // defaults to colorless
+        qcdColor2: undefined,  // defaults to colorless
+        showBond: false,
+        bondDistance: 3,
+    },
+    argTypes: {
+        qcdColor1: {
+            control: { type: 'select' },
+            options: QCD_COLOR_OPTIONS,
+            mapping: {
+                'default': undefined,
+                [QCDColorCharge.RED]: QCDColorCharge.RED,
+                [QCDColorCharge.GREEN]: QCDColorCharge.GREEN,
+                [QCDColorCharge.BLUE]: QCDColorCharge.BLUE,
+                [QCDColorCharge.CYAN]: QCDColorCharge.CYAN,
+                [QCDColorCharge.MAGENTA]: QCDColorCharge.MAGENTA,
+                [QCDColorCharge.YELLOW]: QCDColorCharge.YELLOW,
+                [QCDColorCharge.COLORLESS]: QCDColorCharge.COLORLESS,
+            },
+            description: 'QCD color for first quark (matter). Defaults to colorless (gray).',
+        },
+        qcdColor2: {
+            control: { type: 'select' },
+            options: QCD_COLOR_OPTIONS,
+            mapping: {
+                'default': undefined,
+                [QCDColorCharge.RED]: QCDColorCharge.RED,
+                [QCDColorCharge.GREEN]: QCDColorCharge.GREEN,
+                [QCDColorCharge.BLUE]: QCDColorCharge.BLUE,
+                [QCDColorCharge.CYAN]: QCDColorCharge.CYAN,
+                [QCDColorCharge.MAGENTA]: QCDColorCharge.MAGENTA,
+                [QCDColorCharge.YELLOW]: QCDColorCharge.YELLOW,
+                [QCDColorCharge.COLORLESS]: QCDColorCharge.COLORLESS,
+            },
+            description: 'QCD color for second quark (antimatter). Defaults to colorless (gray).',
+        },
+        showBond: {
+            control: 'boolean',
+            description: 'Show bond/gluon between quarks (future: will be actual Gluon force carrier particles with 8 QCD color variants)',
+        },
+        bondDistance: {
+            control: { type: 'number', min: 1, max: 20 },
+            description: 'Distance between quark centers in pixels',
+        },
+    },
+    parameters: {
+        docs: {
+            description: {
+                story: 'Meson composition pattern with full control over quark types and QCD colors. Uses UIParticle children for scalability. Future: Bond will be replaced with UIGluon force carrier component.',
             },
         },
     },
@@ -565,7 +646,7 @@ export const Mesons: Story = {
     parameters: {
         docs: {
             description: {
-                story: 'Mesons are composite particles made of a quark-antiquark pair. Use qcdColor1 and qcdColor2 controls to experiment with different QCD color combinations for each quark. Each meson displays two bonded quarks with proper matter/antimatter gradient rendering and depth shadows for overlapping perception. The bond distance is configurable (default 3px). All 25 mesons can be explored via the Default story controls.',
+                story: 'Mesons are composite particles made of a quark-antiquark pair. Quarks default to colorless (gray). Use qcdColor1 and qcdColor2 controls in the Default story to assign specific QCD colors to each quark and experiment with different color combinations. Each meson displays two bonded quarks with proper matter/antimatter gradient rendering and depth shadows for overlapping perception. The bond distance is configurable (default 3px).',
             },
         },
     },

@@ -61,8 +61,8 @@ export function UITabs({
                 return (
                     <UITab
                         key={tab.id}
-                        text={tab.text}
-                        state={state}
+                        tabText={tab.text}
+                        tabState={state}
                         onClick={() => handleTabClick(tab.id)}
                         className={index > 0 ? styles.connectedTab : ''}
                     />
