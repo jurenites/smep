@@ -1,0 +1,104 @@
+/* UISlider Component Styles */
+
+.container {
+    position: relative;
+    /* Use relative positioning for absolute child elements */
+    height: var(--size-card-small);
+    /* Fixed height of 31px to prevent jumping */
+    overflow: visible;
+    /* Allow elements to be visible during animation */
+    width: 100%;
+    /* Take full width of parent */
+    transform: translateX(var(--track-offset, 0px));
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.element {
+    position: absolute;
+    /* Use absolute positioning for precise control */
+    display: flex;
+    align-items: flex-end;
+    /* Ensure elements align to bottom */
+    left: var(--element-x, 0px);
+    bottom: var(--element-y, 0px);
+    background-color: var(--element-bg-color, transparent);
+    transition: left var(--animation-duration, 600ms) cubic-bezier(0.4, 0, 0.2, 1),
+        background-color var(--animation-duration, 600ms) cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    transform-origin: center;
+}
+
+/* Initial state for wave animation */
+.element.isInitial {
+    /*    --element-opacity: 0.3;*/
+    /*nevenr use opactiy, do not uncomment this line, it is not needed*/
+}
+
+/* Animated state for wave animation */
+.element.isAnimated {
+    /*     --element-opacity: 1;*/
+    /*nevenr use opactiy, do not uncomment this line, it is not needed*/
+}
+
+.element:hover {
+    transform: translateY(-1px);
+}
+
+/* Animation for size changes - ensure smooth transitions */
+.element :global(.container) {
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        filter 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.element :global(.container) svg {
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.element :global(.container) rect {
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        fill 0.2s ease,
+        stroke 0.2s ease;
+}
+
+/* Ensure proper alignment for different sizes */
+.element :global(.container) {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
+/* Enhanced animation effects for wave loading */
+.element.isInitial :global(.container) {
+    /* Remove transform scaling to allow natural size scaling */
+    filter: blur(1px);
+    transition: filter 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.element.isAnimated :global(.container) {
+    /* Remove transform scaling to allow natural size scaling */
+    filter: blur(0);
+    transition: filter 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Bounce effect for active element - only apply to the SVG, not the container */
+.element.isAnimated :global(.container) svg {
+    animation: subtleBounce 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+}
+
+@keyframes subtleBounce {
+    0% {
+        transform: scale(0.8);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}

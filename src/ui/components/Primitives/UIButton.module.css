@@ -1,0 +1,576 @@
+.uiButton {
+    /* Dynamic dimensions - will be overridden by size classes */
+    height: var(--size-button-height);
+    position: relative;
+
+    /* Reset button styles */
+    border: none;
+    outline: none;
+    cursor: pointer;
+
+    /* Layout */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 var(--size-padding-medium);
+
+    /* Text styling */
+    text-transform: uppercase;
+    font-family: inherit;
+
+    /* Transitions */
+    transition: all 0.2s ease-in-out, transform 0.1s ease;
+
+    /* Prevent text selection during press */
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    /* Button content properties moved from .buttonContent */
+    z-index: 2;
+    width: 100%;
+}
+
+/* Button size variants */
+.uiButton.sizeSmall {
+    width: var(--size-button-height);
+    /* 31px - same as height for square button */
+    min-width: var(--size-button-height);
+    max-width: var(--size-button-height);
+}
+
+.uiButton.sizeBig {
+    min-width: var(--size-button-width);
+    /* 175px */
+    width: auto;
+}
+
+/* Button style variants */
+.uiButton.styleFilled {
+    border: none;
+    background-color: var(--color-yolk);
+    color: var(--color-black);
+}
+
+.uiButton .buttonText,
+.uiButton .progressPercentage {
+    padding-top: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    /*fix for visual reading of the text inside the button*/
+}
+
+/* Override UILabel colors for filled button */
+.uiButton.styleFilled .buttonText :global(.colorPrimary) {
+    color: var(--color-black) !important;
+}
+
+.uiButton.styleFilled .buttonText :global(.colorSecondary) {
+    color: var(--color-black) !important;
+}
+
+.uiButton.styleFilled .progressPercentage :global(.colorPrimary) {
+    color: var(--color-black) !important;
+}
+
+.uiButton.styleFilled .progressPercentage :global(.colorSecondary) {
+    color: var(--color-black) !important;
+}
+
+/* Direct text color override for filled button */
+.uiButton.styleFilled span {
+    color: var(--color-dark-gray) !important;
+}
+
+.uiButton.styleOutlined {
+    background-color: transparent;
+    color: var(--color-white);
+    border: var(--size-line) solid var(--color-white);
+}
+
+/* Override UILabel colors for outlined button */
+.uiButton.styleOutlined :global(.colorPrimary) {
+    color: var(--color-white) !important;
+}
+
+.uiButton.styleOutlined :global(.colorSecondary) {
+    color: var(--color-white) !important;
+}
+
+/* Hover states - exclude progress and hold states */
+.uiButton.styleFilled:hover:not(:disabled):not(.stateProgress):not(.stateHold) {
+    background-color: var(--color-white);
+    color: var(--color-black);
+    transform: translateY(-1px);
+}
+
+/* Override UILabel colors for filled button hover - exclude progress and hold states */
+.uiButton.styleFilled:hover:not(:disabled):not(.stateProgress):not(.stateHold) :global(.colorPrimary) {
+    color: var(--color-black) !important;
+}
+
+.uiButton.styleFilled:hover:not(:disabled):not(.stateProgress):not(.stateHold) :global(.colorSecondary) {
+    color: var(--color-black) !important;
+}
+
+.uiButton.styleOutlined:hover:not(:disabled):not(.stateProgress):not(.stateHold) {
+    background-color: var(--color-white);
+    color: var(--color-gray);
+    border-color: var(--color-white);
+    transform: translateY(-1px);
+}
+
+/* Override UILabel colors for outlined button hover - exclude progress and hold states */
+.uiButton.styleOutlined:hover:not(:disabled):not(.stateProgress):not(.stateHold) :global(.colorPrimary) {
+    color: var(--color-gray) !important;
+}
+
+.uiButton.styleOutlined:hover:not(:disabled):not(.stateProgress):not(.stateHold) :global(.colorSecondary) {
+    color: var(--color-gray) !important;
+}
+
+/* More specific override for outlined button hover text - exclude progress and hold states */
+.uiButton.styleOutlined:hover:not(:disabled):not(.stateProgress):not(.stateHold) span {
+    color: var(--color-gray) !important;
+}
+
+/* Active (pressed) states - CSS :active pseudo-class handles visual feedback */
+/* Only apply to buttons without logical state classes (default state) */
+.uiButton.styleFilled:active:not(:disabled):not(.stateProgress):not(.stateHold):not(.stateDone) {
+    background-color: var(--color-white) !important;
+    color: var(--color-black) !important;
+    transform: translateY(1px) !important;
+}
+
+.uiButton.styleOutlined:active:not(:disabled):not(.stateProgress):not(.stateHold):not(.stateDone) {
+    background-color: var(--color-white) !important;
+    color: var(--color-gray) !important;
+    border-color: var(--color-white) !important;
+    transform: translateY(1px) !important;
+}
+
+/* Override UILabel colors for active (pressed) state */
+.uiButton.styleFilled:active:not(:disabled):not(.stateProgress):not(.stateHold):not(.stateDone) :global(.colorPrimary),
+.uiButton.styleFilled:active:not(:disabled):not(.stateProgress):not(.stateHold):not(.stateDone) :global(.colorSecondary) {
+    color: var(--color-black) !important;
+}
+
+.uiButton.styleOutlined:active:not(:disabled):not(.stateProgress):not(.stateHold):not(.stateDone) :global(.colorPrimary),
+.uiButton.styleOutlined:active:not(:disabled):not(.stateProgress):not(.stateHold):not(.stateDone) :global(.colorSecondary) {
+    color: var(--color-gray) !important;
+}
+
+/* Removed horizontal expansion animations to prevent horizontal movement */
+
+
+/* Focus states */
+.uiButton.styleFilled:focus-visible {
+    background-color: var(--color-yolk);
+    color: var(--color-black);
+    outline: 2px solid var(--color-white);
+    outline-offset: calc(-1 * var(--size-outline-offset));
+}
+
+/* Override UILabel colors for filled button focus */
+.uiButton.styleFilled:focus-visible :global(.colorPrimary) {
+    color: var(--color-black) !important;
+}
+
+.uiButton.styleFilled:focus-visible :global(.colorSecondary) {
+    color: var(--color-black) !important;
+}
+
+.uiButton.styleOutlined:focus-visible {
+    background-color: transparent;
+    color: var(--color-white);
+    border-color: var(--color-white);
+    outline: 2px solid var(--color-white);
+    outline-offset: calc(-1 * var(--size-outline-offset));
+}
+
+/* Override UILabel colors for outlined button focus */
+.uiButton.styleOutlined:focus-visible :global(.colorPrimary) {
+    color: var(--color-white) !important;
+}
+
+.uiButton.styleOutlined:focus-visible :global(.colorSecondary) {
+    color: var(--color-white) !important;
+}
+
+/* Disabled states */
+.uiButton.styleFilled:disabled {
+    background-color: var(--color-gray);
+    color: var(--color-light-gray);
+    cursor: default;
+}
+
+/* Ensure disabled buttons don't show hover effects */
+.uiButton.styleFilled:disabled:hover {
+    background-color: var(--color-gray) !important;
+    color: var(--color-light-gray) !important;
+    transform: none !important;
+}
+
+/* Ensure disabled buttons don't show active effects */
+.uiButton.styleFilled:disabled:active {
+    background-color: var(--color-gray) !important;
+    color: var(--color-light-gray) !important;
+    transform: none !important;
+}
+
+/* Override UILabel colors for filled button disabled */
+.uiButton.styleFilled:disabled :global(.colorPrimary) {
+    color: var(--color-light-gray) !important;
+}
+
+.uiButton.styleFilled:disabled :global(.colorSecondary) {
+    color: var(--color-light-gray) !important;
+}
+
+/* Ensure disabled filled button text doesn't change on hover/active */
+.uiButton.styleFilled:disabled:hover :global(.colorPrimary),
+.uiButton.styleFilled:disabled:hover :global(.colorSecondary),
+.uiButton.styleFilled:disabled:active :global(.colorPrimary),
+.uiButton.styleFilled:disabled:active :global(.colorSecondary) {
+    color: var(--color-light-gray) !important;
+}
+
+.uiButton.styleOutlined:disabled,
+.uiButton.styleOutlined.stateDisabled {
+    background-color: transparent;
+    color: var(--color-gray);
+    border-color: var(--color-gray);
+    cursor: default;
+}
+
+/* Ensure disabled outlined buttons don't show hover effects */
+.uiButton.styleOutlined:disabled:hover,
+.uiButton.styleOutlined.stateDisabled:hover {
+    background-color: transparent !important;
+    color: var(--color-gray) !important;
+    border-color: var(--color-gray) !important;
+    transform: none !important;
+}
+
+/* Ensure disabled outlined buttons don't show active effects */
+.uiButton.styleOutlined:disabled:active,
+.uiButton.styleOutlined.stateDisabled:active {
+    background-color: transparent !important;
+    color: var(--color-gray) !important;
+    border-color: var(--color-gray) !important;
+    transform: none !important;
+}
+
+/* Override UILabel colors for outlined button disabled */
+.uiButton.styleOutlined:disabled :global(.colorPrimary),
+.uiButton.styleOutlined.stateDisabled :global(.colorPrimary) {
+    color: var(--color-gray) !important;
+}
+
+.uiButton.styleOutlined:disabled :global(.colorSecondary),
+.uiButton.styleOutlined.stateDisabled :global(.colorSecondary) {
+    color: var(--color-gray) !important;
+}
+
+/* Direct span override for disabled outlined button */
+.uiButton.styleOutlined:disabled span,
+.uiButton.styleOutlined.stateDisabled span {
+    color: var(--color-gray) !important;
+}
+
+/* Ensure disabled outlined button text doesn't change on hover/active */
+.uiButton.styleOutlined:disabled:hover :global(.colorPrimary),
+.uiButton.styleOutlined:disabled:hover :global(.colorSecondary),
+.uiButton.styleOutlined:disabled:active :global(.colorPrimary),
+.uiButton.styleOutlined:disabled:active :global(.colorSecondary),
+.uiButton.styleOutlined.stateDisabled:hover :global(.colorPrimary),
+.uiButton.styleOutlined.stateDisabled:hover :global(.colorSecondary),
+.uiButton.styleOutlined.stateDisabled:active :global(.colorPrimary),
+.uiButton.styleOutlined.stateDisabled:active :global(.colorSecondary) {
+    color: var(--color-gray) !important;
+}
+
+.uiButton.styleOutlined:disabled:hover span,
+.uiButton.styleOutlined:disabled:active span,
+.uiButton.styleOutlined.stateDisabled:hover span,
+.uiButton.styleOutlined.stateDisabled:active span {
+    color: var(--color-gray) !important;
+}
+
+/* Progress and Done states (still need custom classes for these) */
+.uiButton.stateProgress.styleFilled {
+    background-color: var(--color-yolk);
+    color: var(--color-black);
+    padding: 2px;
+}
+
+/* Override UILabel colors for filled button progress */
+.uiButton.stateProgress.styleFilled :global(.colorPrimary) {
+    color: var(--color-black) !important;
+}
+
+.uiButton.stateProgress.styleFilled :global(.colorSecondary) {
+    color: var(--color-black) !important;
+}
+
+.uiButton.stateProgress.styleOutlined {
+    background-color: transparent;
+    color: var(--color-white);
+    border-color: var(--color-white);
+    padding: 2px;
+}
+
+/* Override UILabel colors for outlined button progress */
+.uiButton.stateProgress.styleOutlined :global(.colorPrimary) {
+    color: var(--color-white) !important;
+}
+
+.uiButton.stateProgress.styleOutlined :global(.colorSecondary) {
+    color: var(--color-white) !important;
+}
+
+.uiButton.stateDone.styleFilled {
+    background-color: var(--color-gray);
+    color: var(--color-light-gray);
+    cursor: default;
+}
+
+/* Override UILabel colors for filled button done */
+.uiButton.stateDone.styleFilled :global(.colorPrimary) {
+    color: var(--color-light-gray) !important;
+}
+
+.uiButton.stateDone.styleFilled :global(.colorSecondary) {
+    color: var(--color-light-gray) !important;
+}
+
+.uiButton.stateDone.styleOutlined {
+    background-color: transparent;
+    color: var(--color-gray);
+    border-color: var(--color-gray);
+    cursor: default;
+}
+
+/* Override UILabel colors for outlined button done */
+.uiButton.stateDone.styleOutlined :global(.colorPrimary) {
+    color: var(--color-gray) !important;
+}
+
+.uiButton.stateDone.styleOutlined :global(.colorSecondary) {
+    color: var(--color-gray) !important;
+}
+
+/* Hold state styling - similar to progress but with different colors */
+.uiButton.stateHold.styleFilled {
+    background-color: var(--color-gray);
+    color: var(--color-white);
+}
+
+/* Override UILabel colors for filled button hold */
+.uiButton.stateHold.styleFilled :global(.colorPrimary) {
+    color: var(--color-white) !important;
+}
+
+.uiButton.stateHold.styleFilled :global(.colorSecondary) {
+    color: var(--color-white) !important;
+}
+
+.uiButton.stateHold.styleOutlined {
+    background-color: transparent;
+    color: var(--color-gray);
+    border-color: var(--color-gray);
+}
+
+/* Override UILabel colors for outlined button hold */
+.uiButton.stateHold.styleOutlined :global(.colorPrimary) {
+    color: var(--color-gray) !important;
+}
+
+.uiButton.stateHold.styleOutlined :global(.colorSecondary) {
+    color: var(--color-gray) !important;
+}
+
+/* Hold container with padding on all sides for hold state */
+.uiButton.stateHold .progressContainer {
+    top: calc(var(--size-line) + 1px);
+    /* 1px border + 2px padding */
+    bottom: calc(var(--size-line) + 1px);
+    /* 1px border + 2px padding */
+    left: calc(var(--size-line) + 1px);
+    /* 1px border + 2px padding = 3px from left */
+    right: calc(var(--size-line) + 1px);
+    /* 1px border + 2px padding = 3px from right */
+}
+
+/* Override UIProgressBar height when inside hold state button */
+.uiButton.stateHold .progressContainer :global(svg) {
+    height: 25px !important;
+    /* 31px - 2px border - 4px padding = 25px */
+}
+
+/* Disable hover and active effects for hold state */
+.uiButton.stateHold:hover {
+    background-color: var(--color-gray) !important;
+    /* Keep hold background */
+    color: var(--color-white) !important;
+    border-color: var(--color-gray) !important;
+    transform: none !important;
+}
+
+.uiButton.stateHold:active {
+    background-color: var(--color-gray) !important;
+    /* Keep hold background */
+    color: var(--color-white) !important;
+    border-color: var(--color-gray) !important;
+    width: var(--size-button-width) !important;
+    /* No width expansion */
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    transform: none !important;
+}
+
+/* Disable UILabel hover effects for hold state */
+.uiButton.stateHold:hover :global(.colorPrimary),
+.uiButton.stateHold:hover :global(.colorSecondary) {
+    color: var(--color-white) !important;
+}
+
+.uiButton.stateHold:active :global(.colorPrimary),
+.uiButton.stateHold:active :global(.colorSecondary) {
+    color: var(--color-white) !important;
+}
+
+
+/* Button text */
+.buttonText {
+    text-align: center;
+    line-height: 1;
+}
+
+/* Progress container */
+.progressContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}
+
+/* Progress container with padding on all sides for progress state */
+.uiButton.stateProgress .progressContainer {
+    top: calc(var(--size-line) + 1px);
+    /* 1px border + 2px padding = 3px from top */
+    left: calc(var(--size-line) + 1px);
+    /* 1px border + 2px padding = 3px from left */
+    right: calc(var(--size-line) + 1px);
+    /* 1px border + 2px padding = 3px from right */
+    height: calc(100% - var(--size-line) - var(--size-line) - 2px);
+    /* 100% - 2px border - 4px padding = exact height for 2px padding */
+}
+
+/* Override UIProgressBar height when inside progress state button */
+.uiButton.stateProgress .progressContainer :global(svg) {
+    height: calc(var(--size-button-height) - var(--size-line) - var(--size-line) - 2px - 2px);
+}
+
+/* Disable UIProgressBar hover effects when inside progress state button */
+
+/* Base state styles - these provide the foundation for each state */
+
+.uiButton.stateProgress .progressContainer :global(.progressActive:hover),
+.uiButton.stateProgress .progressContainer :global(.progressInactive:hover) {
+    background-color: transparent !important;
+}
+
+.uiButton.stateProgress .progressContainer :global(.progressActive:hover .background),
+.uiButton.stateProgress .progressContainer :global(.progressInactive:hover .background) {
+    stroke: currentColor !important;
+}
+
+/* Disable hover and active effects for progress state */
+.uiButton.stateProgress {
+    cursor: default !important;
+}
+
+.uiButton.stateProgress:hover {
+    background-color: var(--color-yolk) !important;
+    /* Keep progress background */
+    color: var(--color-black) !important;
+    border-color: var(--color-yolk) !important;
+    cursor: default !important;
+    transform: none !important;
+}
+
+.uiButton.stateProgress:active {
+    background-color: var(--color-yolk) !important;
+    /* Keep progress background */
+    color: var(--color-black) !important;
+    border-color: var(--color-yolk) !important;
+    width: var(--size-button-width) !important;
+    /* No width expansion */
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    cursor: default !important;
+    transform: none !important;
+}
+
+/* Disable UILabel hover effects for progress state */
+.uiButton.stateProgress:hover :global(.colorPrimary),
+.uiButton.stateProgress:hover :global(.colorSecondary) {
+    color: var(--color-black) !important;
+}
+
+.uiButton.stateProgress:active :global(.colorPrimary),
+.uiButton.stateProgress:active :global(.colorSecondary) {
+    color: var(--color-black) !important;
+}
+
+/* Progress bar styling */
+.progressBar {
+    width: 100%;
+    height: 100%;
+}
+
+/* Progress percentage */
+.progressPercentage {
+    position: absolute;
+    top: 50%;
+    right: 9px;
+    transform: translateY(-50%);
+    font-size: var(--font-digit-big-size);
+    line-height: 1;
+    z-index: 3;
+}
+
+/* Animation for active state transitions - only for enabled buttons */
+.uiButton.stateEnabled:active,
+.uiButton.stateHover:active,
+.uiButton.stateFocused:active,
+.uiButton.statePressed:active,
+/* Removed horizontal expansion animations to prevent horizontal movement */
+
+/* Removed pressExpansion and pressReset keyframes to eliminate horizontal movement */
+
+/* Disable focus ring when not using keyboard */
+.uiButton:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .uiButton {
+        transition: none;
+    }
+
+    .uiButton:hover {
+        transform: none;
+    }
+
+    .uiButton:active {
+        transform: none;
+    }
+}

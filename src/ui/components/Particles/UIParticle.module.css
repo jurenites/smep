@@ -1,0 +1,134 @@
+/* UIParticle Component Styles */
+
+.particleContainer {
+    position: relative;
+    display: inline-block;
+    /* Container size is only based on UICircle dimensions, not shadow */
+}
+
+/* Ensure UICircle SVG is positioned at the origin of the container */
+/* Reason: UICircle should fill the container without additional positioning */
+.particleContainer>svg[data-particle-core="true"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Shadow background for leptons - positioned absolutely, doesn't affect container size */
+.shadowBackground {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    /* Shadow extends beyond container bounds but doesn't affect positioning */
+}
+
+/* Quark depth shadow - positioned absolutely, creates depth when quarks overlap */
+.quarkDepthShadow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    /* Shadow extends 2px beyond particle diameter on each side (+4px total) */
+    width: calc(100% + (var(--quark-shadow-extension) * 2));
+    height: calc(100% + (var(--quark-shadow-extension) * 2));
+    /* Black gradient: fully black at center, transparent at edges */
+    background: var(--quark-depth-shadow);
+}
+
+/* QCD Color Charge Layer - colored gradient for quarks representing color charge */
+.qcdColorLayer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    /* Same size as particle core */
+    width: 100%;
+    height: 100%;
+    /* Color gradient set via inline style based on colorCharge property */
+    mix-blend-mode: normal;
+}
+
+/* SVG-based shadows are now handled in the component */
+
+/* Quark-specific shining animation - Pearl-like glow effect */
+.quarkGlow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 2;
+    /* 2x larger than particle */
+    width: 200%;
+    height: 200%;
+    /* Pearl-like radial gradient */
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.15) 30%, transparent 70%);
+    /* Animation: fade in/out every ~10 seconds (duration and delay set inline per instance) */
+    animation-name: quarkShine;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    /* Duration and delay are set inline for each particle instance */
+    opacity: 0;
+}
+
+@keyframes quarkShine {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+
+    2% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+
+    4% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+}
+
+/* Disable glow for disabled particles */
+.particleContainer.disabled .quarkGlow {
+    animation: none;
+    opacity: 0;
+}
+
+/* Animation for particle interactions - UICircle is positioned at top-left corner */
+.particleContainer:hover [data-particle-core] {
+    transform: scale(1.05) !important;
+    transition: transform 0.2s ease !important;
+}
+
+.particleContainer:active [data-particle-core] {
+    transform: scale(0.95) !important;
+    transition: transform 0.1s ease !important;
+}
+
+/* Reduced motion support */
+/*
+@media (prefers-reduced-motion: reduce) {   
+
+    .particleContainer:hover [data-particle-core],
+    .particleContainer:active [data-particle-core] {
+        transform: none !important;
+        transition: none !important;
+    }
+}
+*/

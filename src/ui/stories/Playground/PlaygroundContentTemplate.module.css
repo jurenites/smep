@@ -1,0 +1,220 @@
+/* Playground Content Template - Modernized CSS using design tokens */
+.content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--color-white);
+    font-family: var(--font-code);
+    font-size: var(--font-code-size);
+    pointer-events: auto;
+    max-width: var(--size-card-big);
+    /* 175px * 4.57 ≈ 800px for responsive design */
+    width: 100%;
+    padding: var(--size-gap-large);
+}
+
+.playgroundSection {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: var(--size-border-radius-small);
+    padding: var(--size-gap-large);
+    backdrop-filter: blur(var(--size-blur-playground));
+    border: var(--size-line) solid rgba(255, 255, 255, 0.1);
+}
+
+.playgroundSection h3 {
+    margin: 0 0 var(--size-gap-large) 0;
+    color: var(--color-yolk);
+    text-align: center;
+    font-family: var(--font-title);
+    font-size: var(--font-title-size);
+}
+
+.circleDisplay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(var(--size-card-mid-h) * 2);
+    /* 109px * 2 ≈ 218px */
+    margin-bottom: var(--size-gap-large);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--size-border-radius-small);
+    border: var(--size-line) solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Future enhancement: gyroscope-based shadow positioning */
+.circleDisplay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--gyroscope-x, 50%) var(--gyroscope-y, 50%),
+            rgba(248, 231, 28, 0.1) 0%,
+            transparent 70%);
+    pointer-events: none;
+    transition: background 0.3s ease;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-gap-large);
+    margin-bottom: var(--size-gap-large);
+}
+
+.controlGroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-padding-small);
+}
+
+.controlGroup label {
+    font-weight: 600;
+    color: var(--color-yolk);
+    font-family: var(--font-body);
+    font-size: var(--font-body-size);
+}
+
+.buttonGroup {
+    display: flex;
+    gap: var(--size-padding-small);
+    flex-wrap: wrap;
+}
+
+.sizeButton,
+.brightnessButton {
+    padding: var(--size-padding-small) var(--size-gap-large);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-white);
+    border: var(--size-line) solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--size-border-radius-small);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--font-code);
+    font-size: var(--font-code-size);
+    text-transform: capitalize;
+}
+
+.sizeButton:hover,
+.brightnessButton:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--color-yolk);
+}
+
+.sizeButton.active,
+.brightnessButton.active {
+    background: var(--color-yolk);
+    border-color: var(--color-yolk);
+    color: var(--color-black);
+}
+
+.sizeInput {
+    padding: var(--size-padding-small) var(--size-padding-medium);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-white);
+    border: var(--size-line) solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--size-border-radius-small);
+    font-family: var(--font-code);
+    font-size: var(--font-code-size);
+    width: 120px;
+}
+
+.sizeInput::placeholder {
+    /* TODO: rework this document from magical numbers as  color codles to variables from token file*/
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.resetButton {
+    padding: var(--size-padding-small) var(--size-padding-medium);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-white);
+    border: var(--size-line) solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--size-border-radius-small);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--font-code);
+    font-size: var(--font-code-size);
+    margin-left: var(--size-padding-small);
+}
+
+.resetButton:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.comparisonSection {
+    border-top: var(--size-line) solid rgba(255, 255, 255, 0.1);
+    padding-top: var(--size-gap-large);
+}
+
+.comparisonSection h4 {
+    margin: 0 0 var(--size-gap-large) 0;
+    color: var(--color-yolk);
+    text-align: center;
+    font-family: var(--font-title);
+    font-size: var(--font-title-size);
+}
+
+.sizeComparison {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--size-gap-large);
+    flex-wrap: wrap;
+}
+
+.comparisonItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--size-padding-small);
+}
+
+.sizeLabel {
+    font-family: var(--font-code);
+    font-size: var(--font-code-size);
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: capitalize;
+}
+
+/* Responsive design using design tokens */
+@media (max-width: 768px) {
+    .content {
+        padding: var(--size-gap-large);
+    }
+
+    .playgroundSection {
+        padding: var(--size-gap-large);
+    }
+
+    .sizeComparison {
+        gap: var(--size-gap-large);
+    }
+
+    .buttonGroup {
+        justify-content: center;
+    }
+}
+
+/* Accessibility improvements */
+.sizeButton:focus-visible,
+.brightnessButton:focus-visible,
+.sizeInput:focus-visible,
+.resetButton:focus-visible {
+    outline: 2px solid var(--color-yolk);
+    outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+    .sizeButton,
+    .brightnessButton,
+    .resetButton {
+        transition: none;
+    }
+
+    .circleDisplay::before {
+        transition: none;
+    }
+}

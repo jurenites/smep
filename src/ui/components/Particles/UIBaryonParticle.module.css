@@ -1,0 +1,48 @@
+/* Baryon Particle Component - Displays three bonded quarks */
+
+.baryonContainer {
+    position: relative;
+    display: block;
+}
+
+/* Overlap sphere - appears when quarks are tightly bound (bondDistance < 4px) */
+/* Represents QCD color confinement - quarks merge into color-neutral core */
+.overlapSphere {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    /* Position is centered on the centroid */
+    transform: translate(-50%, -50%);
+    /* Blend mode creates visual mixing of quark colors */
+    mix-blend-mode: multiply;
+    /* Background color set inline based on baryon type:
+       - Proton (uud): Black
+       - Neutron (udd): White
+       - Others: Gray */
+    /* Opacity increases as quarks get closer together */
+    transition: opacity 0.2s ease, width 0.2s ease, height 0.2s ease;
+}
+
+/* Bond lines between particles (placeholder for future Gluon force carriers) */
+/* Positioned from particle center to particle center */
+/* Future: This will be replaced with UIGluon component (8 QCD color variants) */
+/* All baryons use triangle arrangement (natural QCD color force structure) */
+.bondLine {
+    position: absolute;
+    height: 1px;
+    background: var(--color-gray);
+    transform-origin: 0 0;
+    /* Half-pixel offset for crisp 1px line */
+    opacity: 0.3;
+    /* Subtle connection */
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Future enhancement: Gluon force carrier visualization */
+.bondLine[data-future-gluon="true"] {
+    /* Placeholder for future 8-color QCD gluon variants */
+    /* Will render actual UIGluon particles with color-anticolor combinations */
+    /* Examples: red-antigreen, blue-antired, etc. */
+}

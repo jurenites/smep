@@ -1,0 +1,41 @@
+/* PlaygroundCombined Story Styles */
+
+/* Story container to center the UISurface */
+.storyContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    background: var(--color-black);
+}
+
+/* Particle wrapper for positioning */
+.particleWrapper {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+}
+
+/* Center label styles */
+.centerLabel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--color-white);
+    font-family: var(--font-title);
+    font-size: var(--font-title-size);
+    text-align: center;
+    pointer-events: auto;
+    background: rgba(0, 0, 0, var(--opacity-medium));
+    padding: var(--size-padding-medium);
+    border-radius: var(--size-border-radius-small);
+}
+
+.centerLabelSubtitle {
+    font-family: var(--font-small);
+    font-size: var(--font-small-size);
+    margin-top: var(--size-padding-small);
+    opacity: var(--opacity-text-secondary);
+}

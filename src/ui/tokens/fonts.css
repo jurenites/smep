@@ -1,0 +1,41 @@
+/* Centralized font declarations for the SMEP game */
+/* TODO :check do we realy  need this file here? i dont want to declar the font in multiple palces */
+
+/* ABCDEFGHIJKLMNOPQRSTUVWXYZ */
+/* ĀƁĆĎĒƑĜĤĪĴĶĹƜŇǑƤǪƦŚŢŨѴŴХŶŹ */
+
+/* ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ */
+/* ĀƁГĐĒŹĤƟĨĸɅМŇ≡ƠПƤƩŢŶɸХѰΏ */
+
+@font-face {
+    font-family: 'Roundabout-Regular';
+    src: url('/assets/fonts/Roundabout-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: '4pixel';
+    src: url('/assets/fonts/4pixel.woff') format('woff'),
+        url('/assets/fonts/4pixel.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sulphur Point';
+    src: url('/assets/fonts/SulphurPoint-Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Urbanist';
+    src: url('/assets/fonts/Urbanist-ExtraLight.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

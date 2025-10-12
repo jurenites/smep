@@ -1,0 +1,4 @@
+.decoratorContainer {
+    background: var(--color-black);
+    padding: var(--size-gap-large);
+}

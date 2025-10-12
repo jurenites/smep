@@ -1,0 +1,95 @@
+/* UICircle Component Styles - SVG-based */
+
+.circle {
+    display: block;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    transform-origin: center;
+    overflow: visible;
+    /* Allow shadows and strokes to be visible */
+}
+
+/* Size-specific styles */
+.size-middle {
+    filter: drop-shadow(var(--shadow-box-subtle));
+}
+
+.size-mega {
+    filter: drop-shadow(var(--shadow-box-medium));
+}
+
+/* Special dot rendering - dimmed vector circle */
+.dotDimmed {
+    opacity: 0.7;
+}
+
+/* Animation for size changes - disabled for now to prevent rendering issues */
+/*
+.circle {
+    animation: sizeTransition 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes sizeTransition {
+    0% {
+        transform: scale(0.8);
+        background-color: var(--color-dark-gray);
+    }
+
+    50% {
+        transform: scale(1.1);
+        background-color: var(--color-gray);
+    }
+
+    100% {
+        transform: scale(1);
+        background-color: var(--color-accent-primary);
+    }
+}
+*/
+
+/* Responsive behavior */
+/*
+@media (max-width: 768px) {
+    .size-mega {
+        border-width: 2px;
+        box-shadow: var(--shadow-box-subtle);
+    }
+
+    .size-middle {
+        border-width: 1px;
+        box-shadow: var(--shadow-box-subtle);
+    }
+}*/
+
+/* High contrast mode support */
+/* no support yet */
+/*
+@media (prefers-contrast: high) {
+    .circle {
+        border-width: 2px;
+        border-color: var(--color-text-primary);
+    }
+
+    .dotDimmed {
+        border-width: 2px;
+        background-color: var(--color-accent-primary);
+    }
+}*/
+
+/* Reduced motion support */
+/* no epileptic support yet */
+/*
+@media (prefers-reduced-motion: reduce) {
+    .circle {
+        transition: none;
+        animation: none;
+    }
+
+    .clickable:hover {
+        transform: none;
+    }
+
+    .clickable:active {
+        transform: none;
+    }
+}*/

@@ -1,0 +1,80 @@
+/* Grid container for 2D pagination */
+.gridContainer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-gap-small);
+    align-items: flex-start;
+    width: fit-content;
+    height: fit-content;
+}
+
+/* Simple mode flex container for single row */
+.simpleFlexContainer {
+    display: flex;
+}
+
+/* Grid row */
+.gridRow {
+    display: flex;
+    align-items: flex-start;
+}
+
+/* Grid row for clickable mode (no gap) */
+.gridRowClickable {
+    gap: 0;
+}
+
+/* Grid row for view-only mode (with gap) */
+.gridRowViewOnly {
+    gap: var(--size-gap-small);
+}
+
+/* Grid cell */
+.gridCell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hidden cells are no longer rendered in DOM, so no CSS needed */
+
+/* Empty space for gaps in layouts (like periodic table) */
+.emptySpace {
+    /* Size is now controlled by inline styles based on active mode */
+    /* Transparent - no visual element */
+    display: block;
+}
+
+/* Clickable area styles */
+.clickableArea {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Outer square wrapper - transparent by default */
+.outerSquareWrapper {
+    transition: opacity 0.2s ease;
+}
+
+/* Make outer UISquare Mid transparent by default */
+.outerSquareWrapper :global(.container) {
+    background-color: transparent !important;
+    border: 0px !important;
+}
+
+/* Show outer square on hover and remove transparent overrides */
+.clickableArea:hover .outerSquareWrapper {
+    background-color: var(--color-dark-gray);
+    cursor: pointer;
+}
+
+.clickableArea:hover .outerSquareWrapper :global(.container) {
+    background-color: unset !important;
+    border: unset !important;
+}
+
+/* Ensure inner UISquare Small is always visible */
+.outerSquareWrapper :global(.container) :global(.container) {
+    background-color: transparent !important;
+}

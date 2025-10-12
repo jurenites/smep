@@ -1,0 +1,74 @@
+.text {
+    user-select: none;
+    font-family: var(--font-digit-small);
+    font-size: var(--font-digit-small-size);
+    font-weight: normal;
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.label {
+    user-select: none;
+    font-family: var(--font-digit-small);
+    font-size: var(--font-digit-small-size);
+    font-weight: normal;
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.scaleText {
+    user-select: none;
+    font-family: var(--font-digit-small);
+    font-size: var(--font-digit-small-size);
+    font-weight: normal;
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.textWhite {
+    fill: var(--color-white);
+}
+
+.textGray {
+    fill: var(--color-gray);
+}
+
+.scaleTextGray {
+    fill: var(--color-gray);
+}
+
+.rulerContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.valueDisplayContainer {
+    position: absolute;
+    top: 2.5px;
+    left: -2.5px;
+    z-index: 10;
+    pointer-events: auto;
+}
+
+.valueDisplay {
+    cursor: pointer;
+    user-select: none;
+}
+
+.scaleDisplayContainer {
+    position: absolute;
+    bottom: 1.5px;
+    z-index: 10;
+    pointer-events: none;
+    transform: translateX(-100%);
+}
+
+.scaleDisplay {
+    user-select: none;
+}
