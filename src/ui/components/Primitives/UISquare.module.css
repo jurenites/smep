@@ -21,6 +21,7 @@
     /* background-color: var(--color-white); */
     /* keep the squre not filled with any color */
     border: var(--size-line) solid var(--color-white);
+    transition: transform 120ms ease-out, border-color 120ms ease-out;
 }
 
 /* Inactive state */
@@ -29,6 +30,7 @@
     /*background-color: var(--color-gray);*/
     /* keep the squre not filled with any color */
     border: var(--size-line) solid var(--color-gray);
+    transition: transform 120ms ease-out, border-color 120ms ease-out;
 }
 
 /* Disabled state */
@@ -54,13 +56,16 @@
 /* Hover effects for interactive states */
 .squareActive:hover {
     /*transform: scale(1.1);*/
-    /* TODO: on hover effect we may add a mobement upwards +1px*/
+    /* Subtle lift to indicate interactivity; transform avoids layout shift */
+    transform: translateY(-1px);
     border-color: var(--color-white);
     /* border-width: 2px;*/
 }
 
 .squareInactive:hover {
     /*transform: scale(1.1);*/
+    /* Match active hover affordance */
+    transform: translateY(-1px);
     border-color: var(--color-white);
     /* border-width: 2px;*/
 }
