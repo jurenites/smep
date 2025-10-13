@@ -21,6 +21,7 @@ export type {
     ElementDisplayMapping,
     PeriodicElementWithPosition,
     PeriodicTableData,
+    GridDimensions,
 } from './particle-atomic.data';
 
 // Particle Atomic Data - Complete periodic table functionality
@@ -34,6 +35,7 @@ export {
     SHORT_FORM_LAYOUT,
     PERIODIC_TABLE_LAYOUTS,
     PERIODIC_TABLE_GRID_DIMENSIONS,
+    calculatePeriodicTableGridDimensions,
 
     // Block-specific element collections
     S_BLOCK_ELEMENTS,

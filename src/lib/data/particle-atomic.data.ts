@@ -132,7 +132,7 @@ export const PERIODIC_TABLE_DATA: readonly PeriodicElement[] = [
 
     { properties: { symbol: 'Cs', atomicNumber: 55, name: 'Cesium', category: 'alkali-metal', electronShellGroup: 's', period: 6, relativeDiameter: 35.875 }, render: { coreDiameter: 4, coreColor: '#57178f' }, physics: { interactionRange: 4, collisionRadius: 4, mass: 1 }, table: { longForm: { x: 1, y: 6 }, shortForm: { x: 1, y: 6 } } },
     { properties: { symbol: 'Ba', atomicNumber: 56, name: 'Barium', category: 'alkaline-earth', electronShellGroup: 's', period: 6, relativeDiameter: 30.5 }, render: { coreDiameter: 4, coreColor: '#00c900' }, physics: { interactionRange: 4, collisionRadius: 4, mass: 1 }, table: { longForm: { x: 2, y: 6 }, shortForm: { x: 2, y: 6 } } },
-
+    // TODO: in a this 57 atomic number in a storybook the UIPeriodicTableBlocks ViewMode=short its fine on a ViewMode=long somehow this atom dispalyed after the f-block, when in reality it should be sandwiched between 56 S-block and 58 D-block, witch means the F-block need to sit inside the D-block between elements 57 and 72 (also apply the eleent under it as well to atom 89 ) 
     { properties: { symbol: 'La', atomicNumber: 57, name: 'Lanthanum', category: 'lanthanide', electronShellGroup: 'd', period: 6, relativeDiameter: 29.625 }, render: { coreDiameter: 4, coreColor: '#70d4ff' }, physics: { interactionRange: 4, collisionRadius: 4, mass: 1 }, table: { longForm: { x: 3, y: 6 }, shortForm: { x: 3, y: 6 } } },
 
     { properties: { symbol: 'Ce', atomicNumber: 58, name: 'Cerium', category: 'lanthanide', electronShellGroup: 'f', period: 6, relativeDiameter: 28.75 }, render: { coreDiameter: 4, coreColor: '#ffffc7' }, physics: { interactionRange: 4, collisionRadius: 4, mass: 1 }, table: { longForm: { x: 3, y: 7 }, shortForm: { x: 4, y: 7 } } },
@@ -624,20 +624,76 @@ export const P_BLOCK_ELEMENTS: readonly PeriodicElement[] = PERIODIC_TABLE_DATA.
 // ============================================================================
 
 /**
- * Grid dimensions for different periodic table views
- * Note: Coordinates now start at (1,1) instead of (0,0)
+ * Grid dimensions interface
+ */
+export interface GridDimensions {
+    width: number;
+    height: number;
+}
+
+/**
+ * Calculate grid dimensions for periodic table based on visible elements
+ * 
+ * This function dynamically calculates the required grid size based on which
+ * elements are included. This is useful for "hidden" elements that should only
+ * appear after being researched by the user.
+ * 
+ * @param layoutType - The layout type ('long' or 'short')
+ * @param visibleElements - Optional array of elements to calculate dimensions for.
+ *                          If not provided, uses all elements from PERIODIC_TABLE_DATA
+ * @returns Grid dimensions with width and height
+ * 
+ * @example
+ * // Calculate dimensions for all elements
+ * const dimensions = calculatePeriodicTableGridDimensions('long');
+ * 
+ * @example
+ * // Calculate dimensions for only researched elements
+ * const researchedElements = PERIODIC_TABLE_DATA.filter(el => 
+ *   el.properties.atomicNumber <= playerResearchLevel
+ * );
+ * const dimensions = calculatePeriodicTableGridDimensions('long', researchedElements);
+ */
+export function calculatePeriodicTableGridDimensions(
+    layoutType: 'long' | 'short',
+    visibleElements: readonly PeriodicElement[] = PERIODIC_TABLE_DATA
+): GridDimensions {
+    // If no elements are visible, return minimal dimensions
+    if (visibleElements.length === 0) {
+        return { width: 1, height: 1 };
+    }
+
+    // Get the positions for the specified layout
+    const positions = visibleElements.map(element =>
+        layoutType === 'long' ? element.table.longForm : element.table.shortForm
+    );
+
+    // Find maximum x and y coordinates
+    // Reason: We need to add 1 because coordinates are 1-based (start at 1, not 0)
+    const maxX = Math.max(...positions.map(pos => pos.x));
+    const maxY = Math.max(...positions.map(pos => pos.y));
+
+    return {
+        width: maxX + 1,  // +1 for 1-based indexing to create proper grid size
+        height: maxY + 1  // +1 for 1-based indexing to create proper grid size
+    };
+}
+
+/**
+ * Get grid dimensions for all elements (backward compatibility)
+ * 
+ * This constant provides the same interface as the old PERIODIC_TABLE_GRID_DIMENSIONS
+ * but is now calculated dynamically from all elements in the periodic table.
+ * 
+ * Note: For filtering visible elements (e.g., researched vs hidden), use the
+ * calculatePeriodicTableGridDimensions() function directly.
  */
 export const PERIODIC_TABLE_GRID_DIMENSIONS = {
-    // TODO: do NOT make this data hardcodedd , why its not dynamical, i undertdatnd that the Periodic table amount of element not gonna change, but we have a "hidden" element,s that shpuld not be visible untill user would "resaeach" those lements so table is not always predefine the width and height. change this parameter to be able to change on the fly. and calcualte based on incoming list of elemntes to be displayed.
-    // Long form (F-block as separate rows below main table)
-    longForm: {
-        width: 19, // 18 columns + 1 for 1-based indexing (x: 1-18, main table)
-        height: 9  // 8 rows + 1 for 1-based indexing (y: 1-8, rows 1-7 main + rows 7-8 f-block)
+    get longForm(): GridDimensions {
+        return calculatePeriodicTableGridDimensions('long');
     },
-    // Short form (F-block moved under the table)
-    shortForm: {
-        width: 19, // 18 columns + 1 for 1-based indexing (x: 1-18)
-        height: 9  // 8 rows + 1 for 1-based indexing (y: 1-8)
+    get shortForm(): GridDimensions {
+        return calculatePeriodicTableGridDimensions('short');
     }
 } as const;
 

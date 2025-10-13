@@ -104,7 +104,7 @@ const createSimpleGridContext = () => {
     );
 };
 
-
+/*
 export const PeriodicTable: Story = {
     args: {
         active: 'only view',
@@ -155,4 +155,4 @@ export const PeriodicTable: Story = {
         const activeIndex = (args as any).activeIndex || 1;
         return <UIPeriodicTableBlocks viewMode={viewMode} activeIndex={activeIndex} {...args} />;
     },
-};
+};*/

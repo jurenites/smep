@@ -26,6 +26,7 @@ interface UIPaginationGridProps {
     context?: GridPaginationContext;
     onGridPageChange?: (position: GridPosition, event: any) => void; // For grid pagination
 
+    //TODO: we probably not need this parameters to be set directly, lets ched do we need thois at all, previoulsy we had to make the grids instead single lines.
     // Grid dimensions
     gridCols?: number;
     gridRows?: number;
