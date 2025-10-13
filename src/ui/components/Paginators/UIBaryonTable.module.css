@@ -26,7 +26,7 @@
 
 .baryonGrid {
     display: grid;
-    gap: var(--spacing-mini);
+    gap: var(--size-gap-small);
     position: relative;
 }
 

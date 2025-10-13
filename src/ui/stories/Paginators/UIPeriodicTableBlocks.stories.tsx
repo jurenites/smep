@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useState, useEffect } from 'react';
 import { UIPeriodicTableBlocks } from '../../components/Paginators/UIPeriodicTableBlocks';
 
 const meta: Meta<typeof UIPeriodicTableBlocks> = {
@@ -14,10 +15,10 @@ const meta: Meta<typeof UIPeriodicTableBlocks> = {
             options: ['long', 'short'],
             description: 'View mode for the periodic table layout',
         },
-        interactionMode: {
+        cardSizeMode: {
             control: 'select',
-            options: ['clickable', 'only view'],
-            description: 'Interaction mode - clickable shows UICards, only view shows UISquares',
+            options: ['micro', 'small', 'mid'],
+            description: 'Card size mode - micro shows UISquare (4px), small shows UICard small (31px), mid shows UICard mid (83px)',
         },
         activeIndex: {
             control: { type: 'number', min: 1, max: 118, step: 1 },
@@ -36,15 +37,38 @@ type Story = StoryObj<typeof meta>;
 // Default story showing the periodic table blocks component
 export const Default: Story = {
     args: {
-        viewMode: 'long',
-        interactionMode: 'clickable',
+        viewMode: 'short',
+        cardSizeMode: 'small',
         activeIndex: 6, // Carbon
     },
     parameters: {
         docs: {
             description: {
-                story: 'UIPeriodicTableBlocks component displaying the periodic table in blocks. Use the Controls tab to switch between view modes (long/short), interaction modes (clickable/only view), and change the active element by atomic number.',
+                story: 'UIPeriodicTableBlocks component displaying the periodic table in blocks. Use the Controls tab to switch between view modes (long/short), card size modes (micro/small/mid), and change the active element by atomic number. Click on any element to select it.',
             },
         },
+    },
+    render: function Render(args) {
+        const [activeIndex, setActiveIndex] = useState(args.activeIndex || 6);
+
+        // Sync with control changes
+        useEffect(() => {
+            setActiveIndex(args.activeIndex || 6);
+        }, [args.activeIndex]);
+
+        const handlePageChange = (position: { x: number; y: number }, event: any) => {
+            if (event?.atomicNumber) {
+                setActiveIndex(event.atomicNumber);
+            }
+            args.onPageChange?.(position, event);
+        };
+
+        return (
+            <UIPeriodicTableBlocks
+                {...args}
+                activeIndex={activeIndex}
+                onPageChange={handlePageChange}
+            />
+        );
     },
 };

@@ -6,10 +6,12 @@ import { getElementsByBlock } from '../../../lib/data';
 import styles from './UIPeriodicTableBlocks.module.css';
 
 
+export type CardSizeMode = 'micro' | 'small' | 'mid';
+
 interface UIPeriodicTableBlocksProps {
-    viewMode: 'long' | 'short';
+    viewMode?: 'long' | 'short';
     onPageChange?: (position: { x: number; y: number }, event: any) => void;
-    interactionMode?: 'clickable' | 'only view';
+    cardSizeMode?: CardSizeMode;
     activeIndex?: number; // 1-based atomic number to highlight
 }
 
@@ -17,12 +19,12 @@ interface BlockGridProps {
     elements: any[];
     blockName: string;
     onPageChange?: (position: { x: number; y: number }, event: any) => void;
-    interactionMode?: 'clickable' | 'only view';
+    cardSizeMode?: CardSizeMode;
     activeElementId: string; // Always has a value - never null
     onElementClick?: (elementId: string) => void;
 }
 
-function BlockGrid({ elements, blockName, onPageChange, interactionMode, activeElementId, onElementClick }: BlockGridProps) {
+function BlockGrid({ elements, blockName, onPageChange, cardSizeMode, activeElementId, onElementClick }: BlockGridProps) {
     // Calculate minimum coordinates in this block for relative positioning
     const minX = elements.length > 0 ? Math.min(...elements.map(el => el.position.x)) : 1;
     const minY = elements.length > 0 ? Math.min(...elements.map(el => el.position.y)) : 1;
@@ -45,8 +47,11 @@ function BlockGrid({ elements, blockName, onPageChange, interactionMode, activeE
         }
     }, [onElementClick, onPageChange]);
 
-    // Calculate cell size based on interaction mode
-    const cellSize = interactionMode === 'clickable' ? 31 : 4; // UICard small = 31px, UISquare small = 4px
+    // Calculate cell size based on cardSizeMode
+    // Reason: Different modes require different cell sizes for proper grid layout
+    // Mid cards are rectangular (83×109), others are square
+    const cellWidth = cardSizeMode === 'micro' ? 4 : cardSizeMode === 'mid' ? 83 : 31; // micro = 4px, small = 31px, mid = 83px
+    const cellHeight = cardSizeMode === 'micro' ? 4 : cardSizeMode === 'mid' ? 109 : 31; // micro = 4px, small = 31px, mid = 109px
 
     // Common grid container for both modes
     return (
@@ -54,8 +59,8 @@ function BlockGrid({ elements, blockName, onPageChange, interactionMode, activeE
             <div
                 className={styles.elementGrid}
                 style={{
-                    gridTemplateColumns: `repeat(${dimensions.width}, ${cellSize}px)`,
-                    gridTemplateRows: `repeat(${dimensions.height}, ${cellSize}px)`
+                    gridTemplateColumns: `repeat(${dimensions.width}, ${cellWidth}px)`,
+                    gridTemplateRows: `repeat(${dimensions.height}, ${cellHeight}px)`
                 }}
             >
                 {elements.map((element) => {
@@ -78,11 +83,19 @@ function BlockGrid({ elements, blockName, onPageChange, interactionMode, activeE
                                 gridRow: relativeY
                             }}
                         >
-                            {interactionMode === 'clickable' ? (
+                            {cardSizeMode === 'micro' ? (
+                                <UISquare
+                                    squareState={squareState}
+                                    logicalSize="small"
+                                    active="only view"
+                                    onClick={() => handleElementClick(element)}
+                                    tooltipContent={tooltipText}
+                                />
+                            ) : (
                                 <UICard
                                     textSymbol={element.symbol}
                                     textNumber={element.atomicNumber}
-                                    logicalSize="small"
+                                    logicalSize={cardSizeMode === 'mid' ? 'mid' : 'small'}
                                     cardState={UICardState.NORMAL}
                                     showParticle={true}
                                     particleType={element.symbol}
@@ -91,17 +104,9 @@ function BlockGrid({ elements, blockName, onPageChange, interactionMode, activeE
                                         '--card-border-color': 'var(--color-white)',
                                         '--card-background-color': 'var(--color-gray)',
                                         boxShadow: 'var(--shadow-box-strong)',
-                                        transform: 'scale(1.05)',
+                                        transform: 'translateY(-1px)',
                                         zIndex: 10
                                     } as React.CSSProperties : undefined}
-                                    tooltipContent={tooltipText}
-                                />
-                            ) : (
-                                <UISquare
-                                    squareState={squareState}
-                                    logicalSize="small"
-                                    active={interactionMode}
-                                    onClick={() => handleElementClick(element)}
                                     tooltipContent={tooltipText}
                                 />
                             )}
@@ -123,7 +128,7 @@ function renderBlockGrids(
     blockElements: any,
     commonProps: {
         onPageChange?: (position: { x: number; y: number }, event: any) => void;
-        interactionMode?: 'clickable' | 'only view';
+        cardSizeMode?: CardSizeMode;
         displayElementId: string;
         handleElementClick: (elementId: string) => void;
     },
@@ -135,7 +140,7 @@ function renderBlockGrids(
             elements={blockElements[blockName]}
             blockName={blockName}
             onPageChange={commonProps.onPageChange}
-            interactionMode={commonProps.interactionMode}
+            cardSizeMode={commonProps.cardSizeMode}
             activeElementId={commonProps.displayElementId}
             onElementClick={commonProps.handleElementClick}
         />
@@ -143,9 +148,9 @@ function renderBlockGrids(
 }
 
 export function UIPeriodicTableBlocks({
-    viewMode,
+    viewMode = 'short',
     onPageChange,
-    interactionMode = 'only view',
+    cardSizeMode = 'micro',
     activeIndex = 1 // Default to Hydrogen (atomic number 1) - always has at least one active element
 }: UIPeriodicTableBlocksProps) {
     // Get elements for each block - note: positions are the same regardless of viewMode
@@ -173,7 +178,12 @@ export function UIPeriodicTableBlocks({
     // Handle element selection
     const handleElementClick = useCallback((elementId: string) => {
         setClickedElementId(elementId);
-    }, []);
+        // Find the element and call onPageChange with its atomic number
+        const clickedElement = allElements.find(el => el.symbol === elementId);
+        if (clickedElement && onPageChange) {
+            onPageChange(clickedElement.position, { atomicNumber: clickedElement.atomicNumber });
+        }
+    }, [allElements, onPageChange]);
 
     // Get active element info for display (use clickedElementId if user clicked, otherwise use activeIndex)
     const displayElementId = clickedElementId;
@@ -182,7 +192,7 @@ export function UIPeriodicTableBlocks({
     // Common props for all block grids
     const commonBlockProps = {
         onPageChange,
-        interactionMode,
+        cardSizeMode,
         displayElementId,
         handleElementClick
     };
@@ -204,11 +214,23 @@ export function UIPeriodicTableBlocks({
         )
     );
 
+    // Calculate f-block padding-left for short view mode
+    // Reason: F-block needs to align with the third column (2 * cellWidth + 2 * gap)
+    const cellWidth = cardSizeMode === 'micro' ? 4 : cardSizeMode === 'mid' ? 83 : 31;
+    const gap = 2; // var(--size-gap-small) = 2px
+    const fBlockPaddingLeft = 2 * cellWidth + 2 * gap;
+
     // Unified template with animated block repositioning
     return (
         <div className={styles.periodicTableContainer}>
             <ActiveElementInfo />
-            <div className={styles.periodicTableWrapper} data-view-mode={viewMode}>
+            <div
+                className={styles.periodicTableWrapper}
+                data-view-mode={viewMode}
+                style={{
+                    '--f-block-padding-left': `${fBlockPaddingLeft}px`
+                } as React.CSSProperties}
+            >
                 <div className={styles.blockPositioner}>
                     {renderBlockGrids(blockElements, commonBlockProps, ['s', 'f', 'd', 'p'])}
                 </div>

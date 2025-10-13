@@ -38,7 +38,7 @@ type Story = StoryObj<typeof meta>;
 // Default story
 export const Default: Story = {
     args: {
-        children: 'Hello World',
+        children: 'Hello, Universe.',
         fontVariant: 'body',
         color: 'white',
     },

@@ -194,7 +194,7 @@ export function UIPaginationGrid({
                         return (
                             <UISquare
                                 key={i}
-                                state={getSquareState()}
+                                squareState={getSquareState()}
                                 logicalSize="small"
                             />
                         );
@@ -205,7 +205,7 @@ export function UIPaginationGrid({
                         <div key={i} className={styles.clickableArea}>
                             <div className={styles.outerSquareWrapper}>
                                 <UISquare
-                                    state={UISquareState.INACTIVE}
+                                    squareState={UISquareState.INACTIVE}
                                     logicalSize="mid"
                                     onClick={isSquareClickableForPage ? () => {
                                         // console.log(`UIPaginationGrid: Clicked on page ${pageNumber}, current active: ${activeIndex}`);
@@ -213,7 +213,7 @@ export function UIPaginationGrid({
                                     } : undefined}
                                 >
                                     <UISquare
-                                        state={getSquareState()}
+                                        squareState={getSquareState()}
                                         logicalSize="small"
                                     />
                                 </UISquare>
@@ -266,7 +266,7 @@ export function UIPaginationGrid({
                             >
                                 {page && squareState ? (
                                     <UISquare
-                                        state={squareState}
+                                        squareState={squareState}
                                         logicalSize="small"
                                         active={active}
                                         onClick={() => handleSquareClick(page, index)}

@@ -7,7 +7,7 @@ import { UILabel } from '../Text/UILabel';
 import { UIParticle } from '../Particles/UIParticle';
 import { UIMesonParticle } from '../Particles/UIMesonParticle';
 import { UITooltip } from '../Text/UITooltip';
-import { getFormattedParticleSymbolByType, isAntiparticleByType, getElementBySymbol } from '../../../lib/data';
+import { getFormattedParticleSymbolByType, isAntiparticleByType, getElementBySymbol, getMesonByPrimaryId } from '../../../lib/data';
 import styles from './UICard.module.css';
 
 export enum UICardState {
@@ -128,6 +128,14 @@ export function UICard({
     // Helper function to get particle symbol based on type
     const getParticleSymbol = (): string => {
         if (!showParticle) return textSymbol || '?';
+
+        // Check if it's a meson (numeric primaryId)
+        if (isMeson() && typeof particleType === 'number') {
+            const meson = getMesonByPrimaryId(particleType);
+            if (meson) {
+                return meson.properties.symbol;
+            }
+        }
 
         // Check if it's a quantum particle
         if (typeof particleType === 'string' && Object.values(ParticleList).includes(particleType as ParticleList)) {

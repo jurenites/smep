@@ -15,6 +15,7 @@ export interface UIParticleProps {
     y?: number; // Y coordinate for center positioning
     /** Optional QCD color override for quarks only. Use QCDColorCharge.COLORLESS for gray quarks */
     qcdColor?: QCDColorCharge;
+    //TODO Entity properties for real Particle at playground: velocity momentum position
 }
 
 // Re-export the centralized configuration functions for external use

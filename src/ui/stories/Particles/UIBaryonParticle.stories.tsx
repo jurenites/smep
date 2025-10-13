@@ -4,7 +4,7 @@ import { UIParticle } from '../../components/Particles/UIParticle';
 import { ParticleList, QCDColorCharge } from '../../../lib/data/particle-quantum.data';
 
 const meta: Meta<typeof UIBaryonParticle> = {
-    title: 'UI/Particles/UIBaryonParticle',
+    title: 'Particles/UIBaryonParticle',
     component: UIBaryonParticle,
     parameters: {
         layout: 'centered',

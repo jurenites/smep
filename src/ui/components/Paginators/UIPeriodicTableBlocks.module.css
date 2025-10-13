@@ -94,7 +94,7 @@
     grid-row: 2;
     /*transform: translate(12px, var(--size-gap-small));*/
     justify-self: start;
-    padding-left: 16px;
+    padding-left: var(--f-block-padding-left, 16px);
 }
 
 /* Enhanced transition for F-block repositioning */
