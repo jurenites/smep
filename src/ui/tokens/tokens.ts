@@ -19,20 +19,14 @@ export const TOKENS = {
         black: "#000000",
 
         // QCD Color Charge - Matter Quarks
-        qcdRedStart: "#FC9938",
-        qcdRedEnd: "#F83284",
-        qcdGreenStart: "#F0F340",
-        qcdGreenEnd: "#3EA968",
-        qcdBlueStart: "#4EDFF8",
-        qcdBlueEnd: "#5554F5",
+        qcdRedStart: "#FC9938", qcdRedEnd: "#F83284",
+        qcdGreenStart: "#F0F340", qcdGreenEnd: "#3EA968",
+        qcdBlueStart: "#4EDFF8", qcdBlueEnd: "#5554F5",
 
         // QCD Color Charge - Antimatter Quarks (Anticolors)
-        qcdCyanStart: "#95F2F4",
-        qcdCyanEnd: "#59C4F6",
-        qcdMagentaStart: "#C86DD7",
-        qcdMagentaEnd: "#782AF7",
-        qcdYellowStart: "#F8E71C",
-        qcdYellowEnd: "#FD9A3E",
+        qcdCyanStart: "#95F2F4", qcdCyanEnd: "#59C4F6",
+        qcdMagentaStart: "#C86DD7", qcdMagentaEnd: "#782AF7",
+        qcdYellowStart: "#F8E71C", qcdYellowEnd: "#FD9A3E",
     },
     // Typography
     typography: {

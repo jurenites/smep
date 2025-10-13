@@ -5,7 +5,6 @@ import { UILabel } from '../Text/UILabel';
 import { getElementsByBlock } from '../../../lib/data';
 import styles from './UIPeriodicTableBlocks.module.css';
 
-
 export type CardSizeMode = 'micro' | 'small' | 'mid';
 
 interface UIPeriodicTableBlocksProps {
