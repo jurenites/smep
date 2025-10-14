@@ -21,7 +21,7 @@ export function UITooltip({
     position = 'top'
 }: UITooltipProps) {
     const [isVisible, setIsVisible] = useState(false);
-    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const timeoutRef = useRef<number | null>(null);
 
     const handleMouseEnter = () => {
         timeoutRef.current = setTimeout(() => {
