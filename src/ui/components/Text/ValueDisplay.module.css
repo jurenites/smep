@@ -12,6 +12,7 @@
 /* Padding for digit fonts (digitBig, digitSmall) - not needed for body font */
 .valueDisplay :global(.fontDigitBig),
 .valueDisplay :global(.fontDigitSmall) {
+    /*TODO: what is this for? are ewe sure we need that i want my text to be as close as posible to ementents around it needeto verify remove those padding and see is veryhting remains the same good looking if so than this part of code is not needed*/
     padding: 2px 4px;
 }
 

@@ -3,6 +3,19 @@ import { UISquareState } from '../../../lib/types';
 import styles from './UIProgressBar.module.css';
 
 export type ProgressLogicalSize = 'small' | 'mid';
+export type ProgressMode = 'single' | 'segmented';
+export type ProgressFillColor = 'yolk' | 'ultraviolet' | 'white' | 'lightgray' | 'gray' | 'darkgray' | 'black';
+
+// Map color names to token values
+const FILL_COLOR_MAP: Record<ProgressFillColor, string> = {
+    yolk: TOKENS.colors.yolk,
+    ultraviolet: TOKENS.colors.ultraviolet,
+    white: TOKENS.colors.white,
+    lightgray: TOKENS.colors.lightgray,
+    gray: TOKENS.colors.gray,
+    darkgray: TOKENS.colors.darkgray,
+    black: TOKENS.colors.black,
+};
 
 export interface UIProgressBarProps {
     /** Current state of the progress bar */
@@ -13,10 +26,16 @@ export interface UIProgressBarProps {
     progress: number; // 0.0 to 1.0
     /** Optional click handler for interactive behavior */
     onClick?: () => void;
-    /** Fill color for the progress bar */
-    fillColor?: string;
+    /** Fill color for the progress bar from theme colors */
+    fillColor?: ProgressFillColor;
     /** Whether to take full width of container (for UIButton use) */
     fullWidth?: boolean;
+    /** Progress bar mode - single or segmented */
+    progressMode?: ProgressMode;
+    /** Number of segments when in segmented mode */
+    segmentCount?: number;
+    /** Active segment index (1-based) when in segmented mode */
+    activeSegmentIndex?: number;
 }
 
 // Logical size to height mapping
@@ -30,10 +49,16 @@ export function UIProgressBar({
     logicalSize,
     progress,
     onClick,
-    fillColor = TOKENS.colors.white, // Default white fill
-    fullWidth = false
+    fillColor = 'white', // Default white fill
+    fullWidth = false,
+    progressMode = 'single',
+    segmentCount = 5,
+    activeSegmentIndex = 1
 }: UIProgressBarProps) {
     const sizes = TOKENS.sizes;
+
+    // Get actual hex color from color name
+    const actualFillColor = FILL_COLOR_MAP[fillColor];
 
     // Validate progress value
     const clampedProgress = Math.max(0, Math.min(1, progress));
@@ -72,7 +97,7 @@ export function UIProgressBar({
                             y={0}
                             width={`${clampedProgress * 100}%`}
                             height={height}
-                            fill={fillColor}
+                            fill={actualFillColor}
                             className={styles.fill}
                         />
                     )}
@@ -100,7 +125,7 @@ export function UIProgressBar({
                             y={1}
                             width={fillWidth - 2}
                             height={height - 2}
-                            fill={fillColor}
+                            fill={actualFillColor}
                             className={styles.fill}
                         />
                     )}
@@ -109,6 +134,59 @@ export function UIProgressBar({
         }
     };
 
+    // Render segmented mode
+    if (progressMode === 'segmented') {
+        const segments = [];
+
+        for (let i = 1; i <= segmentCount; i++) {
+            let segmentProgress = 0;
+            let segmentFillColor: ProgressFillColor = fillColor;
+
+            if (i < activeSegmentIndex) {
+                // Completed segments - 100% filled with white
+                segmentProgress = 1;
+                segmentFillColor = fillColor;
+            } else if (i === activeSegmentIndex) {
+                // Current active segment - show current progress with white fill
+                segmentProgress = clampedProgress;
+                segmentFillColor = fillColor;
+            } else {
+                // Future segments - empty, no fill
+                segmentProgress = 0;
+                segmentFillColor = fillColor;
+            }
+
+            segments.push(
+                <div
+                    key={i}
+                    className={styles.segment}
+                    data-segment-index={i}
+                >
+                    <UIProgressBar
+                        progressState={progressState}
+                        logicalSize={logicalSize}
+                        progress={segmentProgress}
+                        fillColor={segmentFillColor}
+                        fullWidth={true}
+                        progressMode="single"
+                    />
+                </div>
+            );
+        }
+
+        return (
+            <div
+                className={styles.segmentedContainer}
+                data-testid="uiprogressbar-segmented"
+                data-segment-count={segmentCount}
+                data-active-segment={activeSegmentIndex}
+            >
+                {segments}
+            </div>
+        );
+    }
+
+    // Single mode render
     return (
         <div
             className={getItemClassName()}

@@ -40,6 +40,7 @@
 
 .hudContent {
     position: absolute;
+    /* TOOD: despite he fact this is a dubuggin infoit should follow the slae theme rules hanve the parameters in Token's, need to rework this part  */
     top: 20px;
     left: 20px;
     right: 20px;

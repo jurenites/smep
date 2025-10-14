@@ -10,6 +10,7 @@
     transition: all 0.2s ease;
     position: relative;
     box-sizing: border-box;
+    overflow: hidden; /* Ensure glare animation stays within tab bounds */
 }
 
 /* Tab States */

@@ -56,6 +56,11 @@ export enum UITabState {
     DISABLED = 'disabled', // Disabled and not clickable tab
 }
 
+export enum MessageState {
+    READ = 'read', // Message/notification has been read
+    UNREAD = 'unread', // Message/notification is unread and should show glare
+}
+
 export enum ClickableState {
     ENABLED = 'enabled', // Clickable and interactive
     DISABLED = 'disabled', // Not clickable
@@ -199,6 +204,18 @@ export interface PlayerWallet {
     totalEarned: number;
 }
 
+// Upgrades
+export interface ResearchedUpgrade {
+    upgradeId: number;
+    researchedAt: number;
+}
+
+export interface UpgradeInProgress {
+    upgradeId: number;
+    startedAt: number;
+    progress: number; // 0-1
+}
+
 export interface GameState {
     wallet: PlayerWallet;
     playground: EntityPlayground;
@@ -217,6 +234,10 @@ export interface GameState {
         temperature: number;
         time: number;
         space: number;
+    };
+    upgrades: {
+        researched: ResearchedUpgrade[];
+        inProgress: UpgradeInProgress | null;
     };
 }
 

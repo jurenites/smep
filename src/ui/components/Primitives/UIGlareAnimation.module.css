@@ -1,0 +1,83 @@
+/* UIGlareAnimation - Reusable glare effect for UI elements */
+
+.glareContainer {
+    position: relative;
+    overflow: hidden;
+}
+
+.glareEffect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+
+    /* Create a much wider linear gradient from top to bottom with hard edge at top */
+    background: linear-gradient(to bottom,
+            var(--color-yolk) 0%,
+            var(--color-yolk) 15%,
+            rgba(248, 231, 28, 0.8) 25%,
+            rgba(248, 231, 28, 0.4) 40%,
+            rgba(248, 231, 28, 0.1) 60%,
+            transparent 80%,
+            transparent 100%);
+
+    /* Initial position - start from bottom */
+    transform: translateY(100%);
+
+    /* Animation properties */
+    animation: glare-sweep 2s ease-in-out infinite;
+    animation-delay: 0.5s;
+    /* Small delay before first animation */
+}
+
+/* Keyframe animation - moves gradient from bottom to top */
+@keyframes glare-sweep {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+
+/* Paused state - when tab becomes active, stop animation */
+.glareEffect.paused {
+    animation-play-state: paused;
+}
+
+/* Disabled state - when notification is read, hide animation */
+.glareEffect.disabled {
+    display: none;
+}
+
+/* Faster animation variant for more urgent notifications */
+.glareEffect.fast {
+    animation-duration: 1s;
+}
+
+/* Slower animation variant for subtle notifications */
+.glareEffect.slow {
+    animation-duration: 3s;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .glareEffect {
+        animation: none;
+        display: none;
+    }
+}

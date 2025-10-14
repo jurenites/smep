@@ -42,8 +42,6 @@
     --qcd-gradient-cyan: radial-gradient(circle at 30% 30%, #95F2F4 0%, #59C4F6 100%);
     --qcd-gradient-magenta: radial-gradient(circle at 30% 30%, #C86DD7 0%, #782AF7 100%);
     --qcd-gradient-yellow: radial-gradient(circle at 30% 30%, #F8E71C 0%, #FD9A3E 100%);
-    --qcd-gradient-colorless: radial-gradient(circle at 30% 30%, #dddddd 0%, #232323 100%);
-    --qcd-gradient-colorless-anti: radial-gradient(circle at 30% 30%, #232323 0%, #dddddd 100%);
     --quark-shadow-extension: 2px;
     --size-blur-playground: 16px;
     --size-blur-small: 4px;
@@ -86,4 +84,12 @@
     --playground-margin: 2px;
     --playground-shadow-opacity: 0.1;
     --playground-shadow-offset: 0.5;
+    --size-upgrade-item-full: 61px;
+    --size-upgrade-item-mid: 47px;
+    --size-upgrade-item-brief: 47px;
+    --size-upgrade-item-w: 311px;
+    --animation-immediate: 0s;
+    --animation-fast: 0.1s;
+    --animation-slow: 0.3s;
+    --skeleton-wave-duration: 1.5s;
 }

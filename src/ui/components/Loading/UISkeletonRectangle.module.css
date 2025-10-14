@@ -1,0 +1,32 @@
+/* UISkeletonRectangle Component Styles */
+
+.skeletonRectangle {
+    display: block;
+    background-color: var(--color-dark-gray);
+    /*position: relative;
+    overflow: hidden;*/
+}
+
+/* TODO: need to rework it tol look less silly, and in sync with the neiubour elelemnts */
+/*
+.skeletonRectangle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-gray);
+    animation: waveVertical var(--skeleton-wave-duration) linear infinite;
+}
+
+@keyframes waveVertical {
+    0% {
+        transform: translateY(100%);
+    }
+
+    100% {
+        transform: translateY(-100%);
+    }
+}
+    */

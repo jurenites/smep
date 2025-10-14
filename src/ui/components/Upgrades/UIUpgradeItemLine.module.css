@@ -1,0 +1,242 @@
+/* UIUpgradeItemLine Component Styles */
+
+/* Container - Base styles */
+.container {
+    width: 100%;
+    border-left: 2px solid;
+    padding: var(--size-padding-medium);
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    position: relative;
+}
+
+/* Hover effect */
+.container:hover {
+    background-color: var(--color-dark-gray) !important;
+}
+
+/* Click animation using :active pseudo-class */
+.container:active {
+    outline: 1px solid var(--color-white);
+    outline-offset: -1px;
+}
+
+/* View mode heights */
+.viewModeFull {
+    min-height: var(--size-upgrade-item-full);
+    min-width: var(--size-upgrade-item-w);
+}
+
+.viewModeMid {
+    min-height: var(--size-upgrade-item-mid);
+    min-width: var(--size-upgrade-item-w);
+}
+
+.viewModeBrief {
+    min-height: var(--size-upgrade-item-brief);
+    min-width: var(--size-upgrade-item-w);
+}
+
+/* Item state styles */
+.itemStateAvailable {
+    /* Transparent background handled by inline style */
+}
+
+.itemStateSelected {
+    /* Dark gray background handled by inline style */
+}
+
+/* Upgrade state styles */
+.upgradeStateNotstarted {
+    /* Default state */
+}
+
+.upgradeStateInprogress {
+    cursor: default;
+}
+
+.upgradeStateInprogress:active {
+    outline: none;
+}
+
+.upgradeStateCancellation {
+    cursor: default;
+}
+
+.upgradeStateCancellation:active {
+    outline: none;
+}
+
+/* Content layouts */
+.contentFull {
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-gap-small);
+}
+
+.contentMid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-gap-small);
+}
+
+.contentBrief {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contentInProgress {
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-gap-small);
+}
+
+.contentCancellation {
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-gap-small);
+}
+
+/* Top row (icon + name) */
+.topRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--size-gap-small);
+}
+
+/* Icon + Name group for horizontal layouts */
+.iconNameGroup {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--size-gap-small);
+}
+
+/* Description row */
+.descriptionRow {
+    padding-left: calc(24px + var(--size-gap-small));
+    /* Indent to align with text after icon */
+}
+
+/* Bottom row (cost/button + gaining) */
+.bottomRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: calc(24px + var(--size-gap-small));
+    /* Indent to align with text after icon */
+}
+
+/* Cost display */
+.costDisplay {
+    display: flex;
+    align-items: baseline;
+}
+
+/* Gaining display */
+.gainingDisplay {
+    display: flex;
+    align-items: baseline;
+    gap: var(--size-gap-small);
+}
+
+/* Research button (transparent with arrow) */
+.researchButton {
+    width: var(--size-button-height);
+    height: var(--size-button-height);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.researchButton:hover {
+    background-color: var(--color-gray);
+}
+
+.researchButton:active {
+    background-color: var(--color-gray);
+}
+
+.researchButton:disabled {
+    background-color: transparent;
+    cursor: not-allowed;
+}
+
+/* Stop button (X) */
+.stopButton {
+    width: var(--size-button-height);
+    height: var(--size-button-height);
+    background: transparent;
+    border: 1px solid var(--color-white);
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s ease;
+    margin-left: auto;
+}
+
+.stopButton:hover {
+    border-color: var(--color-light-gray);
+}
+
+.stopButton:active {
+    border-color: var(--color-gray);
+}
+
+/* Progress bar container */
+.progressBarContainer {
+    width: 100%;
+    margin-top: var(--size-gap-small);
+}
+
+/* Rollback animation for progress bar */
+.progressBarContainer svg {
+    transition: all 0.3s ease-out;
+}
+
+/* Cancellation buttons */
+.cancellationButtons {
+    display: flex;
+    flex-direction: row;
+    gap: var(--size-gap-small);
+    justify-content: center;
+    margin-top: var(--size-gap-small);
+}
+
+/* Action button (Stop/Continue) */
+.actionButton {
+    min-width: 109px;
+    height: var(--size-button-height);
+    background: var(--color-yolk);
+    border: none;
+    cursor: pointer;
+    padding: 0 var(--size-padding-medium);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s ease;
+}
+
+.actionButton:hover {
+    transform: translateY(calc(-1 * var(--animation-translate-up)));
+}
+
+.actionButton:active {
+    transform: translateY(0);
+}
+
+.actionButton span {
+    color: var(--color-black) !important;
+}

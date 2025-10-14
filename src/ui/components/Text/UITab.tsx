@@ -1,4 +1,6 @@
 import { UILabel, type ColorList, ColorList as ColorListObject } from './UILabel';
+import { UIGlareAnimation } from '../Primitives/UIGlareAnimation';
+import { MessageState } from '../../../lib/types';
 import styles from './UITab.module.css';
 
 export enum UITabState {
@@ -14,6 +16,10 @@ export interface UITabProps {
     tabState: UITabState;
     /** Optional click handler for interactive behavior */
     onClick?: () => void;
+    /** Whether this tab has an unread notification */
+    hasNotification?: boolean;
+    /** Message state for notification system */
+    messageState?: MessageState;
     /** Optional additional CSS class name */
     className?: string;
 }
@@ -22,6 +28,8 @@ export function UITab({
     tabText,
     tabState,
     onClick,
+    hasNotification = false,
+    messageState = MessageState.READ,
     className = ''
 }: UITabProps) {
     // Determine if tab is clickable based on tabState
@@ -64,6 +72,11 @@ export function UITab({
         }
     };
 
+    // Determine if glare animation should be active
+    const shouldShowGlare = hasNotification && messageState === MessageState.UNREAD;
+    const isGlarePaused = tabState === UITabState.ACTIVE;
+    const isGlareDisabled = messageState === MessageState.READ;
+
     return (
         <div
             className={`${styles.tab} ${getTabClassName()} ${className}`}
@@ -75,6 +88,12 @@ export function UITab({
                 fontVariant="body"
                 color={getLabelColor()}
                 className={styles.tabLabel}
+            />
+            <UIGlareAnimation
+                isActive={shouldShowGlare}
+                isPaused={isGlarePaused}
+                isDisabled={isGlareDisabled}
+                speed="normal"
             />
         </div>
     );

@@ -225,7 +225,7 @@ export function UIButton({
                     <UIProgressBar
                         progress={progress / 100}
                         logicalSize="mid"
-                        fillColor={internalState === 'hold' ? TOKENS.colors.gray : TOKENS.colors.white}
+                        fillColor={internalState === 'hold' ? 'gray' : 'white'}
                         progressState={UISquareState.ACTIVE}
                         fullWidth={true}
                     />

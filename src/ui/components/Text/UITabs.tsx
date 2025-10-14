@@ -1,5 +1,5 @@
 import { UITab } from './UITab';
-import { UITabState } from '../../../lib/types';
+import { UITabState, MessageState } from '../../../lib/types';
 import styles from './UITabs.module.css';
 
 export interface UITabItem {
@@ -9,6 +9,10 @@ export interface UITabItem {
     text: string;
     /** Optional click handler for this specific tab */
     onClick?: () => void;
+    /** Whether this tab has an unread notification */
+    hasNotification?: boolean;
+    /** Message state for notification system */
+    messageState?: MessageState;
 }
 
 export interface UITabsProps {
@@ -64,6 +68,8 @@ export function UITabs({
                         tabText={tab.text}
                         tabState={state}
                         onClick={() => handleTabClick(tab.id)}
+                        hasNotification={tab.hasNotification}
+                        messageState={tab.messageState}
                         className={index > 0 ? styles.connectedTab : ''}
                     />
                 );

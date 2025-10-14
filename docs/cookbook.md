@@ -461,8 +461,47 @@ All SVG elements **must** include a `viewBox` attribute to maintain proper aspec
 
 ## Developer Feature: Generative Art Testing
 
-- The **Playground surface** must support toggling a **“third-party library overlay mode”** for experiments (e.g. Three.js, Processing, generative shaders).  
+- The **Playground surface** must support toggling a **"third-party library overlay mode"** for experiments (e.g. Three.js, Processing, generative shaders).  
 - Rule: these overlays **must render behind the HUD/UI layer**, and **must not affect collisions or gameplay state**.  
 - Use toggle flag: `PLAYGROUND_DEBUG_ART_MODE = true`.  
+
+---
+
+## Interaction & Animation Rules
+
+### CSS Pseudo-Class for Interactions
+
+- **Always use CSS pseudo-classes** (`:active`, `:hover`, `:focus`, etc.) for click/interaction animations and visual feedback
+- **Never use JavaScript state or `setTimeout`** for visual-only effects that can be handled with CSS
+- This ensures better performance, simpler code, and native browser optimizations
+
+**Good Examples:**
+```css
+.button:active {
+    outline: 1px solid var(--color-white);
+    outline-offset: -1px;
+}
+
+.button:hover {
+    transform: translateY(-1px);
+}
+```
+
+**Bad Examples:**
+```tsx
+// ❌ Don't do this
+const [isPressed, setIsPressed] = useState(false);
+const handleClick = () => {
+    setIsPressed(true);
+    setTimeout(() => setIsPressed(false), 300);
+};
+```
+
+### Exceptions
+
+JavaScript-based animations are acceptable when:
+- Complex state transitions are required (e.g., progress bars, multi-step flows)
+- Animation depends on dynamic data or calculations
+- Native CSS cannot achieve the desired effect (e.g., rollback animations with variable durations)
 
 ---
