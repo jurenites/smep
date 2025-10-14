@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './UIGlareAnimation.module.css';
 
 export interface UIGlareAnimationProps {

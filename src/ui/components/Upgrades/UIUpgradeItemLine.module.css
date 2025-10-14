@@ -38,20 +38,6 @@
     min-width: var(--size-upgrade-item-w);
 }
 
-/* Item state styles */
-.itemStateAvailable {
-    /* Transparent background handled by inline style */
-}
-
-.itemStateSelected {
-    /* Dark gray background handled by inline style */
-}
-
-/* Upgrade state styles */
-.upgradeStateNotstarted {
-    /* Default state */
-}
-
 .upgradeStateInprogress {
     cursor: default;
 }

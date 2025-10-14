@@ -1,4 +1,3 @@
-import React from 'react';
 import { TOKENS } from '../../tokens/tokens';
 
 export interface UIUpgradeIconProps {
