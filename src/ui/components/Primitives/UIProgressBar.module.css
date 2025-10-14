@@ -19,14 +19,7 @@
     width: 100%;
 }
 
-/* Size-specific container styles */
-.sizeSmall {
-    /* Small size specific styles */
-}
-
-.sizeMid {
-    /* Mid size specific styles */
-}
+/* Size-specific container styles (can be defined here if needed) */
 
 /* SVG container styles */
 .container svg {
@@ -127,10 +120,7 @@
 
 /* Disabled fill color is controlled by the fillColor prop */
 
-/* Progress animation for smooth transitions - removed width transition for instant sync */
-.fill {
-    /* Width transitions removed to sync with percentage display */
-}
+/* Progress animation - width transitions removed for instant sync with percentage display */
 
 /* Responsive behavior */
 @media (max-width: 768px) {
@@ -144,14 +134,8 @@
     }
 }
 
-/* Size-specific adjustments - width transitions removed for instant sync */
-.sizeSmall .fill {
-    /* Width transitions removed to sync with percentage display */
-}
-
-.sizeMid .fill {
-    /* Width transitions removed to sync with percentage display */
-}
+/* Size-specific adjustments - width transitions removed for instant sync
+   Future size-specific fill adjustments can be added here if needed */
 
 /* Segmented mode styles */
 .segmentedContainer {
@@ -164,15 +148,42 @@
 
 .segment {
     flex: 1;
-    margin-right: -1px; /* Reduce 2px border gap to 1px */
+    min-width: 31px;
+    /* TODO: Change top Minimum width using CARD_SMALL token value */
+    margin-right: -1px;
+    /* Reduce 2px border gap to 1px */
     position: relative;
 }
 
 .segment:last-child {
-    margin-right: 0; /* No margin on last segment */
+    margin-right: 0;
+    /* No margin on last segment */
 }
 
-/* Preview state for segments showing yolk color */
-.segmentPreview {
-    /* Preview styling handled by fillColor prop */
+/* Segment with yolk background */
+.segmentWithYolk {
+    position: relative;
+}
+
+/* Yolk background layer - fills to 100% to show target path */
+.yolkBackgroundLayer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* White foreground layer - animates on top of yolk */
+.whiteForegroundLayer {
+    position: relative;
+    z-index: 2;
+}
+
+/* Yolk drain layer - only layer rendered during draining mode */
+.yolkDrainLayer {
+    position: relative;
+    pointer-events: none;
 }

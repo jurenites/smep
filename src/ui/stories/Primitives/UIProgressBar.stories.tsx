@@ -64,20 +64,23 @@ export const SegmentedProgressBar: Story = {
     args: {
         progressState: UISquareState.ACTIVE,
         logicalSize: 'small',
-        progress: 0.5,
         fillColor: 'white',
         progressMode: 'segmented',
         segmentCount: 5,
         activeSegmentIndex: 1,
+        progressDuration: 3000,
     },
     parameters: {
         docs: {
             description: {
-                story: 'Segmented UIProgressBar with multiple progress bars in sequence. When activeSegmentIndex changes (e.g., from 1 to 3), segments 2-3 will show yolk-colored preview before filling with white. Completed segments (< activeSegmentIndex) are 100% filled, the current segment shows the progress value, and future segments are empty or show yolk preview.',
+                story: 'Segmented UIProgressBar with animated sequential filling. Change activeSegmentIndex (e.g., from 1 to 3) to see: 1) Yolk-colored preview appears on target segments (2-3), 2) Progress bar animates smoothly through each segment, 3) Each segment takes progressDuration milliseconds to fill. The animation runs continuously without stopping between segments.',
             },
         },
     },
     argTypes: {
+        progress: {
+            table: { disable: true }, // Hide progress control for segmented mode
+        },
         progressMode: {
             control: 'select',
             options: ['single', 'segmented'],
@@ -89,7 +92,11 @@ export const SegmentedProgressBar: Story = {
         },
         activeSegmentIndex: {
             control: { type: 'number', min: 1, max: 10, step: 1 },
-            description: 'Currently active segment (1-based index). Change this to see yolk preview on future segments.',
+            description: 'Target segment index (1-based). Change this to trigger animation with yolk preview.',
+        },
+        progressDuration: {
+            control: { type: 'number', min: 500, max: 10000, step: 500 },
+            description: 'Duration in milliseconds for each segment to fill (default: 3000ms = 3 seconds)',
         },
     },
 };

@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import { TOKENS } from '../../tokens/tokens';
 import { UISquareState } from '../../../lib/types';
 import styles from './UIProgressBar.module.css';
@@ -22,8 +23,8 @@ export interface UIProgressBarProps {
     progressState: UISquareState;
     /** Logical size of the progress bar */
     logicalSize: ProgressLogicalSize;
-    /** Progress value from 0 to 1 */
-    progress: number; // 0.0 to 1.0
+    /** Progress value from 0 to 1 (only used in single mode) */
+    progress?: number; // 0.0 to 1.0
     /** Optional click handler for interactive behavior */
     onClick?: () => void;
     /** Fill color for the progress bar from theme colors */
@@ -36,6 +37,8 @@ export interface UIProgressBarProps {
     segmentCount?: number;
     /** Active segment index (1-based) when in segmented mode */
     activeSegmentIndex?: number;
+    /** Duration in ms for each segment to fill (used in segmented mode) */
+    progressDuration?: number;
 }
 
 // Logical size to height mapping
@@ -47,15 +50,32 @@ const LOGICAL_SIZE_MAP: Record<ProgressLogicalSize, number> = {
 export function UIProgressBar({
     progressState,
     logicalSize,
-    progress,
+    progress = 0,
     onClick,
     fillColor = 'white', // Default white fill
     fullWidth = false,
     progressMode = 'single',
     segmentCount = 5,
-    activeSegmentIndex = 1
+    activeSegmentIndex = 1,
+    progressDuration = 1000
 }: UIProgressBarProps) {
     const sizes = TOKENS.sizes;
+
+    // Segmented mode animation state
+    // currentSegmentIndex points to the segment AFTER the last completed one
+    // e.g., if currentSegmentIndex = 2, then segment 1 is completed
+    const [currentSegmentIndex, setCurrentSegmentIndex] = useState(2);
+    const [currentSegmentProgress, setCurrentSegmentProgress] = useState(0);
+    const previousTargetRef = useRef(activeSegmentIndex);
+    const animationFrameRef = useRef<number | undefined>(undefined);
+    const startTimeRef = useRef<number | undefined>(undefined);
+
+    // Initialize currentSegmentIndex based on initial activeSegmentIndex
+    useEffect(() => {
+        setCurrentSegmentIndex(activeSegmentIndex + 1);
+        previousTargetRef.current = activeSegmentIndex;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []); // Only run on mount
 
     // Get actual hex color from color name
     const actualFillColor = FILL_COLOR_MAP[fillColor];
@@ -83,6 +103,98 @@ export function UIProgressBar({
         const fullWidthClass = fullWidth ? styles.fullWidth : '';
         return `${baseClass} ${stateClass} ${sizeClass} ${fullWidthClass}`.trim();
     };
+
+    // Animation for segmented mode
+    useEffect(() => {
+        if (progressMode !== 'segmented') return;
+
+        // Check if target has changed
+        if (activeSegmentIndex === previousTargetRef.current) return;
+
+        const targetSegment = activeSegmentIndex;
+        previousTargetRef.current = activeSegmentIndex;
+
+        // Cancel existing animation and restart from current position to new target
+        if (animationFrameRef.current) {
+            cancelAnimationFrame(animationFrameRef.current);
+            animationFrameRef.current = undefined;
+        }
+
+        // Capture current state at the time this effect runs
+        setCurrentSegmentIndex(prevSegIndex => {
+            setCurrentSegmentProgress(prevSegProgress => {
+                // Calculate where we're starting from (current actual progress)
+                const currentActualProgress = prevSegIndex - 1 + prevSegProgress;
+                const targetProgress = targetSegment;
+                const progressDifference = targetProgress - currentActualProgress;
+
+                // Determine direction
+                const isMovingBackward = progressDifference < 0;
+                const progressDistance = Math.abs(progressDifference);
+
+                // If already at target, no animation needed
+                if (progressDistance < 0.001) {
+                    setCurrentSegmentIndex(targetSegment + 1);
+                    setCurrentSegmentProgress(0);
+                    startTimeRef.current = undefined;
+                    return prevSegProgress;
+                }
+
+                const totalDuration = progressDuration * progressDistance;
+
+                // Start animation
+                const animate = (timestamp: number) => {
+                    if (!startTimeRef.current) {
+                        startTimeRef.current = timestamp;
+                    }
+
+                    const elapsed = timestamp - startTimeRef.current;
+                    const animationProgress = Math.min(elapsed / totalDuration, 1);
+
+                    let absoluteProgress: number;
+
+                    if (isMovingBackward) {
+                        // Moving backward - drain from current to target
+                        absoluteProgress = currentActualProgress - (progressDistance * animationProgress);
+                    } else {
+                        // Moving forward - fill from current to target
+                        absoluteProgress = currentActualProgress + (progressDistance * animationProgress);
+                    }
+
+                    const segmentIndex = Math.floor(absoluteProgress);
+                    const segmentProg = absoluteProgress - segmentIndex;
+
+                    // Current segment being filled/drained (1-based)
+                    const currentSegmentNum = segmentIndex + 1;
+
+                    setCurrentSegmentIndex(currentSegmentNum);
+                    setCurrentSegmentProgress(segmentProg);
+
+                    if (animationProgress < 1) {
+                        animationFrameRef.current = requestAnimationFrame(animate);
+                    } else {
+                        // Animation complete
+                        setCurrentSegmentIndex(targetSegment + 1);
+                        setCurrentSegmentProgress(0);
+                        startTimeRef.current = undefined;
+                        animationFrameRef.current = undefined;
+                    }
+                };
+
+                startTimeRef.current = undefined;
+                animationFrameRef.current = requestAnimationFrame(animate);
+
+                return prevSegProgress; // Don't change state in this setter
+            });
+            return prevSegIndex; // Don't change state in this setter
+        });
+
+        return () => {
+            if (animationFrameRef.current) {
+                cancelAnimationFrame(animationFrameRef.current);
+            }
+        };
+    }, [activeSegmentIndex, progressMode, progressDuration]);
 
     // Render the progress bar content
     const renderContent = () => {
@@ -137,39 +249,122 @@ export function UIProgressBar({
     // Render segmented mode
     if (progressMode === 'segmented') {
         const segments = [];
+        const currentActualProgress = currentSegmentIndex - 1 + currentSegmentProgress;
+        const isInDrainMode = currentActualProgress > activeSegmentIndex;
 
         for (let i = 1; i <= segmentCount; i++) {
             let segmentProgress = 0;
             let segmentFillColor: ProgressFillColor = fillColor;
+            let showYolkBackground = false;
+            let yolkDrainProgress = 0; // For showing draining yolk effect
+            let showDraining = false;
 
-            if (i < activeSegmentIndex) {
-                // Completed segments - 100% filled with white
-                segmentProgress = 1;
-                segmentFillColor = fillColor;
-            } else if (i === activeSegmentIndex) {
-                // Current active segment - show current progress with white fill
-                segmentProgress = clampedProgress;
-                segmentFillColor = fillColor;
+            // TODO: Can we check the logic below and make it simplier to read?
+            if (isInDrainMode) {
+                // DRAINING MODE (moving backward)
+                if (i <= activeSegmentIndex) {
+                    // Safe segments - keep white fill (target and below)
+                    segmentProgress = 1;
+                    segmentFillColor = fillColor;
+                    showYolkBackground = false;
+                    showDraining = false;
+                } else if (i === currentSegmentIndex) {
+                    // Currently draining segment - white is EMPTY (0%), yolk drains on top
+                    segmentProgress = 0; // No white underneath - empty segment
+                    segmentFillColor = fillColor;
+                    showDraining = true;
+                    yolkDrainProgress = currentSegmentProgress; // Yolk drains from 1 to 0
+                } else if (i > activeSegmentIndex && i < currentSegmentIndex && i <= Math.ceil(currentActualProgress)) {
+                    // Segments between target and current draining position - show full yolk waiting to drain
+                    segmentProgress = 0; // No white - empty segment
+                    segmentFillColor = fillColor;
+                    showDraining = true;
+                    yolkDrainProgress = 1; // Full yolk (100%)
+                } else if (i > currentSegmentIndex && i <= Math.ceil(currentActualProgress)) {
+                    // Segments after current (already drained in a previous state) - show full yolk
+                    segmentProgress = 0; // No white - empty segment
+                    segmentFillColor = fillColor;
+                    showDraining = true;
+                    yolkDrainProgress = 1; // Full yolk (100%)
+                } else {
+                    // Segments that were never filled - remain empty
+                    segmentProgress = 0;
+                    segmentFillColor = fillColor;
+                    showDraining = false;
+                }
             } else {
-                // Future segments - empty, no fill
-                segmentProgress = 0;
-                segmentFillColor = fillColor;
+                // FILLING MODE (moving forward)
+                if (i < currentSegmentIndex) {
+                    // Completed segments - 100% filled with white (no yolk)
+                    segmentProgress = 1;
+                    segmentFillColor = fillColor;
+                    showYolkBackground = false;
+                } else if (i === currentSegmentIndex) {
+                    // Current active segment - show animated white progress on top of yolk
+                    segmentProgress = currentSegmentProgress;
+                    segmentFillColor = fillColor;
+                    // Show yolk background if this segment is in the target range
+                    showYolkBackground = i <= activeSegmentIndex;
+                } else if (i <= activeSegmentIndex) {
+                    // Future segments in the target path - show 100% yolk background, 0% white
+                    segmentProgress = 0;
+                    segmentFillColor = fillColor;
+                    showYolkBackground = true;
+                } else {
+                    // Segments beyond target - empty, no preview
+                    segmentProgress = 0;
+                    segmentFillColor = fillColor;
+                    showYolkBackground = false;
+                }
             }
 
             segments.push(
                 <div
                     key={i}
-                    className={styles.segment}
+                    className={`${styles.segment} ${(showYolkBackground || showDraining) ? styles.segmentWithYolk : ''}`}
                     data-segment-index={i}
                 >
-                    <UIProgressBar
-                        progressState={progressState}
-                        logicalSize={logicalSize}
-                        progress={segmentProgress}
-                        fillColor={segmentFillColor}
-                        fullWidth={true}
-                        progressMode="single"
-                    />
+                    {showDraining ? (
+                        // DRAINING MODE: Only render yolk drain layer
+                        <div className={styles.yolkDrainLayer}>
+                            <UIProgressBar
+                                progressState={progressState}
+                                logicalSize={logicalSize}
+                                progress={yolkDrainProgress} // Drains from 1 to 0
+                                fillColor="yolk"
+                                fullWidth={false}
+                                progressMode="single"
+                            />
+                        </div>
+                    ) : (
+                        // FILLING MODE: Render white with optional yolk background
+                        <>
+                            {/* Yolk background layer (for filling mode preview) */}
+                            {showYolkBackground && (
+                                <div className={styles.yolkBackgroundLayer}>
+                                    <UIProgressBar
+                                        progressState={progressState}
+                                        logicalSize={logicalSize}
+                                        progress={1} // Always 100% for yolk background
+                                        fillColor="yolk"
+                                        fullWidth={false}
+                                        progressMode="single"
+                                    />
+                                </div>
+                            )}
+                            {/* White foreground layer (animated progress) */}
+                            <div className={styles.whiteForegroundLayer}>
+                                <UIProgressBar
+                                    progressState={progressState}
+                                    logicalSize={logicalSize}
+                                    progress={segmentProgress}
+                                    fillColor={segmentFillColor}
+                                    fullWidth={false}
+                                    progressMode="single"
+                                />
+                            </div>
+                        </>
+                    )}
                 </div>
             );
         }
@@ -180,6 +375,7 @@ export function UIProgressBar({
                 data-testid="uiprogressbar-segmented"
                 data-segment-count={segmentCount}
                 data-active-segment={activeSegmentIndex}
+                data-current-segment={currentSegmentIndex}
             >
                 {segments}
             </div>
