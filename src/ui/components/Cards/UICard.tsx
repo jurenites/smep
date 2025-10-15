@@ -3,6 +3,7 @@ import { ParticleList } from '../../../lib/data/particle-quantum.data';
 import { UISquare } from '../Primitives/UISquare';
 import { UIRectangleBig } from '../Primitives/UIRectangleBig';
 import { UICircle } from '../Primitives/UICircle';
+import { UIRadiationPulse } from '../Primitives/UIRadiationPulse';
 import { UILabel } from '../Text/UILabel';
 import { UIParticle } from '../Particles/UIParticle';
 import { UIMesonParticle } from '../Particles/UIMesonParticle';
@@ -225,15 +226,23 @@ export function UICard({
         // Use relativeDiameter from atomic data for UICard display
         const diameter = element.properties.relativeDiameter;
         const color = element.render.coreColor;
+        const showRadiation = element.properties.radioactivity?.isRadioactive === true;
 
         return (
-            <UICircle
-                logicalSize="small"
-                actualSize={diameter}
-                color={color}
-                onClick={cardState === UICardState.DISABLED ? undefined : onClick}
-                className={cardState === UICardState.DISABLED ? styles.disabledParticle : ''}
-            />
+            <div style={{ position: 'relative', width: diameter, height: diameter }}>
+                {showRadiation && (
+                    <div className={styles.circleAbove} style={{ position: 'absolute', inset: 0 }} aria-hidden="true">
+                        <UIRadiationPulse coreDiameter={diameter} color={color} speedSeconds={0.5} maxScale={3} rings={2} />
+                    </div>
+                )}
+                <UICircle
+                    logicalSize="small"
+                    actualSize={diameter}
+                    color={color}
+                    onClick={cardState === UICardState.DISABLED ? undefined : onClick}
+                    className={cardState === UICardState.DISABLED ? styles.disabledParticle : ''}
+                />
+            </div>
         );
     };
 
