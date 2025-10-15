@@ -4,3 +4,4 @@ export { UIProgressBar } from './UIProgressBar';
 export { UIRectangleBig } from './UIRectangleBig';
 export { UIRectangleSmall } from './UIRectangleSmall';
 export { UISquare } from './UISquare';
+export { UIRadiationPulse, type UIRadiationPulseProps } from './UIRadiationPulse';

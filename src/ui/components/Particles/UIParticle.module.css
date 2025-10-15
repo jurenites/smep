@@ -14,6 +14,16 @@
     left: 0;
 }
 
+/* Radiation pulse container will be absolutely centered and sit under the core */
+.radiationPulseLayer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 0; /* behind color layers and core */
+}
+
 /* Shadow background for leptons - positioned absolutely, doesn't affect container size */
 .shadowBackground {
     position: absolute;
