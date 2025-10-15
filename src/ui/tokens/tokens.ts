@@ -70,10 +70,12 @@ export const TOKENS = {
 
         // Component sizes
         SQUARE_SMALL: 4,
-        RECTANGLE_SMALL: 17,
+        RECTANGLE_SMALL_W: 17,
+
         TAB_MIN_W: 109,
         TAB_H: 23,
         BUTTON_MIN_WIDTH: 175,
+
         BUTTON_HEIGHT: 31,
         BLUR_PLAYGROUND: 16,
         BLUR_SMALL: 4,
@@ -90,22 +92,13 @@ export const TOKENS = {
         // Margin sizes
         MARGIN_SMALL: 8,
 
-        // Border radius
-        BORDER_RADIUS_SMALL: 4,
-
         // Other sizes
-        OUTLINE_OFFSET: 2,
         ANIMATION_TRANSLATE_UP: 1,
 
-        // Playground specific sizes
-        PLAYGROUND_MARGIN: 2, // Margin around playground circle
-        PLAYGROUND_SHADOW_OPACITY: 0.1, // Shadow opacity for bottom blur
-        PLAYGROUND_SHADOW_OFFSET: 0.5, // Shadow offset ratio (0.5 = half radius)
-
         // Upgrade item sizes
-        UPGRADE_ITEM_FULL: 61,
-        UPGRADE_ITEM_MID: 47,
-        UPGRADE_ITEM_BRIEF: 47,
+        UPGRADE_ITEM_FULL_H: 61,
+        UPGRADE_ITEM_MID_H: 47,
+        UPGRADE_ITEM_BRIEF_H: 47,
 
         UPGRADE_ITEM_W: 311,
 
@@ -279,21 +272,13 @@ export const CSS_VARS = {
     // Margin sizes
     '--size-margin-small': `${TOKENS.sizes.MARGIN_SMALL}px`,
 
-    // Other sizes
-    '--size-outline-offset': `${TOKENS.sizes.OUTLINE_OFFSET}px`,
-
     // Animation transition
     '--animation-translate-up': `${TOKENS.sizes.ANIMATION_TRANSLATE_UP}px`,
 
-    // Playground specific
-    '--playground-margin': `${TOKENS.sizes.PLAYGROUND_MARGIN}px`,
-    '--playground-shadow-opacity': TOKENS.sizes.PLAYGROUND_SHADOW_OPACITY,
-    '--playground-shadow-offset': TOKENS.sizes.PLAYGROUND_SHADOW_OFFSET,
-
     // Upgrade item sizes
-    '--size-upgrade-item-full': `${TOKENS.sizes.UPGRADE_ITEM_FULL}px`,
-    '--size-upgrade-item-mid': `${TOKENS.sizes.UPGRADE_ITEM_MID}px`,
-    '--size-upgrade-item-brief': `${TOKENS.sizes.UPGRADE_ITEM_BRIEF}px`,
+    '--size-upgrade-item-full': `${TOKENS.sizes.UPGRADE_ITEM_FULL_H}px`,
+    '--size-upgrade-item-mid': `${TOKENS.sizes.UPGRADE_ITEM_MID_H}px`,
+    '--size-upgrade-item-brief': `${TOKENS.sizes.UPGRADE_ITEM_BRIEF_H}px`,
 
     '--size-upgrade-item-w': `${TOKENS.sizes.UPGRADE_ITEM_W}px`,
 

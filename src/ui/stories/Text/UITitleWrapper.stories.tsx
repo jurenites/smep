@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { UITitleWrapper } from '../../components/Text/UITitleWrapper';
-import { FONT_OPTIONS } from '../../components/Text/UILabel';
 
 const meta: Meta<typeof UITitleWrapper> = {
     title: 'Text/UITitleWrapper',
@@ -18,10 +17,10 @@ const meta: Meta<typeof UITitleWrapper> = {
             control: 'text',
             description: 'Optional CSS class name for additional styling',
         },
-        fontVariant: {
+        labelFontVariant: {
             control: 'select',
-            options: FONT_OPTIONS,
-            description: 'Font variant to use for the title text',
+            options: ['title', 'body'],
+            description: 'Label font variant - limited to title or body',
         },
     },
 };

@@ -38,7 +38,7 @@ export function UIPlayground({
     const height = diameter;
     const centerX = width / 2;
     const centerY = height / 2;
-    const radius = diameter / 2 - sizes.PLAYGROUND_MARGIN;
+    const radius = diameter / 2 - sizes.GAP_SMALL;
 
     // Calculate shadow positioning using token values
     const shadowOffsetY = centerY + (radius * sizes.PLAYGROUND_SHADOW_OFFSET);

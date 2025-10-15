@@ -10,7 +10,8 @@
     transition: all 0.2s ease;
     position: relative;
     box-sizing: border-box;
-    overflow: hidden; /* Ensure glare animation stays within tab bounds */
+    overflow: hidden;
+    /* Ensure glare animation stays within tab bounds */
 }
 
 /* Tab States */
@@ -71,7 +72,7 @@
 
 .interactive:focus-visible {
     outline: var(--size-line) solid var(--color-yolk);
-    outline-offset: var(--size-outline-offset);
+    outline-offset: var(--size-gap-small);
 }
 
 /* Tab Label */
@@ -91,7 +92,7 @@
 /* Accessibility */
 .interactive:focus-visible {
     outline: var(--size-line) solid var(--color-yolk);
-    outline-offset: var(--size-outline-offset);
+    outline-offset: var(--size-gap-small);
 }
 
 /* Reduced motion support */

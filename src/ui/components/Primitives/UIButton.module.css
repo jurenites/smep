@@ -169,7 +169,7 @@
     background-color: var(--color-yolk);
     color: var(--color-black);
     outline: 2px solid var(--color-white);
-    outline-offset: calc(-1 * var(--size-outline-offset));
+    outline-offset: calc(-1 * var(--size-gap-small));
 }
 
 /* Override UILabel colors for filled button focus */
@@ -186,7 +186,7 @@
     color: var(--color-white);
     border-color: var(--color-white);
     outline: 2px solid var(--color-white);
-    outline-offset: calc(-1 * var(--size-outline-offset));
+    outline-offset: calc(-1 * var(--size-gap-small));
 }
 
 /* Override UILabel colors for outlined button focus */

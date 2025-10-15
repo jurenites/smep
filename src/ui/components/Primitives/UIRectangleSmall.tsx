@@ -11,7 +11,7 @@ export function UIRectangleSmall({ state, onClick }: UIRectangleSmallProps) {
     const sizes = TOKENS.sizes;
 
     // Rectangle dimensions from tokens
-    const rectWidth = sizes.RECTANGLE_SMALL;  // 17px
+    const rectWidth = sizes.RECTANGLE_SMALL_W;  // 17px
     const rectHeight = sizes.SQUARE_SMALL; // 4px
 
     // SVG container size (same as UISquare Mid for consistency)

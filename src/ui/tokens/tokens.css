@@ -79,11 +79,8 @@
     --size-padding-small: 4px;
     --size-padding-medium: 8px;
     --size-margin-small: 8px;
-    --size-outline-offset: 2px;
+    --size-gap-small: 2px;
     --animation-translate-up: 1px;
-    --playground-margin: 2px;
-    --playground-shadow-opacity: 0.1;
-    --playground-shadow-offset: 0.5;
     --size-upgrade-item-full: 61px;
     --size-upgrade-item-mid: 47px;
     --size-upgrade-item-brief: 47px;

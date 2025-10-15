@@ -116,13 +116,13 @@
 
 .interactive:focus-visible {
     outline: var(--size-line) solid var(--color-yolk);
-    outline-offset: var(--size-outline-offset);
+    outline-offset: var(--size-gap-small);
     border-radius: var(--size-radius-small);
 }
 
 /* Accessibility */
 .interactive:focus-visible {
     outline: var(--size-line) solid var(--color-yolk);
-    outline-offset: var(--size-outline-offset);
+    outline-offset: var(--size-gap-small);
     border-radius: var(--size-radius-small);
 }

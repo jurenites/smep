@@ -75,12 +75,12 @@
 /* Focus states for accessibility */
 .rectangleActive:focus-visible {
     outline: var(--size-line) solid var(--color-yolk);
-    outline-offset: var(--size-outline-offset);
+    outline-offset: var(--size-gap-small);
 }
 
 .rectangleInactive:focus-visible {
     outline: var(--size-line) solid var(--color-yolk);
-    outline-offset: var(--size-outline-offset);
+    outline-offset: var(--size-gap-small);
 }
 
 /* Disabled state - no hover effects */

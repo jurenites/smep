@@ -20,13 +20,13 @@ export function UIUpgradeItemLineSkeleton({
     const getHeight = (mode: ViewMode): number => {
         switch (mode) {
             case 'full':
-                return TOKENS.sizes.UPGRADE_ITEM_FULL;
+                return TOKENS.sizes.UPGRADE_ITEM_FULL_H;
             case 'mid':
-                return TOKENS.sizes.UPGRADE_ITEM_MID;
+                return TOKENS.sizes.UPGRADE_ITEM_MID_H;
             case 'brief':
-                return TOKENS.sizes.UPGRADE_ITEM_BRIEF;
+                return TOKENS.sizes.UPGRADE_ITEM_BRIEF_H;
             default:
-                return TOKENS.sizes.UPGRADE_ITEM_FULL;
+                return TOKENS.sizes.UPGRADE_ITEM_FULL_H;
         }
     };
 
